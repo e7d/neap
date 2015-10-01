@@ -1,0 +1,227 @@
+/*!
+ * Media Streaming v1.0
+ * https://github.com/e7d/media-streaming
+ *
+ * Copyright 2015 Michael Ferrand
+ * Released under the MIT license
+ */
+
+ @font-face {
+    font-family: 'Open Sans';
+    src: url('/fonts/OpenSans-Regular-webfont.eot');
+    src: url('/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/OpenSans-Regular-webfont.woff') format('woff'),
+         url('/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
+         url('/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Open Sans', sans-serif;
+}
+body.player {
+    overflow: hidden;
+}
+
+em {
+    border-bottom: 1px dotted;
+    cursor: help;
+}
+
+#wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -80px;
+    padding: 0 0 120px;
+}
+
+.navbar-static-top {
+    margin-bottom: 0;
+}
+    .navbar-default .navbar-brand {
+        color: #333;
+        font-size: 1.5em;
+    }
+    .navbar-nav {
+        margin: 0px -15px;
+    }
+
+    .navbar-default .fa {
+        display: none;
+    }
+    @media (min-width: 768px) {
+        .navbar-default .fa {
+            display: inline-block;
+        }
+    }
+
+
+.jumbotron {
+    text-shadow: 3px 3px 0px #eee, 8px 8px 0px rgba(0, 0, 0, 0.10);
+}
+
+.row.list, .row.grid {
+    display: none;
+}
+
+.btn-record {
+    width: 34px;
+    height: 34px;
+    padding: 6px;
+    border-radius: 17px;
+}
+
+.btn-record .fa-stop,
+.btn-record.recording .fa-circle {
+    display: none;
+}
+.btn-record.recording .fa-stop,
+.btn-record .fa-circle {
+    display: inline;
+}
+
+.thumbnail {
+    position: relative;
+}
+.thumbnail a {
+    display: inline-block;
+}
+.thumbnail a label {
+    cursor: pointer;
+}
+
+.cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #111;
+
+    opacity: 0.7;
+    z-index: 1;
+}
+body.live .cover {
+    display: none;
+}
+
+.channel {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+    padding: 5px;
+
+    background-color: #141414;
+    background-color: rgba(20, 20, 20, 0.7);
+    outline: 0;
+    border: 0;
+    border-radius: 0.2em;
+
+    color: white;
+    line-height: 1em;
+            user-select: none;
+        -ms-user-select: none;
+       -moz-user-select: none;
+    -webkit-user-select: none;
+
+    opacity: 0;
+    z-index: 5;
+
+    transition: opacity 300ms ease;
+}
+body:hover .channel {
+    opacity: 1;
+}
+body.mouse-inactive .channel {
+    opacity: 0;
+}
+
+.status {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    padding: 5px;
+
+    background-color: #141414;
+    background-color: rgba(20, 20, 20, 0.7);
+    border-radius: 0.2em;
+
+    font-family: sans-serif;
+    color: white;
+    line-height: 1em;
+            user-select: none;
+        -ms-user-select: none;
+       -moz-user-select: none;
+    -webkit-user-select: none;
+
+    z-index: 5;
+    transition: opacity 300ms ease;
+}
+    .status i.circle {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        margin: -2px 0px;
+
+        background: red;
+        border-radius: 0.5em;
+    }
+
+
+body .status.offline {
+    opacity: 1;
+}
+body.live .status.offline {
+    opacity: 0;
+}
+
+body .status.live {
+    opacity: 0;
+}
+body .thumbnail .status.live,
+body.live .status.live,
+body.live:hover .status.live {
+    opacity: 1;
+}
+body.mouse-inactive .status.live {
+    opacity: 0;
+}
+
+#player {
+    background: black;
+    width: 100%;
+    height: 100%;
+}
+
+.vjs-default-skin .vjs-play-progress,
+.vjs-default-skin .vjs-volume-level {
+    background-color: #cc6666,
+}
+.vjs-default-skin div.vjs-big-play-button{
+    top: 50%!important;
+    left: 50%!important;
+    width:120px!important;
+    height:80px!important;
+    margin: -40px 0px 0px -60px!important;
+}
+
+body.player.live .vjs-default-skin .vjs-progress-holder { display: none; }
+body.player.live .vjs-default-skin .vjs-current-time,
+body.player.live .vjs-default-skin .vjs-time-divider,
+body.player.live .vjs-default-skin .vjs-remaining-time { display: none; }
+body.player.live .vjs-default-skin .vjs-duration { width: auto; }
+
+footer {
+    position: relative;
+    height: 80px;
+    text-align: center;
+    background-color: #eee;
+    padding: 30px;
+}

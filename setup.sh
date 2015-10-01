@@ -22,7 +22,7 @@ ${DIR}/config/prepare-env.sh
 printf "${CYAN}Setup ffmpeg${DEFAULT}\n"
 ${DIR}/config/setup-ffmpeg.sh
 
-printf "${CYAN}Generate SSl certificates${DEFAULT}\n"
+printf "${CYAN}Generate certificates${DEFAULT}\n"
 ${DIR}/config/generate-certificates.sh
 
 printf "${CYAN}Build web server${DEFAULT}\n"

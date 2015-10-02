@@ -33,11 +33,14 @@ ${DIR}/config/generate-certificates.sh
 printf "${CYAN}Build web server${DEFAULT}\n"
 ${DIR}/config/build-nginx.sh
 
+printf "${CYAN}Setup database${DEFAULT}\n"
+${DIR}/config/setup-db.sh
+
 printf "${CYAN}Setup PHP${DEFAULT}\n"
 ${DIR}/config/setup-php.sh
 
-printf "${CYAN}Setup database${DEFAULT}\n"
-${DIR}/config/setup-db.sh
+printf "${CYAN}Setup API${DEFAULT}\n"
+${DIR}/config/setup-api.sh
 
 printf "${CYAN}Copy project resources${DEFAULT}\n"
 ${DIR}/config/copy-resources.sh

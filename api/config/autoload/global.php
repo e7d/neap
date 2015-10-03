@@ -5,7 +5,7 @@ return array(
             'oauth' => array(
                 'options' => array(
                     'spec' => '%oauth%',
-                    'regex' => '(?P<oauth>(/oauth2))',
+                    'regex' => '(?P<oauth>(/oauth))',
                 ),
                 'type' => 'regex',
             ),

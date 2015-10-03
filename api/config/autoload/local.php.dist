@@ -11,6 +11,7 @@
  * credentials from accidentally being committed into version control.
  */
 
+ <?php
  return array(
      'zf-mvc-auth' => array(
          'authentication' => array(
@@ -23,9 +24,17 @@
                          'route' => '/oauth',
                          'username' => 'media-streaming',
                          'password' => 'media-streaming',
+                         'options' => array(
+                             'user_table' => 'media-streaming.user',
+                         ),
                      ),
                  ),
              ),
+         ),
+     ),
+     'zf-oauth2' => array(
+         'storage_settings' => array(
+             'user_table' => '"media-streaming"."user"'
          ),
      ),
      'db' => array(

@@ -61,17 +61,19 @@ server {
         add_header Cache-Control no-cache;
     }
 
-    # RTMP Stat
-    location /stat {
+    # RTMP Stats
+    location /stats {
+        allow 127.0.0.1;
+        deny all;
+
         rtmp_stat all;
-        rtmp_stat_stylesheet /stat.xsl;
-    }
-    location /stat.xsl {
-        root media-streaming/;
     }
 
     # RTMP Control
     location /control {
+        allow 127.0.0.1;
+        deny all;
+        
         rtmp_control all;
     }
 

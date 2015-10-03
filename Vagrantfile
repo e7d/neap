@@ -6,6 +6,7 @@ Vagrant.configure(2) do |config|
         box.vm.hostname = "media-streaming"
         box.vm.box = "debian/jessie64"
         box.vm.network "public_network"
+        box.vm.network "forwarded_port", guest: 5432, host: 5432
         box.vm.provider "virtualbox" do |vb|
             vb.name = "media-streaming"
             vb.cpus = "1"

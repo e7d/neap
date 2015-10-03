@@ -6,7 +6,7 @@
 
 -- object: "media-streaming" | type: ROLE --
 -- DROP ROLE IF EXISTS "media-streaming";
-CREATE ROLE "media-streaming" WITH
+CREATE ROLE "media-streaming" WITH 
 	LOGIN
 	ENCRYPTED PASSWORD 'media-streaming';
 -- ddl-end --
@@ -20,7 +20,7 @@ CREATE ROLE "media-streaming" WITH
 -- 	OWNER = "media-streaming"
 -- ;
 -- -- ddl-end --
---
+-- 
 
 -- object: "media-streaming" | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS "media-streaming" CASCADE;
@@ -37,6 +37,7 @@ SET search_path TO pg_catalog,public,"media-streaming";
 CREATE TABLE "media-streaming".channel(
 	channel_id uuid NOT NULL,
 	user_id uuid NOT NULL,
+	chat_id uuid NOT NULL,
 	name character varying NOT NULL,
 	display_name character varying NOT NULL,
 	topic_id uuid,
@@ -48,10 +49,10 @@ CREATE TABLE "media-streaming".channel(
 	video_banner character varying,
 	background character varying,
 	profile_banner character varying,
-	views smallint,
-	followers smallint,
-	created_at date NOT NULL DEFAULT now(),
-	updated_at date NOT NULL DEFAULT now(),
+	views integer NOT NULL DEFAULT 0,
+	followers integer NOT NULL DEFAULT 0,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT channel_channel_id_pk PRIMARY KEY (channel_id)
 
 );
@@ -63,18 +64,19 @@ ALTER TABLE "media-streaming".channel OWNER TO "media-streaming";
 -- DROP TABLE IF EXISTS "media-streaming"."user" CASCADE;
 CREATE TABLE "media-streaming"."user"(
 	user_id uuid NOT NULL,
+	channel_id uuid NOT NULL,
 	type character varying NOT NULL DEFAULT 'user',
-	name character varying NOT NULL,
+	username character varying NOT NULL,
 	email character varying NOT NULL,
 	password character varying NOT NULL,
 	display_name character varying NOT NULL,
 	logo character varying,
 	bio text,
-	created_at date NOT NULL DEFAULT now(),
-	updated_at date NOT NULL DEFAULT now(),
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT user_user_id_pk PRIMARY KEY (user_id),
 	CONSTRAINT user_user_id_uq UNIQUE (user_id),
-	CONSTRAINT user_name_uq UNIQUE (name),
+	CONSTRAINT user_username_uq UNIQUE (username),
 	CONSTRAINT user_email_uq UNIQUE (email)
 
 );
@@ -87,6 +89,7 @@ ALTER TABLE "media-streaming"."user" OWNER TO "media-streaming";
 CREATE TABLE "media-streaming".follow(
 	user_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT follow_user_id_channel_id_pk PRIMARY KEY (user_id,channel_id)
 
 );
@@ -98,7 +101,7 @@ ALTER TABLE "media-streaming".follow OWNER TO "media-streaming";
 -- DROP TABLE IF EXISTS "media-streaming".video CASCADE;
 CREATE TABLE "media-streaming".video(
 	video_id uuid NOT NULL,
-	stream_id uuid,
+	stream_id uuid NOT NULL,
 	title character varying NOT NULL,
 	description text,
 	status character varying NOT NULL,
@@ -107,7 +110,9 @@ CREATE TABLE "media-streaming".video(
 	topic character varying NOT NULL,
 	media_info json NOT NULL DEFAULT '{}',
 	preview character varying NOT NULL,
-	views smallint NOT NULL DEFAULT 0,
+	views integer NOT NULL DEFAULT 0,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT video_video_id_pk PRIMARY KEY (video_id)
 
 );
@@ -124,6 +129,8 @@ CREATE TABLE "media-streaming".block(
 	banner character varying,
 	banner_link character varying,
 	description text,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT block_block_id_pk PRIMARY KEY (block_id)
 
 );
@@ -139,8 +146,10 @@ CREATE TABLE "media-streaming".stream(
 	topic_id uuid,
 	topic character varying NOT NULL,
 	media_info json NOT NULL DEFAULT '{}',
-	viewers smallint NOT NULL DEFAULT 0,
-	created_at date NOT NULL DEFAULT now(),
+	viewers integer NOT NULL DEFAULT 0,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
+	ended_at timestamptz,
 	CONSTRAINT stream_stream_id_pk PRIMARY KEY (stream_id)
 
 );
@@ -153,6 +162,7 @@ ALTER TABLE "media-streaming".stream OWNER TO "media-streaming";
 CREATE TABLE "media-streaming".topic(
 	topic_id uuid NOT NULL,
 	name character varying NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT topic_topic_id_fk PRIMARY KEY (topic_id),
 	CONSTRAINT topic_name_uq UNIQUE (name)
 
@@ -167,6 +177,7 @@ CREATE TABLE "media-streaming".chat(
 	chat_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
 	name character varying NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT chat_chat_id PRIMARY KEY (chat_id),
 	CONSTRAINT chat_name_uq UNIQUE (name)
 
@@ -181,6 +192,8 @@ CREATE TABLE "media-streaming".mod(
 	user_id uuid NOT NULL,
 	chat_id uuid NOT NULL,
 	level character varying NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT mod_user_id_chat_id_fk PRIMARY KEY (user_id,chat_id)
 
 );
@@ -192,7 +205,14 @@ ALTER TABLE "media-streaming".mod OWNER TO "media-streaming";
 -- ALTER TABLE "media-streaming".channel DROP CONSTRAINT IF EXISTS channel_user_id_fk CASCADE;
 ALTER TABLE "media-streaming".channel ADD CONSTRAINT channel_user_id_fk FOREIGN KEY (user_id)
 REFERENCES "media-streaming"."user" (user_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
+-- ddl-end --
+
+-- object: channel_chat_id_fk | type: CONSTRAINT --
+-- ALTER TABLE "media-streaming".channel DROP CONSTRAINT IF EXISTS channel_chat_id_fk CASCADE;
+ALTER TABLE "media-streaming".channel ADD CONSTRAINT channel_chat_id_fk FOREIGN KEY (chat_id)
+REFERENCES "media-streaming".chat (chat_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ddl-end --
 
 -- object: channel_topic_id_fk | type: CONSTRAINT --
@@ -200,6 +220,13 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "media-streaming".channel ADD CONSTRAINT channel_topic_id_fk FOREIGN KEY (topic_id)
 REFERENCES "media-streaming".topic (topic_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: user_channel_id_fk | type: CONSTRAINT --
+-- ALTER TABLE "media-streaming"."user" DROP CONSTRAINT IF EXISTS user_channel_id_fk CASCADE;
+ALTER TABLE "media-streaming"."user" ADD CONSTRAINT user_channel_id_fk FOREIGN KEY (channel_id)
+REFERENCES "media-streaming".channel (channel_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ddl-end --
 
 -- object: follow_user_id_fk | type: CONSTRAINT --
@@ -255,7 +282,7 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE "media-streaming".chat DROP CONSTRAINT IF EXISTS chat_channel_id_fk CASCADE;
 ALTER TABLE "media-streaming".chat ADD CONSTRAINT chat_channel_id_fk FOREIGN KEY (channel_id)
 REFERENCES "media-streaming".channel (channel_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ddl-end --
 
 -- object: mod_user_id_fk | type: CONSTRAINT --

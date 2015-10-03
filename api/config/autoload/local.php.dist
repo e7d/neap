@@ -11,4 +11,33 @@
  * credentials from accidentally being committed into version control.
  */
 
-return array();
+ return array(
+     'zf-mvc-auth' => array(
+         'authentication' => array(
+             'adapters' => array(
+                 'oauth2' => array(
+                     'adapter' => 'ZF\\MvcAuth\\Authentication\\OAuth2Adapter',
+                     'storage' => array(
+                         'adapter' => 'pdo',
+                         'dsn' => 'pgsql:host=127.0.0.1;dbname=media-streaming',
+                         'route' => '/oauth',
+                         'username' => 'media-streaming',
+                         'password' => 'media-streaming',
+                     ),
+                 ),
+             ),
+         ),
+     ),
+     'db' => array(
+         'adapters' => array(
+             'PostgreSQL' => array(
+                 'database' => 'media-streaming',
+                 'driver' => 'PDO_Pgsql',
+                 'hostname' => '',
+                 'username' => 'media-streaming',
+                 'password' => 'media-streaming',
+                 'dsn' => 'pgsql:host=127.0.0.1;dbname=media-streaming',
+             ),
+         ),
+     ),
+ );

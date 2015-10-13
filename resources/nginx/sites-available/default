@@ -73,12 +73,7 @@ server {
     location /control {
         allow 127.0.0.1;
         deny all;
-        
-        rtmp_control all;
-    }
 
-    error_page   500 502 503 504  /50x.html;
-    location = /50x.html {
-        root media-streaming/;
+        rtmp_control all;
     }
 }

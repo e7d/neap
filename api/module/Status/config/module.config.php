@@ -152,4 +152,11 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(),
+    ),
+    'zf-rest' => array(),
+    'zf-hal' => array(
+        'metadata_map' => array(),
+    ),
 );

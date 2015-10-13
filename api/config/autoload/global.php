@@ -13,7 +13,22 @@ return array(
     ),
     'db' => array(
         'adapters' => array(
-            'PostgreSQL' => array(),
+            'media-streaming' => array(),
+        ),
+    ),
+    'zf-mvc-auth' => array(
+        'authentication' => array(
+            'map' => array(
+                'User\\V1' => 'oauth2',
+                'Channel\\V1' => 'oauth2',
+                'Stream\\V1' => 'oauth2',
+                'Video\\V1' => 'oauth2',
+            ),
+        ),
+    ),
+    'service_manager' => array(
+        'factories' => array(
+            'Zend\\Db\\Adapter\\Adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
         ),
     ),
 );

@@ -1,6 +1,13 @@
 SET search_path TO pg_catalog,public,"media-streaming";
 -- ddl-end --
 
+TRUNCATE oauth_clients CASCADE;
+TRUNCATE "media-streaming"."user" CASCADE;
+TRUNCATE "media-streaming".channel CASCADE;
+TRUNCATE "media-streaming".chat CASCADE;
+TRUNCATE "media-streaming".stream CASCADE;
+TRUNCATE "media-streaming".video CASCADE;
+
 -- Clients
 INSERT INTO oauth_clients (
     client_id,
@@ -61,4 +68,42 @@ INSERT INTO "media-streaming".chat(
 		'0700a07f-9f82-4dc2-bb03-7217e2cc8b74',
 		'admin');
 
-COMMIT;
+INSERT INTO "media-streaming".stream(
+        stream_id,
+        channel_id,
+        title,
+        topic_id,
+        topic,
+        media_info,
+        viewers)
+    VALUES (
+        '7132dc5d-aba3-4494-976d-aad2423f062a',
+        '0700a07f-9f82-4dc2-bb03-7217e2cc8b74',
+        'Testing the demo channel with a demo stream!',
+        null,
+        'Demo',
+        '{}',
+        173);
+
+INSERT INTO "media-streaming".video(
+        video_id,
+        stream_id,
+        title,
+        description,
+        status,
+        tags,
+        topic,
+        media_info,
+        views)
+    VALUES (
+        'dacd1de6-c145-4ce6-88a0-f6fbe1640fc7',
+        '7132dc5d-aba3-4494-976d-aad2423f062a',
+        'Demo stream',
+        'This is a test stream on Admin channel',
+        'recorded',
+        '["demo"]',
+        'Demo',
+        '{}',
+        1291);
+
+        COMMIT;

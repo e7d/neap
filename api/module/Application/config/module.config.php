@@ -25,6 +25,13 @@ return array(
             'Zend\Db\Adapter\AdapterAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
+        'factories' => array(
+            'Application\Authorization\AuthorizationListener' => 'Application\Authorization\AuthorizationListenerFactory',
+            'Application\Database\DatabaseService' => 'Application\Database\DatabaseServiceFactory',
+        ),
+        'invokables' => array(
+            'Application\Authorization\IdentityService' => 'Application\Authorization\IdentityService',
+        ),
     ),
     'controllers' => array(
         'invokables' => array(

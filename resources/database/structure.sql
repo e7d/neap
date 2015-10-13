@@ -103,13 +103,14 @@ CREATE TABLE "media-streaming".video(
 	video_id uuid NOT NULL,
 	stream_id uuid NOT NULL,
 	title character varying NOT NULL,
+	type character varying NOT NULL DEFAULT 'record',
 	description text,
 	status character varying NOT NULL,
 	tags json NOT NULL DEFAULT '{}',
 	topic_id uuid,
 	topic character varying NOT NULL,
 	media_info json NOT NULL DEFAULT '{}',
-	preview character varying NOT NULL,
+	preview character varying,
 	views integer NOT NULL DEFAULT 0,
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
@@ -120,22 +121,24 @@ CREATE TABLE "media-streaming".video(
 ALTER TABLE "media-streaming".video OWNER TO "media-streaming";
 -- ddl-end --
 
--- object: "media-streaming".block | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".block CASCADE;
-CREATE TABLE "media-streaming".block(
-	block_id uuid NOT NULL,
+-- object: "media-streaming".panel | type: TABLE --
+-- DROP TABLE IF EXISTS "media-streaming".panel CASCADE;
+CREATE TABLE "media-streaming".panel(
+	panel_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
 	title character varying NOT NULL,
+	"position" smallint NOT NULL DEFAULT 0,
 	banner character varying,
 	banner_link character varying,
 	description text,
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
-	CONSTRAINT block_block_id_pk PRIMARY KEY (block_id)
+	CONSTRAINT panel_panel_id_pk PRIMARY KEY (panel_id),
+	CONSTRAINT panel_panel_id_position_uq UNIQUE (panel_id,"position")
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".block OWNER TO "media-streaming";
+ALTER TABLE "media-streaming".panel OWNER TO "media-streaming";
 -- ddl-end --
 
 -- object: "media-streaming".stream | type: TABLE --
@@ -143,6 +146,7 @@ ALTER TABLE "media-streaming".block OWNER TO "media-streaming";
 CREATE TABLE "media-streaming".stream(
 	stream_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
+	title character varying NOT NULL,
 	topic_id uuid,
 	topic character varying NOT NULL,
 	media_info json NOT NULL DEFAULT '{}',
@@ -201,6 +205,105 @@ CREATE TABLE "media-streaming".mod(
 ALTER TABLE "media-streaming".mod OWNER TO "media-streaming";
 -- ddl-end --
 
+-- object: "media-streaming".stream_owner | type: VIEW --
+-- DROP VIEW IF EXISTS "media-streaming".stream_owner CASCADE;
+CREATE VIEW "media-streaming".stream_owner
+AS 
+
+SELECT
+   u.user_id,
+   c.channel_id,
+   s.stream_id
+FROM
+   "media-streaming"."user" AS u,
+   "media-streaming".channel AS c,
+   "media-streaming".stream AS s
+WHERE
+   u.user_id = c.user_id   AND c.channel_id = s.channel_id;
+-- ddl-end --
+ALTER VIEW "media-streaming".stream_owner OWNER TO "media-streaming";
+-- ddl-end --
+
+-- object: "media-streaming".video_owner | type: VIEW --
+-- DROP VIEW IF EXISTS "media-streaming".video_owner CASCADE;
+CREATE VIEW "media-streaming".video_owner
+AS 
+
+SELECT
+   u.user_id,
+   c.channel_id,
+   s.stream_id,
+   v.video_id
+FROM
+   "media-streaming"."user" AS u,
+   "media-streaming".channel AS c,
+   "media-streaming".stream AS s,
+   "media-streaming".video AS v
+WHERE
+   u.user_id = c.user_id   AND c.channel_id = s.channel_id   AND s.stream_id = v.stream_id;
+-- ddl-end --
+ALTER VIEW "media-streaming".video_owner OWNER TO "media-streaming";
+-- ddl-end --
+
+-- object: "media-streaming".chat_owner | type: VIEW --
+-- DROP VIEW IF EXISTS "media-streaming".chat_owner CASCADE;
+CREATE VIEW "media-streaming".chat_owner
+AS 
+
+SELECT
+   u.user_id,
+   c.channel_id,
+   h.chat_id
+FROM
+   "media-streaming"."user" AS u,
+   "media-streaming".channel AS c,
+   "media-streaming".chat AS h
+WHERE
+   u.user_id = c.user_id   AND c.channel_id = h.channel_id;
+-- ddl-end --
+ALTER VIEW "media-streaming".chat_owner OWNER TO "media-streaming";
+-- ddl-end --
+
+-- object: "media-streaming".panel_owner | type: VIEW --
+-- DROP VIEW IF EXISTS "media-streaming".panel_owner CASCADE;
+CREATE VIEW "media-streaming".panel_owner
+AS 
+
+SELECT
+   u.user_id,
+   c.channel_id,
+   p.panel_id
+FROM
+   "media-streaming"."user" AS u,
+   "media-streaming".channel AS c,
+   "media-streaming".panel AS p
+WHERE
+   u.user_id = c.user_id   AND c.channel_id = b.channel_id;
+-- ddl-end --
+ALTER VIEW "media-streaming".panel_owner OWNER TO "media-streaming";
+-- ddl-end --
+
+-- object: "media-streaming".block | type: TABLE --
+-- DROP TABLE IF EXISTS "media-streaming".block CASCADE;
+CREATE TABLE "media-streaming".block(
+	user_id uuid NOT NULL,
+	blocked_user_id uuid NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT block_user_id_blocked_user_id_pk PRIMARY KEY (user_id,blocked_user_id),
+	CONSTRAINT block_user_id_blocked_user_id_uq UNIQUE (user_id,blocked_user_id)
+
+);
+-- ddl-end --
+ALTER TABLE "media-streaming".block OWNER TO "media-streaming";
+-- ddl-end --
+
+-- object: "media-streaming"."C" | type: COLLATION --
+-- DROP COLLATION IF EXISTS "media-streaming"."C" CASCADE;
+CREATE COLLATION "media-streaming"."C" (LOCALE = 'C.utf8');
+-- ddl-end --
+ALTER COLLATION "media-streaming"."C" OWNER TO "media-streaming";
+-- ddl-end --
+
 -- object: channel_user_id_fk | type: CONSTRAINT --
 -- ALTER TABLE "media-streaming".channel DROP CONSTRAINT IF EXISTS channel_user_id_fk CASCADE;
 ALTER TABLE "media-streaming".channel ADD CONSTRAINT channel_user_id_fk FOREIGN KEY (user_id)
@@ -257,9 +360,9 @@ REFERENCES "media-streaming".topic (topic_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: block_channel_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".block DROP CONSTRAINT IF EXISTS block_channel_id_fk CASCADE;
-ALTER TABLE "media-streaming".block ADD CONSTRAINT block_channel_id_fk FOREIGN KEY (channel_id)
+-- object: panel_channel_id_fk | type: CONSTRAINT --
+-- ALTER TABLE "media-streaming".panel DROP CONSTRAINT IF EXISTS panel_channel_id_fk CASCADE;
+ALTER TABLE "media-streaming".panel ADD CONSTRAINT panel_channel_id_fk FOREIGN KEY (channel_id)
 REFERENCES "media-streaming".channel (channel_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
@@ -296,6 +399,20 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE "media-streaming".mod DROP CONSTRAINT IF EXISTS mod_chat_id_fk CASCADE;
 ALTER TABLE "media-streaming".mod ADD CONSTRAINT mod_chat_id_fk FOREIGN KEY (chat_id)
 REFERENCES "media-streaming".chat (chat_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: block_user_id_fk | type: CONSTRAINT --
+-- ALTER TABLE "media-streaming".block DROP CONSTRAINT IF EXISTS block_user_id_fk CASCADE;
+ALTER TABLE "media-streaming".block ADD CONSTRAINT block_user_id_fk FOREIGN KEY (user_id)
+REFERENCES "media-streaming"."user" (user_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: block_blocked_user_id_fk | type: CONSTRAINT --
+-- ALTER TABLE "media-streaming".block DROP CONSTRAINT IF EXISTS block_blocked_user_id_fk CASCADE;
+ALTER TABLE "media-streaming".block ADD CONSTRAINT block_blocked_user_id_fk FOREIGN KEY (blocked_user_id)
+REFERENCES "media-streaming"."user" (user_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 

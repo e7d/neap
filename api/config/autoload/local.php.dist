@@ -11,42 +11,41 @@
  * credentials from accidentally being committed into version control.
  */
 
- <?php
- return array(
-     'zf-mvc-auth' => array(
-         'authentication' => array(
-             'adapters' => array(
-                 'oauth2' => array(
-                     'adapter' => 'ZF\\MvcAuth\\Authentication\\OAuth2Adapter',
-                     'storage' => array(
-                         'adapter' => 'pdo',
-                         'dsn' => 'pgsql:host=127.0.0.1;dbname=media-streaming',
-                         'route' => '/oauth',
-                         'username' => 'media-streaming',
-                         'password' => 'media-streaming',
-                         'options' => array(
-                             'user_table' => 'media-streaming.user',
-                         ),
-                     ),
-                 ),
-             ),
-         ),
-     ),
-     'zf-oauth2' => array(
-         'storage_settings' => array(
-             'user_table' => '"media-streaming"."user"'
-         ),
-     ),
-     'db' => array(
-         'adapters' => array(
-             'PostgreSQL' => array(
-                 'database' => 'media-streaming',
-                 'driver' => 'PDO_Pgsql',
-                 'hostname' => '',
-                 'username' => 'media-streaming',
-                 'password' => 'media-streaming',
-                 'dsn' => 'pgsql:host=127.0.0.1;dbname=media-streaming',
-             ),
-         ),
-     ),
- );
+return array(
+    'zf-mvc-auth' => array(
+        'authentication' => array(
+            'adapters' => array(
+                'oauth2' => array(
+                    'adapter' => 'ZF\\MvcAuth\\Authentication\\OAuth2Adapter',
+                    'storage' => array(
+                        'adapter' => 'pdo',
+                        'dsn' => 'pgsql:host=127.0.0.1;dbname=neap',
+                        'route' => '/oauth',
+                        'username' => 'neap',
+                        'password' => 'neap',
+                        'options' => array(
+                            'user_table' => 'neap.user',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+    'zf-oauth2' => array(
+        'storage_settings' => array(
+            'user_table' => '"neap"."user"'
+        ),
+    ),
+    'db' => array(
+        'adapters' => array(
+            'neap' => array(
+                'database' => 'neap',
+                'driver' => 'PDO_Pgsql',
+                'hostname' => '',
+                'username' => 'neap',
+                'password' => 'neap',
+                'dsn' => 'pgsql:host=127.0.0.1;dbname=neap',
+            ),
+        ),
+    ),
+);

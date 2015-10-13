@@ -1,12 +1,12 @@
-SET search_path TO pg_catalog,public,"media-streaming";
+SET search_path TO pg_catalog,public,"neap";
 -- ddl-end --
 
 TRUNCATE oauth_clients CASCADE;
-TRUNCATE "media-streaming"."user" CASCADE;
-TRUNCATE "media-streaming".channel CASCADE;
-TRUNCATE "media-streaming".chat CASCADE;
-TRUNCATE "media-streaming".stream CASCADE;
-TRUNCATE "media-streaming".video CASCADE;
+TRUNCATE "neap"."user" CASCADE;
+TRUNCATE "neap".channel CASCADE;
+TRUNCATE "neap".chat CASCADE;
+TRUNCATE "neap".stream CASCADE;
+TRUNCATE "neap".video CASCADE;
 
 -- Clients
 INSERT INTO oauth_clients (
@@ -21,7 +21,7 @@ VALUES (
 
 BEGIN;
 
-INSERT INTO "media-streaming"."user"(
+INSERT INTO "neap"."user"(
 		user_id,
 		channel_id,
 		type,
@@ -38,7 +38,7 @@ INSERT INTO "media-streaming"."user"(
 		'$2y$10$xQeAtGJ6snEjr.Oqgt74KuWtu2QUoLjH1j75e7RJVUPckU8CNR5BO',
 		'Admin');
 
-INSERT INTO "media-streaming".channel(
+INSERT INTO "neap".channel(
 		channel_id,
 		user_id,
 		chat_id,
@@ -59,7 +59,7 @@ INSERT INTO "media-streaming".channel(
 		0,
 		0);
 
-INSERT INTO "media-streaming".chat(
+INSERT INTO "neap".chat(
         chat_id,
 		channel_id,
 		name)
@@ -68,7 +68,7 @@ INSERT INTO "media-streaming".chat(
 		'0700a07f-9f82-4dc2-bb03-7217e2cc8b74',
 		'admin');
 
-INSERT INTO "media-streaming".stream(
+INSERT INTO "neap".stream(
         stream_id,
         channel_id,
         title,
@@ -85,7 +85,7 @@ INSERT INTO "media-streaming".stream(
         '{}',
         173);
 
-INSERT INTO "media-streaming".video(
+INSERT INTO "neap".video(
         video_id,
         stream_id,
         title,

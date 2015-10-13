@@ -1,4 +1,4 @@
-SET search_path TO pg_catalog,public,"media-streaming";
+SET search_path TO pg_catalog,public,"neap";
 -- ddl-end --
 
 -- object: public.oauth_access_tokens | type: TABLE --
@@ -13,7 +13,7 @@ CREATE TABLE public.oauth_access_tokens(
 
 );
 -- ddl-end --
-ALTER TABLE public.oauth_access_tokens OWNER TO "media-streaming";
+ALTER TABLE public.oauth_access_tokens OWNER TO "neap";
 -- ddl-end --
 
 -- object: public.oauth_authorization_codes | type: TABLE --
@@ -30,7 +30,7 @@ CREATE TABLE public.oauth_authorization_codes(
 
 );
 -- ddl-end --
-ALTER TABLE public.oauth_authorization_codes OWNER TO "media-streaming";
+ALTER TABLE public.oauth_authorization_codes OWNER TO "neap";
 -- ddl-end --
 
 -- object: public.oauth_clients | type: TABLE --
@@ -46,7 +46,7 @@ CREATE TABLE public.oauth_clients(
 
 );
 -- ddl-end --
-ALTER TABLE public.oauth_clients OWNER TO "media-streaming";
+ALTER TABLE public.oauth_clients OWNER TO "neap";
 -- ddl-end --
 
 -- object: public.oauth_jwt | type: TABLE --
@@ -59,7 +59,7 @@ CREATE TABLE public.oauth_jwt(
 
 );
 -- ddl-end --
-ALTER TABLE public.oauth_jwt OWNER TO "media-streaming";
+ALTER TABLE public.oauth_jwt OWNER TO "neap";
 -- ddl-end --
 
 -- object: public.oauth_refresh_tokens | type: TABLE --
@@ -74,7 +74,7 @@ CREATE TABLE public.oauth_refresh_tokens(
 
 );
 -- ddl-end --
-ALTER TABLE public.oauth_refresh_tokens OWNER TO "media-streaming";
+ALTER TABLE public.oauth_refresh_tokens OWNER TO "neap";
 -- ddl-end --
 
 -- object: public.oauth_scopes | type: TABLE --
@@ -87,5 +87,5 @@ CREATE TABLE public.oauth_scopes(
 
 );
 -- ddl-end --
-ALTER TABLE public.oauth_scopes OWNER TO "media-streaming";
+ALTER TABLE public.oauth_scopes OWNER TO "neap";
 -- ddl-end --

@@ -13,7 +13,7 @@ return array(
     ),
     'db' => array(
         'adapters' => array(
-            'media-streaming' => array(),
+            'neap' => array(),
         ),
     ),
     'zf-mvc-auth' => array(

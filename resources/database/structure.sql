@@ -4,37 +4,37 @@
 -- Project Site: pgmodeler.com.br
 -- Model Author: ---
 
--- object: "media-streaming" | type: ROLE --
--- DROP ROLE IF EXISTS "media-streaming";
-CREATE ROLE "media-streaming" WITH 
+-- object: "neap" | type: ROLE --
+-- DROP ROLE IF EXISTS "neap";
+CREATE ROLE "neap" WITH 
 	LOGIN
-	ENCRYPTED PASSWORD 'media-streaming';
+	ENCRYPTED PASSWORD 'neap';
 -- ddl-end --
 
 
 -- Database creation must be done outside an multicommand file.
 -- These commands were put in this file only for convenience.
--- -- object: "media-streaming" | type: DATABASE --
--- -- DROP DATABASE IF EXISTS "media-streaming";
--- CREATE DATABASE "media-streaming"
--- 	OWNER = "media-streaming"
+-- -- object: "neap" | type: DATABASE --
+-- -- DROP DATABASE IF EXISTS "neap";
+-- CREATE DATABASE "neap"
+-- 	OWNER = "neap"
 -- ;
 -- -- ddl-end --
 -- 
 
--- object: "media-streaming" | type: SCHEMA --
--- DROP SCHEMA IF EXISTS "media-streaming" CASCADE;
-CREATE SCHEMA "media-streaming";
+-- object: "neap" | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS "neap" CASCADE;
+CREATE SCHEMA "neap";
 -- ddl-end --
-ALTER SCHEMA "media-streaming" OWNER TO "media-streaming";
--- ddl-end --
-
-SET search_path TO pg_catalog,public,"media-streaming";
+ALTER SCHEMA "neap" OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".channel | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".channel CASCADE;
-CREATE TABLE "media-streaming".channel(
+SET search_path TO pg_catalog,public,"neap";
+-- ddl-end --
+
+-- object: "neap".channel | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".channel CASCADE;
+CREATE TABLE "neap".channel(
 	channel_id uuid NOT NULL,
 	user_id uuid NOT NULL,
 	chat_id uuid NOT NULL,
@@ -57,12 +57,12 @@ CREATE TABLE "media-streaming".channel(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".channel OWNER TO "media-streaming";
+ALTER TABLE "neap".channel OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming"."user" | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming"."user" CASCADE;
-CREATE TABLE "media-streaming"."user"(
+-- object: "neap"."user" | type: TABLE --
+-- DROP TABLE IF EXISTS "neap"."user" CASCADE;
+CREATE TABLE "neap"."user"(
 	user_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
 	type character varying NOT NULL DEFAULT 'user',
@@ -81,12 +81,12 @@ CREATE TABLE "media-streaming"."user"(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming"."user" OWNER TO "media-streaming";
+ALTER TABLE "neap"."user" OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".follow | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".follow CASCADE;
-CREATE TABLE "media-streaming".follow(
+-- object: "neap".follow | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".follow CASCADE;
+CREATE TABLE "neap".follow(
 	user_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
 	created_at timestamptz NOT NULL DEFAULT now(),
@@ -94,12 +94,12 @@ CREATE TABLE "media-streaming".follow(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".follow OWNER TO "media-streaming";
+ALTER TABLE "neap".follow OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".video | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".video CASCADE;
-CREATE TABLE "media-streaming".video(
+-- object: "neap".video | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".video CASCADE;
+CREATE TABLE "neap".video(
 	video_id uuid NOT NULL,
 	stream_id uuid NOT NULL,
 	title character varying NOT NULL,
@@ -118,12 +118,12 @@ CREATE TABLE "media-streaming".video(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".video OWNER TO "media-streaming";
+ALTER TABLE "neap".video OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".panel | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".panel CASCADE;
-CREATE TABLE "media-streaming".panel(
+-- object: "neap".panel | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".panel CASCADE;
+CREATE TABLE "neap".panel(
 	panel_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
 	title character varying NOT NULL,
@@ -138,12 +138,12 @@ CREATE TABLE "media-streaming".panel(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".panel OWNER TO "media-streaming";
+ALTER TABLE "neap".panel OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".stream | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".stream CASCADE;
-CREATE TABLE "media-streaming".stream(
+-- object: "neap".stream | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".stream CASCADE;
+CREATE TABLE "neap".stream(
 	stream_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
 	title character varying NOT NULL,
@@ -158,12 +158,12 @@ CREATE TABLE "media-streaming".stream(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".stream OWNER TO "media-streaming";
+ALTER TABLE "neap".stream OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".topic | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".topic CASCADE;
-CREATE TABLE "media-streaming".topic(
+-- object: "neap".topic | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".topic CASCADE;
+CREATE TABLE "neap".topic(
 	topic_id uuid NOT NULL,
 	name character varying NOT NULL,
 	created_at timestamptz NOT NULL DEFAULT now(),
@@ -172,12 +172,12 @@ CREATE TABLE "media-streaming".topic(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".topic OWNER TO "media-streaming";
+ALTER TABLE "neap".topic OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".chat | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".chat CASCADE;
-CREATE TABLE "media-streaming".chat(
+-- object: "neap".chat | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".chat CASCADE;
+CREATE TABLE "neap".chat(
 	chat_id uuid NOT NULL,
 	channel_id uuid NOT NULL,
 	name character varying NOT NULL,
@@ -187,12 +187,12 @@ CREATE TABLE "media-streaming".chat(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".chat OWNER TO "media-streaming";
+ALTER TABLE "neap".chat OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".mod | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".mod CASCADE;
-CREATE TABLE "media-streaming".mod(
+-- object: "neap".mod | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".mod CASCADE;
+CREATE TABLE "neap".mod(
 	user_id uuid NOT NULL,
 	chat_id uuid NOT NULL,
 	level character varying NOT NULL,
@@ -202,12 +202,12 @@ CREATE TABLE "media-streaming".mod(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".mod OWNER TO "media-streaming";
+ALTER TABLE "neap".mod OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".stream_owner | type: VIEW --
--- DROP VIEW IF EXISTS "media-streaming".stream_owner CASCADE;
-CREATE VIEW "media-streaming".stream_owner
+-- object: "neap".stream_owner | type: VIEW --
+-- DROP VIEW IF EXISTS "neap".stream_owner CASCADE;
+CREATE VIEW "neap".stream_owner
 AS 
 
 SELECT
@@ -215,18 +215,18 @@ SELECT
    c.channel_id,
    s.stream_id
 FROM
-   "media-streaming"."user" AS u,
-   "media-streaming".channel AS c,
-   "media-streaming".stream AS s
+   "neap"."user" AS u,
+   "neap".channel AS c,
+   "neap".stream AS s
 WHERE
    u.user_id = c.user_id   AND c.channel_id = s.channel_id;
 -- ddl-end --
-ALTER VIEW "media-streaming".stream_owner OWNER TO "media-streaming";
+ALTER VIEW "neap".stream_owner OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".video_owner | type: VIEW --
--- DROP VIEW IF EXISTS "media-streaming".video_owner CASCADE;
-CREATE VIEW "media-streaming".video_owner
+-- object: "neap".video_owner | type: VIEW --
+-- DROP VIEW IF EXISTS "neap".video_owner CASCADE;
+CREATE VIEW "neap".video_owner
 AS 
 
 SELECT
@@ -235,19 +235,19 @@ SELECT
    s.stream_id,
    v.video_id
 FROM
-   "media-streaming"."user" AS u,
-   "media-streaming".channel AS c,
-   "media-streaming".stream AS s,
-   "media-streaming".video AS v
+   "neap"."user" AS u,
+   "neap".channel AS c,
+   "neap".stream AS s,
+   "neap".video AS v
 WHERE
    u.user_id = c.user_id   AND c.channel_id = s.channel_id   AND s.stream_id = v.stream_id;
 -- ddl-end --
-ALTER VIEW "media-streaming".video_owner OWNER TO "media-streaming";
+ALTER VIEW "neap".video_owner OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".chat_owner | type: VIEW --
--- DROP VIEW IF EXISTS "media-streaming".chat_owner CASCADE;
-CREATE VIEW "media-streaming".chat_owner
+-- object: "neap".chat_owner | type: VIEW --
+-- DROP VIEW IF EXISTS "neap".chat_owner CASCADE;
+CREATE VIEW "neap".chat_owner
 AS 
 
 SELECT
@@ -255,18 +255,18 @@ SELECT
    c.channel_id,
    h.chat_id
 FROM
-   "media-streaming"."user" AS u,
-   "media-streaming".channel AS c,
-   "media-streaming".chat AS h
+   "neap"."user" AS u,
+   "neap".channel AS c,
+   "neap".chat AS h
 WHERE
    u.user_id = c.user_id   AND c.channel_id = h.channel_id;
 -- ddl-end --
-ALTER VIEW "media-streaming".chat_owner OWNER TO "media-streaming";
+ALTER VIEW "neap".chat_owner OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".panel_owner | type: VIEW --
--- DROP VIEW IF EXISTS "media-streaming".panel_owner CASCADE;
-CREATE VIEW "media-streaming".panel_owner
+-- object: "neap".panel_owner | type: VIEW --
+-- DROP VIEW IF EXISTS "neap".panel_owner CASCADE;
+CREATE VIEW "neap".panel_owner
 AS 
 
 SELECT
@@ -274,18 +274,18 @@ SELECT
    c.channel_id,
    p.panel_id
 FROM
-   "media-streaming"."user" AS u,
-   "media-streaming".channel AS c,
-   "media-streaming".panel AS p
+   "neap"."user" AS u,
+   "neap".channel AS c,
+   "neap".panel AS p
 WHERE
    u.user_id = c.user_id   AND c.channel_id = b.channel_id;
 -- ddl-end --
-ALTER VIEW "media-streaming".panel_owner OWNER TO "media-streaming";
+ALTER VIEW "neap".panel_owner OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming".block | type: TABLE --
--- DROP TABLE IF EXISTS "media-streaming".block CASCADE;
-CREATE TABLE "media-streaming".block(
+-- object: "neap".block | type: TABLE --
+-- DROP TABLE IF EXISTS "neap".block CASCADE;
+CREATE TABLE "neap".block(
 	user_id uuid NOT NULL,
 	blocked_user_id uuid NOT NULL,
 	created_at timestamptz NOT NULL DEFAULT now(),
@@ -294,125 +294,125 @@ CREATE TABLE "media-streaming".block(
 
 );
 -- ddl-end --
-ALTER TABLE "media-streaming".block OWNER TO "media-streaming";
+ALTER TABLE "neap".block OWNER TO "neap";
 -- ddl-end --
 
--- object: "media-streaming"."C" | type: COLLATION --
--- DROP COLLATION IF EXISTS "media-streaming"."C" CASCADE;
-CREATE COLLATION "media-streaming"."C" (LOCALE = 'C.utf8');
+-- object: "neap"."C" | type: COLLATION --
+-- DROP COLLATION IF EXISTS "neap"."C" CASCADE;
+CREATE COLLATION "neap"."C" (LOCALE = 'C.utf8');
 -- ddl-end --
-ALTER COLLATION "media-streaming"."C" OWNER TO "media-streaming";
+ALTER COLLATION "neap"."C" OWNER TO "neap";
 -- ddl-end --
 
 -- object: channel_user_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".channel DROP CONSTRAINT IF EXISTS channel_user_id_fk CASCADE;
-ALTER TABLE "media-streaming".channel ADD CONSTRAINT channel_user_id_fk FOREIGN KEY (user_id)
-REFERENCES "media-streaming"."user" (user_id) MATCH FULL
+-- ALTER TABLE "neap".channel DROP CONSTRAINT IF EXISTS channel_user_id_fk CASCADE;
+ALTER TABLE "neap".channel ADD CONSTRAINT channel_user_id_fk FOREIGN KEY (user_id)
+REFERENCES "neap"."user" (user_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ddl-end --
 
 -- object: channel_chat_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".channel DROP CONSTRAINT IF EXISTS channel_chat_id_fk CASCADE;
-ALTER TABLE "media-streaming".channel ADD CONSTRAINT channel_chat_id_fk FOREIGN KEY (chat_id)
-REFERENCES "media-streaming".chat (chat_id) MATCH FULL
+-- ALTER TABLE "neap".channel DROP CONSTRAINT IF EXISTS channel_chat_id_fk CASCADE;
+ALTER TABLE "neap".channel ADD CONSTRAINT channel_chat_id_fk FOREIGN KEY (chat_id)
+REFERENCES "neap".chat (chat_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ddl-end --
 
 -- object: channel_topic_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".channel DROP CONSTRAINT IF EXISTS channel_topic_id_fk CASCADE;
-ALTER TABLE "media-streaming".channel ADD CONSTRAINT channel_topic_id_fk FOREIGN KEY (topic_id)
-REFERENCES "media-streaming".topic (topic_id) MATCH FULL
+-- ALTER TABLE "neap".channel DROP CONSTRAINT IF EXISTS channel_topic_id_fk CASCADE;
+ALTER TABLE "neap".channel ADD CONSTRAINT channel_topic_id_fk FOREIGN KEY (topic_id)
+REFERENCES "neap".topic (topic_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: user_channel_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming"."user" DROP CONSTRAINT IF EXISTS user_channel_id_fk CASCADE;
-ALTER TABLE "media-streaming"."user" ADD CONSTRAINT user_channel_id_fk FOREIGN KEY (channel_id)
-REFERENCES "media-streaming".channel (channel_id) MATCH FULL
+-- ALTER TABLE "neap"."user" DROP CONSTRAINT IF EXISTS user_channel_id_fk CASCADE;
+ALTER TABLE "neap"."user" ADD CONSTRAINT user_channel_id_fk FOREIGN KEY (channel_id)
+REFERENCES "neap".channel (channel_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ddl-end --
 
 -- object: follow_user_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".follow DROP CONSTRAINT IF EXISTS follow_user_id_fk CASCADE;
-ALTER TABLE "media-streaming".follow ADD CONSTRAINT follow_user_id_fk FOREIGN KEY (user_id)
-REFERENCES "media-streaming"."user" (user_id) MATCH FULL
+-- ALTER TABLE "neap".follow DROP CONSTRAINT IF EXISTS follow_user_id_fk CASCADE;
+ALTER TABLE "neap".follow ADD CONSTRAINT follow_user_id_fk FOREIGN KEY (user_id)
+REFERENCES "neap"."user" (user_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: follow_channel_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".follow DROP CONSTRAINT IF EXISTS follow_channel_id_fk CASCADE;
-ALTER TABLE "media-streaming".follow ADD CONSTRAINT follow_channel_id_fk FOREIGN KEY (channel_id)
-REFERENCES "media-streaming".channel (channel_id) MATCH FULL
+-- ALTER TABLE "neap".follow DROP CONSTRAINT IF EXISTS follow_channel_id_fk CASCADE;
+ALTER TABLE "neap".follow ADD CONSTRAINT follow_channel_id_fk FOREIGN KEY (channel_id)
+REFERENCES "neap".channel (channel_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: video_stream_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".video DROP CONSTRAINT IF EXISTS video_stream_id_fk CASCADE;
-ALTER TABLE "media-streaming".video ADD CONSTRAINT video_stream_id_fk FOREIGN KEY (stream_id)
-REFERENCES "media-streaming".stream (stream_id) MATCH FULL
+-- ALTER TABLE "neap".video DROP CONSTRAINT IF EXISTS video_stream_id_fk CASCADE;
+ALTER TABLE "neap".video ADD CONSTRAINT video_stream_id_fk FOREIGN KEY (stream_id)
+REFERENCES "neap".stream (stream_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: video_topic_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".video DROP CONSTRAINT IF EXISTS video_topic_id_fk CASCADE;
-ALTER TABLE "media-streaming".video ADD CONSTRAINT video_topic_id_fk FOREIGN KEY (topic_id)
-REFERENCES "media-streaming".topic (topic_id) MATCH FULL
+-- ALTER TABLE "neap".video DROP CONSTRAINT IF EXISTS video_topic_id_fk CASCADE;
+ALTER TABLE "neap".video ADD CONSTRAINT video_topic_id_fk FOREIGN KEY (topic_id)
+REFERENCES "neap".topic (topic_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: panel_channel_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".panel DROP CONSTRAINT IF EXISTS panel_channel_id_fk CASCADE;
-ALTER TABLE "media-streaming".panel ADD CONSTRAINT panel_channel_id_fk FOREIGN KEY (channel_id)
-REFERENCES "media-streaming".channel (channel_id) MATCH FULL
+-- ALTER TABLE "neap".panel DROP CONSTRAINT IF EXISTS panel_channel_id_fk CASCADE;
+ALTER TABLE "neap".panel ADD CONSTRAINT panel_channel_id_fk FOREIGN KEY (channel_id)
+REFERENCES "neap".channel (channel_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: stream_channel_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".stream DROP CONSTRAINT IF EXISTS stream_channel_id_fk CASCADE;
-ALTER TABLE "media-streaming".stream ADD CONSTRAINT stream_channel_id_fk FOREIGN KEY (channel_id)
-REFERENCES "media-streaming".channel (channel_id) MATCH FULL
+-- ALTER TABLE "neap".stream DROP CONSTRAINT IF EXISTS stream_channel_id_fk CASCADE;
+ALTER TABLE "neap".stream ADD CONSTRAINT stream_channel_id_fk FOREIGN KEY (channel_id)
+REFERENCES "neap".channel (channel_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: stream_topic_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".stream DROP CONSTRAINT IF EXISTS stream_topic_id_fk CASCADE;
-ALTER TABLE "media-streaming".stream ADD CONSTRAINT stream_topic_id_fk FOREIGN KEY (topic_id)
-REFERENCES "media-streaming".topic (topic_id) MATCH FULL
+-- ALTER TABLE "neap".stream DROP CONSTRAINT IF EXISTS stream_topic_id_fk CASCADE;
+ALTER TABLE "neap".stream ADD CONSTRAINT stream_topic_id_fk FOREIGN KEY (topic_id)
+REFERENCES "neap".topic (topic_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: chat_channel_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".chat DROP CONSTRAINT IF EXISTS chat_channel_id_fk CASCADE;
-ALTER TABLE "media-streaming".chat ADD CONSTRAINT chat_channel_id_fk FOREIGN KEY (channel_id)
-REFERENCES "media-streaming".channel (channel_id) MATCH FULL
+-- ALTER TABLE "neap".chat DROP CONSTRAINT IF EXISTS chat_channel_id_fk CASCADE;
+ALTER TABLE "neap".chat ADD CONSTRAINT chat_channel_id_fk FOREIGN KEY (channel_id)
+REFERENCES "neap".channel (channel_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ddl-end --
 
 -- object: mod_user_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".mod DROP CONSTRAINT IF EXISTS mod_user_id_fk CASCADE;
-ALTER TABLE "media-streaming".mod ADD CONSTRAINT mod_user_id_fk FOREIGN KEY (user_id)
-REFERENCES "media-streaming"."user" (user_id) MATCH FULL
+-- ALTER TABLE "neap".mod DROP CONSTRAINT IF EXISTS mod_user_id_fk CASCADE;
+ALTER TABLE "neap".mod ADD CONSTRAINT mod_user_id_fk FOREIGN KEY (user_id)
+REFERENCES "neap"."user" (user_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: mod_chat_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".mod DROP CONSTRAINT IF EXISTS mod_chat_id_fk CASCADE;
-ALTER TABLE "media-streaming".mod ADD CONSTRAINT mod_chat_id_fk FOREIGN KEY (chat_id)
-REFERENCES "media-streaming".chat (chat_id) MATCH FULL
+-- ALTER TABLE "neap".mod DROP CONSTRAINT IF EXISTS mod_chat_id_fk CASCADE;
+ALTER TABLE "neap".mod ADD CONSTRAINT mod_chat_id_fk FOREIGN KEY (chat_id)
+REFERENCES "neap".chat (chat_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: block_user_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".block DROP CONSTRAINT IF EXISTS block_user_id_fk CASCADE;
-ALTER TABLE "media-streaming".block ADD CONSTRAINT block_user_id_fk FOREIGN KEY (user_id)
-REFERENCES "media-streaming"."user" (user_id) MATCH FULL
+-- ALTER TABLE "neap".block DROP CONSTRAINT IF EXISTS block_user_id_fk CASCADE;
+ALTER TABLE "neap".block ADD CONSTRAINT block_user_id_fk FOREIGN KEY (user_id)
+REFERENCES "neap"."user" (user_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: block_blocked_user_id_fk | type: CONSTRAINT --
--- ALTER TABLE "media-streaming".block DROP CONSTRAINT IF EXISTS block_blocked_user_id_fk CASCADE;
-ALTER TABLE "media-streaming".block ADD CONSTRAINT block_blocked_user_id_fk FOREIGN KEY (blocked_user_id)
-REFERENCES "media-streaming"."user" (user_id) MATCH FULL
+-- ALTER TABLE "neap".block DROP CONSTRAINT IF EXISTS block_blocked_user_id_fk CASCADE;
+ALTER TABLE "neap".block ADD CONSTRAINT block_blocked_user_id_fk FOREIGN KEY (blocked_user_id)
+REFERENCES "neap"."user" (user_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 

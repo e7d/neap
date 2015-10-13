@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS "media-streaming";
-DROP ROLE IF EXISTS "media-streaming";
-CREATE DATABASE "media-streaming";
+DROP DATABASE IF EXISTS "neap";
+DROP ROLE IF EXISTS "neap";
+CREATE DATABASE "neap";

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SRC=/usr/src
-NGINX_VERSION=1.9.5 # http://nginx.org/en/download.html
+NGINX_VERSION=1.8.0 # http://nginx.org/en/download.html
 
 echo "Build dependencies"
 apt-get -y --force-yes install curl git build-essential libpcre3-dev libpcre++-dev \
@@ -26,7 +26,7 @@ cd ${SRC}/nginx-${NGINX_VERSION}
             --http-log-path=/var/log/nginx/access.log \
             --with-file-aio \
             --with-http_ssl_module \
-            --with-http_v2_module \
+            --with-http_spdy_module \
             --with-http_realip_module \
             --with-http_addition_module \
             --with-http_sub_module \

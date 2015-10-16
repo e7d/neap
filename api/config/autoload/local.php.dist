@@ -1,0 +1,51 @@
+<?php
+/**
+ * Local Configuration Override
+ *
+ * This configuration override file is for overriding environment-specific and
+ * security-sensitive configuration information. Copy this file without the
+ * .dist extension at the end and populate values as needed.
+ *
+ * @NOTE: This file is ignored from Git by default with the .gitignore included
+ * in ZendSkeletonApplication. This is a good practice, as it prevents sensitive
+ * credentials from accidentally being committed into version control.
+ */
+
+return array(
+    'zf-mvc-auth' => array(
+        'authentication' => array(
+            'adapters' => array(
+                'oauth2' => array(
+                    'adapter' => 'ZF\\MvcAuth\\Authentication\\OAuth2Adapter',
+                    'storage' => array(
+                        'adapter' => 'pdo',
+                        'dsn' => 'pgsql:host=127.0.0.1;dbname=neap',
+                        'route' => '/oauth',
+                        'username' => 'neap',
+                        'password' => 'neap',
+                        'options' => array(
+                            'user_table' => 'neap.user',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+    'zf-oauth2' => array(
+        'storage_settings' => array(
+            'user_table' => '"neap"."user"'
+        ),
+    ),
+    'db' => array(
+        'adapters' => array(
+            'neap' => array(
+                'database' => 'neap',
+                'driver' => 'PDO_Pgsql',
+                'hostname' => '',
+                'username' => 'neap',
+                'password' => 'neap',
+                'dsn' => 'pgsql:host=127.0.0.1;dbname=neap',
+            ),
+        ),
+    ),
+);

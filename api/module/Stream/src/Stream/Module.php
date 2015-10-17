@@ -32,8 +32,7 @@ class Module implements ApigilityProviderInterface
             'factories' => array(
                 'Stream\Service\StreamService' =>  function($services) {
                     $streamTableGateway = $services->get('Stream\Service\StreamTableGateway');
-                    $streamOwnerTableGateway = $services->get('Stream\Service\StreamOwnerTableGateway');
-                    $table = new StreamService($streamTableGateway, $streamOwnerTableGateway);
+                    $table = new StreamService($streamTableGateway);
                     return $table;
                 },
                 'Stream\Service\StreamTableGateway' => function ($services) {
@@ -41,12 +40,6 @@ class Module implements ApigilityProviderInterface
                     $resultSet = new ResultSet();
                     $resultSet->setArrayObjectPrototype(new Stream());
                     return new TableGateway('stream', $adapter, null, $resultSet);
-                },
-                'Stream\Service\StreamOwnerTableGateway' => function ($services) {
-                    $adapter = $services->get('Application\Database\DatabaseService')->getAdapter();
-                    $resultSet = new ResultSet();
-                    $resultSet->setArrayObjectPrototype(new StreamOwner());
-                    return new TableGateway('stream_owner', $adapter, null, $resultSet);
                 },
             ),
         );

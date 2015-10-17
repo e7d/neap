@@ -1,11 +1,11 @@
 <?php
-namespace User\V1\Rest\User;
+namespace User\V1\Rest\Users;
 
-class UserResourceFactory
+class UsersResourceFactory
 {
     public function __invoke($services)
     {
-        return new UserResource(
+        return new UsersResource(
             $services->get('Application\Authorization\IdentityService'),
             $services->get('User\Service\UserService')
         );

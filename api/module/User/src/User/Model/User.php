@@ -15,6 +15,7 @@ class User
     public function exchangeArray($data)
     {
         $this->id = (!empty($data['user_id'])) ? $data['user_id'] : null;
+        $this->channel_id = (!empty($data['channel_id'])) ? $data['channel_id'] : null;
         $this->username = (!empty($data['username'])) ? $data['username'] : null;
         $this->email = (!empty($data['email'])) ? $data['email'] : null;
         $this->display_name = (!empty($data['display_name'])) ? $data['display_name'] : null;

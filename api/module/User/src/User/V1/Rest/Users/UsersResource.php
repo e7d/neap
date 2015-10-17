@@ -1,18 +1,23 @@
 <?php
-namespace Channel\V1\Rest\Channel;
+namespace User\V1\Rest\Users;
 
+use User\Model\User;
 use ZF\ApiProblem\ApiProblem;
+use ZF\Hal\Entity;
+use ZF\Hal\Link\Link;
+use ZF\Hal\Link\LinkCollection;
 use ZF\Rest\AbstractResourceListener;
 
-class ChannelResource extends AbstractResourceListener
+class UsersResource extends AbstractResourceListener
 {
     private $identityService;
-    private $channelService;
+    private $userService;
+    private $streamService;
 
-    function __construct($identityService, $channelService)
+    function __construct($identityService, $userService)
     {
         $this->identityService = $identityService;
-        $this->channelService = $channelService;
+        $this->userService = $userService;
     }
 
     /**
@@ -23,6 +28,9 @@ class ChannelResource extends AbstractResourceListener
      */
     public function create($data)
     {
+        // oauth_acces_token as array: $this->getIdentity()->getAuthenticationIdentity();
+        // Model/User: $this->identityService->getIdentity();
+        // return new ApiProblem(403);
         return new ApiProblem(405, 'The POST method has not been defined');
     }
 
@@ -56,7 +64,7 @@ class ChannelResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return $this->channelService->fetch($id);
+        return $this->userService->fetch($id);
     }
 
     /**
@@ -67,7 +75,7 @@ class ChannelResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        return $this->channelService->fetchAll($params);
+        return $this->userService->fetchAll($params);
     }
 
     /**

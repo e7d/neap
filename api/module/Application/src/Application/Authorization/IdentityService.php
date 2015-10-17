@@ -12,7 +12,7 @@ class IdentityService
         return $this;
     }
 
-    public function getIdentity($identity)
+    public function getIdentity()
     {
         return $this->identity;
     }

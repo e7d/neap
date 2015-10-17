@@ -3,7 +3,7 @@
 DIR=`dirname $0`
 
 echo "Install PostgreSQL"
-apt-get -y install postgresql
+apt-get -y install postgresql postgresql-contrib
 
 echo "Create and populate API database"
 sudo -u "postgres" psql "postgres" < ${DIR}/../resources/database/init.sql;

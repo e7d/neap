@@ -1,10 +1,13 @@
 <?php
 namespace Stream\Model;
 
-class Stream
+use Zend\Stdlib\Hydrator\ObjectProperty;
+
+class Stream extends ObjectProperty
 {
     public $id;
     public $channel_id;
+    public $title;
     public $topic_id;
     public $topic;
     public $media_info;
@@ -17,6 +20,7 @@ class Stream
     {
         $this->id = (!empty($data['stream_id'])) ? $data['stream_id'] : null;
         $this->channel_id = (!empty($data['channel_id'])) ? $data['channel_id'] : null;
+        $this->title = (!empty($data['title'])) ? $data['title'] : null;
         $this->topic_id = (!empty($data['topic_id'])) ? $data['topic_id'] : null;
         $this->topic = (!empty($data['topic'])) ? $data['topic'] : null;
         $this->media_info = (!empty($data['media_info'])) ? $data['media_info'] : null;

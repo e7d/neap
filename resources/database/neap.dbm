@@ -3,8 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="0,135" last-zoom="1"
-	 default-schema="&quot;neap&quot;" default-owner="&quot;neap&quot;">
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,560" last-zoom="1"
+	 default-schema="neap" default-owner="neap">
 <role name="neap"
       login="true"
       encrypted="true"
@@ -12,7 +12,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </role>
 
 <database name="neap">
-	<role name="&quot;neap&quot;"/>
+	<role name="neap"/>
 </database>
 
 <schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
@@ -88,14 +88,18 @@ CREATE TABLE oauth_users
 </schema>
 
 <schema name="neap" rect-visible="true" fill-color="#e1e1e1">
-	<role name="&quot;neap&quot;"/>
+	<role name="neap"/>
 </schema>
 
+<extension name="pgcrypto">
+	<schema name="neap"/>
+</extension>
+
 <table name="channel">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="20" y="383"/>
-	<column name="channel_id" not-null="true">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="40" y="380"/>
+	<column name="channel_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="user_id" not-null="true">
@@ -106,6 +110,9 @@ CREATE TABLE oauth_users
 	</column>
 	<column name="name" not-null="true">
 		<type name="character varying"/>
+	</column>
+	<column name="stream_key" not-null="true" default-value="gen_random_uuid()">
+		<type name="uuid"/>
 	</column>
 	<column name="display_name" not-null="true">
 		<type name="character varying"/>
@@ -149,16 +156,16 @@ CREATE TABLE oauth_users
 	<column name="updated_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="channel_channel_id_pk" type="pk-constr" table="&quot;neap&quot;.channel">
+	<constraint name="channel_channel_id_pk" type="pk-constr" table="neap.channel">
 		<columns names="channel_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="user">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="880" y="440"/>
-	<column name="user_id" not-null="true">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="900" y="440"/>
+	<column name="user_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="channel_id" not-null="true">
@@ -191,24 +198,24 @@ CREATE TABLE oauth_users
 	<column name="updated_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="user_user_id_pk" type="pk-constr" table="&quot;neap&quot;.&quot;user&quot;">
+	<constraint name="user_user_id_pk" type="pk-constr" table="neap.&quot;user&quot;">
 		<columns names="user_id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="user_user_id_uq" type="uq-constr" table="&quot;neap&quot;.&quot;user&quot;">
+	<constraint name="user_user_id_uq" type="uq-constr" table="neap.&quot;user&quot;">
 		<columns names="user_id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="user_username_uq" type="uq-constr" table="&quot;neap&quot;.&quot;user&quot;">
+	<constraint name="user_username_uq" type="uq-constr" table="neap.&quot;user&quot;">
 		<columns names="username" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="user_email_uq" type="uq-constr" table="&quot;neap&quot;.&quot;user&quot;">
+	<constraint name="user_email_uq" type="uq-constr" table="neap.&quot;user&quot;">
 		<columns names="email" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="follow">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="480" y="443"/>
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="520" y="420"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -218,16 +225,16 @@ CREATE TABLE oauth_users
 	<column name="created_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="follow_user_id_channel_id_pk" type="pk-constr" table="&quot;neap&quot;.follow">
+	<constraint name="follow_user_id_channel_id_pk" type="pk-constr" table="neap.follow">
 		<columns names="user_id,channel_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="video">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="880" y="43"/>
-	<column name="video_id" not-null="true">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="900" y="60"/>
+	<column name="video_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="stream_id" not-null="true">
@@ -269,16 +276,16 @@ CREATE TABLE oauth_users
 	<column name="updated_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="video_video_id_pk" type="pk-constr" table="&quot;neap&quot;.video">
+	<constraint name="video_video_id_pk" type="pk-constr" table="neap.video">
 		<columns names="video_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="panel">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="40" y="780"/>
-	<column name="panel_id" not-null="true">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="60" y="780"/>
+	<column name="panel_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="channel_id" not-null="true">
@@ -305,19 +312,19 @@ CREATE TABLE oauth_users
 	<column name="updated_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="panel_panel_id_pk" type="pk-constr" table="&quot;neap&quot;.panel">
+	<constraint name="panel_panel_id_pk" type="pk-constr" table="neap.panel">
 		<columns names="panel_id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="panel_panel_id_position_uq" type="uq-constr" table="&quot;neap&quot;.panel">
+	<constraint name="panel_panel_id_position_uq" type="uq-constr" table="neap.panel">
 		<columns names="panel_id,position" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="stream">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="20" y="63"/>
-	<column name="stream_id" not-null="true">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="40" y="60"/>
+	<column name="stream_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="channel_id" not-null="true">
@@ -347,15 +354,15 @@ CREATE TABLE oauth_users
 	<column name="ended_at">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="stream_stream_id_pk" type="pk-constr" table="&quot;neap&quot;.stream">
+	<constraint name="stream_stream_id_pk" type="pk-constr" table="neap.stream">
 		<columns names="stream_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="topic">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="460" y="143"/>
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="500" y="280"/>
 	<column name="topic_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -365,19 +372,19 @@ CREATE TABLE oauth_users
 	<column name="created_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="topic_topic_id_fk" type="pk-constr" table="&quot;neap&quot;.topic">
+	<constraint name="topic_topic_id_fk" type="pk-constr" table="neap.topic">
 		<columns names="topic_id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="topic_name_uq" type="uq-constr" table="&quot;neap&quot;.topic">
+	<constraint name="topic_name_uq" type="uq-constr" table="neap.topic">
 		<columns names="name" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="chat">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="460" y="823"/>
-	<column name="chat_id" not-null="true">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="520" y="820"/>
+	<column name="chat_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="channel_id" not-null="true">
@@ -389,18 +396,18 @@ CREATE TABLE oauth_users
 	<column name="created_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="chat_chat_id" type="pk-constr" table="&quot;neap&quot;.chat">
+	<constraint name="chat_chat_id" type="pk-constr" table="neap.chat">
 		<columns names="chat_id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="chat_name_uq" type="uq-constr" table="&quot;neap&quot;.chat">
+	<constraint name="chat_name_uq" type="uq-constr" table="neap.chat">
 		<columns names="name" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="mod">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="880" y="800"/>
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="900" y="800"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -416,156 +423,15 @@ CREATE TABLE oauth_users
 	<column name="updated_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="mod_user_id_chat_id_fk" type="pk-constr" table="&quot;neap&quot;.mod">
+	<constraint name="mod_user_id_chat_id_fk" type="pk-constr" table="neap.mod">
 		<columns names="user_id,chat_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<view name="stream_owner">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="420" y="303"/>
-	<reference table="&quot;neap&quot;.&quot;user&quot;" column="user_id" alias="u"/>
-	<reference table="&quot;neap&quot;.channel" column="channel_id" alias="c"/>
-	<reference table="&quot;neap&quot;.stream" column="stream_id" alias="s"/>
-	<reference>
-		<expression><![CDATA[u.user_id = c.user_id]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[AND c.channel_id = s.channel_id]]></expression>
-	</reference>
-	<expression type="select-exp">0,1,2</expression>
-	<expression type="from-exp">0,1,2</expression>
-	<expression type="simple-exp">3,4</expression>
-</view>
-
-<relationship name="rel_stream_owner_user" type="reltv"
-	 src-table="&quot;neap&quot;.stream_owner"
-	 dst-table="&quot;neap&quot;.&quot;user&quot;"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_stream_owner_channel" type="reltv"
-	 src-table="&quot;neap&quot;.stream_owner"
-	 dst-table="&quot;neap&quot;.channel"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_stream_owner_stream" type="reltv"
-	 src-table="&quot;neap&quot;.stream_owner"
-	 dst-table="&quot;neap&quot;.stream"
-	 src-required="false" dst-required="false"/>
-
-<view name="video_owner">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="660" y="303"/>
-	<reference table="&quot;neap&quot;.&quot;user&quot;" column="user_id" alias="u"/>
-	<reference table="&quot;neap&quot;.channel" column="channel_id" alias="c"/>
-	<reference table="&quot;neap&quot;.stream" column="stream_id" alias="s"/>
-	<reference table="&quot;neap&quot;.video" column="video_id" alias="v"/>
-	<reference>
-		<expression><![CDATA[u.user_id = c.user_id]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[AND c.channel_id = s.channel_id]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[AND s.stream_id = v.stream_id]]></expression>
-	</reference>
-	<expression type="select-exp">0,1,2,3</expression>
-	<expression type="from-exp">0,1,2,3</expression>
-	<expression type="simple-exp">4,5,6</expression>
-</view>
-
-<relationship name="rel_video_owner_user" type="reltv"
-	 src-table="&quot;neap&quot;.video_owner"
-	 dst-table="&quot;neap&quot;.&quot;user&quot;"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_video_owner_channel" type="reltv"
-	 src-table="&quot;neap&quot;.video_owner"
-	 dst-table="&quot;neap&quot;.channel"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_video_owner_stream" type="reltv"
-	 src-table="&quot;neap&quot;.video_owner"
-	 dst-table="&quot;neap&quot;.stream"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_video_owner_video" type="reltv"
-	 src-table="&quot;neap&quot;.video_owner"
-	 dst-table="&quot;neap&quot;.video"
-	 src-required="false" dst-required="false"/>
-
-<view name="chat_owner">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="660" y="660"/>
-	<reference table="&quot;neap&quot;.&quot;user&quot;" column="user_id" alias="u"/>
-	<reference table="&quot;neap&quot;.channel" column="channel_id" alias="c"/>
-	<reference table="&quot;neap&quot;.chat" column="chat_id" alias="h"/>
-	<reference>
-		<expression><![CDATA[u.user_id = c.user_id]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[AND c.channel_id = h.channel_id]]></expression>
-	</reference>
-	<expression type="select-exp">0,1,2</expression>
-	<expression type="from-exp">0,1,2</expression>
-	<expression type="simple-exp">3,4</expression>
-</view>
-
-<relationship name="rel_chat_owner_user" type="reltv"
-	 src-table="&quot;neap&quot;.chat_owner"
-	 dst-table="&quot;neap&quot;.&quot;user&quot;"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_chat_owner_channel" type="reltv"
-	 src-table="&quot;neap&quot;.chat_owner"
-	 dst-table="&quot;neap&quot;.channel"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_chat_owner_chat" type="reltv"
-	 src-table="&quot;neap&quot;.chat_owner"
-	 dst-table="&quot;neap&quot;.chat"
-	 src-required="false" dst-required="false"/>
-
-<view name="panel_owner">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="420" y="660"/>
-	<reference table="&quot;neap&quot;.&quot;user&quot;" column="user_id" alias="u"/>
-	<reference table="&quot;neap&quot;.channel" column="channel_id" alias="c"/>
-	<reference table="&quot;neap&quot;.panel" column="panel_id" alias="p"/>
-	<reference>
-		<expression><![CDATA[u.user_id = c.user_id]]></expression>
-	</reference>
-	<reference>
-		<expression><![CDATA[AND c.channel_id = b.channel_id]]></expression>
-	</reference>
-	<expression type="select-exp">0,1,2</expression>
-	<expression type="from-exp">0,1,2</expression>
-	<expression type="simple-exp">3,4</expression>
-</view>
-
-<relationship name="rel_block_owner_user" type="reltv"
-	 src-table="&quot;neap&quot;.panel_owner"
-	 dst-table="&quot;neap&quot;.&quot;user&quot;"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_block_owner_channel" type="reltv"
-	 src-table="&quot;neap&quot;.panel_owner"
-	 dst-table="&quot;neap&quot;.channel"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_block_owner_block" type="reltv"
-	 src-table="&quot;neap&quot;.panel_owner"
-	 dst-table="&quot;neap&quot;.panel"
-	 src-required="false" dst-required="false"/>
-
 <table name="block">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-	<position x="880" y="320"/>
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="900" y="340"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -575,185 +441,237 @@ CREATE TABLE oauth_users
 	<column name="created_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
-	<constraint name="block_user_id_blocked_user_id_pk" type="pk-constr" table="&quot;neap&quot;.block">
+	<constraint name="block_user_id_blocked_user_id_pk" type="pk-constr" table="neap.block">
 		<columns names="user_id,blocked_user_id" ref-type="src-columns"/>
 	</constraint>
-	<constraint name="block_user_id_blocked_user_id_uq" type="uq-constr" table="&quot;neap&quot;.block">
+	<constraint name="block_user_id_blocked_user_id_uq" type="uq-constr" table="neap.block">
 		<columns names="user_id,blocked_user_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<collation name="C" locale="C" encoding="UTF8">
-	<schema name="&quot;neap&quot;"/>
-	<role name="&quot;neap&quot;"/>
-</collation>
+<function name="update_updated_at"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;]]></definition>
+</function>
+
+<trigger name="stream_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.stream">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="video_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.video">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="channel_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.channel">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="user_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.&quot;user&quot;">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="panel_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.panel">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="mod_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.mod">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
 <constraint name="channel_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.&quot;user&quot;"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;"
 	deferrable="true" defer-type="INITIALLY DEFERRED"
- table="&quot;neap&quot;.channel">
+ table="neap.channel">
 	<columns names="user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="channel_chat_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.chat"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.chat"
 	deferrable="true" defer-type="INITIALLY DEFERRED"
- table="&quot;neap&quot;.channel">
+ table="neap.channel">
 	<columns names="chat_id" ref-type="src-columns"/>
 	<columns names="chat_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="channel_topic_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.topic" table="&quot;neap&quot;.channel">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.topic" table="neap.channel">
 	<columns names="topic_id" ref-type="src-columns"/>
 	<columns names="topic_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="user_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.channel"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.channel"
 	deferrable="true" defer-type="INITIALLY DEFERRED"
- table="&quot;neap&quot;.&quot;user&quot;">
+ table="neap.&quot;user&quot;">
 	<columns names="channel_id" ref-type="src-columns"/>
 	<columns names="channel_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="follow_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.&quot;user&quot;" table="&quot;neap&quot;.follow">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.follow">
 	<columns names="user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="follow_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.channel" table="&quot;neap&quot;.follow">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.channel" table="neap.follow">
 	<columns names="channel_id" ref-type="src-columns"/>
 	<columns names="channel_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="video_stream_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.stream" table="&quot;neap&quot;.video">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.stream" table="neap.video">
 	<columns names="stream_id" ref-type="src-columns"/>
 	<columns names="stream_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="video_topic_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.topic" table="&quot;neap&quot;.video">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.topic" table="neap.video">
 	<columns names="topic_id" ref-type="src-columns"/>
 	<columns names="topic_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="panel_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.channel" table="&quot;neap&quot;.panel">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.channel" table="neap.panel">
 	<columns names="channel_id" ref-type="src-columns"/>
 	<columns names="channel_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="stream_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.channel" table="&quot;neap&quot;.stream">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.channel" table="neap.stream">
 	<columns names="channel_id" ref-type="src-columns"/>
 	<columns names="channel_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="stream_topic_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.topic" table="&quot;neap&quot;.stream">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.topic" table="neap.stream">
 	<columns names="topic_id" ref-type="src-columns"/>
 	<columns names="topic_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="chat_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.channel"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.channel"
 	deferrable="true" defer-type="INITIALLY DEFERRED"
- table="&quot;neap&quot;.chat">
+ table="neap.chat">
 	<columns names="channel_id" ref-type="src-columns"/>
 	<columns names="channel_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="mod_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.&quot;user&quot;" table="&quot;neap&quot;.mod">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.mod">
 	<columns names="user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="mod_chat_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.chat" table="&quot;neap&quot;.mod">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.chat" table="neap.mod">
 	<columns names="chat_id" ref-type="src-columns"/>
 	<columns names="chat_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="block_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.&quot;user&quot;" table="&quot;neap&quot;.block">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.block">
 	<columns names="user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="block_blocked_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;neap&quot;.&quot;user&quot;" table="&quot;neap&quot;.block">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.block">
 	<columns names="blocked_user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
 
 <relationship name="rel_channel_user" type="relfk"
-	 src-table="&quot;neap&quot;.channel"
-	 dst-table="&quot;neap&quot;.&quot;user&quot;"
+	 src-table="neap.channel"
+	 dst-table="neap.&quot;user&quot;"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_follow_user" type="relfk"
-	 src-table="&quot;neap&quot;.follow"
-	 dst-table="&quot;neap&quot;.&quot;user&quot;"
+	 src-table="neap.follow"
+	 dst-table="neap.&quot;user&quot;"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_follow_channel" type="relfk"
-	 src-table="&quot;neap&quot;.follow"
-	 dst-table="&quot;neap&quot;.channel"
+	 src-table="neap.follow"
+	 dst-table="neap.channel"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_stream_channel" type="relfk"
-	 src-table="&quot;neap&quot;.stream"
-	 dst-table="&quot;neap&quot;.channel"
+	 src-table="neap.stream"
+	 dst-table="neap.channel"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_channel_topic" type="relfk"
-	 src-table="&quot;neap&quot;.channel"
-	 dst-table="&quot;neap&quot;.topic"
+	 src-table="neap.channel"
+	 dst-table="neap.topic"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_stream_topic" type="relfk"
-	 src-table="&quot;neap&quot;.stream"
-	 dst-table="&quot;neap&quot;.topic"
+	 src-table="neap.stream"
+	 dst-table="neap.topic"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_video_stream" type="relfk"
-	 src-table="&quot;neap&quot;.video"
-	 dst-table="&quot;neap&quot;.stream"
+	 src-table="neap.video"
+	 dst-table="neap.stream"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_video_topic" type="relfk"
-	 src-table="&quot;neap&quot;.video"
-	 dst-table="&quot;neap&quot;.topic"
+	 src-table="neap.video"
+	 dst-table="neap.topic"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_block_channel" type="relfk"
-	 src-table="&quot;neap&quot;.panel"
-	 dst-table="&quot;neap&quot;.channel"
+	 src-table="neap.panel"
+	 dst-table="neap.channel"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_chat_channel" type="relfk"
-	 src-table="&quot;neap&quot;.chat"
-	 dst-table="&quot;neap&quot;.channel"
+	 src-table="neap.chat"
+	 dst-table="neap.channel"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_mod_user" type="relfk"
-	 src-table="&quot;neap&quot;.mod"
-	 dst-table="&quot;neap&quot;.&quot;user&quot;"
+	 src-table="neap.mod"
+	 dst-table="neap.&quot;user&quot;"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_mod_chat" type="relfk"
-	 src-table="&quot;neap&quot;.mod"
-	 dst-table="&quot;neap&quot;.chat"
+	 src-table="neap.mod"
+	 dst-table="neap.chat"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_block_user" type="relfk"
-	 src-table="&quot;neap&quot;.block"
-	 dst-table="&quot;neap&quot;.&quot;user&quot;"
+	 src-table="neap.block"
+	 dst-table="neap.&quot;user&quot;"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

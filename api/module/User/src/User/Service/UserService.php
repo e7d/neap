@@ -29,7 +29,7 @@ class UserService
         return $user;
     }
 
-    // public function saveUser(User $user)
+    // public function create(User $user)
     // {
     //     $data = array(
     //         'username' => $user->username,
@@ -47,7 +47,7 @@ class UserService
     //     }
     // }
     //
-    // public function deleteUser($id)
+    // public function remove($id)
     // {
     //     $this->userTableGateway->delete(array('id' => (int) $id));
     // }

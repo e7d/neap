@@ -2,20 +2,11 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'User\\V1\\Rest\\Users\\UsersResource' => 'User\\V1\\Rest\\Users\\UsersResourceFactory',
+            'User\\V1\\Rest\\User\\UserResource' => 'User\\V1\\Rest\\User\\UserResourceFactory',
         ),
     ),
     'router' => array(
         'routes' => array(
-            'user.rest.users' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/api/users[/:user_id]',
-                    'defaults' => array(
-                        'controller' => 'User\\V1\\Rest\\Users\\Controller',
-                    ),
-                ),
-            ),
             'user.rpc.profile' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -26,18 +17,27 @@ return array(
                     ),
                 ),
             ),
+            'user.rest.user' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api/users[/:user_id]',
+                    'defaults' => array(
+                        'controller' => 'User\\V1\\Rest\\User\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
         'uri' => array(
-            1 => 'user.rest.users',
             0 => 'user.rpc.profile',
+            1 => 'user.rest.user',
         ),
     ),
     'zf-rest' => array(
-        'User\\V1\\Rest\\Users\\Controller' => array(
-            'listener' => 'User\\V1\\Rest\\Users\\UsersResource',
-            'route_name' => 'user.rest.users',
+        'User\\V1\\Rest\\User\\Controller' => array(
+            'listener' => 'User\\V1\\Rest\\User\\UserResource',
+            'route_name' => 'user.rest.user',
             'route_identifier_name' => 'user_id',
             'collection_name' => 'users',
             'entity_http_methods' => array(
@@ -53,34 +53,34 @@ return array(
             'collection_query_whitelist' => array(),
             'page_size' => 25,
             'page_size_param' => 'limit',
-            'entity_class' => 'User\\V1\\Rest\\Users\\UsersEntity',
-            'collection_class' => 'User\\V1\\Rest\\Users\\UsersCollection',
-            'service_name' => 'Users',
+            'entity_class' => 'User\\V1\\Rest\\User\\UserEntity',
+            'collection_class' => 'User\\V1\\Rest\\User\\UserCollection',
+            'service_name' => 'User',
         ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
-            'User\\V1\\Rest\\Users\\Controller' => 'HalJson',
             'User\\V1\\Rpc\\Profile\\Controller' => 'Json',
+            'User\\V1\\Rest\\User\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
-            'User\\V1\\Rest\\Users\\Controller' => array(
-                0 => 'application/vnd.user.v1+json',
-                1 => 'application/hal+json',
-                2 => 'application/json',
-            ),
             'User\\V1\\Rpc\\Profile\\Controller' => array(
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
             ),
+            'User\\V1\\Rest\\User\\Controller' => array(
+                0 => 'application/vnd.user.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
-            'User\\V1\\Rest\\Users\\Controller' => array(
+            'User\\V1\\Rpc\\Profile\\Controller' => array(
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/json',
             ),
-            'User\\V1\\Rpc\\Profile\\Controller' => array(
+            'User\\V1\\Rest\\User\\Controller' => array(
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/json',
             ),
@@ -88,15 +88,15 @@ return array(
     ),
     'zf-hal' => array(
         'metadata_map' => array(
-            'User\\V1\\Rest\\Users\\UsersEntity' => array(
+            'User\\V1\\Rest\\User\\UserEntity' => array(
                 'entity_identifier_name' => 'id',
-                'route_name' => 'user.rest.users',
+                'route_name' => 'user.rest.user',
                 'route_identifier_name' => 'user_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
-            'User\\V1\\Rest\\Users\\UsersCollection' => array(
+            'User\\V1\\Rest\\User\\UserCollection' => array(
                 'entity_identifier_name' => 'id',
-                'route_name' => 'user.rest.users',
+                'route_name' => 'user.rest.user',
                 'route_identifier_name' => 'user_id',
                 'is_collection' => true,
             ),
@@ -104,7 +104,18 @@ return array(
     ),
     'zf-mvc-auth' => array(
         'authorization' => array(
-            'User\\V1\\Rest\\Users\\Controller' => array(
+            'User\\V1\\Rpc\\Profile\\Controller' => array(
+                'actions' => array(
+                    'Profile' => array(
+                        'GET' => true,
+                        'POST' => false,
+                        'PUT' => false,
+                        'PATCH' => false,
+                        'DELETE' => true,
+                    ),
+                ),
+            ),
+            'User\\V1\\Rest\\User\\Controller' => array(
                 'collection' => array(
                     'GET' => false,
                     'POST' => true,
@@ -115,20 +126,9 @@ return array(
                 'entity' => array(
                     'GET' => false,
                     'POST' => false,
-                    'PUT' => false,
+                    'PUT' => true,
                     'PATCH' => true,
                     'DELETE' => true,
-                ),
-            ),
-            'User\\V1\\Rpc\\Profile\\Controller' => array(
-                'actions' => array(
-                    'Profile' => array(
-                        'GET' => true,
-                        'POST' => false,
-                        'PUT' => false,
-                        'PATCH' => false,
-                        'DELETE' => true,
-                    ),
                 ),
             ),
         ),

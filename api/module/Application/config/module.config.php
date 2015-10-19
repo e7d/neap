@@ -31,6 +31,7 @@ return array(
         ),
         'invokables' => array(
             'Application\Authorization\IdentityService' => 'Application\Authorization\IdentityService',
+            'Application\Validator\UuidV4' => 'Application\Validator\UuidV4',
         ),
     ),
     'controllers' => array(

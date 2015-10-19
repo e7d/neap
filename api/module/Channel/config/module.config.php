@@ -2,17 +2,17 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Channel\\V1\\Rest\\Channels\\ChannelsResource' => 'Channel\\V1\\Rest\\Channels\\ChannelsResourceFactory',
+            'Channel\\V1\\Rest\\Channel\\ChannelResource' => 'Channel\\V1\\Rest\\Channel\\ChannelResourceFactory',
         ),
     ),
     'router' => array(
         'routes' => array(
-            'channel.rest.channels' => array(
+            'channel.rest.channel' => array(
                 'type' => 'Segment',
                 'options' => array(
                     'route' => '/api/channels[/:channel_id]',
                     'defaults' => array(
-                        'controller' => 'Channel\\V1\\Rest\\Channels\\Controller',
+                        'controller' => 'Channel\\V1\\Rest\\Channel\\Controller',
                     ),
                 ),
             ),
@@ -20,13 +20,13 @@ return array(
     ),
     'zf-versioning' => array(
         'uri' => array(
-            1 => 'channel.rest.channels',
+            0 => 'channel.rest.channel',
         ),
     ),
     'zf-rest' => array(
-        'Channel\\V1\\Rest\\Channels\\Controller' => array(
-            'listener' => 'Channel\\V1\\Rest\\Channels\\ChannelsResource',
-            'route_name' => 'channel.rest.channels',
+        'Channel\\V1\\Rest\\Channel\\Controller' => array(
+            'listener' => 'Channel\\V1\\Rest\\Channel\\ChannelResource',
+            'route_name' => 'channel.rest.channel',
             'route_identifier_name' => 'channel_id',
             'collection_name' => 'channels',
             'entity_http_methods' => array(
@@ -42,24 +42,24 @@ return array(
             'collection_query_whitelist' => array(),
             'page_size' => 25,
             'page_size_param' => 'limit',
-            'entity_class' => 'Channel\\V1\\Rest\\Channels\\ChannelsEntity',
-            'collection_class' => 'Channel\\V1\\Rest\\Channels\\ChannelsCollection',
-            'service_name' => 'Channels',
+            'entity_class' => 'Channel\\V1\\Rest\\Channel\\ChannelEntity',
+            'collection_class' => 'Channel\\V1\\Rest\\Channel\\ChannelCollection',
+            'service_name' => 'Channel',
         ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
-            'Channel\\V1\\Rest\\Channels\\Controller' => 'HalJson',
+            'Channel\\V1\\Rest\\Channel\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
-            'Channel\\V1\\Rest\\Channels\\Controller' => array(
+            'Channel\\V1\\Rest\\Channel\\Controller' => array(
                 0 => 'application/vnd.channel.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
         ),
         'content_type_whitelist' => array(
-            'Channel\\V1\\Rest\\Channels\\Controller' => array(
+            'Channel\\V1\\Rest\\Channel\\Controller' => array(
                 0 => 'application/vnd.channel.v1+json',
                 1 => 'application/json',
             ),
@@ -67,15 +67,15 @@ return array(
     ),
     'zf-hal' => array(
         'metadata_map' => array(
-            'Channel\\V1\\Rest\\Channels\\ChannelsEntity' => array(
+            'Channel\\V1\\Rest\\Channel\\ChannelEntity' => array(
                 'entity_identifier_name' => 'id',
-                'route_name' => 'channel.rest.channels',
+                'route_name' => 'channel.rest.channel',
                 'route_identifier_name' => 'channel_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
-            'Channel\\V1\\Rest\\Channels\\ChannelsCollection' => array(
+            'Channel\\V1\\Rest\\Channel\\ChannelCollection' => array(
                 'entity_identifier_name' => 'id',
-                'route_name' => 'channel.rest.channels',
+                'route_name' => 'channel.rest.channel',
                 'route_identifier_name' => 'channel_id',
                 'is_collection' => true,
             ),
@@ -83,7 +83,7 @@ return array(
     ),
     'zf-mvc-auth' => array(
         'authorization' => array(
-            'Channel\\V1\\Rest\\Channels\\Controller' => array(
+            'Channel\\V1\\Rest\\Channel\\Controller' => array(
                 'collection' => array(
                     'GET' => false,
                     'POST' => true,

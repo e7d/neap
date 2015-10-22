@@ -3,7 +3,6 @@ namespace User\V1\Rpc\Profile;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
-
 use ZF\ApiProblem\ApiProblem;
 use ZF\ContentNegotiation\ViewModel;
 
@@ -19,11 +18,14 @@ class ProfileController extends AbstractActionController
                     ->get('Application\Authorization\IdentityService')
                     ->getIdentity();
 
-                return new ViewModel((array) $profile);
+                $user = $this->getServiceLocator()
+                    ->get('Application\Database\User\UserModel')
+                    ->fetch($profile->id);
+
+                return new ViewModel((array) $user);
                 break;
 
             case 'DELETE':
-                return new ViewModel(['delete']);
                 $container = new Container('oauth');
                 $container->getManager()->getStorage()->clear();
 

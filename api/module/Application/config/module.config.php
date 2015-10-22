@@ -28,6 +28,14 @@ return array(
         'factories' => array(
             'Application\Authorization\AuthorizationListener' => 'Application\Authorization\AuthorizationListenerFactory',
             'Application\Database\DatabaseService' => 'Application\Database\DatabaseServiceFactory',
+            'Application\Database\Channel\ChannelModel' => 'Application\Database\Channel\ChannelModelFactory',
+            'Application\Database\Channel\ChannelTableGateway' => 'Application\Database\Channel\ChannelTableGatewayFactory',
+            'Application\Database\Stream\StreamModel' => 'Application\Database\Stream\StreamModelFactory',
+            'Application\Database\Stream\StreamTableGateway' => 'Application\Database\Stream\StreamTableGatewayFactory',
+            'Application\Database\User\UserModel' => 'Application\Database\User\UserModelFactory',
+            'Application\Database\User\UserTableGateway' => 'Application\Database\User\UserTableGatewayFactory',
+            'Application\Database\Video\VideoModel' => 'Application\Database\Video\VideoModelFactory',
+            'Application\Database\Video\VideoTableGateway' => 'Application\Database\Video\VideoTableGatewayFactory',
         ),
         'invokables' => array(
             'Application\Authorization\IdentityService' => 'Application\Authorization\IdentityService',

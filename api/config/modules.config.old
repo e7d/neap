@@ -25,4 +25,6 @@ return array(
     'User',
     'Channel',
     'Stream',
+    'Video',
+    'Topic',
 );

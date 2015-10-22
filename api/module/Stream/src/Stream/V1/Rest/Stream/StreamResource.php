@@ -1,7 +1,6 @@
 <?php
 namespace Stream\V1\Rest\Stream;
 
-use Stream\Model\Stream;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 

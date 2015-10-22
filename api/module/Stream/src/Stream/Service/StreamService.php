@@ -1,31 +1,25 @@
 <?php
 namespace Stream\Service;
 
-use Stream\Model\Stream;
+use Application\Database\Stream\Stream;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;
 
 class StreamService
 {
-    protected $hydratorService;
-    protected $tableGateway;
-    protected $channelService;
-    protected $userService;
+    protected $hydrator;
+    protected $streamModel;
+    protected $userModel;
 
-    public function __construct(TableGateway $tableGateway, $channelService, $userService)
+    public function __construct($hydrator, $streamModel, $userModel)
     {
-        $this->hydratorService = new StreamHydratorService(
-            $channelService,
-            $userService
-        );
-        $this->tableGateway = $tableGateway;
-        $this->channelService = $channelService;
-        $this->userService = $userService;
+        $this->hydrator = $hydrator;
+        $this->streamModel = $streamModel;
+        $this->userModel = $userModel;
     }
 
     public function fetchAll($params, $paginated = true)
@@ -33,15 +27,15 @@ class StreamService
         if ($paginated) {
             $select = new Select('stream');
 
-            $this->hydratorService->setParam("isCollection", true);
+            $this->hydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
-                $this->hydratorService,
+                $this->hydrator,
                 new Stream()
             );
 
             $paginatorAdapter = new DbSelect(
                 $select,
-                $this->tableGateway->getAdapter(),
+                $this->streamModel->tableGateway->getAdapter(),
                 $hydratingResultSet
             );
 
@@ -49,36 +43,27 @@ class StreamService
             return $paginator;
         }
 
-        $resultSet = $this->tableGateway->select();
+        $resultSet = $this->streamModel->tableGateway->select();
         return $resultSet;
     }
 
     public function fetch($id)
     {
-        $rowset = $this->tableGateway->select(array('stream_id' => $id));
-        $stream = $rowset->current();
+        $stream = $this->streamModel->fetch($id);
         if (!$stream) {
             return null;
         }
 
-        return $this->hydratorService->buildEntity($stream);
+        return $this->hydrator->buildEntity($stream);
+    }
+
+    public function fetchByChannel($channelId)
+    {
+        return $this->streamModel->fetchByChannel($channelId);
     }
 
     public function fetchByUser($userId)
     {
-        $where = new Where();
-        $where->equalTo('user.user_id', $userId);
-
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
-        $sqlSelect->join('user', 'user.user_id = channel.user_id', array(), 'left');
-
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
-        $stream = $rowset->current();
-        if (!$stream) {
-            return null;
-        }
-
-        return $stream;
+        return $this->streamModel->fetchByUser($userId);
     }
 }

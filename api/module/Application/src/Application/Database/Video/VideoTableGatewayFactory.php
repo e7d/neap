@@ -1,17 +1,17 @@
 <?php
-namespace Stream\Service;
+namespace Application\Database\Video;
 
-use Stream\Model\Stream;
+use Application\Database\Video\Video;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
-class StreamTableGatewayFactory
+class VideoTableGatewayFactory
 {
     public function __invoke($services)
     {
         $adapter = $services->get('Application\Database\DatabaseService')->getAdapter();
         $resultSet = new ResultSet();
-        $resultSet->setArrayObjectPrototype(new Stream());
-        return new TableGateway('stream', $adapter, null, $resultSet);
+        $resultSet->setArrayObjectPrototype(new Video());
+        return new TableGateway('video', $adapter, null, $resultSet);
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Stream\Model;
+namespace Application\Database\Stream;
 
 use Zend\Stdlib\Hydrator\ObjectProperty;
 
@@ -23,7 +23,7 @@ class Stream extends ObjectProperty
         $this->title = (!empty($data['title'])) ? $data['title'] : null;
         $this->topic_id = (!empty($data['topic_id'])) ? $data['topic_id'] : null;
         $this->topic = (!empty($data['topic'])) ? $data['topic'] : null;
-        $this->media_info = (!empty($data['media_info'])) ? $data['media_info'] : null;
+        $this->media_info = (!empty($data['media_info'])) ? json_decode($data['media_info']) : null;
         $this->viewers = (!empty($data['viewers'])) ? $data['viewers'] : null;
         $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
         $this->updated_at = (!empty($data['updated_at'])) ? $data['updated_at'] : null;

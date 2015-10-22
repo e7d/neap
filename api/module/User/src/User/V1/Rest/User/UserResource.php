@@ -6,6 +6,15 @@ use ZF\Rest\AbstractResourceListener;
 
 class UserResource extends AbstractResourceListener
 {
+    private $identityService;
+    private $userService;
+
+    function __construct($identityService, $userService)
+    {
+        $this->identityService = $identityService;
+        $this->userService = $userService;
+    }
+
     /**
      * Create a resource
      *
@@ -47,7 +56,7 @@ class UserResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
+        return $this->userService->fetch($id);
     }
 
     /**
@@ -58,7 +67,12 @@ class UserResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
+        $paginator = $this->userService->fetchAll($params, true);
+
+        $paginator->setCurrentPageNumber((int) $params['page']);
+        $paginator->setItemCountPerPage(10);
+
+        return $paginator;
     }
 
     /**

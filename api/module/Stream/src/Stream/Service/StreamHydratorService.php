@@ -1,9 +1,9 @@
 <?php
 namespace Stream\Service;
 
-use Channel\Service\ChannelService;
+use Application\Database\Channel\ChannelModel;
 use Stream\Model\Stream;
-use User\Service\UserService;
+use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
@@ -11,14 +11,14 @@ use ZF\Hal\Link\Link;
 class StreamHydratorService implements HydratorInterface
 {
     protected $params;
-    protected $channelService;
-    protected $userService;
+    protected $channelModel;
+    protected $userModel;
 
-    public function __construct(ChannelService $channelService, UserService $userService)
+    public function __construct(ChannelModel $channelModel, UserModel $userModel)
     {
         $this->params = array();
-        $this->channelService = $channelService;
-        $this->userService = $userService;
+        $this->channelModel = $channelModel;
+        $this->userModel = $userModel;
     }
 
     public function hydrate(array $data, $stream)
@@ -40,33 +40,13 @@ class StreamHydratorService implements HydratorInterface
 
     public function buildEntity($stream)
     {
-        $streamEntity = new Entity($this->extract($stream), $stream->id);
+        $channel = $this->channelModel->fetch($stream->channel_id);
+        $user = $this->userModel->fetch($channel->user_id);
 
-        $channel = $this->channelService->fetch($stream->channel_id);
-        $user = $this->userService->fetch($channel->user_id);
+        if (!$this->params['isCollection']) {
+            unset($channel->user_id);
+            unset($channel->chat_id);
 
-        $streamEntity->getLinks()->add(Link::factory(array(
-            'rel' => 'self',
-            'route' => array(
-                'name' => 'stream.rest.stream',
-                'params' => array(
-                    'stream_id' => $stream->id,
-                ),
-            ),
-        )));
-
-        if (array_key_exists('isCollection', $this->params) && $this->params['isCollection']) {
-            $streamEntity->getLinks()->add(Link::factory(array(
-                'rel' => 'channel',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->id,
-                    ),
-                ),
-            )));
-            unset($stream->channel_id);
-        } else {
             $channelEntity = new Entity($channel, $channel->id);
             $channelEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'self',
@@ -78,6 +58,31 @@ class StreamHydratorService implements HydratorInterface
                 ),
             )));
             $stream->channel = $channelEntity;
+            unset($stream->channel_id);
+        }
+
+        $streamEntity = new Entity($this->extract($stream), $stream->id);
+
+        $streamEntity->getLinks()->add(Link::factory(array(
+            'rel' => 'self',
+            'route' => array(
+                'name' => 'stream.rest.stream',
+                'params' => array(
+                    'stream_id' => $stream->id,
+                ),
+            ),
+        )));
+
+        if ($this->params['isCollection']) {
+            $streamEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'channel',
+                'route' => array(
+                    'name' => 'channel.rest.channel',
+                    'params' => array(
+                        'channel_id' => $channel->id,
+                    ),
+                ),
+            )));
             unset($stream->channel_id);
         }
 

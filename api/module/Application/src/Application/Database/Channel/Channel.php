@@ -1,7 +1,9 @@
 <?php
-namespace Channel\Model;
+namespace Application\Database\Channel;
 
-class Channel
+use Zend\Stdlib\Hydrator\ObjectProperty;
+
+class Channel extends ObjectProperty
 {
     public $id;
     public $user_id;

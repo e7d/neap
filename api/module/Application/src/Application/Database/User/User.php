@@ -1,7 +1,9 @@
 <?php
-namespace User\Model;
+namespace Application\Database\User;
 
-class User
+use Zend\Stdlib\Hydrator\ObjectProperty;
+
+class User extends ObjectProperty
 {
     public $id;
     public $username;

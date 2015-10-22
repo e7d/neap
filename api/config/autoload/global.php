@@ -23,6 +23,8 @@ return array(
                 'Channel\\V1' => 'oauth2',
                 'Stream\\V1' => 'oauth2',
                 'Video\\V1' => 'oauth2',
+                'Topic\\V1' => 'oauth2',
+                'Panel\\V1' => 'oauth2',
             ),
         ),
     ),

@@ -2,9 +2,9 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Stream\\V1\\Rest\\Stream\\StreamResource' => 'Stream\\V1\\Rest\\Stream\\StreamResourceFactory',
+            'Stream\\Service\\StreamHydratorService' => 'Stream\\Service\\StreamHydratorServiceFactory',
             'Stream\\Service\\StreamService' => 'Stream\\Service\\StreamServiceFactory',
-            'Stream\\Service\\StreamTableGateway' => 'Stream\\Service\\StreamTableGatewayFactory',
+            'Stream\\V1\\Rest\\Stream\\StreamResource' => 'Stream\\V1\\Rest\\Stream\\StreamResourceFactory',
         ),
     ),
     'router' => array(

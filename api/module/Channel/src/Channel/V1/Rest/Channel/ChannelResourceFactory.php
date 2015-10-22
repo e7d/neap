@@ -5,6 +5,9 @@ class ChannelResourceFactory
 {
     public function __invoke($services)
     {
-        return new ChannelResource();
+        return new ChannelResource(
+            $services->get('Application\Authorization\IdentityService'),
+            $services->get('Channel\Service\ChannelService')
+        );
     }
 }

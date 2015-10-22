@@ -2,6 +2,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
+            'Channel\\Service\\ChannelHydratorService' => 'Channel\\Service\\ChannelHydratorServiceFactory',
+            'Channel\\Service\\ChannelService' => 'Channel\\Service\\ChannelServiceFactory',
             'Channel\\V1\\Rest\\Channel\\ChannelResource' => 'Channel\\V1\\Rest\\Channel\\ChannelResourceFactory',
         ),
     ),

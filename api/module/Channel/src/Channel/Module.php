@@ -1,7 +1,7 @@
 <?php
 namespace Channel;
 
-use Channel\Model\Channel;
+use Application\Database\Channel\Channel;
 use Channel\Service\ChannelService;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
@@ -21,25 +21,6 @@ class Module implements ApigilityProviderInterface
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__,
                 ),
-            ),
-        );
-    }
-
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                'Channel\Service\ChannelService' =>  function($services) {
-                    $channelTableGateway = $services->get('Channel\Service\ChannelTableGateway');
-                    $table = new ChannelService($channelTableGateway);
-                    return $table;
-                },
-                'Channel\Service\ChannelTableGateway' => function ($services) {
-                    $adapter = $services->get('Application\Database\DatabaseService')->getAdapter();
-                    $resultSet = new ResultSet();
-                    $resultSet->setArrayObjectPrototype(new Channel());
-                    return new TableGateway('channel', $adapter, null, $resultSet);
-                },
             ),
         );
     }

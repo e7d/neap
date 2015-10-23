@@ -5,10 +5,14 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Follow extends ObjectProperty
 {
-    public $id;
+    public $user_id;
+    public $channel_id;
+    public $created_at;
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['follow_id'])) ? $data['follow_id'] : null;
+        $this->user_id = (!empty($data['user_id'])) ? $data['user_id'] : null;
+        $this->channel_id = (!empty($data['channel_id'])) ? $data['channel_id'] : null;
+        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
     }
 }

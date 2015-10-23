@@ -5,10 +5,14 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Block extends ObjectProperty
 {
-    public $id;
+    public $user_id;
+    public $blocked_user_id;
+    public $created_at;
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['block_id'])) ? $data['block_id'] : null;
+        $this->user_id = (!empty($data['$user_id'])) ? $data['user_id'] : null;
+        $this->blocked_user_id = (!empty($data['blocked_user_id'])) ? $data['blocked_user_id'] : null;
+        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
     }
 }

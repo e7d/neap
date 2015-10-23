@@ -6,8 +6,7 @@ class StreamModelFactory
     public function __invoke($services)
     {
         return new StreamModel(
-            $services->get('Application\Database\Stream\StreamTableGateway'),
-            $services
+            $services->get('Application\Database\Stream\StreamTableGateway')
         );
     }
 }

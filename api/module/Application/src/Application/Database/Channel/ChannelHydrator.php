@@ -11,14 +11,12 @@ use ZF\Hal\Link\Link;
 
 class ChannelHydrator extends Hydrator
 {
-    protected $params;
     protected $chatModel;
     protected $streamModel;
     protected $userModel;
 
     public function __construct(ChatModel $chatModel, StreamModel $streamModel, UserModel $userModel)
     {
-        $this->params = array();
         $this->chatModel = $chatModel;
         $this->streamModel = $streamModel;
         $this->userModel = $userModel;

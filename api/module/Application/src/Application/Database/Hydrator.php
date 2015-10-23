@@ -3,6 +3,8 @@ namespace Application\Database;
 
 abstract class Hydrator implements HydratorInterface
 {
+    private $params = array();
+
     public function hydrate(array $data, $object)
     {
         $object->exchangeArray($data);

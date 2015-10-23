@@ -11,14 +11,12 @@ use ZF\Hal\Link\Link;
 
 class VideoHydrator extends Hydrator
 {
-    protected $params;
     protected $streamModel;
     protected $channelModel;
     protected $userModel;
 
     public function __construct(StreamModel $streamModel, ChannelModel $channelModel, UserModel $userModel)
     {
-        $this->params = array();
         $this->streamModel = $streamModel;
         $this->channelModel = $channelModel;
         $this->userModel = $userModel;

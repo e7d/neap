@@ -12,4 +12,15 @@ class ChatModel
     {
         $this->tableGateway = $tableGateway;
     }
+
+    public function fetch($id)
+    {
+        $rowset = $this->tableGateway->select(array('chat_id' => $id));
+        $chat = $rowset->current();
+        if (!$chat) {
+            return null;
+        }
+
+        return $chat;
+    }
 }

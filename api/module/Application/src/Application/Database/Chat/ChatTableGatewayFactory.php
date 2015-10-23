@@ -1,4 +1,4 @@
-*<?php
+<?php
 namespace Application\Database\Chat;
 
 use Application\Database\Chat\Chat;

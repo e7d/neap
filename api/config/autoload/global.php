@@ -25,6 +25,7 @@ return array(
                 'Video\\V1' => 'oauth2',
                 'Topic\\V1' => 'oauth2',
                 'Panel\\V1' => 'oauth2',
+                'Chat\\V1' => 'oauth2',
             ),
         ),
     ),

@@ -22,9 +22,10 @@ return array(
     'ZF\\Rpc',
     'ZF\\Versioning',
     'Status',
-    'User',
     'Channel',
+    'Panel',
     'Stream',
-    'Video',
     'Topic',
+    'User',
+    'Video',
 );

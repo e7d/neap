@@ -28,4 +28,5 @@ return array(
     'Topic',
     'User',
     'Video',
+    'Chat',
 );

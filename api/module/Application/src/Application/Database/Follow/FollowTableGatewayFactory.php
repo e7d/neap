@@ -1,4 +1,4 @@
-*<?php
+<?php
 namespace Application\Database\Follow;
 
 use Application\Database\Follow\Follow;

@@ -27,7 +27,6 @@ class VideoService
         if ($paginated) {
             $select = new Select('video');
 
-            $this->videoHydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
                 $this->videoHydrator,
                 new Video()
@@ -53,6 +52,8 @@ class VideoService
         if (!$video) {
             return null;
         }
+
+        $this->videoHydrator->setParam('embedChannel');
 
         return $this->videoHydrator->buildEntity($video);
     }

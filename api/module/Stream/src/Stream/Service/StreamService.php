@@ -27,7 +27,6 @@ class StreamService
         if ($paginated) {
             $select = new Select('stream');
 
-            $this->streamHydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
                 $this->streamHydrator,
                 new Stream()
@@ -53,6 +52,8 @@ class StreamService
         if (!$stream) {
             return null;
         }
+
+        $this->streamHydrator->setParam('embedChannel');
 
         return $this->streamHydrator->buildEntity($stream);
     }

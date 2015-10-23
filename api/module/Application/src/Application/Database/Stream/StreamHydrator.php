@@ -1,14 +1,14 @@
 <?php
 namespace Application\Database\Stream;
 
+use Application\Database\Hydrator;
 use Application\Database\Channel\ChannelModel;
-use Stream\Model\Stream;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class StreamHydrator implements HydratorInterface
+class StreamHydrator extends Hydrator
 {
     protected $params;
     protected $channelModel;
@@ -21,29 +21,12 @@ class StreamHydrator implements HydratorInterface
         $this->userModel = $userModel;
     }
 
-    public function hydrate(array $data, $stream)
-    {
-        $stream->exchangeArray($data);
-        $streamEntity = $this->buildEntity($stream);
-        return $streamEntity;
-    }
-
-    public function extract($object)
-    {
-        return get_object_vars($object);
-    }
-
-    public function setParam($key, $value)
-    {
-        $this->params[$key] = $value;
-    }
-
     public function buildEntity($stream)
     {
         $channel = $this->channelModel->fetch($stream->channel_id);
         $user = $this->userModel->fetch($channel->user_id);
 
-        if (!$this->params['isCollection']) {
+        if (!$this->getParam('embedChannel')) {
             unset($channel->user_id);
             unset($channel->chat_id);
 
@@ -73,7 +56,7 @@ class StreamHydrator implements HydratorInterface
             ),
         )));
 
-        if ($this->params['isCollection']) {
+        if ($this->getParam('embedChannel')) {
             $streamEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'channel',
                 'route' => array(

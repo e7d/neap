@@ -1,10 +1,10 @@
 <?php
-namespace Channel\V1\Rest\Follows;
+namespace Channel\V1\Rest\Follow;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class FollowsResource extends AbstractResourceListener
+class FollowResource extends AbstractResourceListener
 {
     private $identityService;
     private $channelService;
@@ -23,7 +23,7 @@ class FollowsResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return $this->channelService->fetchFollowers($id);
+        return $this->channelService->fetchFollower($id);
     }
 
     /**

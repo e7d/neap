@@ -1,15 +1,15 @@
 <?php
 namespace Application\Database\Channel;
 
-use Application\Database\Stream\StreamModel;
-use Application\Database\Channel\Channel;
+use Application\Database\Hydrator;
 use Application\Database\Chat\ChatModel;
+use Application\Database\Stream\StreamModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class ChannelHydrator implements HydratorInterface
+class ChannelHydrator extends Hydrator
 {
     protected $params;
     protected $chatModel;
@@ -24,28 +24,26 @@ class ChannelHydrator implements HydratorInterface
         $this->userModel = $userModel;
     }
 
-    public function hydrate(array $data, $channel)
-    {
-        $channel->exchangeArray($data);
-        $channelEntity = $this->buildEntity($channel);
-        return $channelEntity;
-    }
-
-    public function extract($object)
-    {
-        return get_object_vars($object);
-    }
-
-    public function setParam($key, $value)
-    {
-        $this->params[$key] = $value;
-    }
-
     public function buildEntity($channel)
     {
         $user = $this->userModel->fetch($channel->user_id);
         $chat = $this->chatModel->fetch($channel->chat_id);
         $stream = $this->streamModel->fetchLiveStreamByChannel($channel->id);
+
+        if ($this->getParam('embedUser')) {
+            $userEntity = new Entity($user, $user->id);
+            $userEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'self',
+                'route' => array(
+                    'name' => 'user.rest.user',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
+                ),
+            )));
+            $channel->user = $userEntity;
+            unset($channel->user_id);
+        }
 
         $channelEntity = new Entity($this->extract($channel), $channel->id);
 
@@ -59,16 +57,18 @@ class ChannelHydrator implements HydratorInterface
             ),
         )));
 
-        $channelEntity->getLinks()->add(Link::factory(array(
-            'rel' => 'user',
-            'route' => array(
-                'name' => 'user.rest.user',
-                'params' => array(
-                    'user_id' => $user->id,
+        if (!$this->getParam('embedUser')) {
+            $channelEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'user',
+                'route' => array(
+                    'name' => 'user.rest.user',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
                 ),
-            ),
-        )));
-        unset($channel->user_id);
+            )));
+            unset($channel->user_id);
+        }
 
         $channelEntity->getLinks()->add(Link::factory(array(
             'rel' => 'chat',

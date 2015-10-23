@@ -18,13 +18,14 @@ class ChannelService
     protected $followHydrator;
     protected $userModel;
 
-    public function __construct($channelModel, $channelHydrator, $followModel, $followHydrator, $userModel)
+    public function __construct($channelModel, $channelHydrator, $followModel, $followHydrator, $userModel, $userHydrator)
     {
         $this->channelModel = $channelModel;
         $this->channelHydrator = $channelHydrator;
         $this->followModel = $followModel;
         $this->followHydrator = $followHydrator;
         $this->userModel = $userModel;
+        $this->userHydrator = $userHydrator;
     }
 
     public function fetchAll($params, $paginated = true)
@@ -32,7 +33,6 @@ class ChannelService
         if ($paginated) {
             $select = new Select('channel');
 
-            $this->channelHydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
                 $this->channelHydrator,
                 new Channel()
@@ -59,6 +59,8 @@ class ChannelService
             return null;
         }
 
+        $this->channelHydrator->setParam('embedUser');
+
         return $this->channelHydrator->buildEntity($channel);
     }
 
@@ -67,7 +69,8 @@ class ChannelService
         if ($paginated) {
             $select = new Select('follow');
 
-            $this->followHydrator->setParam("isCollection", true);
+            $this->followHydrator->setParam('embedUser');
+
             $hydratingResultSet = new HydratingResultSet(
                 $this->followHydrator,
                 new Follow()
@@ -83,8 +86,21 @@ class ChannelService
             return $paginator;
         }
 
-        $resultSet = $this->channelModel->tableGateway->select();
+        $resultSet = $this->followModel->tableGateway->select();
         return $resultSet;
+    }
+
+    public function fetchFollower($id)
+    {
+        $follow = $this->followModel->fetchByUser($id);
+        if (!$follow) {
+            return null;
+        }
+
+        $this->followHydrator->setParam('embedChannel');
+        $this->followHydrator->setParam('embedUser');
+
+        return $this->followHydrator->buildEntity($follow);
     }
 
     public function fetchByUser($userId)

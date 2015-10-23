@@ -1,15 +1,15 @@
 <?php
 namespace Application\Database\Video;
 
+use Application\Database\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\Stream\StreamModel;
 use Application\Database\User\UserModel;
-use Application\Database\Video\Video;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class VideoHydrator implements HydratorInterface
+class VideoHydrator extends Hydrator
 {
     protected $params;
     protected $streamModel;
@@ -22,23 +22,6 @@ class VideoHydrator implements HydratorInterface
         $this->streamModel = $streamModel;
         $this->channelModel = $channelModel;
         $this->userModel = $userModel;
-    }
-
-    public function hydrate(array $data, $video)
-    {
-        $video->exchangeArray($data);
-        $videoEntity = $this->buildEntity($video);
-        return $videoEntity;
-    }
-
-    public function extract($object)
-    {
-        return get_object_vars($object);
-    }
-
-    public function setParam($key, $value)
-    {
-        $this->params[$key] = $value;
     }
 
     public function buildEntity($video)

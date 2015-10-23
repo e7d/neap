@@ -1,11 +1,11 @@
 <?php
-namespace Channel\V1\Rest\Follows;
+namespace Channel\V1\Rest\Follow;
 
-class FollowsResourceFactory
+class FollowResourceFactory
 {
     public function __invoke($services)
     {
-        return new FollowsResource(
+        return new FollowResource(
             $services->get('Application\Authorization\IdentityService'),
             $services->get('Channel\Service\ChannelService')
         );

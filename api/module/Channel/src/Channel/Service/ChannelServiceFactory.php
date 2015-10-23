@@ -10,7 +10,8 @@ class ChannelServiceFactory
             $services->get('Application\Database\Channel\ChannelHydrator'),
             $services->get('Application\Database\Follow\FollowModel'),
             $services->get('Application\Database\Follow\FollowHydrator'),
-            $services->get('Application\Database\User\UserModel')
+            $services->get('Application\Database\User\UserModel'),
+            $services->get('Application\Database\User\UserHydrator')
         );
     }
 }

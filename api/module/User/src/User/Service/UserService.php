@@ -25,7 +25,6 @@ class UserService
         if ($paginated) {
             $select = new Select('user');
 
-            $this->userHydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
                 $this->userHydrator,
                 new User()
@@ -51,6 +50,8 @@ class UserService
         if (!$user) {
             return null;
         }
+
+        $this->userHydrator->setParam('embedChannel');
 
         return $this->userHydrator->buildEntity($user);
     }

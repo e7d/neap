@@ -6,8 +6,8 @@ class UserServiceFactory
     public function __invoke($services)
     {
         return new UserService(
-            $services->get('User\Service\UserHydratorService'),
-            $services->get('Application\Database\User\UserModel')
+            $services->get('Application\Database\User\UserModel'),
+            $services->get('Application\Database\User\UserHydrator')
         );
     }
 }

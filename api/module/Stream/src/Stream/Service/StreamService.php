@@ -11,14 +11,14 @@ use Zend\Paginator\Paginator;
 
 class StreamService
 {
-    protected $hydrator;
     protected $streamModel;
+    protected $streamHydrator;
     protected $userModel;
 
-    public function __construct($hydrator, $streamModel, $userModel)
+    public function __construct($streamModel, $streamHydrator, $userModel)
     {
-        $this->hydrator = $hydrator;
         $this->streamModel = $streamModel;
+        $this->streamHydrator = $streamHydrator;
         $this->userModel = $userModel;
     }
 
@@ -27,9 +27,9 @@ class StreamService
         if ($paginated) {
             $select = new Select('stream');
 
-            $this->hydrator->setParam("isCollection", true);
+            $this->streamHydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
-                $this->hydrator,
+                $this->streamHydrator,
                 new Stream()
             );
 
@@ -54,7 +54,7 @@ class StreamService
             return null;
         }
 
-        return $this->hydrator->buildEntity($stream);
+        return $this->streamHydrator->buildEntity($stream);
     }
 
     public function fetchByChannel($channelId)

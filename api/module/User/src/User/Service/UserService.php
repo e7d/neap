@@ -11,13 +11,13 @@ use Zend\Paginator\Paginator;
 
 class UserService
 {
-    protected $hydrator;
     protected $userModel;
+    protected $userHydrator;
 
-    public function __construct($hydrator, $userModel)
+    public function __construct($userModel, $userHydrator)
     {
-        $this->hydrator = $hydrator;
         $this->userModel = $userModel;
+        $this->userHydrator = $userHydrator;
     }
 
     public function fetchAll($params, $paginated = true)
@@ -25,9 +25,9 @@ class UserService
         if ($paginated) {
             $select = new Select('user');
 
-            $this->hydrator->setParam("isCollection", true);
+            $this->userHydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
-                $this->hydrator,
+                $this->userHydrator,
                 new User()
             );
 
@@ -52,7 +52,7 @@ class UserService
             return null;
         }
 
-        return $this->hydrator->buildEntity($user);
+        return $this->userHydrator->buildEntity($user);
     }
 
     public function fetchByChannel($channelId)

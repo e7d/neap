@@ -1,5 +1,5 @@
 <?php
-namespace Video\Service;
+namespace Application\Database\Video;
 
 use Application\Database\Channel\ChannelModel;
 use Application\Database\Stream\StreamModel;
@@ -9,7 +9,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class VideoHydratorService implements HydratorInterface
+class VideoHydrator implements HydratorInterface
 {
     protected $params;
     protected $streamModel;

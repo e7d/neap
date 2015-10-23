@@ -1,5 +1,5 @@
 <?php
-namespace Channel\Service;
+namespace Application\Database\Channel;
 
 use Application\Database\Stream\StreamModel;
 use Application\Database\Channel\Channel;
@@ -9,7 +9,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class ChannelHydratorService implements HydratorInterface
+class ChannelHydrator implements HydratorInterface
 {
     protected $params;
     protected $chatModel;

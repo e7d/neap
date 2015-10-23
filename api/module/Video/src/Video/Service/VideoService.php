@@ -11,14 +11,14 @@ use Zend\Paginator\Paginator;
 
 class VideoService
 {
-    protected $hydrator;
     protected $videoModel;
+    protected $videoHydrator;
     protected $userModel;
 
-    public function __construct($hydrator, $videoModel, $userModel)
+    public function __construct($videoModel, $videoHydrator, $userModel)
     {
-        $this->hydrator = $hydrator;
         $this->videoModel = $videoModel;
+        $this->videoHydrator = $videoHydrator;
         $this->userModel = $userModel;
     }
 
@@ -27,9 +27,9 @@ class VideoService
         if ($paginated) {
             $select = new Select('video');
 
-            $this->hydrator->setParam("isCollection", true);
+            $this->videoHydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
-                $this->hydrator,
+                $this->videoHydrator,
                 new Video()
             );
 
@@ -54,7 +54,7 @@ class VideoService
             return null;
         }
 
-        return $this->hydrator->buildEntity($video);
+        return $this->videoHydrator->buildEntity($video);
     }
 
     public function fetchByChannel($channelId)

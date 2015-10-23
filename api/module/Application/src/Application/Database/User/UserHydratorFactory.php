@@ -1,11 +1,11 @@
 <?php
-namespace User\Service;
+namespace Application\Database\User;
 
-class UserHydratorServiceFactory
+class UserHydratorFactory
 {
     public function __invoke($services)
     {
-        return new UserHydratorService(
+        return new UserHydrator(
             $services->get('Application\Database\User\UserModel'),
             $services->get('Application\Database\Channel\ChannelModel')
         );

@@ -1,11 +1,11 @@
 <?php
-namespace Stream\Service;
+namespace Application\Database\Stream;
 
-class StreamHydratorServiceFactory
+class StreamHydratorFactory
 {
     public function __invoke($services)
     {
-        return new StreamHydratorService(
+        return new StreamHydrator(
             $services->get('Application\Database\Channel\ChannelModel'),
             $services->get('Application\Database\User\UserModel')
         );

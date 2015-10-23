@@ -1,13 +1,13 @@
 <?php
-namespace Video\Service;
+namespace Application\Database\Channel;
 
-class VideoHydratorServiceFactory
+class ChannelHydratorFactory
 {
     public function __invoke($services)
     {
-        return new VideoHydratorService(
+        return new ChannelHydrator(
+            $services->get('Application\Database\Chat\ChatModel'),
             $services->get('Application\Database\Stream\StreamModel'),
-            $services->get('Application\Database\Channel\ChannelModel'),
             $services->get('Application\Database\User\UserModel')
         );
     }

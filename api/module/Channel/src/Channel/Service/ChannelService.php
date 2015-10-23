@@ -2,6 +2,7 @@
 namespace Channel\Service;
 
 use Application\Database\Channel\Channel;
+use Application\Database\Follow\Follow;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
@@ -11,14 +12,18 @@ use Zend\Paginator\Paginator;
 
 class ChannelService
 {
-    protected $hydrator;
     protected $channelModel;
+    protected $channelHydrator;
+    protected $followModel;
+    protected $followHydrator;
     protected $userModel;
 
-    public function __construct($hydrator, $channelModel, $userModel)
+    public function __construct($channelModel, $channelHydrator, $followModel, $followHydrator, $userModel)
     {
-        $this->hydrator = $hydrator;
         $this->channelModel = $channelModel;
+        $this->channelHydrator = $channelHydrator;
+        $this->followModel = $followModel;
+        $this->followHydrator = $followHydrator;
         $this->userModel = $userModel;
     }
 
@@ -27,9 +32,9 @@ class ChannelService
         if ($paginated) {
             $select = new Select('channel');
 
-            $this->hydrator->setParam("isCollection", true);
+            $this->channelHydrator->setParam("isCollection", true);
             $hydratingResultSet = new HydratingResultSet(
-                $this->hydrator,
+                $this->channelHydrator,
                 new Channel()
             );
 
@@ -54,7 +59,32 @@ class ChannelService
             return null;
         }
 
-        return $this->hydrator->buildEntity($channel);
+        return $this->channelHydrator->buildEntity($channel);
+    }
+
+    public function fetchFollowers($params, $paginated = true)
+    {
+        if ($paginated) {
+            $select = new Select('follow');
+
+            $this->followHydrator->setParam("isCollection", true);
+            $hydratingResultSet = new HydratingResultSet(
+                $this->followHydrator,
+                new Follow()
+            );
+
+            $paginatorAdapter = new DbSelect(
+                $select,
+                $this->followModel->tableGateway->getAdapter(),
+                $hydratingResultSet
+            );
+
+            $paginator = new Paginator($paginatorAdapter);
+            return $paginator;
+        }
+
+        $resultSet = $this->channelModel->tableGateway->select();
+        return $resultSet;
     }
 
     public function fetchByUser($userId)

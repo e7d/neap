@@ -1,5 +1,5 @@
 <?php
-namespace Stream\Service;
+namespace Application\Database\Stream;
 
 use Application\Database\Channel\ChannelModel;
 use Stream\Model\Stream;
@@ -8,7 +8,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class StreamHydratorService implements HydratorInterface
+class StreamHydrator implements HydratorInterface
 {
     protected $params;
     protected $channelModel;

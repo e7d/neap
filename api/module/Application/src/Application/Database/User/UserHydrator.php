@@ -1,5 +1,5 @@
 <?php
-namespace User\Service;
+namespace Application\Database\User;
 
 use Application\Database\Channel\ChannelModel;
 use Application\Database\User\User;
@@ -8,7 +8,7 @@ use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class UserHydratorService implements HydratorInterface
+class UserHydrator implements HydratorInterface
 {
     protected $params;
     protected $userModel;

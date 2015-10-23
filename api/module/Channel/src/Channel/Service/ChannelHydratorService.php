@@ -3,6 +3,7 @@ namespace Channel\Service;
 
 use Application\Database\Stream\StreamModel;
 use Application\Database\Channel\Channel;
+use Application\Database\Chat\ChatModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
@@ -11,12 +12,14 @@ use ZF\Hal\Link\Link;
 class ChannelHydratorService implements HydratorInterface
 {
     protected $params;
+    protected $chatModel;
     protected $streamModel;
     protected $userModel;
 
-    public function __construct(StreamModel $streamModel, UserModel $userModel)
+    public function __construct(ChatModel $chatModel, StreamModel $streamModel, UserModel $userModel)
     {
         $this->params = array();
+        $this->chatModel = $chatModel;
         $this->streamModel = $streamModel;
         $this->userModel = $userModel;
     }
@@ -40,8 +43,9 @@ class ChannelHydratorService implements HydratorInterface
 
     public function buildEntity($channel)
     {
-        $stream = $this->streamModel->fetchLiveStreamByChannel($channel->id);
         $user = $this->userModel->fetch($channel->user_id);
+        $chat = $this->chatModel->fetch($channel->chat_id);
+        $stream = $this->streamModel->fetchLiveStreamByChannel($channel->id);
 
         $channelEntity = new Entity($this->extract($channel), $channel->id);
 
@@ -61,6 +65,17 @@ class ChannelHydratorService implements HydratorInterface
                 'name' => 'user.rest.user',
                 'params' => array(
                     'user_id' => $user->id,
+                ),
+            ),
+        )));
+        unset($channel->user_id);
+
+        $channelEntity->getLinks()->add(Link::factory(array(
+            'rel' => 'chat',
+            'route' => array(
+                'name' => 'chat.rest.chat',
+                'params' => array(
+                    'chat_id' => $chat->id,
                 ),
             ),
         )));

@@ -33,6 +33,10 @@ class VideoService
         if ($paginated) {
             $select = new Select('video');
 
+            $this->videoHydrator->setParam('linkStream');
+            $this->videoHydrator->setParam('linkChannel');
+            $this->videoHydrator->setParam('linkUser');
+
             $hydratingResultSet = new HydratingResultSet(
                 $this->videoHydrator,
                 new Video()
@@ -59,7 +63,9 @@ class VideoService
             return null;
         }
 
-        $this->videoHydrator->setParam('embedChannel');
+        $this->videoHydrator->setParam('linkStream');
+        $this->videoHydrator->setParam('linkChannel');
+        $this->videoHydrator->setParam('linkUser');
 
         return $this->videoHydrator->buildEntity($video);
     }

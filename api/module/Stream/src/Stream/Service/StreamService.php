@@ -33,6 +33,9 @@ class StreamService
         if ($paginated) {
             $select = new Select('stream');
 
+            $this->streamHydrator->setParam('linkChannel');
+            $this->streamHydrator->setParam('linkUser');
+
             $hydratingResultSet = new HydratingResultSet(
                 $this->streamHydrator,
                 new Stream()
@@ -60,6 +63,7 @@ class StreamService
         }
 
         $this->streamHydrator->setParam('embedChannel');
+        $this->streamHydrator->setParam('linkUser');
 
         return $this->streamHydrator->buildEntity($stream);
     }

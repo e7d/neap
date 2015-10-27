@@ -31,7 +31,7 @@ class UserHydrator extends Hydrator
     {
         $channel = $this->channelModel->fetch($user->channel_id);
 
-        if ($this->getParam('embed_channel')) {
+        if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
             $channelEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'self',
@@ -58,7 +58,7 @@ class UserHydrator extends Hydrator
             ),
         )));
 
-        if (!$this->getParam('embedChannel')) {
+        if ($this->getParam('linkChannel')) {
             $userEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'channel',
                 'route' => array(

@@ -48,35 +48,41 @@ class VideoHydrator extends Hydrator
             ),
         )));
 
-        $videoEntity->getLinks()->add(Link::factory(array(
-            'rel' => 'stream',
-            'route' => array(
-                'name' => 'stream.rest.stream',
-                'params' => array(
-                    'stream_id' => $stream->id,
+        if ($this->getParam('linkStream')) {
+            $videoEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'stream',
+                'route' => array(
+                    'name' => 'stream.rest.stream',
+                    'params' => array(
+                        'stream_id' => $stream->id,
+                    ),
                 ),
-            ),
-        )));
+            )));
+        }
 
-        $videoEntity->getLinks()->add(Link::factory(array(
-            'rel' => 'channel',
-            'route' => array(
-                'name' => 'channel.rest.channel',
-                'params' => array(
-                    'channel_id' => $channel->id,
+        if ($this->getParam('linkChannel')) {
+            $videoEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'channel',
+                'route' => array(
+                    'name' => 'channel.rest.channel',
+                    'params' => array(
+                        'channel_id' => $channel->id,
+                    ),
                 ),
-            ),
-        )));
+            )));
+        }
 
-        $videoEntity->getLinks()->add(Link::factory(array(
-            'rel' => 'user',
-            'route' => array(
-                'name' => 'user.rest.user',
-                'params' => array(
-                    'user_id' => $user->id,
+        if ($this->getParam('linkUser')) {
+            $videoEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'user',
+                'route' => array(
+                    'name' => 'user.rest.user',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
                 ),
-            ),
-        )));
+            )));
+        }
 
         return $videoEntity;
     }

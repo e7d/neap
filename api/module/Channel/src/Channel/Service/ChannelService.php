@@ -42,6 +42,9 @@ class ChannelService
         if ($paginated) {
             $select = new Select('channel');
 
+            $this->channelHydrator->setParam('linkUser');
+            $this->channelHydrator->setParam('linkChat');
+
             $hydratingResultSet = new HydratingResultSet(
                 $this->channelHydrator,
                 new Channel()
@@ -69,6 +72,20 @@ class ChannelService
         }
 
         $this->channelHydrator->setParam('embedUser');
+        $this->channelHydrator->setParam('linkChat');
+
+        return $this->channelHydrator->buildEntity($channel);
+    }
+
+    public function fetchByUser($userId)
+    {
+        $channel = $this->channelModel->fetchByUser($userId);
+        if (!$channel) {
+            return null;
+        }
+
+        $this->channelHydrator->setParam('embedUser');
+        $this->channelHydrator->setParam('linkChat');
 
         return $this->channelHydrator->buildEntity($channel);
     }
@@ -78,6 +95,7 @@ class ChannelService
         if ($paginated) {
             $select = new Select('follow');
 
+            $this->followHydrator->setParam('linkChannel');
             $this->followHydrator->setParam('embedUser');
 
             $hydratingResultSet = new HydratingResultSet(
@@ -110,10 +128,5 @@ class ChannelService
         $this->followHydrator->setParam('embedUser');
 
         return $this->followHydrator->buildEntity($follow);
-    }
-
-    public function fetchByUser($userId)
-    {
-        return $this->channelModel->fetchByUser($userId);
     }
 }

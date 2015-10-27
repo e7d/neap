@@ -31,4 +31,21 @@ class UserModel
 
         return $user;
     }
+
+    public function fetchByChannel($channelId)
+    {
+        $where = new Where();
+        $where->equalTo('channel.channel_id', $channelId);
+
+        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
+        $sqlSelect->join('channel', 'channel.channel_id = user.channel_id', array(), 'left');
+
+        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $user = $rowset->current();
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
+    }
 }

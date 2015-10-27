@@ -63,7 +63,7 @@ class ChannelHydrator extends Hydrator
             ),
         )));
 
-        if (!$this->getParam('embedUser')) {
+        if ($this->getParam('linkUser')) {
             $channelEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'user',
                 'route' => array(
@@ -76,18 +76,20 @@ class ChannelHydrator extends Hydrator
             unset($channel->user_id);
         }
 
-        $channelEntity->getLinks()->add(Link::factory(array(
-            'rel' => 'chat',
-            'route' => array(
-                'name' => 'chat.rest.chat',
-                'params' => array(
-                    'chat_id' => $chat->id,
+        if ($this->getParam('linkChat')) {
+            $channelEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'chat',
+                'route' => array(
+                    'name' => 'chat.rest.chat',
+                    'params' => array(
+                        'chat_id' => $chat->id,
+                    ),
                 ),
-            ),
-        )));
-        unset($channel->user_id);
+            )));
+            unset($channel->user_id);
+        }
 
-        if (!is_null($stream)) {
+        if ($this->getParam('linkStream') && !is_null($stream)) {
             $channelEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'stream',
                 'route' => array(

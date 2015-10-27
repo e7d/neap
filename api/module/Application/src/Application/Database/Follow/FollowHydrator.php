@@ -75,7 +75,7 @@ class FollowHydrator extends Hydrator
             ),
         )));
 
-        if (!$this->getParam('embedChannel')) {
+        if ($this->getParam('linkChannel')) {
             $followEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'channel',
                 'route' => array(
@@ -87,7 +87,7 @@ class FollowHydrator extends Hydrator
             )));
         }
 
-        if (!$this->getParam('embedUser')) {
+        if ($this->getParam('linkUser')) {
             $followEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'user',
                 'route' => array(

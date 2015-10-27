@@ -31,6 +31,8 @@ class UserService
         if ($paginated) {
             $select = new Select('user');
 
+            $this->userHydrator->setParam('linkChannel');
+
             $hydratingResultSet = new HydratingResultSet(
                 $this->userHydrator,
                 new User()
@@ -64,6 +66,13 @@ class UserService
 
     public function fetchByChannel($channelId)
     {
-        // ToDo
+        $user = $this->userModel->fetchByChannel($channelId);
+        if (!$user) {
+            return null;
+        }
+
+        $this->userHydrator->setParam('embedChannel');
+
+        return $this->userHydrator->buildEntity($user);
     }
 }

@@ -13,5 +13,11 @@ interface HydratorInterface extends BaseHydratorInterface
 
     public function setParam($key, $value = true);
 
+    /**
+     * Build an HAL Entity from an object
+     *
+     * @param mixed $object
+     * @return ZF\Hal\Entity
+     **/
     public function buildEntity($object);
 }

@@ -25,6 +25,7 @@ class ChannelService
     protected $followModel;
     protected $followHydrator;
     protected $userModel;
+    protected $userHydrator;
 
     public function __construct($channelModel, $channelHydrator, $followModel, $followHydrator, $userModel, $userHydrator)
     {

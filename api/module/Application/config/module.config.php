@@ -33,6 +33,7 @@ return array(
             'Application\Database\Channel\ChannelHydrator' => 'Application\Database\Channel\ChannelHydratorFactory',
             'Application\Database\Channel\ChannelModel' => 'Application\Database\Channel\ChannelModelFactory',
             'Application\Database\Channel\ChannelTableGateway' => 'Application\Database\Channel\ChannelTableGatewayFactory',
+            'Application\Database\Chat\ChatHydrator' => 'Application\Database\Chat\ChatHydratorFactory',
             'Application\Database\Chat\ChatModel' => 'Application\Database\Chat\ChatModelFactory',
             'Application\Database\Chat\ChatTableGateway' => 'Application\Database\Chat\ChatTableGatewayFactory',
             'Application\Database\Follow\FollowHydrator' => 'Application\Database\Follow\FollowHydratorFactory',

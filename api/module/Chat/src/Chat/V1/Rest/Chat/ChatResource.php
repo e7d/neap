@@ -14,6 +14,16 @@ use ZF\Rest\AbstractResourceListener;
 
 class ChatResource extends AbstractResourceListener
 {
+    private $identityService;
+    private $chatService;
+
+    function __construct($identityService, $chatService)
+    {
+        $this->identityService = $identityService;
+        $this->chatService = $chatService;
+    }
+
+
     /**
      * Create a resource
      *
@@ -55,7 +65,7 @@ class ChatResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
+        return $this->chatService->fetch($id);
     }
 
     /**

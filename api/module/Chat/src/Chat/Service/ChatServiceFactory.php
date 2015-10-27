@@ -7,15 +7,15 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Chat\V1\Rest\Chat;
+namespace Chat\Service;
 
-class ChatResourceFactory
+class ChatServiceFactory
 {
     public function __invoke($services)
     {
-        return new ChatResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('Chat\Service\ChatService')
+        return new ChatService(
+            $services->get('Application\Database\Chat\ChatModel'),
+            $services->get('Application\Database\Chat\ChatHydrator')
         );
     }
 }

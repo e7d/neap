@@ -2,15 +2,29 @@
 return array(
     'service_manager' => array(
         'factories' => array(
+            'User\\Model\\UserModel' => 'User\\Model\\UserModelFactory',
+            'User\\Model\\UserTableGateway' => 'User\\Model\\UserTableGatewayFactory',
+            'User\\Service\\UserHydratorService' => 'User\\Service\\UserHydratorServiceFactory',
+            'User\\Service\\UserService' => 'User\\Service\\UserServiceFactory',
             'User\\V1\\Rest\\User\\UserResource' => 'User\\V1\\Rest\\User\\UserResourceFactory',
         ),
     ),
     'router' => array(
         'routes' => array(
+            'user.rpc.profile' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api/profile',
+                    'defaults' => array(
+                        'controller' => 'User\\V1\\Rpc\\Profile\\Controller',
+                        'action' => 'profile',
+                    ),
+                ),
+            ),
             'user.rest.user' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/user[/:user_id]',
+                    'route' => '/api/users[/:user_id]',
                     'defaults' => array(
                         'controller' => 'User\\V1\\Rest\\User\\Controller',
                     ),
@@ -20,7 +34,8 @@ return array(
     ),
     'zf-versioning' => array(
         'uri' => array(
-            0 => 'user.rest.user',
+            0 => 'user.rpc.profile',
+            1 => 'user.rest.user',
         ),
     ),
     'zf-rest' => array(
@@ -28,7 +43,7 @@ return array(
             'listener' => 'User\\V1\\Rest\\User\\UserResource',
             'route_name' => 'user.rest.user',
             'route_identifier_name' => 'user_id',
-            'collection_name' => 'user',
+            'collection_name' => 'users',
             'entity_http_methods' => array(
                 0 => 'GET',
                 1 => 'PATCH',
@@ -49,9 +64,15 @@ return array(
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
+            'User\\V1\\Rpc\\Profile\\Controller' => 'Json',
             'User\\V1\\Rest\\User\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
+            'User\\V1\\Rpc\\Profile\\Controller' => array(
+                0 => 'application/vnd.user.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
             'User\\V1\\Rest\\User\\Controller' => array(
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/hal+json',
@@ -59,6 +80,10 @@ return array(
             ),
         ),
         'content_type_whitelist' => array(
+            'User\\V1\\Rpc\\Profile\\Controller' => array(
+                0 => 'application/vnd.user.v1+json',
+                1 => 'application/json',
+            ),
             'User\\V1\\Rest\\User\\Controller' => array(
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/json',
@@ -83,6 +108,17 @@ return array(
     ),
     'zf-mvc-auth' => array(
         'authorization' => array(
+            'User\\V1\\Rpc\\Profile\\Controller' => array(
+                'actions' => array(
+                    'Profile' => array(
+                        'GET' => true,
+                        'POST' => false,
+                        'PUT' => false,
+                        'PATCH' => false,
+                        'DELETE' => true,
+                    ),
+                ),
+            ),
             'User\\V1\\Rest\\User\\Controller' => array(
                 'collection' => array(
                     'GET' => false,
@@ -99,6 +135,21 @@ return array(
                     'DELETE' => true,
                 ),
             ),
+        ),
+    ),
+    'controllers' => array(
+        'factories' => array(
+            'User\\V1\\Rpc\\Profile\\Controller' => 'User\\V1\\Rpc\\Profile\\ProfileControllerFactory',
+        ),
+    ),
+    'zf-rpc' => array(
+        'User\\V1\\Rpc\\Profile\\Controller' => array(
+            'service_name' => 'Profile',
+            'http_methods' => array(
+                0 => 'GET',
+                1 => 'DELETE',
+            ),
+            'route_name' => 'user.rpc.profile',
         ),
     ),
 );

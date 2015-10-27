@@ -1,23 +1,26 @@
 <?php
+/**
+ * Neap (http://neap.io/)
+ *
+ * @link      http://github.com/e7d/neap for the canonical source repository
+ * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ */
+
 namespace Stream\V1\Rest\Stream;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
-use ZF\Hal\Link\LinkCollection;
 use ZF\Rest\AbstractResourceListener;
 
 class StreamResource extends AbstractResourceListener
 {
     private $identityService;
     private $streamService;
-    private $channelService;
 
-    function __construct($identityService, $streamService, $channelService)
+    function __construct($identityService, $streamService)
     {
         $this->identityService = $identityService;
         $this->streamService = $streamService;
-        $this->channelService = $channelService;
     }
 
     /**
@@ -61,32 +64,7 @@ class StreamResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        $stream = $this->streamService->fetch($id);
-        $streamOwner = $this->streamService->fetchOwner($id);
-
-        if (!$stream) {
-            $entity = new Entity(array(), $id);
-        } else {
-            if ($streamOwner) {
-                $channel = $this->channelService->fetch($streamOwner->channel_id);
-                $stream->channel = $channel;
-                unset($stream->channel_id);
-            }
-
-            $entity = new Entity($stream, $id);
-        }
-
-        if ($streamOwner) {
-            $channelLink = new Link("channel");
-            $channelLink->setUrl("/channel/".$streamOwner->channel_id);
-            $entity->getLinks()->add($channelLink);
-
-            $userLink = new Link("user");
-            $userLink->setUrl("/user/".$streamOwner->user_id);
-            $entity->getLinks()->add($userLink);
-        }
-
-        return $entity;
+        return $this->streamService->fetch($id);
     }
 
     /**
@@ -97,7 +75,12 @@ class StreamResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        return $this->streamService->fetchAll($params);
+        $paginator = $this->streamService->fetchAll($params, true);
+
+        $paginator->setCurrentPageNumber((int) $params['page']);
+        $paginator->setItemCountPerPage(10);
+
+        return $paginator;
     }
 
     /**

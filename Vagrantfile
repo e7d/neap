@@ -4,12 +4,16 @@ Vagrant.configure(2) do |config|
         # https://docs.vagrantup.com.
 
         # General configuration
-        box.vm.hostname = "neap"
         box.vm.box = "debian/jessie64"
 
         # Network configuration
-        box.vm.network "public_network"
+        # box.vm.network "public_network"
+        box.vm.hostname = "neap"
+        box.vm.network "private_network", ip: "192.168.42.11"
+        box.vm.network "forwarded_port", guest: 80, host: 8080
         box.vm.network "forwarded_port", guest: 5432, host: 5432
+        box.hostmanager.enabled = false
+        # box.hostsupdater.aliases = ["neap.local"]
 
         # VirtualBox provider
         box.vm.provider "virtualbox" do |vb|
@@ -21,6 +25,7 @@ Vagrant.configure(2) do |config|
         box.vbguest.no_remote = true
 
         # Provisioning script
+        box.vm.provision :hostmanager
         box.vm.provision "shell", inline: "/bin/sh /vagrant/setup.sh"
     end
 end

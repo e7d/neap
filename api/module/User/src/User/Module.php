@@ -1,10 +1,14 @@
 <?php
+/**
+ * Neap (http://neap.io/)
+ *
+ * @link      http://github.com/e7d/neap for the canonical source repository
+ * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ */
+
 namespace User;
 
-use User\Model\User;
-use User\Service\UserService;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\TableGateway\TableGateway;
 use ZF\Apigility\Provider\ApigilityProviderInterface;
 
 class Module implements ApigilityProviderInterface
@@ -21,25 +25,6 @@ class Module implements ApigilityProviderInterface
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__,
                 ),
-            ),
-        );
-    }
-
-    public function getServiceConfig()
-    {
-        return array(
-            'factories' => array(
-                'User\Service\UserService' =>  function($services) {
-                    $userTableGateway = $services->get('User\Service\UserTableGateway');
-                    $table = new UserService($userTableGateway);
-                    return $table;
-                },
-                'User\Service\UserTableGateway' => function ($services) {
-                    $adapter = $services->get('Application\Database\DatabaseService')->getAdapter();
-                    $resultSet = new ResultSet();
-                    $resultSet->setArrayObjectPrototype(new User());
-                    return new TableGateway('user', $adapter, null, $resultSet);
-                },
             ),
         );
     }

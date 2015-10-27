@@ -1,4 +1,12 @@
 <?php
+/**
+ * Neap (http://neap.io/)
+ *
+ * @link      http://github.com/e7d/neap for the canonical source repository
+ * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ */
+
 namespace Channel\V1\Rest\Channel;
 
 use ZF\ApiProblem\ApiProblem;
@@ -67,7 +75,12 @@ class ChannelResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        return $this->channelService->fetchAll($params);
+        $paginator = $this->channelService->fetchAll($params, true);
+
+        $paginator->setCurrentPageNumber((int) $params['page']);
+        $paginator->setItemCountPerPage(10);
+
+        return $paginator;
     }
 
     /**

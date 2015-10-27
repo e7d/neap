@@ -2,6 +2,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
+            'Stream\\Service\\StreamHydratorService' => 'Stream\\Service\\StreamHydratorServiceFactory',
+            'Stream\\Service\\StreamService' => 'Stream\\Service\\StreamServiceFactory',
             'Stream\\V1\\Rest\\Stream\\StreamResource' => 'Stream\\V1\\Rest\\Stream\\StreamResourceFactory',
         ),
     ),
@@ -10,7 +12,7 @@ return array(
             'stream.rest.stream' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/stream[/:stream_id]',
+                    'route' => '/api/streams[/:stream_id]',
                     'defaults' => array(
                         'controller' => 'Stream\\V1\\Rest\\Stream\\Controller',
                     ),
@@ -20,7 +22,7 @@ return array(
     ),
     'zf-versioning' => array(
         'uri' => array(
-            0 => 'stream.rest.stream',
+            1 => 'stream.rest.stream',
         ),
     ),
     'zf-rest' => array(
@@ -28,7 +30,7 @@ return array(
             'listener' => 'Stream\\V1\\Rest\\Stream\\StreamResource',
             'route_name' => 'stream.rest.stream',
             'route_identifier_name' => 'stream_id',
-            'collection_name' => 'stream',
+            'collection_name' => 'streams',
             'entity_http_methods' => array(
                 0 => 'GET',
                 1 => 'PATCH',
@@ -79,6 +81,12 @@ return array(
                 'route_identifier_name' => 'stream_id',
                 'is_collection' => true,
             ),
+            'Stream\\Model\\Stream' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'stream.rest.stream',
+                'route_identifier_name' => 'stream_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
+            ),
         ),
     ),
     'zf-mvc-auth' => array(
@@ -100,5 +108,55 @@ return array(
                 ),
             ),
         ),
+    ),
+    'zf-content-validation' => array(
+        'Stream\\V1\\Rest\\Stream\\Controller' => array(
+            'input_filter' => 'Stream\\V1\\Rest\\Stream\\Validator',
+        ),
+    ),
+    'input_filter_specs' => array(
+        'Stream\\V1\\Rest\\Stream\\Validator' => array(
+            0 => array(
+                'required' => true,
+                'validators' => array(
+                    0 => array(
+                        'name' => 'Application\\Validator\\UuidV4',
+                        'options' => array(),
+                    ),
+                ),
+                'filters' => array(),
+                'name' => 'channel_id',
+                'description' => 'The stream channel reference',
+            ),
+            1 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'title',
+                'description' => 'The stream title',
+            ),
+            2 => array(
+                'required' => false,
+                'validators' => array(
+                    0 => array(
+                        'name' => 'Application\\Validator\\UuidV4',
+                        'options' => array(),
+                    ),
+                ),
+                'filters' => array(),
+                'name' => 'topic_id',
+                'description' => 'The stream topic reference',
+            ),
+            3 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'topic',
+                'description' => 'The stream topic',
+            ),
+        ),
+    ),
+    'validator_metadata' => array(
+        'Application\\Validator\\UuidV4' => array(),
     ),
 );

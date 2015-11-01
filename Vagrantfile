@@ -18,7 +18,7 @@ Vagrant.configure(2) do |config|
         # VirtualBox provider
         box.vm.provider "virtualbox" do |vb|
             vb.name = "neap"
-            vb.cpus = "1"
+            vb.cpus = "2"
             vb.memory = "512"
         end
         box.vbguest.auto_update = false

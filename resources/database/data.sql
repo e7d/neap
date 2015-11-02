@@ -1,9 +1,14 @@
-SET search_path TO pg_catalog,public,"neap";
+SET search_path TO pg_catalog, public, "neap";
 
 TRUNCATE oauth_clients CASCADE;
+TRUNCATE "neap"."block" CASCADE;
 TRUNCATE "neap"."channel" CASCADE;
 TRUNCATE "neap"."chat" CASCADE;
+TRUNCATE "neap"."follow" CASCADE;
+TRUNCATE "neap"."mod" CASCADE;
+TRUNCATE "neap"."panel" CASCADE;
 TRUNCATE "neap"."stream" CASCADE;
+TRUNCATE "neap"."topic" CASCADE;
 TRUNCATE "neap"."user" CASCADE;
 TRUNCATE "neap"."video" CASCADE;
 

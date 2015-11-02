@@ -21,7 +21,7 @@ return array(
             'channel.rest.follow' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/channels/:channel_id/follows/users[/:user_id]',
+                    'route' => '/api/channels/:channel_id/follows[/:user_id]',
                     'defaults' => array(
                         'controller' => 'Channel\\V1\\Rest\\Follow\\Controller',
                     ),

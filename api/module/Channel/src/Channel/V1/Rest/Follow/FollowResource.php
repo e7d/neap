@@ -42,6 +42,10 @@ class FollowResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
+        $params = array_merge((array) $params, array(
+            'channel_id' => $this->getEvent()->getRouteParam('channel_id')
+        ));
+
         $paginator = $this->channelService->fetchFollowers($params, true);
 
         $paginator->setCurrentPageNumber((int) $params['page']);

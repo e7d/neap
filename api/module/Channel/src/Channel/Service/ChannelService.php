@@ -14,6 +14,7 @@ use Application\Database\Follow\Follow;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;
@@ -93,7 +94,11 @@ class ChannelService
     public function fetchFollowers($params, $paginated = true)
     {
         if ($paginated) {
+            $where = new Where();
+            $where->equalTo('follow.channel_id', $params['channel_id']);
+
             $select = new Select('follow');
+            $select->where($where);
 
             $this->followHydrator->setParam('linkChannel');
             $this->followHydrator->setParam('embedUser');

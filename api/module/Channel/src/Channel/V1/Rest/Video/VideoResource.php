@@ -7,20 +7,20 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace User\V1\Rest\User;
+namespace Channel\V1\Rest\Video;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class UserResource extends AbstractResourceListener
+class VideoResource extends AbstractResourceListener
 {
     private $identityService;
-    private $userService;
+    private $channelService;
 
-    function __construct($identityService, $userService)
+    function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
-        $this->userService = $userService;
+        $this->channelService = $channelService;
     }
 
     /**
@@ -64,7 +64,7 @@ class UserResource extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        return $this->userService->fetch($id);
+        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
     }
 
     /**
@@ -75,7 +75,11 @@ class UserResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        $paginator = $this->userService->fetchAll($params);
+        $params = array_merge((array) $params, array(
+            'channel_id' => $this->getEvent()->getRouteParam('channel_id')
+        ));
+
+        $paginator = $this->channelService->fetchVideos($params);
 
         return $paginator;
     }

@@ -36,6 +36,10 @@ class ChannelHydrator extends Hydrator
         $chat = $this->chatModel->fetch($channel->chat_id);
         $stream = $this->streamModel->fetchLiveStreamByChannel($channel->id);
 
+        if ($this->getParam('keepStreamKey')) {
+            unset($channel->stream_key);
+        }
+
         if ($this->getParam('embedUser')) {
             $userEntity = new Entity($user, $user->id);
             $userEntity->getLinks()->add(Link::factory(array(

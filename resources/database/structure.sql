@@ -41,6 +41,55 @@ CREATE EXTENSION pgcrypto
       WITH SCHEMA neap;
 -- ddl-end --
 
+-- object: neap.generate_stream_key | type: FUNCTION --
+-- DROP FUNCTION IF EXISTS neap.generate_stream_key() CASCADE;
+CREATE FUNCTION neap.generate_stream_key ()
+	RETURNS text
+	LANGUAGE plpgsql
+	VOLATILE 
+	CALLED ON NULL INPUT
+	SECURITY INVOKER
+	COST 1
+	AS $$
+DECLARE
+	chars text[] := '{0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}';
+	result text := '';
+	i integer := 0;
+BEGIN
+	result := result || 'live_';
+	FOR i IN 1..8 loop
+		result := result || chars[1+random()*(10 - 1)];
+	END loop;
+	result := result || '_';
+	FOR i IN 1..24 loop
+		result := result || chars[1+random()*(array_length(chars, 1) - 1)];
+	END loop;
+	RETURN result;
+END;
+$$;
+-- ddl-end --
+ALTER FUNCTION neap.generate_stream_key() OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.update_updated_at | type: FUNCTION --
+-- DROP FUNCTION IF EXISTS neap.update_updated_at() CASCADE;
+CREATE FUNCTION neap.update_updated_at ()
+	RETURNS trigger
+	LANGUAGE plpgsql
+	VOLATILE 
+	CALLED ON NULL INPUT
+	SECURITY INVOKER
+	COST 1
+	AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$;
+-- ddl-end --
+ALTER FUNCTION neap.update_updated_at() OWNER TO neap;
+-- ddl-end --
+
 -- object: neap.channel | type: TABLE --
 -- DROP TABLE IF EXISTS neap.channel CASCADE;
 CREATE TABLE neap.channel(
@@ -48,7 +97,7 @@ CREATE TABLE neap.channel(
 	user_id uuid NOT NULL,
 	chat_id uuid NOT NULL,
 	name character varying NOT NULL,
-	stream_key uuid NOT NULL DEFAULT gen_random_uuid(),
+	stream_key text NOT NULL DEFAULT generate_stream_key(),
 	display_name character varying NOT NULL,
 	topic_id uuid,
 	topic character varying NOT NULL,
@@ -227,25 +276,6 @@ CREATE TABLE neap.block(
 );
 -- ddl-end --
 ALTER TABLE neap.block OWNER TO neap;
--- ddl-end --
-
--- object: neap.update_updated_at | type: FUNCTION --
--- DROP FUNCTION IF EXISTS neap.update_updated_at() CASCADE;
-CREATE FUNCTION neap.update_updated_at ()
-	RETURNS trigger
-	LANGUAGE plpgsql
-	VOLATILE 
-	CALLED ON NULL INPUT
-	SECURITY INVOKER
-	COST 1
-	AS $$
-BEGIN
-    NEW.updated_at = now();
-    RETURN NEW;
-END;
-$$;
--- ddl-end --
-ALTER FUNCTION neap.update_updated_at() OWNER TO neap;
 -- ddl-end --
 
 -- object: stream_trigger_updated_at | type: TRIGGER --

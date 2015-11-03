@@ -37,10 +37,11 @@ class UserModel
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);
 
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('channel', 'channel.channel_id = user.channel_id', array(), 'left');
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('channel', 'channel.channel_id = user.channel_id', array(), 'left');
+        $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $rowset = $this->tableGateway->selectWith($select);
         $user = $rowset->current();
         if (!$user) {
             return null;

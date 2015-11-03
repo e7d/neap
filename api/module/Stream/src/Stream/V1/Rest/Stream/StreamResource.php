@@ -75,10 +75,7 @@ class StreamResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        $paginator = $this->streamService->fetchAll($params, true);
-
-        $paginator->setCurrentPageNumber((int) $params['page']);
-        $paginator->setItemCountPerPage(10);
+        $paginator = $this->streamService->fetchAll($params);
 
         return $paginator;
     }

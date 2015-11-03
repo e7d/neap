@@ -41,6 +41,7 @@ ${DIR}/config/setup-api.sh
 
 printf "${CYAN}Setup database${DEFAULT}\n"
 ${DIR}/config/setup-db.sh
+${DIR}/config/setup-fixtures.sh
 
 printf "${CYAN}Copy project resources${DEFAULT}\n"
 ${DIR}/config/copy-resources.sh

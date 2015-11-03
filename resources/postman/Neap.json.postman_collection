@@ -1,0 +1,586 @@
+{
+	"id": "49167c62-5237-7fda-a24a-1af893360c9f",
+	"name": "Neap",
+	"description": "",
+	"order": [
+		"44e576b1-7902-ab83-a594-ccc7950f5ec8",
+		"6c75ae7f-d268-08b1-5bf1-69f2cb47dfa7",
+		"4e154f5e-e3df-f9a7-2e72-65ab7e4121e6",
+		"b48c1718-adfc-b0a2-6179-28968f4578d0",
+		"cef23527-b9b1-3ead-6f6c-79a6c7fbb151",
+		"59285011-25d5-958d-dafe-b6483f2f3258",
+		"1638de9d-9b92-01fa-6039-ef094656feb7",
+		"1d42afe5-3a72-7960-7754-5f7c101cae4d",
+		"de5d0e4c-29d5-3b75-95c8-1c4bd36f3b7a",
+		"27358d56-49bd-8418-6699-1015c34069ec",
+		"8a34c799-bfc3-eeb3-b7ab-ef25126dfaa1",
+		"57e29896-aca1-5d28-26ae-4c657c0a1d50",
+		"9ef9a30f-562e-c8a0-0c75-8f7878fd522e"
+	],
+	"folders": [],
+	"timestamp": 1444411685832,
+	"owner": "",
+	"remoteLink": "",
+	"public": false,
+	"requests": [
+		{
+			"id": "1638de9d-9b92-01fa-6039-ef094656feb7",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74/videos",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"data": [],
+			"dataMode": "params",
+			"name": "/api/channels/:id/videos",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1446562720749,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "1d42afe5-3a72-7960-7754-5f7c101cae4d",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/streams",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"sandboxFiles": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1445268105323,
+			"name": "/api/streams",
+			"description": "",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"responses": []
+		},
+		{
+			"id": "27358d56-49bd-8418-6699-1015c34069ec",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/users",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1445351947787,
+			"name": "/api/users",
+			"description": "",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"responses": []
+		},
+		{
+			"id": "44e576b1-7902-ab83-a594-ccc7950f5ec8",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/oauth",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1445058013658,
+			"name": "OAuth",
+			"description": "",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f"
+		},
+		{
+			"id": "4e154f5e-e3df-f9a7-2e72-65ab7e4121e6",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/chat/960f686c-d101-4125-8457-014f2a26c842",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"data": [],
+			"dataMode": "params",
+			"name": "/api/chat/:id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445936409136,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "57e29896-aca1-5d28-26ae-4c657c0a1d50",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/videos",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"data": [],
+			"dataMode": "params",
+			"name": "/api/videos",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445365438839,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "59285011-25d5-958d-dafe-b6483f2f3258",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74/follows",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1446547917808,
+			"name": "/api/channels/:id/follows",
+			"description": "",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"responses": []
+		},
+		{
+			"id": "6c75ae7f-d268-08b1-5bf1-69f2cb47dfa7",
+			"headers": "Authorization: Bearer 68eb4ad5c07fc83c0e4378801cf6c07d208c9f2b\n",
+			"url": "http://127.0.0.1:8080/api/profile",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "/api/profile",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445059169280,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "8a34c799-bfc3-eeb3-b7ab-ef25126dfaa1",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/users/a976df64-6925-457e-81ab-e6d683c8a25d",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "/api/users/:id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445352152671,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "9ef9a30f-562e-c8a0-0c75-8f7878fd522e",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/videos/dacd1de6-c145-4ce6-88a0-f6fbe1640fc7",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"data": [],
+			"dataMode": "params",
+			"name": "/api/videos/:id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445365450209,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "b48c1718-adfc-b0a2-6179-28968f4578d0",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/channels",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1445268129413,
+			"name": "/api/channels",
+			"description": "",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"responses": []
+		},
+		{
+			"id": "cef23527-b9b1-3ead-6f6c-79a6c7fbb151",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"name": "/api/channels/:id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445268095020,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "de5d0e4c-29d5-3b75-95c8-1c4bd36f3b7a",
+			"headers": "",
+			"url": "http://127.0.0.1:8080/api/streams/7132dc5d-aba3-4494-976d-aad2423f062a",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1445058025587,
+			"name": "/api/streams/:id",
+			"description": "",
+			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK",
+						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+					},
+					"time": 688,
+					"headers": [
+						{
+							"name": "Connection",
+							"key": "Connection",
+							"value": "keep-alive",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"name": "Content-Type",
+							"key": "Content-Type",
+							"value": "application/hal+json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "Date",
+							"key": "Date",
+							"value": "Thu, 15 Oct 2015 13:17:11 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "Server",
+							"key": "Server",
+							"value": "nginx/1.8.0",
+							"description": "A name for the server"
+						},
+						{
+							"name": "Transfer-Encoding",
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"name": "WWW-Authenticate",
+							"key": "WWW-Authenticate",
+							"value": "Bearer realm=\"Service\"",
+							"description": "Indicates the authentication scheme that should be used to access the requested entity."
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"id\":\"7132dc5d-aba3-4494-976d-aad2423f062a\",\"title\":\"Testing the demo channel with a demo stream!\",\"topic_id\":null,\"topic\":\"Demo\",\"media_info\":\"{}\",\"viewers\":173,\"created_at\":\"2015-10-15 13:09:45.681168+00\",\"updated_at\":\"2015-10-15 13:11:17.422809+00\",\"ended_at\":null,\"_embedded\":{\"channel\":{\"id\":\"0700a07f-9f82-4dc2-bb03-7217e2cc8b74\",\"user_id\":\"a976df64-6925-457e-81ab-e6d683c8a25d\",\"chat_id\":\"960f686c-d101-4125-8457-014f2a26c842\",\"name\":\"admin\",\"display_name\":\"Admin Channel\",\"topic_id\":null,\"topic\":null,\"language\":\"en\",\"delay\":null,\"logo\":null,\"banner\":null,\"video_banner\":null,\"background\":null,\"profile_banner\":null,\"views\":null,\"followers\":null,\"created_at\":\"2015-10-15 13:09:45.681168+00\",\"updated_at\":\"2015-10-15 13:09:45.681168+00\",\"_links\":{\"self\":{\"href\":\"http:\\/\\/neap\\/api\\/channels\\/0700a07f-9f82-4dc2-bb03-7217e2cc8b74\"}}}},\"_links\":{\"user\":{\"href\":\"http:\\/\\/neap\\/api\\/users\\/a976df64-6925-457e-81ab-e6d683c8a25d\"},\"self\":{\"href\":\"http:\\/\\/neap\\/api\\/streams\\/7132dc5d-aba3-4494-976d-aad2423f062a\"}}}",
+					"language": "javascript",
+					"rawDataType": "text",
+					"state": {
+						"size": "normal"
+					},
+					"previewType": "html",
+					"searchResultScrolledTo": -1,
+					"forceNoPretty": false,
+					"write": true,
+					"empty": false,
+					"failed": false,
+					"isSample": true,
+					"scrollToResult": true,
+					"runTests": true,
+					"id": "71c4ad20-430c-46c9-72d0-48d9c2d4c322",
+					"name": "2015-10-15",
+					"request": {
+						"name": "api/streams/7132dc5d-aba3-4494-976d-aad2423f062a",
+						"description": "",
+						"url": "http://neap/api/streams/7132dc5d-aba3-4494-976d-aad2423f062a",
+						"pathVariables": {},
+						"data": [
+							{
+								"key": "grant_type",
+								"value": "password",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "username",
+								"value": "admin",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "password",
+								"value": "admin",
+								"type": "text",
+								"enabled": true
+							},
+							{
+								"key": "client_id",
+								"value": "public",
+								"type": "text",
+								"enabled": true
+							}
+						],
+						"headers": "",
+						"dataMode": "params",
+						"method": "GET",
+						"tests": "",
+						"isFromCollection": true,
+						"version": 2
+					}
+				}
+			]
+		}
+	]
+}

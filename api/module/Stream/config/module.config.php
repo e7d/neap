@@ -41,8 +41,10 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
-            'page_size' => 25,
+            'collection_query_whitelist' => array(
+                0 => 'limit',
+            ),
+            'page_size' => '25',
             'page_size_param' => 'limit',
             'entity_class' => 'Stream\\V1\\Rest\\Stream\\StreamEntity',
             'collection_class' => 'Stream\\V1\\Rest\\Stream\\StreamCollection',

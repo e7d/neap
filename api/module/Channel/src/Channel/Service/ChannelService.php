@@ -11,6 +11,7 @@ namespace Channel\Service;
 
 use Application\Database\Channel\Channel;
 use Application\Database\Follow\Follow;
+use Application\Database\Video\Video;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
@@ -27,8 +28,10 @@ class ChannelService
     protected $followHydrator;
     protected $userModel;
     protected $userHydrator;
+    protected $videoModel;
+    protected $videoHydrator;
 
-    public function __construct($channelModel, $channelHydrator, $followModel, $followHydrator, $userModel, $userHydrator)
+    public function __construct($channelModel, $channelHydrator, $followModel, $followHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
     {
         $this->channelModel = $channelModel;
         $this->channelHydrator = $channelHydrator;
@@ -36,6 +39,8 @@ class ChannelService
         $this->followHydrator = $followHydrator;
         $this->userModel = $userModel;
         $this->userHydrator = $userHydrator;
+        $this->videoModel = $videoModel;
+        $this->videoHydrator = $videoHydrator;
     }
 
     public function fetchAll($params, $paginated = true)
@@ -133,5 +138,46 @@ class ChannelService
         $this->followHydrator->setParam('embedUser');
 
         return $this->followHydrator->buildEntity($follow);
+    }
+
+    public function fetchVideos($params, $paginated = true)
+    {
+        if ($paginated) {
+            $where = new Where();
+            $where->equalTo('channel.channel_id', $params['channel_id']);
+
+            $select = new Select('video');
+            $select->join('stream', 'stream.stream_id = video.stream_id', array(), 'inner');
+            $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
+            $select->where($where);
+
+            $this->videoHydrator->setParam('linkStream');
+            $this->videoHydrator->setParam('linkChannel');
+            $this->videoHydrator->setParam('linkUser');
+
+            $hydratingResultSet = new HydratingResultSet(
+                $this->videoHydrator,
+                new Video()
+            );
+
+            $paginatorAdapter = new DbSelect(
+                $select,
+                $this->videoModel->tableGateway->getAdapter(),
+                $hydratingResultSet
+            );
+
+            $paginator = new Paginator($paginatorAdapter);
+            return $paginator;
+        }
+
+        $resultSet = $this->videoModel->tableGateway->select();
+        return $resultSet;
+    }
+
+    public function isOwner($id, $userId)
+    {
+        $channel = $this->channelModel->fetch($id);
+
+        return $channel->user_id === $userId;
     }
 }

@@ -37,10 +37,11 @@ class ChannelModel
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
 
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $rowset = $this->tableGateway->selectWith($select);
         $channel = $rowset->current();
         if (!$channel) {
             return null;

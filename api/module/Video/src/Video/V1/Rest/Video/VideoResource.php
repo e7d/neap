@@ -74,10 +74,7 @@ class VideoResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        $paginator = $this->videoService->fetchAll($params, true);
-
-        $paginator->setCurrentPageNumber((int) $params['page']);
-        $paginator->setItemCountPerPage(10);
+        $paginator = $this->videoService->fetchAll($params);
 
         return $paginator;
     }

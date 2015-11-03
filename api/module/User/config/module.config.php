@@ -54,7 +54,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'limit',
+            ),
             'page_size' => 25,
             'page_size_param' => 'limit',
             'entity_class' => 'User\\V1\\Rest\\User\\UserEntity',
@@ -64,7 +66,7 @@ return array(
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
-            'User\\V1\\Rpc\\Profile\\Controller' => 'Json',
+            'User\\V1\\Rpc\\Profile\\Controller' => 'HalJson',
             'User\\V1\\Rest\\User\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(

@@ -37,12 +37,13 @@ class VideoModel
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
 
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('stream', 'stream.stream_id = video.stream_id', array(), 'left');
-        $sqlSelect->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
-        $sqlSelect->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('stream', 'stream.stream_id = video.stream_id', array(), 'left');
+        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
+        $select->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $rowset = $this->tableGateway->selectWith($select);
         $video = $rowset->current();
         if (!$video) {
             return null;

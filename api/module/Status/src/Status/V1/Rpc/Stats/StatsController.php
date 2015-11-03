@@ -21,8 +21,6 @@ class StatsController extends AbstractActionController
         $statsJson = json_encode($statsXml);
         $stats = json_decode($statsJson, true);
 
-        return new ViewModel(
-            $stats
-        );
+        return new ViewModel($stats);
     }
 }

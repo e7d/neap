@@ -46,11 +46,12 @@
 
     class FixturesGenerator
     {
-        const FILENAME = 'fixtures.sql';
+        private $filename;
         private $data = array();
         private $sql = array();
 
         public function __construct() {
+            echo $this->filename = realpath(dirname(__FILE__)).'/fixtures.sql';
             mt_srand($this->makeSeed());
             date_default_timezone_set('UTC');
         }
@@ -107,16 +108,16 @@
 
         private function writeFile()
         {
-            file_put_contents(self::FILENAME, implode(PHP_EOL, $this->sql['before']['query']).PHP_EOL, LOCK_EX);
+            file_put_contents($this->filename, implode(PHP_EOL, $this->sql['before']['query']).PHP_EOL, LOCK_EX);
             foreach(array('topic', 'user', 'channel', 'panel', 'chat', 'stream', 'video', 'follow', 'block', 'mod') as $entity) {
                 if (!array_key_exists($entity, $this->sql)) {
                     continue;
                 }
 
-                file_put_contents(self::FILENAME, implode(PHP_EOL, $this->sql[$entity]['query']).PHP_EOL, LOCK_EX | FILE_APPEND);
+                file_put_contents($this->filename, implode(PHP_EOL, $this->sql[$entity]['query']).PHP_EOL, LOCK_EX | FILE_APPEND);
             }
 
-            file_put_contents(self::FILENAME, implode(PHP_EOL, $this->sql['after']['query']).PHP_EOL, LOCK_EX | FILE_APPEND);
+            file_put_contents($this->filename, implode(PHP_EOL, $this->sql['after']['query']).PHP_EOL, LOCK_EX | FILE_APPEND);
         }
 
         public function generate()
@@ -204,7 +205,7 @@
                 ));
 
                 // Prepare channel specific data
-                $channelStreamKey = UUID::v4();
+                $channelStreamKey = 'live_'.bin2hex(openssl_random_pseudo_bytes(4)).'_'.bin2hex(openssl_random_pseudo_bytes(12));
                 $channelTopicId = array_rand($data['topics']);
                 $channelTopic = $data['topics'][$channelTopicId];
                 $channelLanguage = 'en';
@@ -227,6 +228,7 @@
                     'channel_id' => $channelId,
                     'user_id' => $userId,
                     'chat_id' => $chatId,
+                    'stream_key' => $channelStreamKey,
                     'name' => $username,
                     'display_name' => $userDisplayName. ' Channel',
                     'topic' => $channelTopic,

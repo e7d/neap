@@ -38,10 +38,11 @@ class StreamModel
         $where->equalTo('channel.channel_id', $channelId);
         $where->isNull('stream.ended_at'); // No end date means stream is live
 
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
+        $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $rowset = $this->tableGateway->selectWith($select);
         $stream = $rowset->current();
         if (!$stream) {
             return null;
@@ -56,11 +57,12 @@ class StreamModel
         $where->equalTo('user.user_id', $userId);
         $where->notEqualTo('stream.ended_at', null);
 
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
-        $sqlSelect->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
+        $select->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $rowset = $this->tableGateway->selectWith($select);
         $stream = $rowset->current();
         if (!$stream) {
             return null;

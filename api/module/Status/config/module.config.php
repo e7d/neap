@@ -142,7 +142,7 @@ return array(
             'Status\\V1\\Rpc\\Stats\\Controller' => array(
                 'actions' => array(
                     'Stats' => array(
-                        'GET' => true,
+                        'GET' => false,
                         'POST' => false,
                         'PUT' => false,
                         'PATCH' => false,

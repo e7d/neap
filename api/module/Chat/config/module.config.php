@@ -40,7 +40,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'limit',
+            ),
             'page_size' => 25,
             'page_size_param' => 'limit',
             'entity_class' => 'Chat\\V1\\Rest\\Chat\\ChatEntity',

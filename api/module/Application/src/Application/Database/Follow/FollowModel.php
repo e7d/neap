@@ -26,10 +26,11 @@ class FollowModel
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
 
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('user', 'user.user_id = follow.user_id', array(), 'left');
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('user', 'user.user_id = follow.user_id', array(), 'left');
+        $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $rowset = $this->tableGateway->selectWith($select);
         $follow = $rowset->current();
         if (!$follow) {
             return null;

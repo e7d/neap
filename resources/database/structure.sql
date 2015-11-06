@@ -9,7 +9,7 @@ SET check_function_bodies = false;
 
 -- object: neap | type: ROLE --
 -- DROP ROLE IF EXISTS neap;
-CREATE ROLE neap WITH 
+CREATE ROLE neap WITH
 	LOGIN
 	ENCRYPTED PASSWORD 'neap';
 -- ddl-end --
@@ -23,7 +23,7 @@ CREATE ROLE neap WITH
 -- 	OWNER = neap
 -- ;
 -- -- ddl-end --
--- 
+--
 
 -- object: neap | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS neap CASCADE;
@@ -41,12 +41,18 @@ CREATE EXTENSION pgcrypto
       WITH SCHEMA neap;
 -- ddl-end --
 
+-- object: pg_trgm | type: EXTENSION --
+-- DROP EXTENSION IF EXISTS pg_trgm CASCADE;
+CREATE EXTENSION pg_trgm
+      WITH SCHEMA neap;
+-- ddl-end --
+
 -- object: neap.generate_stream_key | type: FUNCTION --
 -- DROP FUNCTION IF EXISTS neap.generate_stream_key() CASCADE;
 CREATE FUNCTION neap.generate_stream_key ()
 	RETURNS text
 	LANGUAGE plpgsql
-	VOLATILE 
+	VOLATILE
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -76,7 +82,7 @@ ALTER FUNCTION neap.generate_stream_key() OWNER TO neap;
 CREATE FUNCTION neap.update_updated_at ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	VOLATILE 
+	STABLE
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -88,6 +94,27 @@ END;
 $$;
 -- ddl-end --
 ALTER FUNCTION neap.update_updated_at() OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.delete_stream_key | type: FUNCTION --
+-- DROP FUNCTION IF EXISTS neap.delete_stream_key() CASCADE;
+CREATE FUNCTION neap.delete_stream_key ()
+	RETURNS trigger
+	LANGUAGE plpgsql
+	STABLE
+	CALLED ON NULL INPUT
+	SECURITY INVOKER
+	COST 1
+	AS $$
+BEGIN
+	IF NEW.stream_key = '' THEN
+		NEW.stream_key := generate_stream_key();
+	END IF;
+	RETURN NEW;
+END;
+$$;
+-- ddl-end --
+ALTER FUNCTION neap.delete_stream_key() OWNER TO neap;
 -- ddl-end --
 
 -- object: neap.channel | type: TABLE --
@@ -278,58 +305,73 @@ CREATE TABLE neap.block(
 ALTER TABLE neap.block OWNER TO neap;
 -- ddl-end --
 
--- object: stream_trigger_updated_at | type: TRIGGER --
--- DROP TRIGGER IF EXISTS stream_trigger_updated_at ON neap.stream  ON neap.stream CASCADE;
-CREATE TRIGGER stream_trigger_updated_at
+-- object: stream_updated_at_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS stream_updated_at_trigger ON neap.stream  ON neap.stream CASCADE;
+CREATE TRIGGER stream_updated_at_trigger
 	BEFORE UPDATE
 	ON neap.stream
 	FOR EACH ROW
 	EXECUTE PROCEDURE neap.update_updated_at();
 -- ddl-end --
 
--- object: video_trigger_updated_at | type: TRIGGER --
--- DROP TRIGGER IF EXISTS video_trigger_updated_at ON neap.video  ON neap.video CASCADE;
-CREATE TRIGGER video_trigger_updated_at
+-- object: video_updated_at_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS video_updated_at_trigger ON neap.video  ON neap.video CASCADE;
+CREATE TRIGGER video_updated_at_trigger
 	BEFORE UPDATE
 	ON neap.video
 	FOR EACH ROW
 	EXECUTE PROCEDURE neap.update_updated_at();
 -- ddl-end --
 
--- object: channel_trigger_updated_at | type: TRIGGER --
--- DROP TRIGGER IF EXISTS channel_trigger_updated_at ON neap.channel  ON neap.channel CASCADE;
-CREATE TRIGGER channel_trigger_updated_at
+-- object: channel_updated_at_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS channel_updated_at_trigger ON neap.channel  ON neap.channel CASCADE;
+CREATE TRIGGER channel_updated_at_trigger
 	BEFORE UPDATE
 	ON neap.channel
 	FOR EACH ROW
 	EXECUTE PROCEDURE neap.update_updated_at();
 -- ddl-end --
 
--- object: user_trigger_updated_at | type: TRIGGER --
--- DROP TRIGGER IF EXISTS user_trigger_updated_at ON neap."user"  ON neap."user" CASCADE;
-CREATE TRIGGER user_trigger_updated_at
+-- object: channel_stream_key_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS channel_stream_key_trigger ON neap.channel  ON neap.channel CASCADE;
+CREATE TRIGGER channel_stream_key_trigger
+	BEFORE UPDATE OF stream_key
+	ON neap.channel
+	FOR EACH ROW
+	EXECUTE PROCEDURE neap.delete_stream_key();
+-- ddl-end --
+
+-- object: user_updated_at_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS user_updated_at_trigger ON neap."user"  ON neap."user" CASCADE;
+CREATE TRIGGER user_updated_at_trigger
 	BEFORE UPDATE
 	ON neap."user"
 	FOR EACH ROW
 	EXECUTE PROCEDURE neap.update_updated_at();
 -- ddl-end --
 
--- object: panel_trigger_updated_at | type: TRIGGER --
--- DROP TRIGGER IF EXISTS panel_trigger_updated_at ON neap.panel  ON neap.panel CASCADE;
-CREATE TRIGGER panel_trigger_updated_at
+-- object: panel_updated_at_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS panel_updated_at_trigger ON neap.panel  ON neap.panel CASCADE;
+CREATE TRIGGER panel_updated_at_trigger
 	BEFORE UPDATE
 	ON neap.panel
 	FOR EACH ROW
 	EXECUTE PROCEDURE neap.update_updated_at();
 -- ddl-end --
 
--- object: mod_trigger_updated_at | type: TRIGGER --
--- DROP TRIGGER IF EXISTS mod_trigger_updated_at ON neap.mod  ON neap.mod CASCADE;
-CREATE TRIGGER mod_trigger_updated_at
+-- object: mod_updated_at_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS mod_updated_at_trigger ON neap.mod  ON neap.mod CASCADE;
+CREATE TRIGGER mod_updated_at_trigger
 	BEFORE UPDATE
 	ON neap.mod
 	FOR EACH ROW
 	EXECUTE PROCEDURE neap.update_updated_at();
+-- ddl-end --
+
+-- object: stream_title_idx | type: INDEX --
+-- DROP INDEX IF EXISTS neap.stream_title_idx CASCADE;
+CREATE INDEX stream_title_idx ON neap.stream
+	USING gin(title gin_trgm_ops);
 -- ddl-end --
 
 -- object: channel_user_id_fk | type: CONSTRAINT --
@@ -443,5 +485,3 @@ ALTER TABLE neap.block ADD CONSTRAINT block_blocked_user_id_fk FOREIGN KEY (bloc
 REFERENCES neap."user" (user_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
-
-

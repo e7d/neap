@@ -12,6 +12,7 @@ namespace Stream\Service;
 use Application\Database\Stream\Stream;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Where;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;
 
@@ -28,31 +29,33 @@ class StreamService
         $this->userModel = $userModel;
     }
 
-    public function fetchAll($params, $paginated = true)
+    public function fetchAll($params, $live = true)
     {
-        if ($paginated) {
-            $select = new Select('stream');
+        $select = new Select('stream');
 
-            $this->streamHydrator->setParam('linkChannel');
-            $this->streamHydrator->setParam('linkUser');
+        if ($live) {
+            $where = new Where();
+            $where->isNull('stream.ended_at');
 
-            $hydratingResultSet = new HydratingResultSet(
-                $this->streamHydrator,
-                new Stream()
-            );
-
-            $paginatorAdapter = new DbSelect(
-                $select,
-                $this->streamModel->tableGateway->getAdapter(),
-                $hydratingResultSet
-            );
-
-            $paginator = new Paginator($paginatorAdapter);
-            return $paginator;
+            $select->where($where);
         }
 
-        $resultSet = $this->streamModel->tableGateway->select();
-        return $resultSet;
+        $this->streamHydrator->setParam('linkChannel');
+        $this->streamHydrator->setParam('linkUser');
+
+        $hydratingResultSet = new HydratingResultSet(
+            $this->streamHydrator,
+            new Stream()
+        );
+
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->streamModel->tableGateway->getAdapter(),
+            $hydratingResultSet
+        );
+
+        $paginator = new Paginator($paginatorAdapter);
+        return $paginator;
     }
 
     public function fetch($id)
@@ -68,13 +71,13 @@ class StreamService
         return $this->streamHydrator->buildEntity($stream);
     }
 
-    public function fetchByChannel($channelId)
+    public function fetchByChannel($channelId, $live = true)
     {
-        return $this->streamModel->fetchByChannel($channelId);
+        return $this->streamModel->fetchByChannel($channelId, $live);
     }
 
-    public function fetchByUser($userId)
+    public function fetchByUser($userId, $live = true)
     {
-        return $this->streamModel->fetchByUser($userId);
+        return $this->streamModel->fetchByUser($userId, $live);
     }
 }

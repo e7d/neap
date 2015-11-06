@@ -75,7 +75,8 @@ class StreamResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        $paginator = $this->streamService->fetchAll($params);
+        $live = !array_key_exists('all', $params);
+        $paginator = $this->streamService->fetchAll($params, $live);
 
         return $paginator;
     }

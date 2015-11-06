@@ -34,9 +34,9 @@ class ChannelHydrator extends Hydrator
     {
         $user = $this->userModel->fetch($channel->user_id);
         $chat = $this->chatModel->fetch($channel->chat_id);
-        $stream = $this->streamModel->fetchLiveStreamByChannel($channel->id);
+        $stream = $this->streamModel->fetchByChannel($channel->id);
 
-        if ($this->getParam('keepStreamKey')) {
+        if (!$this->getParam('keepStreamKey')) {
             unset($channel->stream_key);
         }
 
@@ -53,6 +53,20 @@ class ChannelHydrator extends Hydrator
             )));
             $channel->user = $userEntity;
             unset($channel->user_id);
+        }
+
+        if ($this->getParam('embedLiveStream') && !is_null($stream)) {
+            $streamEntity = new Entity($stream, $stream->id);
+            $streamEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'self',
+                'route' => array(
+                    'name' => 'stream.rest.stream',
+                    'params' => array(
+                        'stream_id' => $stream->id,
+                    ),
+                ),
+            )));
+            $channel->stream = $streamEntity;
         }
 
         $channelEntity = new Entity($this->extract($channel), $channel->id);
@@ -78,6 +92,18 @@ class ChannelHydrator extends Hydrator
                 ),
             )));
             unset($channel->user_id);
+        }
+
+        if ($this->getParam('linkLiveStream') && !is_null($stream)) {
+            $channelEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'stream',
+                'route' => array(
+                    'name' => 'stream.rest.stream',
+                    'params' => array(
+                        'stream_id' => $stream->id,
+                    ),
+                ),
+            )));
         }
 
         if ($this->getParam('linkChat')) {

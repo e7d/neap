@@ -26,30 +26,25 @@ class UserService
         $this->userHydrator = $userHydrator;
     }
 
-    public function fetchAll($params, $paginated = true)
+    public function fetchAll($params)
     {
-        if ($paginated) {
-            $select = new Select('user');
+        $select = new Select('user');
 
-            $this->userHydrator->setParam('linkChannel');
+        $this->userHydrator->setParam('linkChannel');
 
-            $hydratingResultSet = new HydratingResultSet(
-                $this->userHydrator,
-                new User()
-            );
+        $hydratingResultSet = new HydratingResultSet(
+            $this->userHydrator,
+            new User()
+        );
 
-            $paginatorAdapter = new DbSelect(
-                $select,
-                $this->userModel->tableGateway->getAdapter(),
-                $hydratingResultSet
-            );
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->userModel->tableGateway->getAdapter(),
+            $hydratingResultSet
+        );
 
-            $paginator = new Paginator($paginatorAdapter);
-            return $paginator;
-        }
-
-        $resultSet = $this->userModel->tableGateway->select();
-        return $resultSet;
+        $paginator = new Paginator($paginatorAdapter);
+        return $paginator;
     }
 
     public function fetch($id)

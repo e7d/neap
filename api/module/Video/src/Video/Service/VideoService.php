@@ -28,32 +28,27 @@ class VideoService
         $this->userModel = $userModel;
     }
 
-    public function fetchAll($params, $paginated = true)
+    public function fetchAll($params)
     {
-        if ($paginated) {
-            $select = new Select('video');
+        $select = new Select('video');
 
-            $this->videoHydrator->setParam('linkStream');
-            $this->videoHydrator->setParam('linkChannel');
-            $this->videoHydrator->setParam('linkUser');
+        $this->videoHydrator->setParam('linkStream');
+        $this->videoHydrator->setParam('linkChannel');
+        $this->videoHydrator->setParam('linkUser');
 
-            $hydratingResultSet = new HydratingResultSet(
-                $this->videoHydrator,
-                new Video()
-            );
+        $hydratingResultSet = new HydratingResultSet(
+            $this->videoHydrator,
+            new Video()
+        );
 
-            $paginatorAdapter = new DbSelect(
-                $select,
-                $this->videoModel->tableGateway->getAdapter(),
-                $hydratingResultSet
-            );
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->videoModel->tableGateway->getAdapter(),
+            $hydratingResultSet
+        );
 
-            $paginator = new Paginator($paginatorAdapter);
-            return $paginator;
-        }
-
-        $resultSet = $this->videoModel->tableGateway->select();
-        return $resultSet;
+        $paginator = new Paginator($paginatorAdapter);
+        return $paginator;
     }
 
     public function fetch($id)

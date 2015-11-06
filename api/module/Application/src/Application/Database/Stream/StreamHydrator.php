@@ -32,6 +32,10 @@ class StreamHydrator extends Hydrator
         $channel = $this->channelModel->fetch($stream->channel_id);
         $user = $this->userModel->fetch($channel->user_id);
 
+        if (!$this->getParam('keepStreamKey')) {
+            unset($channel->stream_key);
+        }
+
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
             $channelEntity->getLinks()->add(Link::factory(array(

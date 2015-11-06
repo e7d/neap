@@ -30,6 +30,7 @@ class UserHydrator extends Hydrator
     public function buildEntity($user)
     {
         $channel = $this->channelModel->fetch($user->channel_id);
+        unset($channel->stream_key);
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);

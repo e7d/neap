@@ -13,7 +13,9 @@ TRUNCATE "neap"."user" CASCADE;
 TRUNCATE "neap"."video" CASCADE;
 
 INSERT INTO oauth_clients (client_id, client_secret, redirect_uri)
-VALUES ( 'public', '', '/oauth/receivecode');
+VALUES ( 'neap', '', '/oauth/receivecode');
+INSERT INTO oauth_clients (client_id, client_secret, redirect_uri)
+VALUES ( 'postman', '$2y$14$Fz3BBwXpVi2OZz7AUoXzlOpUKgrgC9unWUgqGAnFkGdEUM96CFsda', 'https://www.getpostman.com/oauth2/callback');
 
 BEGIN;
 SET CONSTRAINTS ALL DEFERRED;

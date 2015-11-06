@@ -9,16 +9,22 @@
 
 namespace Application\Database\Channel;
 
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
 class ChannelModel
 {
-    public $tableGateway;
+    private $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
+    }
+
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
     }
 
     public function fetch($id)
@@ -48,5 +54,15 @@ class ChannelModel
         }
 
         return $channel;
+    }
+
+    public function update($id, $data)
+    {
+        $where = new Where();
+        $where->equalTo('channel.channel_id', $id);
+
+        $this->tableGateway->update($data, $where);
+
+        return $this->fetch($id);
     }
 }

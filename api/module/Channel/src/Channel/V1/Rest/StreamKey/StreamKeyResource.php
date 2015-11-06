@@ -33,17 +33,16 @@ class StreamKeyResource extends AbstractResourceListener
     public function delete($id)
     {
         $channel = $this->channelService->fetch($id);
-        $identity = $this->identityService->getIdentity();
-
         if (!$channel) {
             return new ApiProblem(404, 'The channel does not exists.');
         }
 
+        $identity = $this->identityService->getIdentity();
         if (!$this->channelService->isOwner($id, $identity->id)) {
             return new ApiProblem(403, 'The channel is not your property.');
         }
 
-        // ToDo: generate a new stream_key
+        $channel = $this->channelService->update($id, array('stream_key' => ''));
 
         return true;
     }

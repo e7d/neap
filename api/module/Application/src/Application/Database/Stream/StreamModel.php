@@ -32,11 +32,13 @@ class StreamModel
         return $stream;
     }
 
-    public function fetchLiveStreamByChannel($channelId)
+    public function fetchByChannel($channelId, $live = true)
     {
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);
-        $where->isNull('stream.ended_at'); // No end date means stream is live
+        if ($live) {
+            $where->isNull('stream.ended_at'); // No end date means stream is live
+        }
 
         $select = $this->tableGateway->getSql()->select();
         $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
@@ -51,11 +53,13 @@ class StreamModel
         return $stream;
     }
 
-    public function fetchByUser($userId)
+    public function fetchByUser($userId, $live = true)
     {
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
-        $where->notEqualTo('stream.ended_at', null);
+        if ($live) {
+            $where->isNull('stream.ended_at'); // No end date means stream is live
+        }
 
         $select = $this->tableGateway->getSql()->select();
         $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');

@@ -9,11 +9,15 @@
 
 namespace Channel\V1\Rest\Channel;
 
+use Application\Authorization\AuthorizationAwareResourceTrait;
+
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
 class ChannelResource extends AbstractResourceListener
 {
+    use AuthorizationAwareResourceTrait;
+
     private $identityService;
     private $channelService;
 
@@ -21,6 +25,8 @@ class ChannelResource extends AbstractResourceListener
     {
         $this->identityService = $identityService;
         $this->channelService = $channelService;
+
+        $this->service = $this->channelService;
     }
 
     /**
@@ -112,6 +118,11 @@ class ChannelResource extends AbstractResourceListener
      */
     public function update($id, $data)
     {
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+        $userIsOwner = $this->userIsOwner($id);
+        if ($userIsOwner instanceof ApiProblem) {
+            return $userIsOwner;
+        }
+
+        return $this->channelService->update($id, (array) $data);
     }
 }

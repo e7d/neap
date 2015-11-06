@@ -43,31 +43,27 @@ class ChannelService
         $this->videoHydrator = $videoHydrator;
     }
 
-    public function fetchAll($params, $paginated = true)
+    public function fetchAll($params)
     {
-        if ($paginated) {
-            $select = new Select('channel');
+        $select = new Select('channel');
 
-            $this->channelHydrator->setParam('linkUser');
-            $this->channelHydrator->setParam('linkChat');
+        $this->channelHydrator->setParam('linkUser');
+        $this->channelHydrator->setParam('linkLiveStream');
+        $this->channelHydrator->setParam('linkChat');
 
-            $hydratingResultSet = new HydratingResultSet(
-                $this->channelHydrator,
-                new Channel()
-            );
+        $hydratingResultSet = new HydratingResultSet(
+            $this->channelHydrator,
+            new Channel()
+        );
 
-            $paginatorAdapter = new DbSelect(
-                $select,
-                $this->channelModel->tableGateway->getAdapter(),
-                $hydratingResultSet
-            );
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->channelModel->getTableGateway()->getAdapter(),
+            $hydratingResultSet
+        );
 
-            $paginator = new Paginator($paginatorAdapter);
-            return $paginator;
-        }
-
-        $resultSet = $this->channelModel->tableGateway->select();
-        return $resultSet;
+        $paginator = new Paginator($paginatorAdapter);
+        return $paginator;
     }
 
     public function fetch($id)
@@ -78,7 +74,15 @@ class ChannelService
         }
 
         $this->channelHydrator->setParam('embedUser');
+        $this->channelHydrator->setParam('embedLiveStream');
         $this->channelHydrator->setParam('linkChat');
+
+        return $this->channelHydrator->buildEntity($channel);
+    }
+
+    public function update($id, $data)
+    {
+        $channel = $this->channelModel->update($id, $data);
 
         return $this->channelHydrator->buildEntity($channel);
     }
@@ -96,35 +100,30 @@ class ChannelService
         return $this->channelHydrator->buildEntity($channel);
     }
 
-    public function fetchFollowers($params, $paginated = true)
+    public function fetchFollowers($params)
     {
-        if ($paginated) {
-            $where = new Where();
-            $where->equalTo('follow.channel_id', $params['channel_id']);
+        $where = new Where();
+        $where->equalTo('follow.channel_id', $params['channel_id']);
 
-            $select = new Select('follow');
-            $select->where($where);
+        $select = new Select('follow');
+        $select->where($where);
 
-            $this->followHydrator->setParam('linkChannel');
-            $this->followHydrator->setParam('embedUser');
+        $this->followHydrator->setParam('linkChannel');
+        $this->followHydrator->setParam('embedUser');
 
-            $hydratingResultSet = new HydratingResultSet(
-                $this->followHydrator,
-                new Follow()
-            );
+        $hydratingResultSet = new HydratingResultSet(
+            $this->followHydrator,
+            new Follow()
+        );
 
-            $paginatorAdapter = new DbSelect(
-                $select,
-                $this->followModel->tableGateway->getAdapter(),
-                $hydratingResultSet
-            );
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->followModel->tableGateway->getAdapter(),
+            $hydratingResultSet
+        );
 
-            $paginator = new Paginator($paginatorAdapter);
-            return $paginator;
-        }
-
-        $resultSet = $this->followModel->tableGateway->select();
-        return $resultSet;
+        $paginator = new Paginator($paginatorAdapter);
+        return $paginator;
     }
 
     public function fetchFollower($id)
@@ -140,38 +139,33 @@ class ChannelService
         return $this->followHydrator->buildEntity($follow);
     }
 
-    public function fetchVideos($params, $paginated = true)
+    public function fetchVideos($params)
     {
-        if ($paginated) {
-            $where = new Where();
-            $where->equalTo('channel.channel_id', $params['channel_id']);
+        $where = new Where();
+        $where->equalTo('channel.channel_id', $params['channel_id']);
 
-            $select = new Select('video');
-            $select->join('stream', 'stream.stream_id = video.stream_id', array(), 'inner');
-            $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
-            $select->where($where);
+        $select = new Select('video');
+        $select->join('stream', 'stream.stream_id = video.stream_id', array(), 'inner');
+        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
+        $select->where($where);
 
-            $this->videoHydrator->setParam('linkStream');
-            $this->videoHydrator->setParam('linkChannel');
-            $this->videoHydrator->setParam('linkUser');
+        $this->videoHydrator->setParam('linkStream');
+        $this->videoHydrator->setParam('linkChannel');
+        $this->videoHydrator->setParam('linkUser');
 
-            $hydratingResultSet = new HydratingResultSet(
-                $this->videoHydrator,
-                new Video()
-            );
+        $hydratingResultSet = new HydratingResultSet(
+            $this->videoHydrator,
+            new Video()
+        );
 
-            $paginatorAdapter = new DbSelect(
-                $select,
-                $this->videoModel->tableGateway->getAdapter(),
-                $hydratingResultSet
-            );
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->videoModel->tableGateway->getAdapter(),
+            $hydratingResultSet
+        );
 
-            $paginator = new Paginator($paginatorAdapter);
-            return $paginator;
-        }
-
-        $resultSet = $this->videoModel->tableGateway->select();
-        return $resultSet;
+        $paginator = new Paginator($paginatorAdapter);
+        return $paginator;
     }
 
     public function isOwner($id, $userId)

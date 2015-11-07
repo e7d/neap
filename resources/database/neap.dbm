@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="0,560" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,0" last-zoom="1"
 	 default-schema="neap" default-owner="neap">
 <role name="neap"
       login="true"
@@ -95,6 +95,83 @@ CREATE TABLE oauth_users
 	<schema name="neap"/>
 </extension>
 
+<extension name="pg_trgm">
+	<schema name="neap"/>
+</extension>
+
+<function name="generate_stream_key"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="text"/>
+	</return-type>
+	<definition><![CDATA[DECLARE
+	chars text[] := '{0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}';
+	result text := '';
+	i integer := 0;
+BEGIN
+	result := result || 'live_';
+	FOR i IN 1..8 loop
+		result := result || chars[1+random()*(10 - 1)];
+	END loop;
+	result := result || '_';
+	FOR i IN 1..24 loop
+		result := result || chars[1+random()*(array_length(chars, 1) - 1)];
+	END loop;
+	RETURN result;
+END;]]></definition>
+</function>
+
+<function name="update_updated_at"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="STABLE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;]]></definition>
+</function>
+
+<function name="delete_stream_key"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="STABLE"
+		security-type="SECURITY INVOKER"
+		execution-cost="1"
+		row-amount="0">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="trigger"/>
+	</return-type>
+	<definition><![CDATA[BEGIN
+	IF NEW.stream_key = '' THEN
+		NEW.stream_key := generate_stream_key();
+	END IF;
+	RETURN NEW;
+END;]]></definition>
+</function>
+
 <table name="channel">
 	<schema name="neap"/>
 	<role name="neap"/>
@@ -111,8 +188,8 @@ CREATE TABLE oauth_users
 	<column name="name" not-null="true">
 		<type name="character varying"/>
 	</column>
-	<column name="stream_key" not-null="true" default-value="gen_random_uuid()">
-		<type name="uuid"/>
+	<column name="stream_key" not-null="true" default-value="generate_stream_key()">
+		<type name="text"/>
 	</column>
 	<column name="display_name" not-null="true">
 		<type name="character varying"/>
@@ -449,61 +526,56 @@ CREATE TABLE oauth_users
 	</constraint>
 </table>
 
-<function name="update_updated_at"
-		window-func="false"
-		returns-setof="false"
-		behavior-type="CALLED ON NULL INPUT"
-		function-type="VOLATILE"
-		security-type="SECURITY INVOKER"
-		execution-cost="1"
-		row-amount="0">
-	<schema name="neap"/>
-	<role name="neap"/>
-	<language name="plpgsql" protected="true" sql-disabled="true"/>
-	<return-type>
-	<type name="trigger"/>
-	</return-type>
-	<definition><![CDATA[BEGIN
-    NEW.updated_at = now();
-    RETURN NEW;
-END;]]></definition>
-</function>
-
-<trigger name="stream_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+<trigger name="stream_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
 	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
 	 table="neap.stream">
 		<function signature="neap.update_updated_at()"/>
 </trigger>
 
-<trigger name="video_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+<trigger name="video_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
 	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
 	 table="neap.video">
 		<function signature="neap.update_updated_at()"/>
 </trigger>
 
-<trigger name="channel_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+<trigger name="channel_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
 	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
 	 table="neap.channel">
 		<function signature="neap.update_updated_at()"/>
 </trigger>
 
-<trigger name="user_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+<trigger name="channel_stream_key_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.channel">
+		<function signature="neap.delete_stream_key()"/>
+		<columns names="stream_key"/>
+</trigger>
+
+<trigger name="user_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
 	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
 	 table="neap.&quot;user&quot;">
 		<function signature="neap.update_updated_at()"/>
 </trigger>
 
-<trigger name="panel_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+<trigger name="panel_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
 	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
 	 table="neap.panel">
 		<function signature="neap.update_updated_at()"/>
 </trigger>
 
-<trigger name="mod_trigger_updated_at" firing-type="BEFORE" per-line="true" constraint="false"
+<trigger name="mod_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
 	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
 	 table="neap.mod">
 		<function signature="neap.update_updated_at()"/>
 </trigger>
+
+<index name="stream_title_idx" table="neap.stream"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="gin" factor="0">
+		<idxelement use-sorting="false">
+			<expression><![CDATA[title gin_trgm_ops]]></expression>
+		</idxelement>
+</index>
 
 <constraint name="channel_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;"

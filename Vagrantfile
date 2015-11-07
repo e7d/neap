@@ -1,31 +1,33 @@
 Vagrant.configure(2) do |config|
-    config.vm.define "neap" do |box|
+    config.vm.define "neap" do |node|
         # For a complete reference, please see the online documentation at
         # https://docs.vagrantup.com.
 
         # General configuration
-        box.vm.box = "debian/jessie64"
+        node.vm.box = "debian/jessie64"
 
         # Network configuration
-        # box.vm.network "public_network"
-        box.vm.hostname = "neap"
-        box.vm.network "private_network", ip: "192.168.42.11"
-        box.vm.network "forwarded_port", guest: 80, host: 8080
-        box.vm.network "forwarded_port", guest: 5432, host: 5432
-        box.hostmanager.enabled = false
-        # box.hostsupdater.aliases = ["neap.local"]
+        # node.vm.network "public_network"
+        # node.vm.network "private_network", type: "dhcp"
+        node.vm.network "private_network", ip: "192.168.10.2"
+        node.vm.network "forwarded_port", guest: 80, host: 8080
+        node.vm.network "forwarded_port", guest: 443, host: 8443
+        node.vm.network "forwarded_port", guest: 5432, host: 5432
+        node.vm.hostname = "neap"
+
+        # Synced folder configuration
+        node.vm.synced_folder '.', '/vagrant', nfs: true
 
         # VirtualBox provider
-        box.vm.provider "virtualbox" do |vb|
+        node.vm.provider "virtualbox" do |vb|
             vb.name = "neap"
-            vb.cpus = "2"
-            vb.memory = "512"
+            vb.cpus = "4"
+            vb.memory = "1024"
         end
-        box.vbguest.auto_update = false
-        box.vbguest.no_remote = true
+        node.vbguest.auto_update = true
+        node.vbguest.no_remote = true
 
         # Provisioning script
-        box.vm.provision :hostmanager
-        box.vm.provision "shell", inline: "/bin/sh /vagrant/setup.sh"
+        node.vm.provision "shell", inline: "/bin/sh /vagrant/setup.sh"
     end
 end

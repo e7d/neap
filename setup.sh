@@ -53,7 +53,7 @@ printf "${CYAN}Restart services${DEFAULT}\n"
 service php5-fpm start
 service nginx start
 
-printf "${CYAN}Network adresses:${DEFAULT}\n"
+printf "${CYAN}Network adresses${DEFAULT}\n"
 echo NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
 echo Bridge: `/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
 

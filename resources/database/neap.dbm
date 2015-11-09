@@ -175,7 +175,7 @@ END;]]></definition>
 <table name="channel">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="40" y="380"/>
+	<position x="40" y="523"/>
 	<column name="channel_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -241,7 +241,7 @@ END;]]></definition>
 <table name="user">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="1040" y="480"/>
+	<position x="1040" y="623"/>
 	<column name="user_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -292,7 +292,7 @@ END;]]></definition>
 <table name="follow">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="580" y="440"/>
+	<position x="580" y="583"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -310,7 +310,7 @@ END;]]></definition>
 <table name="video">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="1040" y="60"/>
+	<position x="1040" y="203"/>
 	<column name="video_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -361,7 +361,7 @@ END;]]></definition>
 <table name="panel">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="60" y="780"/>
+	<position x="60" y="923"/>
 	<column name="panel_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -400,11 +400,14 @@ END;]]></definition>
 <table name="stream">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="40" y="60"/>
+	<position x="40" y="203"/>
 	<column name="stream_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="channel_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="ingest_id">
 		<type name="uuid"/>
 	</column>
 	<column name="title" not-null="true">
@@ -439,7 +442,7 @@ END;]]></definition>
 <table name="topic">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="580" y="240"/>
+	<position x="580" y="383"/>
 	<column name="topic_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -460,7 +463,7 @@ END;]]></definition>
 <table name="chat">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="580" y="820"/>
+	<position x="580" y="963"/>
 	<column name="chat_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -484,7 +487,7 @@ END;]]></definition>
 <table name="mod">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="1040" y="800"/>
+	<position x="1040" y="943"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -508,7 +511,7 @@ END;]]></definition>
 <table name="block">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="1040" y="340"/>
+	<position x="1040" y="483"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -576,6 +579,51 @@ END;]]></definition>
 			<expression><![CDATA[title gin_trgm_ops]]></expression>
 		</idxelement>
 </index>
+
+<table name="ingest">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="40" y="60"/>
+	<column name="ingest_id" not-null="true" default-value="generate_uuid()">
+		<type name="uuid"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="hostname" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="port" not-null="true" default-value="1935">
+		<type name="smallint"/>
+	</column>
+	<column name="availability" not-null="true" default-value="1">
+		<type name="float"/>
+	</column>
+	<constraint name="ingest_ingest_id_pk" type="pk-constr" table="neap.ingest">
+		<columns names="ingest_id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="ingest_name_uq" type="uq-constr" table="neap.ingest">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="outage">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="440" y="60"/>
+	<column name="ingest_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="started_at" not-null="true" default-value="now()">
+		<type name="date"/>
+	</column>
+	<column name="ended_at">
+		<type name="date"/>
+	</column>
+	<constraint name="outage_ingest_id_started_at_pk" type="pk-constr" table="neap.outage">
+		<columns names="ingest_id,started_at" ref-type="src-columns"/>
+	</constraint>
+</table>
 
 <constraint name="channel_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;"
@@ -649,6 +697,12 @@ END;]]></definition>
 	<columns names="topic_id" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="stream_ingest_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="SET NULL" ref-table="neap.ingest" table="neap.stream">
+	<columns names="ingest_id" ref-type="src-columns"/>
+	<columns names="ingest_id" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="chat_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.channel"
 	deferrable="true" defer-type="INITIALLY DEFERRED"
@@ -679,6 +733,12 @@ END;]]></definition>
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.block">
 	<columns names="blocked_user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="outage_ingest_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.ingest" table="neap.outage">
+	<columns names="ingest_id" ref-type="src-columns"/>
+	<columns names="ingest_id" ref-type="dst-columns"/>
 </constraint>
 
 <relationship name="rel_channel_user" type="relfk"
@@ -748,6 +808,16 @@ END;]]></definition>
 <relationship name="rel_block_user" type="relfk"
 	 src-table="neap.block"
 	 dst-table="neap.&quot;user&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_stream_ingest" type="relfk"
+	 src-table="neap.stream"
+	 dst-table="neap.ingest"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_outage_ingest" type="relfk"
+	 src-table="neap.outage"
+	 dst-table="neap.ingest"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

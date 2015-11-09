@@ -1,166 +1,126 @@
 {
-	"id": "49167c62-5237-7fda-a24a-1af893360c9f",
+	"id": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
 	"name": "Neap",
 	"description": "",
-	"order": [
-		"44e576b1-7902-ab83-a594-ccc7950f5ec8",
-		"6c75ae7f-d268-08b1-5bf1-69f2cb47dfa7",
-		"4e154f5e-e3df-f9a7-2e72-65ab7e4121e6",
-		"b48c1718-adfc-b0a2-6179-28968f4578d0",
-		"cef23527-b9b1-3ead-6f6c-79a6c7fbb151",
-		"59285011-25d5-958d-dafe-b6483f2f3258",
-		"1638de9d-9b92-01fa-6039-ef094656feb7",
-		"1d42afe5-3a72-7960-7754-5f7c101cae4d",
-		"de5d0e4c-29d5-3b75-95c8-1c4bd36f3b7a",
-		"27358d56-49bd-8418-6699-1015c34069ec",
-		"8a34c799-bfc3-eeb3-b7ab-ef25126dfaa1",
-		"57e29896-aca1-5d28-26ae-4c657c0a1d50",
-		"9ef9a30f-562e-c8a0-0c75-8f7878fd522e"
+	"order": [],
+	"folders": [
+		{
+			"id": "7b595b43-aab9-0a99-92b6-d11e37407708",
+			"name": "Channel",
+			"description": "",
+			"order": [
+				"d75e6a73-6aaa-6e55-c3de-fbbe5586a8d6",
+				"9e78fcde-86fc-2dd9-2e61-804baefc3b93",
+				"7ce6a383-36a6-0c50-3969-64818539f024",
+				"12bdd56c-418f-8029-59a7-5304dc6294f2",
+				"7b5415b8-c6fe-fb1d-0b34-4d6e5c59198b",
+				"6521a3e9-3ff0-4638-8da7-9b13fb225f45",
+				"382b07af-36a6-e171-d396-2c796c34c294"
+			],
+			"owner": "26600",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0"
+		},
+		{
+			"id": "70441128-6e13-82e2-2764-68fa8242213d",
+			"name": "Chat",
+			"description": "",
+			"order": [
+				"e884297f-ce8a-86b6-df06-9da38b65aec4"
+			],
+			"owner": "26600"
+		},
+		{
+			"id": "2196a7f2-5f39-aeb2-d6ae-02d323ba36b3",
+			"name": "OAuth",
+			"description": "",
+			"order": [
+				"315c9310-9e74-f64d-0ead-e01924c77529",
+				"06e4532c-c6cd-90f7-0ad3-808c87227ff9",
+				"538c63f4-c1d4-5c97-4835-9e3f4cef943b"
+			],
+			"owner": "26600"
+		},
+		{
+			"id": "0282aa6d-0986-ea77-4bc0-4d0171459ed5",
+			"name": "Status",
+			"description": "",
+			"order": [
+				"fb4e5fe7-a465-5bc8-4d2a-bd4c33e24b30"
+			],
+			"owner": "26600"
+		},
+		{
+			"id": "fbf9681b-62ec-260c-bc5f-f5498f30ea1b",
+			"name": "Stream",
+			"description": "",
+			"order": [
+				"689d0a70-38e8-e68f-3b19-7a2c972a91a8",
+				"2c1e6af5-ff69-928a-f990-c430b14812e9"
+			],
+			"owner": "26600"
+		},
+		{
+			"id": "189ef9b5-d08b-e26c-0bc7-b7cd0b53c23b",
+			"name": "User",
+			"description": "",
+			"order": [
+				"152267a3-1fda-682f-a6f5-d7ef50a0a028",
+				"afc6d326-4eaf-e349-b503-d7d1139ac38c",
+				"277bc74d-bbf2-24d0-e515-3726555a57d8"
+			],
+			"owner": "26600"
+		},
+		{
+			"id": "e4bf889f-6d40-9716-0d82-836d4a8dbabe",
+			"name": "Video",
+			"description": "",
+			"order": [
+				"d6910862-a124-17c6-8769-eba8577072f5",
+				"e64b8e64-c653-10d6-f684-09599e104d72"
+			],
+			"owner": "26600"
+		}
 	],
-	"folders": [],
 	"timestamp": 1444411685832,
-	"owner": "",
+	"owner": "26600",
 	"remoteLink": "",
 	"public": false,
 	"requests": [
 		{
-			"id": "1638de9d-9b92-01fa-6039-ef094656feb7",
+			"id": "06e4532c-c6cd-90f7-0ad3-808c87227ff9",
 			"headers": "",
-			"url": "http://127.0.0.1:8080/api/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74/videos",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"method": "GET",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"data": [],
-			"dataMode": "params",
-			"name": "/api/channels/:id/videos",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1446562720749,
-			"version": 2,
-			"responses": [],
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {}
-		},
-		{
-			"id": "1d42afe5-3a72-7960-7754-5f7c101cae4d",
-			"headers": "",
-			"url": "http://127.0.0.1:8080/api/streams",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "GET",
-			"data": [
-				{
-					"key": "grant_type",
-					"value": "password",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "username",
-					"value": "admin",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "admin",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "client_id",
-					"value": "public",
-					"type": "text",
-					"enabled": true
-				}
-			],
-			"dataMode": "params",
-			"version": 2,
-			"tests": "",
-			"sandboxFiles": "",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1445268105323,
-			"name": "/api/streams",
-			"description": "",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"responses": []
-		},
-		{
-			"id": "27358d56-49bd-8418-6699-1015c34069ec",
-			"headers": "",
-			"url": "http://127.0.0.1:8080/api/users",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "GET",
-			"data": [
-				{
-					"key": "grant_type",
-					"value": "password",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "username",
-					"value": "admin",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "admin",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "client_id",
-					"value": "public",
-					"type": "text",
-					"enabled": true
-				}
-			],
-			"dataMode": "params",
-			"version": 2,
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1445351947787,
-			"name": "/api/users",
-			"description": "",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"responses": []
-		},
-		{
-			"id": "44e576b1-7902-ab83-a594-ccc7950f5ec8",
-			"headers": "",
-			"url": "http://127.0.0.1:8080/oauth",
+			"url": "http://api.neap.dev/oauth",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
 			"data": [
 				{
 					"key": "grant_type",
-					"value": "password",
+					"value": "authorization_code",
 					"type": "text",
 					"enabled": true
 				},
 				{
-					"key": "username",
-					"value": "admin",
+					"key": "code",
+					"value": "ac3746db833dff2bdf971b436d6fa1ece1c72f83",
 					"type": "text",
 					"enabled": true
 				},
 				{
-					"key": "password",
-					"value": "admin",
+					"key": "redirect_uri",
+					"value": "/oauth/receivecode",
 					"type": "text",
 					"enabled": true
 				},
 				{
 					"key": "client_id",
-					"value": "public",
+					"value": "neap",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_secret",
+					"value": "neap",
 					"type": "text",
 					"enabled": true
 				}
@@ -169,56 +129,39 @@
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1445058013658,
-			"name": "OAuth",
+			"helperAttributes": "{}",
+			"time": 1446642115984,
+			"name": "OAuth Code",
 			"description": "",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f"
-		},
-		{
-			"id": "4e154f5e-e3df-f9a7-2e72-65ab7e4121e6",
-			"headers": "",
-			"url": "http://127.0.0.1:8080/api/chat/960f686c-d101-4125-8457-014f2a26c842",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"method": "GET",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"data": [],
-			"dataMode": "params",
-			"name": "/api/chat/:id",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1445936409136,
-			"version": 2,
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
 			"responses": [],
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {}
+			"folder": "2196a7f2-5f39-aeb2-d6ae-02d323ba36b3"
 		},
 		{
-			"id": "57e29896-aca1-5d28-26ae-4c657c0a1d50",
-			"headers": "",
-			"url": "http://127.0.0.1:8080/api/videos",
-			"pathVariables": {},
+			"id": "12bdd56c-418f-8029-59a7-5304dc6294f2",
+			"headers": "Authorization: Bearer 628afa8872e9dfe114421de77615a4b4704d0ff8\nContent-Type: application/vnd.proposal.v1+json\n",
+			"url": "http://api.neap.dev/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74",
 			"preRequestScript": "",
-			"method": "GET",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"pathVariables": {},
+			"method": "PUT",
 			"data": [],
-			"dataMode": "params",
-			"name": "/api/videos",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1445365438839,
+			"dataMode": "raw",
 			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1446829217991,
+			"name": "/api/channels/:id",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
 			"responses": [],
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {}
+			"rawModeData": "{\n    \"topic\": \"Comics\",\n    \"language\": \"en\",\n    \"delay\": 0\n}",
+			"folder": "7b595b43-aab9-0a99-92b6-d11e37407708"
 		},
 		{
-			"id": "59285011-25d5-958d-dafe-b6483f2f3258",
-			"headers": "",
-			"url": "http://127.0.0.1:8080/api/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74/follows",
+			"id": "152267a3-1fda-682f-a6f5-d7ef50a0a028",
+			"headers": "Authorization: Bearer a909c439b914a1c6c2641558dcef143fa1d2a32a\n",
+			"url": "http://api.neap.dev/profile",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -227,66 +170,22 @@
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1446547917808,
-			"name": "/api/channels/:id/follows",
-			"description": "",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"responses": []
-		},
-		{
-			"id": "6c75ae7f-d268-08b1-5bf1-69f2cb47dfa7",
-			"headers": "Authorization: Bearer 68eb4ad5c07fc83c0e4378801cf6c07d208c9f2b\n",
-			"url": "http://127.0.0.1:8080/api/profile",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"method": "GET",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"data": [
-				{
-					"key": "grant_type",
-					"value": "password",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "username",
-					"value": "admin",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "password",
-					"value": "admin",
-					"type": "text",
-					"enabled": true
-				},
-				{
-					"key": "client_id",
-					"value": "public",
-					"type": "text",
-					"enabled": true
-				}
-			],
-			"dataMode": "params",
+			"helperAttributes": "{}",
+			"time": 1446656187695,
 			"name": "/api/profile",
 			"description": "",
-			"descriptionFormat": "html",
-			"time": 1445059169280,
-			"version": 2,
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
 			"responses": [],
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {}
+			"folder": "189ef9b5-d08b-e26c-0bc7-b7cd0b53c23b"
 		},
 		{
-			"id": "8a34c799-bfc3-eeb3-b7ab-ef25126dfaa1",
+			"id": "277bc74d-bbf2-24d0-e515-3726555a57d8",
 			"headers": "",
-			"url": "http://127.0.0.1:8080/api/users/a976df64-6925-457e-81ab-e6d683c8a25d",
+			"url": "http://api.neap.dev/users/a976df64-6925-457e-81ab-e6d683c8a25d",
 			"pathVariables": {},
 			"preRequestScript": "",
 			"method": "GET",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
 			"data": [
 				{
 					"key": "grant_type",
@@ -322,32 +221,13 @@
 			"responses": [],
 			"tests": "",
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": "{}",
+			"folder": "189ef9b5-d08b-e26c-0bc7-b7cd0b53c23b"
 		},
 		{
-			"id": "9ef9a30f-562e-c8a0-0c75-8f7878fd522e",
+			"id": "2c1e6af5-ff69-928a-f990-c430b14812e9",
 			"headers": "",
-			"url": "http://127.0.0.1:8080/api/videos/dacd1de6-c145-4ce6-88a0-f6fbe1640fc7",
-			"pathVariables": {},
-			"preRequestScript": "",
-			"method": "GET",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"data": [],
-			"dataMode": "params",
-			"name": "/api/videos/:id",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1445365450209,
-			"version": 2,
-			"responses": [],
-			"tests": "",
-			"currentHelper": "normal",
-			"helperAttributes": {}
-		},
-		{
-			"id": "b48c1718-adfc-b0a2-6179-28968f4578d0",
-			"headers": "",
-			"url": "http://127.0.0.1:8080/api/channels",
+			"url": "http://api.neap.dev/streams/7132dc5d-aba3-4494-976d-aad2423f062a",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -381,21 +261,224 @@
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1445268129413,
-			"name": "/api/channels",
+			"helperAttributes": "{}",
+			"time": 1445058025587,
+			"name": "/api/streams/:id",
 			"description": "",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"responses": []
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "fbf9681b-62ec-260c-bc5f-f5498f30ea1b"
 		},
 		{
-			"id": "cef23527-b9b1-3ead-6f6c-79a6c7fbb151",
+			"id": "315c9310-9e74-f64d-0ead-e01924c77529",
 			"headers": "",
-			"url": "http://127.0.0.1:8080/api/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74",
+			"url": "http://api.neap.dev/oauth/authorize",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "response_type",
+					"value": "code",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "neap",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_secret",
+					"value": "neap",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "redirect_uri",
+					"value": "/oauth/receivecode",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "state",
+					"value": "1",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1446632132693,
+			"name": "OAuth Authorize",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "2196a7f2-5f39-aeb2-d6ae-02d323ba36b3"
+		},
+		{
+			"id": "382b07af-36a6-e171-d396-2c796c34c294",
+			"headers": "Authorization: Bearer a909c439b914a1c6c2641558dcef143fa1d2a32a\n",
+			"url": "http://api.neap.dev/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74/stream_key",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1446656311436,
+			"name": "/api/channels/:id/stream_key",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "7b595b43-aab9-0a99-92b6-d11e37407708"
+		},
+		{
+			"id": "538c63f4-c1d4-5c97-4835-9e3f4cef943b",
+			"headers": "",
+			"url": "http://api.neap.dev/oauth",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "neap",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1446658944309,
+			"name": "OAuth Password",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"folder": "2196a7f2-5f39-aeb2-d6ae-02d323ba36b3"
+		},
+		{
+			"id": "6521a3e9-3ff0-4638-8da7-9b13fb225f45",
+			"headers": "",
+			"url": "http://api.neap.dev/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74/videos",
 			"pathVariables": {},
 			"preRequestScript": "",
 			"method": "GET",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"data": [],
+			"dataMode": "params",
+			"name": "/api/channels/:id/videos",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1446562720749,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"folder": "7b595b43-aab9-0a99-92b6-d11e37407708"
+		},
+		{
+			"id": "689d0a70-38e8-e68f-3b19-7a2c972a91a8",
+			"headers": "",
+			"url": "http://api.neap.dev/streams",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "username",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "admin",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "public",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"sandboxFiles": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1445268105323,
+			"name": "/api/streams",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "fbf9681b-62ec-260c-bc5f-f5498f30ea1b"
+		},
+		{
+			"id": "7b5415b8-c6fe-fb1d-0b34-4d6e5c59198b",
+			"headers": "",
+			"url": "http://api.neap.dev/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74/follows",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1446547917808,
+			"name": "/api/channels/:id/follows",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "7b595b43-aab9-0a99-92b6-d11e37407708"
+		},
+		{
+			"id": "7ce6a383-36a6-0c50-3969-64818539f024",
+			"headers": "",
+			"url": "http://api.neap.dev/channels/0700a07f-9f82-4dc2-bb03-7217e2cc8b74",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
 			"data": [
 				{
 					"key": "grant_type",
@@ -431,12 +514,33 @@
 			"responses": [],
 			"tests": "",
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": "{}",
+			"folder": "7b595b43-aab9-0a99-92b6-d11e37407708"
 		},
 		{
-			"id": "de5d0e4c-29d5-3b75-95c8-1c4bd36f3b7a",
+			"id": "9e78fcde-86fc-2dd9-2e61-804baefc3b93",
 			"headers": "",
-			"url": "http://127.0.0.1:8080/api/streams/7132dc5d-aba3-4494-976d-aad2423f062a",
+			"url": "http://api.neap.dev/channels",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1447082491614,
+			"name": "/api/channels",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "7b595b43-aab9-0a99-92b6-d11e37407708"
+		},
+		{
+			"id": "afc6d326-4eaf-e349-b503-d7d1139ac38c",
+			"headers": "",
+			"url": "http://api.neap.dev/users",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -470,117 +574,116 @@
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1445058025587,
-			"name": "/api/streams/:id",
+			"helperAttributes": "{}",
+			"time": 1445351947787,
+			"name": "/api/users",
 			"description": "",
-			"collectionId": "49167c62-5237-7fda-a24a-1af893360c9f",
-			"responses": [
-				{
-					"status": "",
-					"responseCode": {
-						"code": 200,
-						"name": "OK",
-						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
-					},
-					"time": 688,
-					"headers": [
-						{
-							"name": "Connection",
-							"key": "Connection",
-							"value": "keep-alive",
-							"description": "Options that are desired for the connection"
-						},
-						{
-							"name": "Content-Type",
-							"key": "Content-Type",
-							"value": "application/hal+json",
-							"description": "The mime type of this content"
-						},
-						{
-							"name": "Date",
-							"key": "Date",
-							"value": "Thu, 15 Oct 2015 13:17:11 GMT",
-							"description": "The date and time that the message was sent"
-						},
-						{
-							"name": "Server",
-							"key": "Server",
-							"value": "nginx/1.8.0",
-							"description": "A name for the server"
-						},
-						{
-							"name": "Transfer-Encoding",
-							"key": "Transfer-Encoding",
-							"value": "chunked",
-							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
-						},
-						{
-							"name": "WWW-Authenticate",
-							"key": "WWW-Authenticate",
-							"value": "Bearer realm=\"Service\"",
-							"description": "Indicates the authentication scheme that should be used to access the requested entity."
-						}
-					],
-					"cookies": [],
-					"mime": "",
-					"text": "{\"id\":\"7132dc5d-aba3-4494-976d-aad2423f062a\",\"title\":\"Testing the demo channel with a demo stream!\",\"topic_id\":null,\"topic\":\"Demo\",\"media_info\":\"{}\",\"viewers\":173,\"created_at\":\"2015-10-15 13:09:45.681168+00\",\"updated_at\":\"2015-10-15 13:11:17.422809+00\",\"ended_at\":null,\"_embedded\":{\"channel\":{\"id\":\"0700a07f-9f82-4dc2-bb03-7217e2cc8b74\",\"user_id\":\"a976df64-6925-457e-81ab-e6d683c8a25d\",\"chat_id\":\"960f686c-d101-4125-8457-014f2a26c842\",\"name\":\"admin\",\"display_name\":\"Admin Channel\",\"topic_id\":null,\"topic\":null,\"language\":\"en\",\"delay\":null,\"logo\":null,\"banner\":null,\"video_banner\":null,\"background\":null,\"profile_banner\":null,\"views\":null,\"followers\":null,\"created_at\":\"2015-10-15 13:09:45.681168+00\",\"updated_at\":\"2015-10-15 13:09:45.681168+00\",\"_links\":{\"self\":{\"href\":\"http:\\/\\/neap\\/api\\/channels\\/0700a07f-9f82-4dc2-bb03-7217e2cc8b74\"}}}},\"_links\":{\"user\":{\"href\":\"http:\\/\\/neap\\/api\\/users\\/a976df64-6925-457e-81ab-e6d683c8a25d\"},\"self\":{\"href\":\"http:\\/\\/neap\\/api\\/streams\\/7132dc5d-aba3-4494-976d-aad2423f062a\"}}}",
-					"language": "javascript",
-					"rawDataType": "text",
-					"state": {
-						"size": "normal"
-					},
-					"previewType": "html",
-					"searchResultScrolledTo": -1,
-					"forceNoPretty": false,
-					"write": true,
-					"empty": false,
-					"failed": false,
-					"isSample": true,
-					"scrollToResult": true,
-					"runTests": true,
-					"id": "71c4ad20-430c-46c9-72d0-48d9c2d4c322",
-					"name": "2015-10-15",
-					"request": {
-						"name": "api/streams/7132dc5d-aba3-4494-976d-aad2423f062a",
-						"description": "",
-						"url": "http://neap/api/streams/7132dc5d-aba3-4494-976d-aad2423f062a",
-						"pathVariables": {},
-						"data": [
-							{
-								"key": "grant_type",
-								"value": "password",
-								"type": "text",
-								"enabled": true
-							},
-							{
-								"key": "username",
-								"value": "admin",
-								"type": "text",
-								"enabled": true
-							},
-							{
-								"key": "password",
-								"value": "admin",
-								"type": "text",
-								"enabled": true
-							},
-							{
-								"key": "client_id",
-								"value": "public",
-								"type": "text",
-								"enabled": true
-							}
-						],
-						"headers": "",
-						"dataMode": "params",
-						"method": "GET",
-						"tests": "",
-						"isFromCollection": true,
-						"version": 2
-					}
-				}
-			]
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "189ef9b5-d08b-e26c-0bc7-b7cd0b53c23b"
+		},
+		{
+			"id": "d6910862-a124-17c6-8769-eba8577072f5",
+			"headers": "",
+			"url": "http://api.neap.dev/videos",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"data": [],
+			"dataMode": "params",
+			"name": "/api/videos",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445365438839,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"folder": "e4bf889f-6d40-9716-0d82-836d4a8dbabe"
+		},
+		{
+			"id": "d75e6a73-6aaa-6e55-c3de-fbbe5586a8d6",
+			"headers": "Authorization: Bearer 476157f1c3eb22174ef609392bdb165aa7e659c7\n",
+			"url": "http://api.neap.dev/channel",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1447081248472,
+			"name": "/api/channel",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "7b595b43-aab9-0a99-92b6-d11e37407708"
+		},
+		{
+			"id": "e64b8e64-c653-10d6-f684-09599e104d72",
+			"headers": "",
+			"url": "http://api.neap.dev/videos/dacd1de6-c145-4ce6-88a0-f6fbe1640fc7",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"data": [],
+			"dataMode": "params",
+			"name": "/api/videos/:id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445365450209,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"folder": "e4bf889f-6d40-9716-0d82-836d4a8dbabe"
+		},
+		{
+			"id": "e884297f-ce8a-86b6-df06-9da38b65aec4",
+			"headers": "",
+			"url": "http://api.neap.dev/chat/960f686c-d101-4125-8457-014f2a26c842",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"data": [],
+			"dataMode": "params",
+			"name": "/api/chat/:id",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1445936409136,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"folder": "70441128-6e13-82e2-2764-68fa8242213d"
+		},
+		{
+			"id": "fb4e5fe7-a465-5bc8-4d2a-bd4c33e24b30",
+			"headers": "",
+			"url": "http://api.neap.dev/ping",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": "{}",
+			"time": 1447078608343,
+			"name": "/api/ping",
+			"description": "",
+			"collectionId": "ff2d1e78-2dc4-4a9a-36c3-ee50557097b0",
+			"responses": [],
+			"folder": "0282aa6d-0986-ea77-4bc0-4d0171459ed5"
 		}
 	]
 }

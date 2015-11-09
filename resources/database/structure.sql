@@ -9,7 +9,7 @@ SET check_function_bodies = false;
 
 -- object: neap | type: ROLE --
 -- DROP ROLE IF EXISTS neap;
-CREATE ROLE neap WITH
+CREATE ROLE neap WITH 
 	LOGIN
 	ENCRYPTED PASSWORD 'neap';
 -- ddl-end --
@@ -23,7 +23,7 @@ CREATE ROLE neap WITH
 -- 	OWNER = neap
 -- ;
 -- -- ddl-end --
---
+-- 
 
 -- object: neap | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS neap CASCADE;
@@ -52,7 +52,7 @@ CREATE EXTENSION pg_trgm
 CREATE FUNCTION neap.generate_stream_key ()
 	RETURNS text
 	LANGUAGE plpgsql
-	VOLATILE
+	VOLATILE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -82,7 +82,7 @@ ALTER FUNCTION neap.generate_stream_key() OWNER TO neap;
 CREATE FUNCTION neap.update_updated_at ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE
+	STABLE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -101,7 +101,7 @@ ALTER FUNCTION neap.update_updated_at() OWNER TO neap;
 CREATE FUNCTION neap.delete_stream_key ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE
+	STABLE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -232,6 +232,7 @@ ALTER TABLE neap.panel OWNER TO neap;
 CREATE TABLE neap.stream(
 	stream_id uuid NOT NULL DEFAULT gen_random_uuid(),
 	channel_id uuid NOT NULL,
+	ingest_id uuid,
 	title character varying NOT NULL,
 	topic_id uuid,
 	topic character varying NOT NULL,
@@ -371,7 +372,39 @@ CREATE TRIGGER mod_updated_at_trigger
 -- object: stream_title_idx | type: INDEX --
 -- DROP INDEX IF EXISTS neap.stream_title_idx CASCADE;
 CREATE INDEX stream_title_idx ON neap.stream
-	USING gin(title gin_trgm_ops);
+	USING gin
+	(
+	  (title gin_trgm_ops)
+	);
+-- ddl-end --
+
+-- object: neap.ingest | type: TABLE --
+-- DROP TABLE IF EXISTS neap.ingest CASCADE;
+CREATE TABLE neap.ingest(
+	ingest_id uuid NOT NULL DEFAULT generate_uuid(),
+	name character varying NOT NULL,
+	hostname character varying NOT NULL,
+	port smallint NOT NULL DEFAULT 1935,
+	availability float NOT NULL DEFAULT 1,
+	CONSTRAINT ingest_ingest_id_pk PRIMARY KEY (ingest_id),
+	CONSTRAINT ingest_name_uq UNIQUE (name)
+
+);
+-- ddl-end --
+ALTER TABLE neap.ingest OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.outage | type: TABLE --
+-- DROP TABLE IF EXISTS neap.outage CASCADE;
+CREATE TABLE neap.outage(
+	ingest_id uuid NOT NULL,
+	started_at date NOT NULL DEFAULT now(),
+	ended_at date,
+	CONSTRAINT outage_ingest_id_started_at_pk PRIMARY KEY (ingest_id,started_at)
+
+);
+-- ddl-end --
+ALTER TABLE neap.outage OWNER TO neap;
 -- ddl-end --
 
 -- object: channel_user_id_fk | type: CONSTRAINT --
@@ -451,6 +484,13 @@ REFERENCES neap.topic (topic_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
+-- object: stream_ingest_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.stream DROP CONSTRAINT IF EXISTS stream_ingest_id_fk CASCADE;
+ALTER TABLE neap.stream ADD CONSTRAINT stream_ingest_id_fk FOREIGN KEY (ingest_id)
+REFERENCES neap.ingest (ingest_id) MATCH FULL
+ON DELETE SET NULL ON UPDATE NO ACTION;
+-- ddl-end --
+
 -- object: chat_channel_id_fk | type: CONSTRAINT --
 -- ALTER TABLE neap.chat DROP CONSTRAINT IF EXISTS chat_channel_id_fk CASCADE;
 ALTER TABLE neap.chat ADD CONSTRAINT chat_channel_id_fk FOREIGN KEY (channel_id)
@@ -485,3 +525,12 @@ ALTER TABLE neap.block ADD CONSTRAINT block_blocked_user_id_fk FOREIGN KEY (bloc
 REFERENCES neap."user" (user_id) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
+
+-- object: outage_ingest_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.outage DROP CONSTRAINT IF EXISTS outage_ingest_id_fk CASCADE;
+ALTER TABLE neap.outage ADD CONSTRAINT outage_ingest_id_fk FOREIGN KEY (ingest_id)
+REFERENCES neap.ingest (ingest_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+

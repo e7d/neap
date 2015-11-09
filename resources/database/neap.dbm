@@ -241,7 +241,7 @@ END;]]></definition>
 <table name="user">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="900" y="440"/>
+	<position x="1040" y="480"/>
 	<column name="user_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -292,7 +292,7 @@ END;]]></definition>
 <table name="follow">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="520" y="420"/>
+	<position x="580" y="440"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -310,7 +310,7 @@ END;]]></definition>
 <table name="video">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="900" y="60"/>
+	<position x="1040" y="60"/>
 	<column name="video_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -439,7 +439,7 @@ END;]]></definition>
 <table name="topic">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="500" y="280"/>
+	<position x="580" y="240"/>
 	<column name="topic_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -460,7 +460,7 @@ END;]]></definition>
 <table name="chat">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="520" y="820"/>
+	<position x="580" y="820"/>
 	<column name="chat_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -484,7 +484,7 @@ END;]]></definition>
 <table name="mod">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="900" y="800"/>
+	<position x="1040" y="800"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -508,7 +508,7 @@ END;]]></definition>
 <table name="block">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="900" y="340"/>
+	<position x="1040" y="340"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -724,7 +724,11 @@ END;]]></definition>
 <relationship name="rel_block_channel" type="relfk"
 	 src-table="neap.panel"
 	 dst-table="neap.channel"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="src-label">
+		<position x="-1.36" y="5.8"/>
+	</label>
+</relationship>
 
 <relationship name="rel_chat_channel" type="relfk"
 	 src-table="neap.chat"

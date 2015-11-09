@@ -64,8 +64,8 @@ class ModHydrator extends Hydrator
         $modEntity = new Entity($this->extract($mod));
 
         // ToDo: define a self link attached to, with parameter, either:
-        //       - for "linkSelfUser", the user API /api/users/:id/mods
-        //       - for "linkSelfChat", the chat API /api/chat/:id/mods
+        //       - for "linkSelfUser", the user API /users/:id/mods
+        //       - for "linkSelfChat", the chat API /chat/:id/mods
         // $modEntity->getLinks()->add(Link::factory(array(
         //     'rel' => 'self',
         //     'route' => array(

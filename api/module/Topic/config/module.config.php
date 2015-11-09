@@ -10,7 +10,7 @@ return array(
             'topic.rest.topic' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/topics[/:topic_id]',
+                    'route' => '/topics[/:topic_id]',
                     'defaults' => array(
                         'controller' => 'Topic\\V1\\Rest\\Topic\\Controller',
                     ),

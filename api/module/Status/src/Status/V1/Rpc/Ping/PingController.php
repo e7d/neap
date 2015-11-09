@@ -17,7 +17,7 @@ class PingController extends AbstractActionController
     public function pingAction()
     {
         return new ViewModel(array(
-            'ack' => time()
+            'ack' => microtime(true)
         ));
     }
 }

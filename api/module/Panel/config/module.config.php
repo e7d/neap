@@ -10,7 +10,7 @@ return array(
             'panel.rest.panel' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/panels[/:panel_id]',
+                    'route' => '/panels[/:panel_id]',
                     'defaults' => array(
                         'controller' => 'Panel\\V1\\Rest\\Panel\\Controller',
                     ),

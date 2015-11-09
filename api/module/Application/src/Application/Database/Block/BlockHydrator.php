@@ -61,7 +61,7 @@ class BlockHydrator extends Hydrator
 
         $blockEntity = new Entity($this->extract($block));
 
-        // ToDo: define a self link attached to the user API /api/users/:id/blocks
+        // ToDo: define a self link attached to the user API /users/:id/blocks
         // $blockEntity->getLinks()->add(Link::factory(array(
         //     'rel' => 'self',
         //     'route' => array(

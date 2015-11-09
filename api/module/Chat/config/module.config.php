@@ -11,7 +11,7 @@ return array(
             'chat.rest.chat' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/chat[/:chat_id]',
+                    'route' => '/chat[/:chat_id]',
                     'defaults' => array(
                         'controller' => 'Chat\\V1\\Rest\\Chat\\Controller',
                     ),

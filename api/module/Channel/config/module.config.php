@@ -15,7 +15,7 @@ return array(
             'channel.rest.channel' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/channels[/:channel_id]',
+                    'route' => '/channels[/:channel_id]',
                     'defaults' => array(
                         'controller' => 'Channel\\V1\\Rest\\Channel\\Controller',
                     ),
@@ -24,7 +24,7 @@ return array(
             'channel.rest.follow' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/channels/:channel_id/follows[/:user_id]',
+                    'route' => '/channels/:channel_id/follows/users[/:user_id]',
                     'defaults' => array(
                         'controller' => 'Channel\\V1\\Rest\\Follow\\Controller',
                     ),
@@ -33,7 +33,7 @@ return array(
             'channel.rest.video' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/channels/:channel_id/videos[/:video_id]',
+                    'route' => '/channels/:channel_id/videos[/:video_id]',
                     'defaults' => array(
                         'controller' => 'Channel\\V1\\Rest\\Video\\Controller',
                     ),
@@ -42,7 +42,7 @@ return array(
             'channel.rest.stream-key' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/channels/:channel_id/stream_key',
+                    'route' => '/channels/:channel_id/stream_key',
                     'defaults' => array(
                         'controller' => 'Channel\\V1\\Rest\\StreamKey\\Controller',
                     ),
@@ -51,7 +51,7 @@ return array(
             'channel.rest.user-channel' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/channel',
+                    'route' => '/channel',
                     'defaults' => array(
                         'controller' => 'Channel\\V1\\Rest\\UserChannel\\Controller',
                     ),
@@ -77,8 +77,8 @@ return array(
             'entity_http_methods' => array(
                 0 => 'GET',
                 1 => 'PATCH',
-                2 => 'DELETE',
-                3 => 'PUT',
+                2 => 'PUT',
+                3 => 'DELETE',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',

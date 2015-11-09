@@ -4,11 +4,11 @@ server {
     listen 443 ssl;
 
     # Root folder
-    root neap/public/;
+    root neap/database/;
     index index.php index.html;
 
     # Hostname
-    server_name  localhost;
+    server_name db.neap.dev;
 
     # SSL settings
     ssl_protocols TLSv1.2;
@@ -21,13 +21,6 @@ server {
     ssl_certificate_key /etc/ssl/localcerts/self.key;
     ssl_dhparam /etc/ssl/private/dhparam.pem;
 
-    # Apigility rewrite
-    location / {
-        if (!-f $request_filename) {
-            rewrite ^(.*)$ /index.php;
-        }
-    }
-
     # PHP pear
     location ~* \.php$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
@@ -37,43 +30,5 @@ server {
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param PATH_INFO $fastcgi_path_info;
         fastcgi_intercept_errors on;
-    }
-
-    # Serve recorded sessions
-    location /rec {
-        root /var/tmp;
-        autoindex on; # directory list accepted
-    }
-
-    # Serve HLS fragments
-    location /hls {
-        root /var/tmp;
-        add_header Cache-Control no-cache;
-        types {
-            application/vnd.apple.mpegurl m3u8;
-            video/mp2t ts;
-        }
-    }
-
-    # Serve DASH fragments
-    location /dash {
-        root /var/tmp;
-        add_header Cache-Control no-cache;
-    }
-
-    # RTMP Stats
-    location /stats {
-        allow 127.0.0.1;
-        deny all;
-
-        rtmp_stat all;
-    }
-
-    # RTMP Control
-    location /control {
-        allow 127.0.0.1;
-        deny all;
-
-        rtmp_control all;
     }
 }

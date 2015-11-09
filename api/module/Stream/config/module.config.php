@@ -12,7 +12,7 @@ return array(
             'stream.rest.stream' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/streams[/:stream_id]',
+                    'route' => '/streams[/:stream_id]',
                     'defaults' => array(
                         'controller' => 'Stream\\V1\\Rest\\Stream\\Controller',
                     ),

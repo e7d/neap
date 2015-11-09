@@ -14,7 +14,7 @@ return array(
             'user.rpc.profile' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/profile',
+                    'route' => '/profile',
                     'defaults' => array(
                         'controller' => 'User\\V1\\Rpc\\Profile\\Controller',
                         'action' => 'profile',
@@ -24,7 +24,7 @@ return array(
             'user.rest.user' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/users[/:user_id]',
+                    'route' => '/users[/:user_id]',
                     'defaults' => array(
                         'controller' => 'User\\V1\\Rest\\User\\Controller',
                     ),

@@ -14,7 +14,7 @@ return array(
             'video.rest.video' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/videos[/:video_id]',
+                    'route' => '/videos[/:video_id]',
                     'defaults' => array(
                         'controller' => 'Video\\V1\\Rest\\Video\\Controller',
                     ),

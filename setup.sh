@@ -16,7 +16,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 printf "${GREEN}Ok!${DEFAULT}\n"
 
-printf "${CYAN}Prepare environment${DEFAULT}\n"
+printf "${CYAN}Prepare Debian environment${DEFAULT}\n"
 ${DIR}/config/prepare-env.sh
 
 printf "${CYAN}Setup ffmpeg${DEFAULT}\n"

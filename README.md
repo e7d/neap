@@ -39,12 +39,14 @@ In order to run the code of Neap effectively, you'll need to have a few tools in
 ## Update ##
 
 For an "*In-Place*" upgrade of a working environment:
+
 1. `git pull` to get the latest version of the code
 1. Change into the directory `neap`
 1. Run `vagrant reload`
 1. Run `vagrant provision`
 
 For a complete update from scratch, destroying and rebuilding everything:
+
 1. `git pull` to get the latest version of the code
 1. Change into the directory `neap`
 1. Run `vagrant destroy`

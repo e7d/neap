@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Video\Service;
+namespace Video\V1\Service;
 
 class VideoServiceFactory
 {

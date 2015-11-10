@@ -1,10 +1,10 @@
 <?php
-namespace Channel\V1\Rest\UserChannel;
+namespace Channel\V1\Rest\MyChannel;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class UserChannelResource extends AbstractResourceListener
+class MyChannelResource extends AbstractResourceListener
 {
     private $identityService;
     private $channelService;

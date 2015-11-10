@@ -15,7 +15,7 @@ class VideoResourceFactory
     {
         return new VideoResource(
             $services->get('Application\Authorization\IdentityService'),
-            $services->get('Video\Service\VideoService')
+            $services->get('Video\V1\Service\VideoService')
         );
     }
 }

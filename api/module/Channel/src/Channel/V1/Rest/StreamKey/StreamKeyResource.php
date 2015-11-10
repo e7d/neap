@@ -46,15 +46,4 @@ class StreamKeyResource extends AbstractResourceListener
 
         return true;
     }
-
-    /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function fetch($id)
-    {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
-    }
 }

@@ -1,5 +1,5 @@
 Vagrant.configure(2) do |config|
-    config.vm.define "neap" do |node|
+    config.vm.define "Neap" do |node|
         # For a complete reference, please see the online documentation at
         # https://docs.vagrantup.com.
 
@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
 
         # VirtualBox provider
         node.vm.provider "virtualbox" do |vb|
-            vb.name = "neap"
+            vb.name = "Neap"
             vb.cpus = "4"
             vb.memory = "1024"
         end

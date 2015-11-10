@@ -27,6 +27,13 @@ class RootResource extends AbstractResourceListener
         $root = new Entity(array());
 
         $root->getLinks()->add(Link::factory(array(
+            'rel' => 'ingests',
+            'route' => array(
+                'name' => 'ingest.rest.ingest',
+            ),
+        )));
+
+        $root->getLinks()->add(Link::factory(array(
             'rel' => 'users',
             'route' => array(
                 'name' => 'user.rest.user',

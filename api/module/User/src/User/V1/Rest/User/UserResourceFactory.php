@@ -15,7 +15,7 @@ class UserResourceFactory
     {
         return new UserResource(
             $services->get('Application\Authorization\IdentityService'),
-            $services->get('User\Service\UserService')
+            $services->get('User\V1\Service\UserService')
         );
     }
 }

@@ -2,11 +2,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Video\\Model\\VideoModel' => 'Video\\Model\\VideoModelFactory',
-            'Video\\Model\\VideoTableGateway' => 'Video\\Model\\VideoTableGatewayFactory',
-            'Video\\Service\\VideoHydratorService' => 'Video\\Service\\VideoHydratorServiceFactory',
-            'Video\\Service\\VideoService' => 'Video\\Service\\VideoServiceFactory',
             'Video\\V1\\Rest\\Video\\VideoResource' => 'Video\\V1\\Rest\\Video\\VideoResourceFactory',
+            'Video\\V1\\Service\\VideoService' => 'Video\\V1\\Service\\VideoServiceFactory',
         ),
     ),
     'router' => array(

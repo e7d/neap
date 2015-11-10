@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Chat\Service;
+namespace Chat\V1\Service;
 
 use Application\Database\Chat\Chat;
 use Application\Database\Follow\Follow;

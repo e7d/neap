@@ -2,8 +2,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Chat\\Service\\ChatService' => 'Chat\\Service\\ChatServiceFactory',
             'Chat\\V1\\Rest\\Chat\\ChatResource' => 'Chat\\V1\\Rest\\Chat\\ChatResourceFactory',
+            'Chat\\V1\\Service\\ChatService' => 'Chat\\V1\\Service\\ChatServiceFactory',
         ),
     ),
     'router' => array(

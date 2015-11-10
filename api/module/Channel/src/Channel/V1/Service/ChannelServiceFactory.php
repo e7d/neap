@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Channel\Service;
+namespace Channel\V1\Service;
 
 class ChannelServiceFactory
 {

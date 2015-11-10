@@ -2,11 +2,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'User\\Model\\UserModel' => 'User\\Model\\UserModelFactory',
-            'User\\Model\\UserTableGateway' => 'User\\Model\\UserTableGatewayFactory',
-            'User\\Service\\UserHydratorService' => 'User\\Service\\UserHydratorServiceFactory',
-            'User\\Service\\UserService' => 'User\\Service\\UserServiceFactory',
             'User\\V1\\Rest\\User\\UserResource' => 'User\\V1\\Rest\\User\\UserResourceFactory',
+            'User\\V1\\Service\\UserService' => 'User\\V1\\Service\\UserServiceFactory',
         ),
     ),
     'router' => array(

@@ -24,7 +24,7 @@ class IngestResource extends AbstractResourceListener
     {
         $ingest = new IngestEntity();
         $ingest->id = 'rtmp';
-        $ingest->url_template = "rtmp://live-ams.twitch.tv/app/{stream_key}";
+        $ingest->url_template = "rtmp://rtmp.neap.dev/live/{stream_key}";
         return array(
             $ingest
         );

@@ -15,7 +15,7 @@ class ChannelResourceFactory
     {
         return new ChannelResource(
             $services->get('Application\Authorization\IdentityService'),
-            $services->get('Channel\Service\ChannelService')
+            $services->get('Channel\V1\Service\ChannelService')
         );
     }
 }

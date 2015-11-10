@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace User\Service;
+namespace User\V1\Service;
 
 use Application\Database\User\User;
 use Zend\Db\ResultSet\HydratingResultSet;

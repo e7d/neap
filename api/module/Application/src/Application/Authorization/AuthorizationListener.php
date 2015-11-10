@@ -26,7 +26,7 @@ class AuthorizationListener
 
         if (!is_null($identity)) {
             $identity = $this->services
-                ->get('User\Service\UserService')
+                ->get('User\V1\Service\UserService')
                 ->fetch($identity['user_id']);
             $this->services
                 ->get('Application\Authorization\IdentityService')

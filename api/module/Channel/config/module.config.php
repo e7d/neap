@@ -2,12 +2,12 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Channel\\Service\\ChannelService' => 'Channel\\Service\\ChannelServiceFactory',
             'Channel\\V1\\Rest\\Channel\\ChannelResource' => 'Channel\\V1\\Rest\\Channel\\ChannelResourceFactory',
             'Channel\\V1\\Rest\\Follow\\FollowResource' => 'Channel\\V1\\Rest\\Follow\\FollowResourceFactory',
             'Channel\\V1\\Rest\\Video\\VideoResource' => 'Channel\\V1\\Rest\\Video\\VideoResourceFactory',
             'Channel\\V1\\Rest\\StreamKey\\StreamKeyResource' => 'Channel\\V1\\Rest\\StreamKey\\StreamKeyResourceFactory',
-            'Channel\\V1\\Rest\\UserChannel\\UserChannelResource' => 'Channel\\V1\\Rest\\UserChannel\\UserChannelResourceFactory',
+            'Channel\\V1\\Rest\\MyChannel\\MyChannelResource' => 'Channel\\V1\\Rest\\MyChannel\\MyChannelResourceFactory',
+            'Channel\\V1\\Service\\ChannelService' => 'Channel\\V1\\Service\\ChannelServiceFactory',
         ),
     ),
     'router' => array(
@@ -53,7 +53,7 @@ return array(
                 'options' => array(
                     'route' => '/channel',
                     'defaults' => array(
-                        'controller' => 'Channel\\V1\\Rest\\UserChannel\\Controller',
+                        'controller' => 'Channel\\V1\\Rest\\MyChannel\\Controller',
                     ),
                 ),
             ),
@@ -152,8 +152,8 @@ return array(
             'collection_class' => 'Channel\\V1\\Rest\\StreamKey\\StreamKeyCollection',
             'service_name' => 'StreamKey',
         ),
-        'Channel\\V1\\Rest\\UserChannel\\Controller' => array(
-            'listener' => 'Channel\\V1\\Rest\\UserChannel\\UserChannelResource',
+        'Channel\\V1\\Rest\\MyChannel\\Controller' => array(
+            'listener' => 'Channel\\V1\\Rest\\MyChannel\\MyChannelResource',
             'route_name' => 'channel.rest.user-channel',
             'route_identifier_name' => 'user_channel_id',
             'collection_name' => 'channels',
@@ -164,9 +164,9 @@ return array(
             'collection_query_whitelist' => array(),
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'Channel\\V1\\Rest\\UserChannel\\UserChannelEntity',
-            'collection_class' => 'Channel\\V1\\Rest\\UserChannel\\UserChannelCollection',
-            'service_name' => 'UserChannel',
+            'entity_class' => 'Channel\\V1\\Rest\\MyChannel\\MyChannelEntity',
+            'collection_class' => 'Channel\\V1\\Rest\\MyChannel\\MyChannelCollection',
+            'service_name' => 'MyChannel',
         ),
     ),
     'zf-content-negotiation' => array(
@@ -175,7 +175,7 @@ return array(
             'Channel\\V1\\Rest\\Follow\\Controller' => 'HalJson',
             'Channel\\V1\\Rest\\Video\\Controller' => 'HalJson',
             'Channel\\V1\\Rest\\StreamKey\\Controller' => 'HalJson',
-            'Channel\\V1\\Rest\\UserChannel\\Controller' => 'HalJson',
+            'Channel\\V1\\Rest\\MyChannel\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'Channel\\V1\\Rest\\Channel\\Controller' => array(
@@ -198,7 +198,7 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
-            'Channel\\V1\\Rest\\UserChannel\\Controller' => array(
+            'Channel\\V1\\Rest\\MyChannel\\Controller' => array(
                 0 => 'application/vnd.channel.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -221,7 +221,7 @@ return array(
                 0 => 'application/vnd.channel.v1+json',
                 1 => 'application/json',
             ),
-            'Channel\\V1\\Rest\\UserChannel\\Controller' => array(
+            'Channel\\V1\\Rest\\MyChannel\\Controller' => array(
                 0 => 'application/vnd.channel.v1+json',
                 1 => 'application/json',
             ),
@@ -277,13 +277,13 @@ return array(
                 'route_identifier_name' => 'channel_id',
                 'is_collection' => true,
             ),
-            'Channel\\V1\\Rest\\UserChannel\\UserChannelEntity' => array(
+            'Channel\\V1\\Rest\\MyChannel\\MyChannelEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'channel.rest.user-channel',
                 'route_identifier_name' => 'user_channel_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
-            'Channel\\V1\\Rest\\UserChannel\\UserChannelCollection' => array(
+            'Channel\\V1\\Rest\\MyChannel\\MyChannelCollection' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'channel.rest.user-channel',
                 'route_identifier_name' => 'user_channel_id',
@@ -341,7 +341,7 @@ return array(
                     'DELETE' => true,
                 ),
             ),
-            'Channel\\V1\\Rest\\UserChannel\\Controller' => array(
+            'Channel\\V1\\Rest\\MyChannel\\Controller' => array(
                 'collection' => array(
                     'GET' => true,
                     'POST' => false,

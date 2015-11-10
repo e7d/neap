@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Stream\Service;
+namespace Stream\V1\Service;
 
 class StreamServiceFactory
 {

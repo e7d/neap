@@ -15,7 +15,7 @@ class ChatResourceFactory
     {
         return new ChatResource(
             $services->get('Application\Authorization\IdentityService'),
-            $services->get('Chat\Service\ChatService')
+            $services->get('Chat\V1\Service\ChatService')
         );
     }
 }

@@ -9,6 +9,8 @@
 
 namespace Channel\V1\Rest\Channel;
 
-class ChannelEntity
+use Application\Database\Channel\Channel;
+
+class ChannelEntity extends Channel
 {
 }

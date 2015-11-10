@@ -15,7 +15,7 @@ class StreamResourceFactory
     {
         return new StreamResource(
             $services->get('Application\Authorization\IdentityService'),
-            $services->get('Stream\Service\StreamService')
+            $services->get('Stream\V1\Service\StreamService')
         );
     }
 }

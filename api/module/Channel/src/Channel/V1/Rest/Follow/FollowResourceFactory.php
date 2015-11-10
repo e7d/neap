@@ -15,7 +15,7 @@ class FollowResourceFactory
     {
         return new FollowResource(
             $services->get('Application\Authorization\IdentityService'),
-            $services->get('Channel\Service\ChannelService')
+            $services->get('Channel\V1\Service\ChannelService')
         );
     }
 }

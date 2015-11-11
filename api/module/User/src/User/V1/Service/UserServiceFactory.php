@@ -15,7 +15,7 @@ class UserServiceFactory
     {
         return new UserService(
             $services->get('Application\Database\User\UserModel'),
-            $services->get('Application\Database\User\UserHydrator')
+            $services->get('Application\Hydrator\User\UserHydrator')
         );
     }
 }

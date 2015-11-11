@@ -15,7 +15,7 @@ class ChatServiceFactory
     {
         return new ChatService(
             $services->get('Application\Database\Chat\ChatModel'),
-            $services->get('Application\Database\Chat\ChatHydrator')
+            $services->get('Application\Hydrator\Chat\ChatHydrator')
         );
     }
 }

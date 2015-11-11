@@ -7,14 +7,15 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\Panel;
+namespace Application\Hydrator\Follow;
 
-class PanelHydratorFactory
+class FollowHydratorFactory
 {
     public function __invoke($services)
     {
-        return new PanelHydrator(
-            $services->get('Application\Database\Channel\ChannelModel')
+        return new FollowHydrator(
+            $services->get('Application\Database\Channel\ChannelModel'),
+            $services->get('Application\Database\User\UserModel')
         );
     }
 }

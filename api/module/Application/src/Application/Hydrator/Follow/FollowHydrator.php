@@ -7,34 +7,30 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\Chat;
+namespace Application\Hydrator\Follow;
 
-use Application\Database\Hydrator;
-use Application\Database\Chat\ChatModel;
+use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class ChatHydrator extends Hydrator
+class FollowHydrator extends Hydrator
 {
-    protected $chatModel;
     protected $channelModel;
     protected $userModel;
 
-    public function __construct(ChatModel $chatModel, ChannelModel $channelModel, UserModel $userModel)
+    public function __construct(ChannelModel $channelModel, UserModel $userModel)
     {
-        $this->chatModel = $chatModel;
         $this->channelModel = $channelModel;
         $this->userModel = $userModel;
     }
 
-    public function buildEntity($chat)
+    public function buildEntity($follow)
     {
-        $chat = $this->chatModel->fetch($chat->id);
-        $channel = $this->channelModel->fetch($chat->channel_id);
-        $user = $this->userModel->fetch($channel->user_id);
+        $channel = $this->channelModel->fetch($follow->channel_id);
+        $user = $this->userModel->fetch($follow->user_id);
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
@@ -47,8 +43,8 @@ class ChatHydrator extends Hydrator
                     ),
                 ),
             )));
-            $chat->channel = $channelEntity;
-            unset($chat->channel_id);
+            $follow->channel = $channelEntity;
+            unset($follow->channel_id);
         }
 
         if ($this->getParam('embedUser')) {
@@ -62,23 +58,25 @@ class ChatHydrator extends Hydrator
                     ),
                 ),
             )));
-            $chat->user = $userEntity;
+            $follow->user = $userEntity;
+            unset($follow->user_id);
         }
 
-        $chatEntity = new Entity($this->extract($chat), $chat->id);
+        $followEntity = new Entity($this->extract($follow));
 
-        $chatEntity->getLinks()->add(Link::factory(array(
+        $followEntity->getLinks()->add(Link::factory(array(
             'rel' => 'self',
             'route' => array(
-                'name' => 'channel.rest.channel',
+                'name' => 'channel.rest.follow',
                 'params' => array(
                     'channel_id' => $channel->id,
+                    'user_id' => $user->id,
                 ),
             ),
         )));
 
         if ($this->getParam('linkChannel')) {
-            $chatEntity->getLinks()->add(Link::factory(array(
+            $followEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -87,11 +85,10 @@ class ChatHydrator extends Hydrator
                     ),
                 ),
             )));
-            unset($chat->channel_id);
         }
 
         if ($this->getParam('linkUser')) {
-            $chatEntity->getLinks()->add(Link::factory(array(
+            $followEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'user',
                 'route' => array(
                     'name' => 'user.rest.user',
@@ -102,6 +99,6 @@ class ChatHydrator extends Hydrator
             )));
         }
 
-        return $chatEntity;
+        return $followEntity;
     }
 }

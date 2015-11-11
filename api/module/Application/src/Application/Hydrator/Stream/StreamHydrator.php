@@ -7,30 +7,34 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\User;
+namespace Application\Hydrator\Stream;
 
-use Application\Database\Hydrator;
+use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class UserHydrator extends Hydrator
+class StreamHydrator extends Hydrator
 {
-    protected $userModel;
     protected $channelModel;
+    protected $userModel;
 
-    public function __construct(UserModel $userModel, ChannelModel $channelModel)
+    public function __construct(ChannelModel $channelModel, UserModel $userModel)
     {
-        $this->userModel = $userModel;
         $this->channelModel = $channelModel;
+        $this->userModel = $userModel;
     }
 
-    public function buildEntity($user)
+    public function buildEntity($stream)
     {
-        $channel = $this->channelModel->fetch($user->channel_id);
-        unset($channel->stream_key);
+        $channel = $this->channelModel->fetch($stream->channel_id);
+        $user = $this->userModel->fetch($channel->user_id);
+
+        if (!$this->getParam('keepStreamKey')) {
+            unset($channel->stream_key);
+        }
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
@@ -43,24 +47,24 @@ class UserHydrator extends Hydrator
                     ),
                 ),
             )));
-            $user->channel = $channelEntity;
-            unset($user->channel_id);
+            $stream->channel = $channelEntity;
+            unset($stream->channel_id);
         }
 
-        $userEntity = new Entity($this->extract($user), $user->id);
+        $streamEntity = new Entity($this->extract($stream), $stream->id);
 
-        $userEntity->getLinks()->add(Link::factory(array(
+        $streamEntity->getLinks()->add(Link::factory(array(
             'rel' => 'self',
             'route' => array(
-                'name' => 'user.rest.user',
+                'name' => 'stream.rest.stream',
                 'params' => array(
-                    'user_id' => $user->id,
+                    'stream_id' => $stream->id,
                 ),
             ),
         )));
 
         if ($this->getParam('linkChannel')) {
-            $userEntity->getLinks()->add(Link::factory(array(
+            $streamEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -69,9 +73,21 @@ class UserHydrator extends Hydrator
                     ),
                 ),
             )));
-            unset($user->channel_id);
+            unset($stream->channel_id);
         }
 
-        return $userEntity;
+        if ($this->getParam('linkUser')) {
+            $streamEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'user',
+                'route' => array(
+                    'name' => 'user.rest.user',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
+                ),
+            )));
+        }
+
+        return $streamEntity;
     }
 }

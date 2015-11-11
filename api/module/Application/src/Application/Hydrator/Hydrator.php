@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database;
+namespace Application\Hydrator;
 
 abstract class Hydrator implements HydratorInterface
 {

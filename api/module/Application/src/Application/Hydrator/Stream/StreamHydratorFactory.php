@@ -7,12 +7,15 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\Topic;
+namespace Application\Hydrator\Stream;
 
-class TopicHydratorFactory
+class StreamHydratorFactory
 {
     public function __invoke($services)
     {
-        return new TopicHydrator();
+        return new StreamHydrator(
+            $services->get('Application\Database\Channel\ChannelModel'),
+            $services->get('Application\Database\User\UserModel')
+        );
     }
 }

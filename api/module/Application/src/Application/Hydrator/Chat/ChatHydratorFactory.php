@@ -7,14 +7,14 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\Video;
+namespace Application\Hydrator\Chat;
 
-class VideoHydratorFactory
+class ChatHydratorFactory
 {
     public function __invoke($services)
     {
-        return new VideoHydrator(
-            $services->get('Application\Database\Stream\StreamModel'),
+        return new ChatHydrator(
+            $services->get('Application\Database\Chat\ChatModel'),
             $services->get('Application\Database\Channel\ChannelModel'),
             $services->get('Application\Database\User\UserModel')
         );

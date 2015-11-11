@@ -15,7 +15,7 @@ class VideoServiceFactory
     {
         return new VideoService(
             $services->get('Application\Database\Video\VideoModel'),
-            $services->get('Application\Database\Video\VideoHydrator'),
+            $services->get('Application\Hydrator\Video\VideoHydrator'),
             $services->get('Application\Database\User\UserModel')
         );
     }

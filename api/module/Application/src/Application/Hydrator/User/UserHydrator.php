@@ -7,26 +7,30 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\Panel;
+namespace Application\Hydrator\User;
 
-use Application\Database\Hydrator;
+use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
+use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class PanelHydrator extends Hydrator
+class UserHydrator extends Hydrator
 {
+    protected $userModel;
     protected $channelModel;
 
-    public function __construct(ChannelModel $channelModel)
+    public function __construct(UserModel $userModel, ChannelModel $channelModel)
     {
+        $this->userModel = $userModel;
         $this->channelModel = $channelModel;
     }
 
-    public function buildEntity($panel)
+    public function buildEntity($user)
     {
-        $channel = $this->channelModel->fetch($panel->channel_id);
+        $channel = $this->channelModel->fetch($user->channel_id);
+        unset($channel->stream_key);
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
@@ -39,24 +43,24 @@ class PanelHydrator extends Hydrator
                     ),
                 ),
             )));
-            $panel->channel = $channelEntity;
-            unset($panel->channel_id);
+            $user->channel = $channelEntity;
+            unset($user->channel_id);
         }
 
-        $panelEntity = new Entity($this->extract($panel), $panel->id);
+        $userEntity = new Entity($this->extract($user), $user->id);
 
-        $panelEntity->getLinks()->add(Link::factory(array(
+        $userEntity->getLinks()->add(Link::factory(array(
             'rel' => 'self',
             'route' => array(
-                'name' => 'panel.rest.panel',
+                'name' => 'user.rest.user',
                 'params' => array(
-                    'panel_id' => $panel->id,
+                    'user_id' => $user->id,
                 ),
             ),
         )));
 
         if ($this->getParam('linkChannel')) {
-            $panelEntity->getLinks()->add(Link::factory(array(
+            $userEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -65,9 +69,9 @@ class PanelHydrator extends Hydrator
                     ),
                 ),
             )));
-            unset($panel->channel_id);
+            unset($user->channel_id);
         }
 
-        return $panelEntity;
+        return $userEntity;
     }
 }

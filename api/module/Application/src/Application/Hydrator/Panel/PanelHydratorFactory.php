@@ -7,14 +7,14 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\Block;
+namespace Application\Hydrator\Panel;
 
-class BlockHydratorFactory
+class PanelHydratorFactory
 {
     public function __invoke($services)
     {
-        return new BlockHydrator(
-            $services->get('Application\Database\User\UserModel')
+        return new PanelHydrator(
+            $services->get('Application\Database\Channel\ChannelModel')
         );
     }
 }

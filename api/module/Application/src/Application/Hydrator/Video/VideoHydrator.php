@@ -7,9 +7,9 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\Video;
+namespace Application\Hydrator\Video;
 
-use Application\Database\Hydrator;
+use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\Stream\StreamModel;
 use Application\Database\User\UserModel;

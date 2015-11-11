@@ -7,34 +7,34 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Application\Database\Stream;
+namespace Application\Hydrator\Chat;
 
-use Application\Database\Hydrator;
+use Application\Hydrator\Hydrator;
+use Application\Database\Chat\ChatModel;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
-class StreamHydrator extends Hydrator
+class ChatHydrator extends Hydrator
 {
+    protected $chatModel;
     protected $channelModel;
     protected $userModel;
 
-    public function __construct(ChannelModel $channelModel, UserModel $userModel)
+    public function __construct(ChatModel $chatModel, ChannelModel $channelModel, UserModel $userModel)
     {
+        $this->chatModel = $chatModel;
         $this->channelModel = $channelModel;
         $this->userModel = $userModel;
     }
 
-    public function buildEntity($stream)
+    public function buildEntity($chat)
     {
-        $channel = $this->channelModel->fetch($stream->channel_id);
+        $chat = $this->chatModel->fetch($chat->id);
+        $channel = $this->channelModel->fetch($chat->channel_id);
         $user = $this->userModel->fetch($channel->user_id);
-
-        if (!$this->getParam('keepStreamKey')) {
-            unset($channel->stream_key);
-        }
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
@@ -47,24 +47,38 @@ class StreamHydrator extends Hydrator
                     ),
                 ),
             )));
-            $stream->channel = $channelEntity;
-            unset($stream->channel_id);
+            $chat->channel = $channelEntity;
+            unset($chat->channel_id);
         }
 
-        $streamEntity = new Entity($this->extract($stream), $stream->id);
+        if ($this->getParam('embedUser')) {
+            $userEntity = new Entity($user, $user->id);
+            $userEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'self',
+                'route' => array(
+                    'name' => 'user.rest.user',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
+                ),
+            )));
+            $chat->user = $userEntity;
+        }
 
-        $streamEntity->getLinks()->add(Link::factory(array(
+        $chatEntity = new Entity($this->extract($chat), $chat->id);
+
+        $chatEntity->getLinks()->add(Link::factory(array(
             'rel' => 'self',
             'route' => array(
-                'name' => 'stream.rest.stream',
+                'name' => 'channel.rest.channel',
                 'params' => array(
-                    'stream_id' => $stream->id,
+                    'channel_id' => $channel->id,
                 ),
             ),
         )));
 
         if ($this->getParam('linkChannel')) {
-            $streamEntity->getLinks()->add(Link::factory(array(
+            $chatEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -73,11 +87,11 @@ class StreamHydrator extends Hydrator
                     ),
                 ),
             )));
-            unset($stream->channel_id);
+            unset($chat->channel_id);
         }
 
         if ($this->getParam('linkUser')) {
-            $streamEntity->getLinks()->add(Link::factory(array(
+            $chatEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'user',
                 'route' => array(
                     'name' => 'user.rest.user',
@@ -88,6 +102,6 @@ class StreamHydrator extends Hydrator
             )));
         }
 
-        return $streamEntity;
+        return $chatEntity;
     }
 }

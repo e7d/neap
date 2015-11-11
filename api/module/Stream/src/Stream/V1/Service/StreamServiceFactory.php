@@ -15,7 +15,7 @@ class StreamServiceFactory
     {
         return new StreamService(
             $services->get('Application\Database\Stream\StreamModel'),
-            $services->get('Application\Database\Stream\StreamHydrator'),
+            $services->get('Application\Hydrator\Stream\StreamHydrator'),
             $services->get('Application\Database\User\UserModel')
         );
     }

@@ -59,6 +59,18 @@ class UserHydrator extends Hydrator
             ),
         )));
 
+        if ($this->getParam('linkBlock')) {
+            $userEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'blocks',
+                'route' => array(
+                    'name' => 'user.rest.block',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
+                ),
+            )));
+        }
+
         if ($this->getParam('linkChannel')) {
             $userEntity->getLinks()->add(Link::factory(array(
                 'rel' => 'channel',
@@ -70,6 +82,42 @@ class UserHydrator extends Hydrator
                 ),
             )));
             unset($user->channel_id);
+        }
+
+        if ($this->getParam('linkFavorite')) {
+            $userEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'favorites',
+                'route' => array(
+                    'name' => 'user.rest.favorite',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
+                ),
+            )));
+        }
+
+        if ($this->getParam('linkFollow')) {
+            $userEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'follows',
+                'route' => array(
+                    'name' => 'user.rest.follow',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
+                ),
+            )));
+        }
+
+        if ($this->getParam('linkMod')) {
+            $userEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'mods',
+                'route' => array(
+                    'name' => 'user.rest.mod',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
+                ),
+            )));
         }
 
         return $userEntity;

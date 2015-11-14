@@ -2,13 +2,13 @@
 return array(
     'service_manager' => array(
         'factories' => array(
+            'User\\V1\\Rest\\Block\\BlockResource' => 'User\\V1\\Rest\\Block\\BlockResourceFactory',
+            'User\\V1\\Rest\\Favorite\\FavoriteResource' => 'User\\V1\\Rest\\Favorite\\FavoriteResourceFactory',
+            'User\\V1\\Rest\\Follow\\FollowResource' => 'User\\V1\\Rest\\Follow\\FollowResourceFactory',
+            'User\\V1\\Rest\\Mod\\ModResource' => 'User\\V1\\Rest\\Mod\\ModResourceFactory',
+            'User\\V1\\Rest\\MyUser\\MyUserResource' => 'User\\V1\\Rest\\MyUser\\MyUserResourceFactory',
             'User\\V1\\Rest\\User\\UserResource' => 'User\\V1\\Rest\\User\\UserResourceFactory',
             'User\\V1\\Service\\UserService' => 'User\\V1\\Service\\UserServiceFactory',
-            'User\\V1\\Rest\\Follow\\FollowResource' => 'User\\V1\\Rest\\Follow\\FollowResourceFactory',
-            'User\\V1\\Rest\\MyUser\\MyUserResource' => 'User\\V1\\Rest\\MyUser\\MyUserResourceFactory',
-            'User\\V1\\Rest\\Block\\BlockResource' => 'User\\V1\\Rest\\Block\\BlockResourceFactory',
-            'User\\V1\\Rest\\Mod\\ModResource' => 'User\\V1\\Rest\\Mod\\ModResourceFactory',
-            'User\\V1\\Rest\\Favorite\\FavoriteResource' => 'User\\V1\\Rest\\Favorite\\FavoriteResourceFactory',
         ),
     ),
     'router' => array(
@@ -62,7 +62,7 @@ return array(
             'user.rest.mod' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => 'users/:user_id/mods[/:chat_id]',
+                    'route' => '/users/:user_id/mods[/:chat_id]',
                     'defaults' => array(
                         'controller' => 'User\\V1\\Rest\\Mod\\Controller',
                     ),
@@ -156,7 +156,7 @@ return array(
             'listener' => 'User\\V1\\Rest\\Block\\BlockResource',
             'route_name' => 'user.rest.block',
             'route_identifier_name' => 'target_user_id',
-            'collection_name' => 'blocks',
+            'collection_name' => 'blocked_users',
             'entity_http_methods' => array(
                 0 => 'PUT',
                 1 => 'DELETE',

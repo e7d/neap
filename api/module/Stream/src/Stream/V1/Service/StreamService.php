@@ -10,6 +10,7 @@
 namespace Stream\V1\Service;
 
 use Application\Database\Stream\Stream;
+use Stream\V1\Rest\Stream\StreamCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
@@ -54,8 +55,8 @@ class StreamService
             $hydratingResultSet
         );
 
-        $paginator = new Paginator($paginatorAdapter);
-        return $paginator;
+        $collection = new StreamCollection($paginatorAdapter);
+        return $collection;
     }
 
     public function fetch($id)

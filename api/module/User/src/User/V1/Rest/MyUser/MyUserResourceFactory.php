@@ -5,6 +5,9 @@ class MyUserResourceFactory
 {
     public function __invoke($services)
     {
-        return new MyUserResource();
+        return new MyUserResource(
+            $services->get('Application\Authorization\IdentityService'),
+            $services->get('User\V1\Service\UserService')
+        );
     }
 }

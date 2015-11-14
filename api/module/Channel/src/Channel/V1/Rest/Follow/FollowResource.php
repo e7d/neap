@@ -24,17 +24,6 @@ class FollowResource extends AbstractResourceListener
     }
 
     /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function fetch($id)
-    {
-        return $this->channelService->fetchFollower($id);
-    }
-
-    /**
      * Fetch all or a subset of resources
      *
      * @param  array $params

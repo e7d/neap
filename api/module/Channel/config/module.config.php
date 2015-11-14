@@ -97,7 +97,7 @@ return array(
             'listener' => 'Channel\\V1\\Rest\\Follow\\FollowResource',
             'route_name' => 'channel.rest.follow',
             'route_identifier_name' => 'user_id',
-            'collection_name' => 'follows',
+            'collection_name' => 'users',
             'entity_http_methods' => array(),
             'collection_http_methods' => array(
                 0 => 'GET',

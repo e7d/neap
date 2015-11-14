@@ -8,10 +8,12 @@
  */
 
 namespace Channel\V1\Service;
-
 use Application\Database\Channel\Channel;
-use Application\Database\Follow\Follow;
+use Application\Database\User\User;
 use Application\Database\Video\Video;
+use Channel\V1\Rest\Channel\ChannelCollection;
+use Channel\V1\Rest\Follow\FollowCollection;
+use Channel\V1\Rest\Video\VideoCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
@@ -62,8 +64,8 @@ class ChannelService
             $hydratingResultSet
         );
 
-        $paginator = new Paginator($paginatorAdapter);
-        return $paginator;
+        $collection = new ChannelCollection($paginatorAdapter);
+        return $collection;
     }
 
     public function fetch($id)
@@ -105,38 +107,23 @@ class ChannelService
         $where = new Where();
         $where->equalTo('follow.channel_id', $params['channel_id']);
 
-        $select = new Select('follow');
+        $select = new Select('user');
+        $select->join('follow', 'follow.user_id = user.user_id', array(), 'inner');
         $select->where($where);
 
-        $this->followHydrator->setParam('linkChannel');
-        $this->followHydrator->setParam('embedUser');
-
         $hydratingResultSet = new HydratingResultSet(
-            $this->followHydrator,
-            new Follow()
+            $this->userHydrator,
+            new User()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->followModel->tableGateway->getAdapter(),
+            $this->userModel->tableGateway->getAdapter(),
             $hydratingResultSet
         );
 
-        $paginator = new Paginator($paginatorAdapter);
-        return $paginator;
-    }
-
-    public function fetchFollower($id)
-    {
-        $follow = $this->followModel->fetchByUser($id);
-        if (!$follow) {
-            return null;
-        }
-
-        $this->followHydrator->setParam('embedChannel');
-        $this->followHydrator->setParam('embedUser');
-
-        return $this->followHydrator->buildEntity($follow);
+        $collection = new FollowCollection($paginatorAdapter);
+        return $collection;
     }
 
     public function fetchVideos($params)
@@ -164,8 +151,8 @@ class ChannelService
             $hydratingResultSet
         );
 
-        $paginator = new Paginator($paginatorAdapter);
-        return $paginator;
+        $collection = new VideoCollection($paginatorAdapter);
+        return $collection;
     }
 
     public function isOwner($id, $userId)

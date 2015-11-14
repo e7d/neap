@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="0,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,696" last-zoom="1"
 	 default-schema="neap" default-owner="neap">
 <role name="neap"
       login="true"
@@ -175,7 +175,7 @@ END;]]></definition>
 <table name="channel">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="40" y="523"/>
+	<position x="40" y="563"/>
 	<column name="channel_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -241,7 +241,7 @@ END;]]></definition>
 <table name="user">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="1040" y="623"/>
+	<position x="1040" y="663"/>
 	<column name="user_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -292,7 +292,7 @@ END;]]></definition>
 <table name="follow">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="580" y="583"/>
+	<position x="580" y="623"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -310,7 +310,7 @@ END;]]></definition>
 <table name="video">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="1040" y="203"/>
+	<position x="1040" y="243"/>
 	<column name="video_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -361,7 +361,7 @@ END;]]></definition>
 <table name="panel">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="60" y="923"/>
+	<position x="60" y="963"/>
 	<column name="panel_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -400,14 +400,14 @@ END;]]></definition>
 <table name="stream">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="40" y="203"/>
+	<position x="40" y="243"/>
 	<column name="stream_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="channel_id" not-null="true">
 		<type name="uuid"/>
 	</column>
-	<column name="ingest_id">
+	<column name="ingest_id" not-null="true">
 		<type name="uuid"/>
 	</column>
 	<column name="title" not-null="true">
@@ -442,7 +442,7 @@ END;]]></definition>
 <table name="topic">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="580" y="383"/>
+	<position x="580" y="423"/>
 	<column name="topic_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -463,7 +463,7 @@ END;]]></definition>
 <table name="chat">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="580" y="963"/>
+	<position x="580" y="1003"/>
 	<column name="chat_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -487,7 +487,7 @@ END;]]></definition>
 <table name="mod">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="1040" y="943"/>
+	<position x="540" y="780"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -511,7 +511,7 @@ END;]]></definition>
 <table name="block">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="1040" y="483"/>
+	<position x="1040" y="900"/>
 	<column name="user_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -522,9 +522,6 @@ END;]]></definition>
 		<type name="timestamptz"/>
 	</column>
 	<constraint name="block_user_id_blocked_user_id_pk" type="pk-constr" table="neap.block">
-		<columns names="user_id,blocked_user_id" ref-type="src-columns"/>
-	</constraint>
-	<constraint name="block_user_id_blocked_user_id_uq" type="uq-constr" table="neap.block">
 		<columns names="user_id,blocked_user_id" ref-type="src-columns"/>
 	</constraint>
 </table>
@@ -583,8 +580,8 @@ END;]]></definition>
 <table name="ingest">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="40" y="60"/>
-	<column name="ingest_id" not-null="true" default-value="generate_uuid()">
+	<position x="40" y="43"/>
+	<column name="ingest_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
 	<column name="name" not-null="true">
@@ -599,6 +596,12 @@ END;]]></definition>
 	<column name="availability" not-null="true" default-value="1">
 		<type name="float"/>
 	</column>
+	<column name="created_at" not-null="true" default-value="now()">
+		<type name="timestamptz"/>
+	</column>
+	<column name="updated_at" not-null="true" default-value="now()">
+		<type name="timestamptz"/>
+	</column>
 	<constraint name="ingest_ingest_id_pk" type="pk-constr" table="neap.ingest">
 		<columns names="ingest_id" ref-type="src-columns"/>
 	</constraint>
@@ -610,7 +613,7 @@ END;]]></definition>
 <table name="outage">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="440" y="60"/>
+	<position x="580" y="60"/>
 	<column name="ingest_id" not-null="true">
 		<type name="uuid"/>
 	</column>
@@ -622,6 +625,123 @@ END;]]></definition>
 	</column>
 	<constraint name="outage_ingest_id_started_at_pk" type="pk-constr" table="neap.outage">
 		<columns names="ingest_id,started_at" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<trigger name="ingest_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.ingest">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<table name="emoji">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="1040" y="1020"/>
+	<column name="emoji_id" not-null="true" default-value="gen_random_uuid()">
+		<type name="uuid"/>
+	</column>
+	<column name="chat_id">
+		<type name="uuid"/>
+	</column>
+	<column name="code" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="width" not-null="true" default-value="24">
+		<type name="smallint"/>
+	</column>
+	<column name="height" not-null="true" default-value="24">
+		<type name="smallint"/>
+	</column>
+	<column name="url" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="created_at" not-null="true" default-value="now()">
+		<type name="timestamptz"/>
+	</column>
+	<constraint name="emoticon_emoticon_id_pk" type="pk-constr" table="neap.emoji">
+		<columns names="emoji_id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="emoticon_code_uq" type="uq-constr" table="neap.emoji">
+		<columns names="code" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="team">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="1480" y="840"/>
+	<column name="team_id" not-null="true" default-value="gen_random_uuid()">
+		<type name="uuid"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="display_name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="logo">
+		<type name="character varying"/>
+	</column>
+	<column name="banner">
+		<type name="character varying"/>
+	</column>
+	<column name="background">
+		<type name="character varying"/>
+	</column>
+	<column name="created_at" not-null="true" default-value="now()">
+		<type name="timestamptz"/>
+	</column>
+	<column name="updated_at" not-null="true" default-value="now()">
+		<type name="timestamptz"/>
+	</column>
+	<constraint name="team_team_id_pk" type="pk-constr" table="neap.team">
+		<columns names="team_id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="team_name_uq" type="uq-constr" table="neap.team">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<trigger name="team_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.team">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<table name="member">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="1520" y="660"/>
+	<column name="user_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="team_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="created_at" not-null="true" default-value="now()">
+		<type name="timestamptz"/>
+	</column>
+	<constraint name="member_user_id_team_id_pk" type="pk-constr" table="neap.member">
+		<columns names="user_id,team_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="favorite">
+	<schema name="neap"/>
+	<role name="neap"/>
+	<position x="1100" y="520"/>
+	<column name="user_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="video_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="created_at" not-null="true" default-value="now()">
+		<type name="timestamptz"/>
+	</column>
+	<constraint name="favorite_user_id_video_id_pk" type="pk-constr" table="neap.favorite">
+		<columns names="user_id,video_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -656,13 +776,17 @@ END;]]></definition>
 </constraint>
 
 <constraint name="follow_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.follow">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.&quot;user&quot;"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.follow">
 	<columns names="user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="follow_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.channel" table="neap.follow">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.channel"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.follow">
 	<columns names="channel_id" ref-type="src-columns"/>
 	<columns names="channel_id" ref-type="dst-columns"/>
 </constraint>
@@ -712,25 +836,33 @@ END;]]></definition>
 </constraint>
 
 <constraint name="mod_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.mod">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.&quot;user&quot;"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.mod">
 	<columns names="user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="mod_chat_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.chat" table="neap.mod">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.chat"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.mod">
 	<columns names="chat_id" ref-type="src-columns"/>
 	<columns names="chat_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="block_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.block">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.&quot;user&quot;"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.block">
 	<columns names="user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="block_blocked_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;" table="neap.block">
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.&quot;user&quot;"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.block">
 	<columns names="blocked_user_id" ref-type="src-columns"/>
 	<columns names="user_id" ref-type="dst-columns"/>
 </constraint>
@@ -739,6 +871,44 @@ END;]]></definition>
 	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.ingest" table="neap.outage">
 	<columns names="ingest_id" ref-type="src-columns"/>
 	<columns names="ingest_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="emoticon_chat_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.chat" table="neap.emoji">
+	<columns names="chat_id" ref-type="src-columns"/>
+	<columns names="chat_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="member_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.&quot;user&quot;"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.member">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="user_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="member_team_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.team"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.member">
+	<columns names="team_id" ref-type="src-columns"/>
+	<columns names="team_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="favorite_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.&quot;user&quot;"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.favorite">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="user_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="favorite_video_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="CASCADE" ref-table="neap.video"
+	deferrable="true" defer-type="INITIALLY IMMEDIATE"
+ table="neap.favorite">
+	<columns names="video_id" ref-type="src-columns"/>
+	<columns names="video_id" ref-type="dst-columns"/>
 </constraint>
 
 <relationship name="rel_channel_user" type="relfk"
@@ -818,6 +988,31 @@ END;]]></definition>
 <relationship name="rel_outage_ingest" type="relfk"
 	 src-table="neap.outage"
 	 dst-table="neap.ingest"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_emoticon_chat" type="relfk"
+	 src-table="neap.emoji"
+	 dst-table="neap.chat"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_member_user" type="relfk"
+	 src-table="neap.member"
+	 dst-table="neap.&quot;user&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_member_team" type="relfk"
+	 src-table="neap.member"
+	 dst-table="neap.team"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_favorite_user" type="relfk"
+	 src-table="neap.favorite"
+	 dst-table="neap.&quot;user&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_favorite_video" type="relfk"
+	 src-table="neap.favorite"
+	 dst-table="neap.video"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

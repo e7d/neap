@@ -9,7 +9,7 @@ SET check_function_bodies = false;
 
 -- object: neap | type: ROLE --
 -- DROP ROLE IF EXISTS neap;
-CREATE ROLE neap WITH 
+CREATE ROLE neap WITH
 	LOGIN
 	ENCRYPTED PASSWORD 'neap';
 -- ddl-end --
@@ -23,7 +23,7 @@ CREATE ROLE neap WITH
 -- 	OWNER = neap
 -- ;
 -- -- ddl-end --
--- 
+--
 
 -- object: neap | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS neap CASCADE;
@@ -52,7 +52,7 @@ CREATE EXTENSION pg_trgm
 CREATE FUNCTION neap.generate_stream_key ()
 	RETURNS text
 	LANGUAGE plpgsql
-	VOLATILE 
+	VOLATILE
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -82,7 +82,7 @@ ALTER FUNCTION neap.generate_stream_key() OWNER TO neap;
 CREATE FUNCTION neap.update_updated_at ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE 
+	STABLE
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -101,7 +101,7 @@ ALTER FUNCTION neap.update_updated_at() OWNER TO neap;
 CREATE FUNCTION neap.delete_stream_key ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE 
+	STABLE
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -232,7 +232,7 @@ ALTER TABLE neap.panel OWNER TO neap;
 CREATE TABLE neap.stream(
 	stream_id uuid NOT NULL DEFAULT gen_random_uuid(),
 	channel_id uuid NOT NULL,
-	ingest_id uuid,
+	ingest_id uuid NOT NULL,
 	title character varying NOT NULL,
 	topic_id uuid,
 	topic character varying NOT NULL,
@@ -298,8 +298,7 @@ CREATE TABLE neap.block(
 	user_id uuid NOT NULL,
 	blocked_user_id uuid NOT NULL,
 	created_at timestamptz NOT NULL DEFAULT now(),
-	CONSTRAINT block_user_id_blocked_user_id_pk PRIMARY KEY (user_id,blocked_user_id),
-	CONSTRAINT block_user_id_blocked_user_id_uq UNIQUE (user_id,blocked_user_id)
+	CONSTRAINT block_user_id_blocked_user_id_pk PRIMARY KEY (user_id,blocked_user_id)
 
 );
 -- ddl-end --
@@ -373,19 +372,19 @@ CREATE TRIGGER mod_updated_at_trigger
 -- DROP INDEX IF EXISTS neap.stream_title_idx CASCADE;
 CREATE INDEX stream_title_idx ON neap.stream
 	USING gin
-	(
-	  (title gin_trgm_ops)
-	);
+	(title gin_trgm_ops);
 -- ddl-end --
 
 -- object: neap.ingest | type: TABLE --
 -- DROP TABLE IF EXISTS neap.ingest CASCADE;
 CREATE TABLE neap.ingest(
-	ingest_id uuid NOT NULL DEFAULT generate_uuid(),
+	ingest_id uuid NOT NULL DEFAULT gen_random_uuid(),
 	name character varying NOT NULL,
 	hostname character varying NOT NULL,
 	port smallint NOT NULL DEFAULT 1935,
 	availability float NOT NULL DEFAULT 1,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT ingest_ingest_id_pk PRIMARY KEY (ingest_id),
 	CONSTRAINT ingest_name_uq UNIQUE (name)
 
@@ -405,6 +404,87 @@ CREATE TABLE neap.outage(
 );
 -- ddl-end --
 ALTER TABLE neap.outage OWNER TO neap;
+-- ddl-end --
+
+-- object: ingest_updated_at_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS ingest_updated_at_trigger ON neap.ingest  ON neap.ingest CASCADE;
+CREATE TRIGGER ingest_updated_at_trigger
+	BEFORE UPDATE
+	ON neap.ingest
+	FOR EACH ROW
+	EXECUTE PROCEDURE neap.update_updated_at();
+-- ddl-end --
+
+-- object: neap.emoji | type: TABLE --
+-- DROP TABLE IF EXISTS neap.emoji CASCADE;
+CREATE TABLE neap.emoji(
+	emoji_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	chat_id uuid,
+	code character varying NOT NULL,
+	width smallint NOT NULL DEFAULT 24,
+	height smallint NOT NULL DEFAULT 24,
+	url character varying NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT emoticon_emoticon_id_pk PRIMARY KEY (emoji_id),
+	CONSTRAINT emoticon_code_uq UNIQUE (code)
+
+);
+-- ddl-end --
+ALTER TABLE neap.emoji OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.team | type: TABLE --
+-- DROP TABLE IF EXISTS neap.team CASCADE;
+CREATE TABLE neap.team(
+	team_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	name character varying NOT NULL,
+	display_name character varying NOT NULL,
+	logo character varying,
+	banner character varying,
+	background character varying,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT team_team_id_pk PRIMARY KEY (team_id),
+	CONSTRAINT team_name_uq UNIQUE (name)
+
+);
+-- ddl-end --
+ALTER TABLE neap.team OWNER TO neap;
+-- ddl-end --
+
+-- object: team_updated_at_trigger | type: TRIGGER --
+-- DROP TRIGGER IF EXISTS team_updated_at_trigger ON neap.team  ON neap.team CASCADE;
+CREATE TRIGGER team_updated_at_trigger
+	BEFORE UPDATE
+	ON neap.team
+	FOR EACH ROW
+	EXECUTE PROCEDURE neap.update_updated_at();
+-- ddl-end --
+
+-- object: neap.member | type: TABLE --
+-- DROP TABLE IF EXISTS neap.member CASCADE;
+CREATE TABLE neap.member(
+	user_id uuid NOT NULL,
+	team_id uuid NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT member_user_id_team_id_pk PRIMARY KEY (user_id,team_id)
+
+);
+-- ddl-end --
+ALTER TABLE neap.member OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.favorite | type: TABLE --
+-- DROP TABLE IF EXISTS neap.favorite CASCADE;
+CREATE TABLE neap.favorite(
+	user_id uuid NOT NULL,
+	video_id uuid NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT favorite_user_id_video_id_pk PRIMARY KEY (user_id,video_id)
+
+);
+-- ddl-end --
+ALTER TABLE neap.favorite OWNER TO neap;
 -- ddl-end --
 
 -- object: channel_user_id_fk | type: CONSTRAINT --
@@ -439,14 +519,14 @@ ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ALTER TABLE neap.follow DROP CONSTRAINT IF EXISTS follow_user_id_fk CASCADE;
 ALTER TABLE neap.follow ADD CONSTRAINT follow_user_id_fk FOREIGN KEY (user_id)
 REFERENCES neap."user" (user_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
 
 -- object: follow_channel_id_fk | type: CONSTRAINT --
 -- ALTER TABLE neap.follow DROP CONSTRAINT IF EXISTS follow_channel_id_fk CASCADE;
 ALTER TABLE neap.follow ADD CONSTRAINT follow_channel_id_fk FOREIGN KEY (channel_id)
 REFERENCES neap.channel (channel_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
 
 -- object: video_stream_id_fk | type: CONSTRAINT --
@@ -502,28 +582,28 @@ ON DELETE NO ACTION ON UPDATE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 -- ALTER TABLE neap.mod DROP CONSTRAINT IF EXISTS mod_user_id_fk CASCADE;
 ALTER TABLE neap.mod ADD CONSTRAINT mod_user_id_fk FOREIGN KEY (user_id)
 REFERENCES neap."user" (user_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
 
 -- object: mod_chat_id_fk | type: CONSTRAINT --
 -- ALTER TABLE neap.mod DROP CONSTRAINT IF EXISTS mod_chat_id_fk CASCADE;
 ALTER TABLE neap.mod ADD CONSTRAINT mod_chat_id_fk FOREIGN KEY (chat_id)
 REFERENCES neap.chat (chat_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
 
 -- object: block_user_id_fk | type: CONSTRAINT --
 -- ALTER TABLE neap.block DROP CONSTRAINT IF EXISTS block_user_id_fk CASCADE;
 ALTER TABLE neap.block ADD CONSTRAINT block_user_id_fk FOREIGN KEY (user_id)
 REFERENCES neap."user" (user_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
 
 -- object: block_blocked_user_id_fk | type: CONSTRAINT --
 -- ALTER TABLE neap.block DROP CONSTRAINT IF EXISTS block_blocked_user_id_fk CASCADE;
 ALTER TABLE neap.block ADD CONSTRAINT block_blocked_user_id_fk FOREIGN KEY (blocked_user_id)
 REFERENCES neap."user" (user_id) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
 
 -- object: outage_ingest_id_fk | type: CONSTRAINT --
@@ -533,4 +613,37 @@ REFERENCES neap.ingest (ingest_id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
+-- object: emoticon_chat_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.emoji DROP CONSTRAINT IF EXISTS emoticon_chat_id_fk CASCADE;
+ALTER TABLE neap.emoji ADD CONSTRAINT emoticon_chat_id_fk FOREIGN KEY (chat_id)
+REFERENCES neap.chat (chat_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
 
+-- object: member_user_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.member DROP CONSTRAINT IF EXISTS member_user_id_fk CASCADE;
+ALTER TABLE neap.member ADD CONSTRAINT member_user_id_fk FOREIGN KEY (user_id)
+REFERENCES neap."user" (user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
+-- ddl-end --
+
+-- object: member_team_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.member DROP CONSTRAINT IF EXISTS member_team_id_fk CASCADE;
+ALTER TABLE neap.member ADD CONSTRAINT member_team_id_fk FOREIGN KEY (team_id)
+REFERENCES neap.team (team_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
+-- ddl-end --
+
+-- object: favorite_user_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.favorite DROP CONSTRAINT IF EXISTS favorite_user_id_fk CASCADE;
+ALTER TABLE neap.favorite ADD CONSTRAINT favorite_user_id_fk FOREIGN KEY (user_id)
+REFERENCES neap."user" (user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
+-- ddl-end --
+
+-- object: favorite_video_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.favorite DROP CONSTRAINT IF EXISTS favorite_video_id_fk CASCADE;
+ALTER TABLE neap.favorite ADD CONSTRAINT favorite_video_id_fk FOREIGN KEY (video_id)
+REFERENCES neap.video (video_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
+-- ddl-end --

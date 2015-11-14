@@ -8,7 +8,7 @@ server {
     index index.php index.html;
 
     # Hostname
-    server_name rtmp.neap.dev;
+    server_name rtmp.neap.dev neap;
 
     # SSL settings
     ssl_protocols TLSv1.2;

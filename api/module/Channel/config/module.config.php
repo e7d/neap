@@ -98,15 +98,9 @@ return array(
             'route_name' => 'channel.rest.follow',
             'route_identifier_name' => 'user_id',
             'collection_name' => 'follows',
-            'entity_http_methods' => array(
-                0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
-            ),
+            'entity_http_methods' => array(),
             'collection_http_methods' => array(
                 0 => 'GET',
-                1 => 'POST',
             ),
             'collection_query_whitelist' => array(
                 0 => 'limit',
@@ -155,7 +149,7 @@ return array(
         'Channel\\V1\\Rest\\MyChannel\\Controller' => array(
             'listener' => 'Channel\\V1\\Rest\\MyChannel\\MyChannelResource',
             'route_name' => 'channel.rest.user-channel',
-            'route_identifier_name' => 'user_channel_id',
+            'route_identifier_name' => 'channel_id',
             'collection_name' => 'channels',
             'entity_http_methods' => array(),
             'collection_http_methods' => array(
@@ -280,13 +274,13 @@ return array(
             'Channel\\V1\\Rest\\MyChannel\\MyChannelEntity' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'channel.rest.user-channel',
-                'route_identifier_name' => 'user_channel_id',
+                'route_identifier_name' => 'channel_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'Channel\\V1\\Rest\\MyChannel\\MyChannelCollection' => array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'channel.rest.user-channel',
-                'route_identifier_name' => 'user_channel_id',
+                'route_identifier_name' => 'channel_id',
                 'is_collection' => true,
             ),
         ),
@@ -312,7 +306,7 @@ return array(
             'Channel\\V1\\Rest\\Follow\\Controller' => array(
                 'collection' => array(
                     'GET' => false,
-                    'POST' => true,
+                    'POST' => false,
                     'PUT' => false,
                     'PATCH' => false,
                     'DELETE' => false,
@@ -320,9 +314,9 @@ return array(
                 'entity' => array(
                     'GET' => false,
                     'POST' => false,
-                    'PUT' => true,
-                    'PATCH' => true,
-                    'DELETE' => true,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
                 ),
             ),
             'Channel\\V1\\Rest\\StreamKey\\Controller' => array(

@@ -29,6 +29,7 @@ return array(
     'Search',
     'Status',
     'Stream',
+    'Team',
     'Topic',
     'User',
     'Video',

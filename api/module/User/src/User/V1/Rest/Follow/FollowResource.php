@@ -6,15 +6,13 @@ use ZF\Rest\AbstractResourceListener;
 
 class FollowResource extends AbstractResourceListener
 {
-    /**
-     * Create a resource
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function create($data)
+    private $identityService;
+    private $userService;
+
+    function __construct($identityService, $userService)
     {
-        return new ApiProblem(405, 'The POST method has not been defined');
+        $this->identityService = $identityService;
+        $this->userService = $userService;
     }
 
     /**
@@ -29,28 +27,6 @@ class FollowResource extends AbstractResourceListener
     }
 
     /**
-     * Delete a collection, or members of a collection
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function deleteList($data)
-    {
-        return new ApiProblem(405, 'The DELETE method has not been defined for collections');
-    }
-
-    /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function fetch($id)
-    {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
-    }
-
-    /**
      * Fetch all or a subset of resources
      *
      * @param  array $params
@@ -58,30 +34,13 @@ class FollowResource extends AbstractResourceListener
      */
     public function fetchAll($params = array())
     {
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
-    }
+        $params = array_merge((array) $params, array(
+            'user_id' => $this->getEvent()->getRouteParam('user_id')
+        ));
 
-    /**
-     * Patch (partial in-place update) a resource
-     *
-     * @param  mixed $id
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function patch($id, $data)
-    {
-        return new ApiProblem(405, 'The PATCH method has not been defined for individual resources');
-    }
+        $collection = $this->userService->fetchFollows($params);
 
-    /**
-     * Replace a collection or members of a collection
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function replaceList($data)
-    {
-        return new ApiProblem(405, 'The PUT method has not been defined for collections');
+        return $collection;
     }
 
     /**

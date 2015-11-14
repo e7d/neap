@@ -5,6 +5,9 @@ class FavoriteResourceFactory
 {
     public function __invoke($services)
     {
-        return new FavoriteResource();
+        return new FavoriteResource(
+            $services->get('Application\Authorization\IdentityService'),
+            $services->get('User\V1\Service\UserService')
+        );
     }
 }

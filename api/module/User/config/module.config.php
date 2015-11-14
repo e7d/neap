@@ -119,7 +119,7 @@ return array(
             'listener' => 'User\\V1\\Rest\\Follow\\FollowResource',
             'route_name' => 'user.rest.follow',
             'route_identifier_name' => 'follow_id',
-            'collection_name' => 'follows',
+            'collection_name' => 'channels',
             'entity_http_methods' => array(
                 0 => 'PUT',
                 1 => 'DELETE',
@@ -177,7 +177,7 @@ return array(
             'listener' => 'User\\V1\\Rest\\Mod\\ModResource',
             'route_name' => 'user.rest.mod',
             'route_identifier_name' => 'chat_id',
-            'collection_name' => 'mods',
+            'collection_name' => 'chats',
             'entity_http_methods' => array(
                 0 => 'PUT',
                 1 => 'DELETE',

@@ -44,7 +44,7 @@ class ChannelModel
         $where->equalTo('user.user_id', $userId);
 
         $select = $this->tableGateway->getSql()->select();
-        $select->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select->join('user', 'user.user_id = channel.user_id', array(), 'inner');
         $select->where($where);
 
         $rowset = $this->tableGateway->selectWith($select);

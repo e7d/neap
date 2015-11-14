@@ -9,8 +9,14 @@
 
 namespace User\V1\Service;
 
+use Application\Database\Channel\Channel;
+use Application\Database\Chat\Chat;
 use Application\Database\User\User;
+use Application\Database\Video\Video;
 use User\V1\Rest\Block\BlockCollection;
+use User\V1\Rest\Favorite\FavoriteCollection;
+use User\V1\Rest\Follow\FollowCollection;
+use User\V1\Rest\Mod\ModCollection;
 use User\V1\Rest\User\UserCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
@@ -21,13 +27,25 @@ use Zend\Paginator\Paginator;
 
 class UserService
 {
+    protected $channelModel;
+    protected $channelHydrator;
+    protected $chatModel;
+    protected $chatHydrator;
     protected $userModel;
     protected $userHydrator;
+    protected $videoModel;
+    protected $videoHydrator;
 
-    public function __construct($userModel, $userHydrator)
+    public function __construct($channelModel, $channelHydrator, $chatModel, $chatHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
     {
+        $this->channelModel = $channelModel;
+        $this->channelHydrator = $channelHydrator;
+        $this->chatModel = $chatModel;
+        $this->chatHydrator = $chatHydrator;
         $this->userModel = $userModel;
         $this->userHydrator = $userHydrator;
+        $this->videoModel = $videoModel;
+        $this->videoHydrator = $videoHydrator;
     }
 
     public function fetchAll($params)
@@ -43,7 +61,7 @@ class UserService
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->tableGateway->getAdapter(),
+            $this->userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -95,11 +113,83 @@ class UserService
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->tableGateway->getAdapter(),
+            $this->userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
         $collection = new BlockCollection($paginatorAdapter);
+        return $collection;
+    }
+
+    public function fetchFavorites($params)
+    {
+        $where = new Where();
+        $where->equalTo('favorite.user_id', $params['user_id']);
+
+        $select = new Select('video');
+        $select->join('favorite', 'favorite.video_id = video.video_id', array(), 'inner');
+        $select->where($where);
+
+        $hydratingResultSet = new HydratingResultSet(
+            $this->videoHydrator,
+            new Video()
+        );
+
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->videoModel->getTableGateway()->getAdapter(),
+            $hydratingResultSet
+        );
+
+        $collection = new FavoriteCollection($paginatorAdapter);
+        return $collection;
+    }
+
+    public function fetchFollows($params)
+    {
+        $where = new Where();
+        $where->equalTo('follow.user_id', $params['user_id']);
+
+        $select = new Select('channel');
+        $select->join('follow', 'follow.channel_id = channel.channel_id', array(), 'inner');
+        $select->where($where);
+
+        $hydratingResultSet = new HydratingResultSet(
+            $this->channelHydrator,
+            new Channel()
+        );
+
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->channelModel->getTableGateway()->getAdapter(),
+            $hydratingResultSet
+        );
+
+        $collection = new FollowCollection($paginatorAdapter);
+        return $collection;
+    }
+
+    public function fetchMods($params)
+    {
+        $where = new Where();
+        $where->equalTo('mod.user_id', $params['user_id']);
+
+        $select = new Select('chat');
+        $select->join('mod', 'mod.chat_id = chat.chat_id', array(), 'inner');
+        $select->where($where);
+
+        $hydratingResultSet = new HydratingResultSet(
+            $this->channelHydrator,
+            new Chat()
+        );
+
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->chatModel->getTableGateway()->getAdapter(),
+            $hydratingResultSet
+        );
+
+        $collection = new ModCollection($paginatorAdapter);
         return $collection;
     }
 }

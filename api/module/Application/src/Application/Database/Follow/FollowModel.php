@@ -14,11 +14,16 @@ use Zend\Db\TableGateway\TableGateway;
 
 class FollowModel
 {
-    public $tableGateway;
+    private $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
+    }
+
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
     }
 
     public function fetchByUser($userId)
@@ -27,7 +32,7 @@ class FollowModel
         $where->equalTo('user.user_id', $userId);
 
         $select = $this->tableGateway->getSql()->select();
-        $select->join('user', 'user.user_id = follow.user_id', array(), 'left');
+        $select->join('user', 'user.user_id = follow.user_id', array(), 'inner');
         $select->where($where);
 
         $rowset = $this->tableGateway->selectWith($select);

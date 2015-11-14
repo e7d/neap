@@ -44,7 +44,7 @@ class VideoService
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->videoModel->tableGateway->getAdapter(),
+            $this->videoModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 

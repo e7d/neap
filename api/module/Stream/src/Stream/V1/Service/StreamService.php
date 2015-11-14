@@ -51,7 +51,7 @@ class StreamService
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->streamModel->tableGateway->getAdapter(),
+            $this->streamModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 

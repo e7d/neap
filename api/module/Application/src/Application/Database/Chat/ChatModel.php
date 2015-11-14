@@ -14,11 +14,16 @@ use Zend\Db\TableGateway\TableGateway;
 
 class ChatModel
 {
-    public $tableGateway;
+    private $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
+    }
+
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
     }
 
     public function fetch($id)

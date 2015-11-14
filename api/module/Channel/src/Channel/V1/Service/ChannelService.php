@@ -118,7 +118,7 @@ class ChannelService
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->tableGateway->getAdapter(),
+            $this->userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -147,7 +147,7 @@ class ChannelService
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->videoModel->tableGateway->getAdapter(),
+            $this->videoModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 

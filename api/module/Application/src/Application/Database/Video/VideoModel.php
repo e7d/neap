@@ -14,11 +14,16 @@ use Zend\Db\TableGateway\TableGateway;
 
 class VideoModel
 {
-    public $tableGateway;
+    private $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
+    }
+
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
     }
 
     public function fetch($id)
@@ -38,9 +43,9 @@ class VideoModel
         $where->equalTo('user.user_id', $userId);
 
         $select = $this->tableGateway->getSql()->select();
-        $select->join('stream', 'stream.stream_id = video.stream_id', array(), 'left');
-        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
-        $select->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select->join('stream', 'stream.stream_id = video.stream_id', array(), 'inner');
+        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
+        $select->join('user', 'user.user_id = channel.user_id', array(), 'inner');
         $select->where($where);
 
         $rowset = $this->tableGateway->selectWith($select);

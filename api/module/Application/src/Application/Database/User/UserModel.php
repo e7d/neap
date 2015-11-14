@@ -14,11 +14,16 @@ use Zend\Db\TableGateway\TableGateway;
 
 class UserModel
 {
-    public $tableGateway;
+    private $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
+    }
+
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
     }
 
     public function fetch($id)
@@ -38,7 +43,7 @@ class UserModel
         $where->equalTo('channel.channel_id', $channelId);
 
         $select = $this->tableGateway->getSql()->select();
-        $select->join('channel', 'channel.channel_id = user.channel_id', array(), 'left');
+        $select->join('channel', 'channel.channel_id = user.channel_id', array(), 'inner');
         $select->where($where);
 
         $rowset = $this->tableGateway->selectWith($select);

@@ -14,8 +14,14 @@ class UserServiceFactory
     public function __invoke($services)
     {
         return new UserService(
+            $services->get('Application\Database\Channel\ChannelModel'),
+            $services->get('Application\Hydrator\Channel\ChannelHydrator'),
+            $services->get('Application\Database\Chat\ChatModel'),
+            $services->get('Application\Hydrator\Chat\ChatHydrator'),
             $services->get('Application\Database\User\UserModel'),
-            $services->get('Application\Hydrator\User\UserHydrator')
+            $services->get('Application\Hydrator\User\UserHydrator'),
+            $services->get('Application\Database\Video\VideoModel'),
+            $services->get('Application\Hydrator\Video\VideoHydrator')
         );
     }
 }

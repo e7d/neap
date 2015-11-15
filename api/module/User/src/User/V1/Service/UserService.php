@@ -179,7 +179,7 @@ class UserService
         $select->where($where);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->channelHydrator,
+            $this->chatHydrator,
             new Chat()
         );
 

@@ -70,9 +70,9 @@ class ChatHydrator extends Hydrator
         $chatEntity->getLinks()->add(Link::factory(array(
             'rel' => 'self',
             'route' => array(
-                'name' => 'channel.rest.channel',
+                'name' => 'chat.rest.chat',
                 'params' => array(
-                    'channel_id' => $channel->id,
+                    'chat_id' => $chat->id,
                 ),
             ),
         )));

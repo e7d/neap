@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="0,696" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,0" last-zoom="1"
 	 default-schema="neap" default-owner="neap">
 <role name="neap"
       login="true"
@@ -614,17 +614,20 @@ END;]]></definition>
 	<schema name="neap"/>
 	<role name="neap"/>
 	<position x="580" y="60"/>
-	<column name="ingest_id" not-null="true">
+	<column name="outage_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
-	<column name="started_at" not-null="true" default-value="now()">
-		<type name="date"/>
+	<column name="ingest_id">
+		<type name="uuid"/>
+	</column>
+	<column name="started_at" default-value="now()">
+		<type name="timestamptz"/>
 	</column>
 	<column name="ended_at">
-		<type name="date"/>
+		<type name="timestamptz"/>
 	</column>
-	<constraint name="outage_ingest_id_started_at_pk" type="pk-constr" table="neap.outage">
-		<columns names="ingest_id,started_at" ref-type="src-columns"/>
+	<constraint name="outage_outage_id_pk" type="pk-constr" table="neap.outage">
+		<columns names="outage_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 

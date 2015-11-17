@@ -32,15 +32,11 @@ class BlockResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        $params = array_merge((array) $params, array(
-            'user_id' => $this->getEvent()->getRouteParam('user_id')
-        ));
+        $params->set('user_id', $this->getEvent()->getRouteParam('user_id'));
 
-        $collection = $this->userService->fetchBlockedUsers($params);
-
-        return $collection;
+        return $this->userService->fetchBlockedUsers($params);
     }
 
     /**

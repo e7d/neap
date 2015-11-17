@@ -2,8 +2,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Chat\\V1\\Rest\\Chat\\ChatResource' => 'Chat\\V1\\Rest\\Chat\\ChatResourceFactory',
             'Chat\\V1\\Service\\ChatService' => 'Chat\\V1\\Service\\ChatServiceFactory',
+            'Chat\\V1\\Rest\\Chat\\ChatResource' => 'Chat\\V1\\Rest\\Chat\\ChatResourceFactory',
             'Chat\\V1\\Rest\\Emoticon\\EmoticonResource' => 'Chat\\V1\\Rest\\Emoticon\\EmoticonResourceFactory',
         ),
     ),
@@ -129,7 +129,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'chat.rest.emoticon',
                 'route_identifier_name' => 'emoticon_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'Chat\\V1\\Rest\\Emoticon\\EmoticonCollection' => array(
                 'entity_identifier_name' => 'id',

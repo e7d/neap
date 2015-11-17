@@ -9,6 +9,8 @@
 
 namespace Application\Database\Topic;
 
+use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -24,5 +26,29 @@ class TopicModel
     public function getTableGateway()
     {
         return $this->tableGateway;
+    }
+
+    public function fetch($id)
+    {
+        $where = new Where();
+        $where->equalTo('topic.topic_id', $id);
+
+        $select = new Select('topic');
+        $select->columns(array(
+            '*',
+            'streams' => new Expression('COUNT(stream.stream_id)'),
+            'viewers' => new Expression('SUM(stream.viewers)'),
+        ));
+        $select->join('stream', 'stream.topic_id = topic.topic_id', array(), 'inner');
+        $select->where($where);
+        $select->group('topic.topic_id');
+
+        $rowset = $this->tableGateway->selectWith($select);
+        $topic = $rowset->current();
+        if (!$topic) {
+            return null;
+        }
+
+        return $topic;
     }
 }

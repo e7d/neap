@@ -13,6 +13,9 @@ class TopicResourceFactory
 {
     public function __invoke($services)
     {
-        return new TopicResource();
+        return new TopicResource(
+            $services->get('Application\Authorization\IdentityService'),
+            $services->get('Topic\V1\Service\TopicService')
+        );
     }
 }

@@ -48,6 +48,22 @@ class UserService
         $this->videoHydrator = $videoHydrator;
     }
 
+    public function fetch($id)
+    {
+        $user = $this->userModel->fetch($id);
+        if (!$user) {
+            return null;
+        }
+
+        $this->userHydrator->setParam('embedChannel');
+        $this->userHydrator->setParam('linkBlock');
+        $this->userHydrator->setParam('linkFavorite');
+        $this->userHydrator->setParam('linkFollow');
+        $this->userHydrator->setParam('linkMod');
+
+        return $this->userHydrator->buildEntity($user);
+    }
+
     public function fetchAll($params)
     {
         $select = new Select('user');
@@ -67,34 +83,6 @@ class UserService
 
         $collection = new UserCollection($paginatorAdapter);
         return $collection;
-    }
-
-    public function fetch($id)
-    {
-        $user = $this->userModel->fetch($id);
-        if (!$user) {
-            return null;
-        }
-
-        $this->userHydrator->setParam('embedChannel');
-        $this->userHydrator->setParam('linkBlock');
-        $this->userHydrator->setParam('linkFavorite');
-        $this->userHydrator->setParam('linkFollow');
-        $this->userHydrator->setParam('linkMod');
-
-        return $this->userHydrator->buildEntity($user);
-    }
-
-    public function fetchByChannel($channelId)
-    {
-        $user = $this->userModel->fetchByChannel($channelId);
-        if (!$user) {
-            return null;
-        }
-
-        $this->userHydrator->setParam('embedChannel');
-
-        return $this->userHydrator->buildEntity($user);
     }
 
     public function fetchBlockedUsers($params)
@@ -119,6 +107,18 @@ class UserService
 
         $collection = new BlockCollection($paginatorAdapter);
         return $collection;
+    }
+
+    public function fetchByChannel($channelId)
+    {
+        $user = $this->userModel->fetchByChannel($channelId);
+        if (!$user) {
+            return null;
+        }
+
+        $this->userHydrator->setParam('embedChannel');
+
+        return $this->userHydrator->buildEntity($user);
     }
 
     public function fetchFavorites($params)
@@ -191,5 +191,20 @@ class UserService
 
         $collection = new ModCollection($paginatorAdapter);
         return $collection;
+    }
+
+    public function update($id, $data)
+    {
+        // if we have an updated logo
+        if (array_key_exists('logo', $data)) {
+            $data->logo = '//'.str_replace('api', 'static', $_SERVER['SERVER_NAME']).'/user/logo/'.$id.'.png';
+        }
+
+        $user = $this->userModel->update($id, $data);
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
     }
 }

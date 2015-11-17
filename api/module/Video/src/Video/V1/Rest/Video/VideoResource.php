@@ -40,10 +40,8 @@ class VideoResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        $collection = $this->videoService->fetchAll($params);
-
-        return $collection;
+        return $this->videoService->fetchAll($params);
     }
 }

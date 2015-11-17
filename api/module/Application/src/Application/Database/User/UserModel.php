@@ -54,4 +54,10 @@ class UserModel
 
         return $user;
     }
+
+    public function update($id, $data)
+    {
+        // todo
+        return;
+    }
 }

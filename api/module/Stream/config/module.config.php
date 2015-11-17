@@ -2,8 +2,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Stream\\V1\\Rest\\Stream\\StreamResource' => 'Stream\\V1\\Rest\\Stream\\StreamResourceFactory',
             'Stream\\V1\\Service\\StreamService' => 'Stream\\V1\\Service\\StreamServiceFactory',
+            'Stream\\V1\\Rest\\Stream\\StreamResource' => 'Stream\\V1\\Rest\\Stream\\StreamResourceFactory',
             'Stream\\V1\\Rest\\Summary\\SummaryResource' => 'Stream\\V1\\Rest\\Summary\\SummaryResourceFactory',
         ),
     ),
@@ -65,7 +65,7 @@ return array(
             'listener' => 'Stream\\V1\\Rest\\Summary\\SummaryResource',
             'route_name' => 'stream.rest.summary',
             'route_identifier_name' => 'stream_id',
-            'collection_name' => 'Streams',
+            'collection_name' => 'streams',
             'entity_http_methods' => array(),
             'collection_http_methods' => array(
                 0 => 'GET',
@@ -130,7 +130,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'stream.rest.summary',
                 'route_identifier_name' => 'stream_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'Stream\\V1\\Rest\\Summary\\SummaryCollection' => array(
                 'entity_identifier_name' => 'id',

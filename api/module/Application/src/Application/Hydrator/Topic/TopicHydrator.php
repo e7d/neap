@@ -10,7 +10,6 @@
 namespace Application\Hydrator\Topic;
 
 use Application\Hydrator\Hydrator;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
@@ -18,7 +17,6 @@ class TopicHydrator extends Hydrator
 {
     public function __construct()
     {
-
     }
 
     public function buildEntity($topic)

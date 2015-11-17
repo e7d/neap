@@ -14,4 +14,36 @@ use ZF\Rest\AbstractResourceListener;
 
 class TopicResource extends AbstractResourceListener
 {
+    private $identityService;
+    private $topicService;
+
+    function __construct($identityService, $topicService)
+    {
+        $this->identityService = $identityService;
+        $this->topicService = $topicService;
+    }
+
+    /**
+     * Fetch a resource
+     *
+     * @param  mixed $id
+     * @return ApiProblem|mixed
+     */
+    public function fetch($id)
+    {
+        return $this->topicService->fetch($id);
+    }
+
+    /**
+     * Fetch all or a subset of resources
+     *
+     * @param  array $params
+     * @return ApiProblem|mixed
+     */
+    public function fetchAll($params)
+    {
+        $params->set('top', true);
+
+        return $this->topicService->fetchAll($params);
+    }
 }

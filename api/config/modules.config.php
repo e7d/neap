@@ -24,6 +24,7 @@ return array(
     'Channel',
     'Chat',
     'Ingest',
+    'Outage',
     'Panel',
     'Root',
     'Search',

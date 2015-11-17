@@ -2,13 +2,13 @@
 return array(
     'service_manager' => array(
         'factories' => array(
+            'User\\V1\\Service\\UserService' => 'User\\V1\\Service\\UserServiceFactory',
             'User\\V1\\Rest\\Block\\BlockResource' => 'User\\V1\\Rest\\Block\\BlockResourceFactory',
             'User\\V1\\Rest\\Favorite\\FavoriteResource' => 'User\\V1\\Rest\\Favorite\\FavoriteResourceFactory',
             'User\\V1\\Rest\\Follow\\FollowResource' => 'User\\V1\\Rest\\Follow\\FollowResourceFactory',
             'User\\V1\\Rest\\Mod\\ModResource' => 'User\\V1\\Rest\\Mod\\ModResourceFactory',
             'User\\V1\\Rest\\MyUser\\MyUserResource' => 'User\\V1\\Rest\\MyUser\\MyUserResourceFactory',
             'User\\V1\\Rest\\User\\UserResource' => 'User\\V1\\Rest\\User\\UserResourceFactory',
-            'User\\V1\\Service\\UserService' => 'User\\V1\\Service\\UserServiceFactory',
         ),
     ),
     'router' => array(
@@ -269,6 +269,7 @@ return array(
             'User\\V1\\Rest\\User\\Controller' => array(
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/json',
+                2 => 'multipart/form-data',
             ),
             'User\\V1\\Rest\\Follow\\Controller' => array(
                 0 => 'application/vnd.user.v1+json',
@@ -322,7 +323,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'user.rest.my-user',
                 'route_identifier_name' => 'user_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'User\\V1\\Rest\\MyUser\\MyUserCollection' => array(
                 'entity_identifier_name' => 'id',
@@ -334,7 +335,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'user.rest.block',
                 'route_identifier_name' => 'target_user_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'User\\V1\\Rest\\Block\\BlockCollection' => array(
                 'entity_identifier_name' => 'id',
@@ -346,7 +347,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'user.rest.mod',
                 'route_identifier_name' => 'chat_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'User\\V1\\Rest\\Mod\\ModCollection' => array(
                 'entity_identifier_name' => 'id',
@@ -358,7 +359,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'user.rest.favorite',
                 'route_identifier_name' => 'favorite_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'User\\V1\\Rest\\Favorite\\FavoriteCollection' => array(
                 'entity_identifier_name' => 'id',
@@ -492,6 +493,70 @@ return array(
                 1 => 'DELETE',
             ),
             'route_name' => 'user.rpc.profile',
+        ),
+    ),
+    'zf-content-validation' => array(
+        'User\\V1\\Rest\\User\\Controller' => array(
+            'input_filter' => 'User\\V1\\Rest\\User\\Validator',
+        ),
+    ),
+    'input_filter_specs' => array(
+        'User\\V1\\Rest\\User\\Validator' => array(
+            0 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'user_id',
+            ),
+            1 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'channel_id',
+            ),
+            2 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'type',
+            ),
+            3 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'username',
+            ),
+            4 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'email',
+            ),
+            5 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'password',
+            ),
+            6 => array(
+                'required' => true,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'display_name',
+            ),
+            7 => array(
+                'required' => false,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'logo',
+                'type' => 'Zend\\InputFilter\\FileInput',
+            ),
+            8 => array(
+                'required' => false,
+                'validators' => array(),
+                'filters' => array(),
+                'name' => 'bio',
+            ),
         ),
     ),
 );

@@ -9,6 +9,7 @@
 
 namespace Application\Database\Stream;
 
+use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -78,5 +79,29 @@ class StreamModel
         }
 
         return $stream;
+    }
+
+    public function fetchStats($live = true)
+    {
+        $where = new Where();
+        if ($live) {
+            $where->isNull('stream.ended_at'); // No end date means stream is live
+        }
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->columns(array(
+            'streams' => new Expression('COUNT(stream_id)'),
+            'viewers' => new Expression('SUM(viewers)'),
+        ));
+        $select->where($where);
+
+        $statement = $this->tableGateway->getAdapter()->createStatement($select->getSqlString());
+        $rowset = $statement->execute();
+        $stats = $rowset->current();
+        if (!$stats) {
+            return null;
+        }
+
+        return $stats;
     }
 }

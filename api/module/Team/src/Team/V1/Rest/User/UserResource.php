@@ -56,7 +56,7 @@ class UserResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }

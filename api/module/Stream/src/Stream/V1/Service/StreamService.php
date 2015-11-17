@@ -21,17 +21,17 @@ class StreamService
 {
     protected $streamModel;
     protected $streamHydrator;
-    protected $userModel;
 
-    public function __construct($streamModel, $streamHydrator, $userModel)
+    public function __construct($streamModel, $streamHydrator)
     {
         $this->streamModel = $streamModel;
         $this->streamHydrator = $streamHydrator;
-        $this->userModel = $userModel;
     }
 
-    public function fetchAll($params, $live = true)
+    public function fetchAll($params)
     {
+        $live = !array_key_exists('all', $params);
+
         $select = new Select('stream');
 
         if ($live) {
@@ -72,13 +72,24 @@ class StreamService
         return $this->streamHydrator->buildEntity($stream);
     }
 
-    public function fetchByChannel($channelId, $live = true)
+    public function fetchByChannel($channelId)
     {
+        $live = !array_key_exists('all', $params);
+
         return $this->streamModel->fetchByChannel($channelId, $live);
     }
 
     public function fetchByUser($userId, $live = true)
     {
+        $live = !array_key_exists('all', $params);
+
         return $this->streamModel->fetchByUser($userId, $live);
+    }
+
+    public function fetchStats($params, $live = true)
+    {
+        $live = !array_key_exists('all', $params);
+
+        return $this->streamModel->fetchStats($live);
     }
 }

@@ -9,7 +9,7 @@ SET check_function_bodies = false;
 
 -- object: neap | type: ROLE --
 -- DROP ROLE IF EXISTS neap;
-CREATE ROLE neap WITH
+CREATE ROLE neap WITH 
 	LOGIN
 	ENCRYPTED PASSWORD 'neap';
 -- ddl-end --
@@ -23,7 +23,7 @@ CREATE ROLE neap WITH
 -- 	OWNER = neap
 -- ;
 -- -- ddl-end --
---
+-- 
 
 -- object: neap | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS neap CASCADE;
@@ -52,7 +52,7 @@ CREATE EXTENSION pg_trgm
 CREATE FUNCTION neap.generate_stream_key ()
 	RETURNS text
 	LANGUAGE plpgsql
-	VOLATILE
+	VOLATILE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -82,7 +82,7 @@ ALTER FUNCTION neap.generate_stream_key() OWNER TO neap;
 CREATE FUNCTION neap.update_updated_at ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE
+	STABLE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -101,7 +101,7 @@ ALTER FUNCTION neap.update_updated_at() OWNER TO neap;
 CREATE FUNCTION neap.delete_stream_key ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE
+	STABLE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -372,7 +372,9 @@ CREATE TRIGGER mod_updated_at_trigger
 -- DROP INDEX IF EXISTS neap.stream_title_idx CASCADE;
 CREATE INDEX stream_title_idx ON neap.stream
 	USING gin
-	(title gin_trgm_ops);
+	(
+	  (title gin_trgm_ops)
+	);
 -- ddl-end --
 
 -- object: neap.ingest | type: TABLE --
@@ -396,10 +398,11 @@ ALTER TABLE neap.ingest OWNER TO neap;
 -- object: neap.outage | type: TABLE --
 -- DROP TABLE IF EXISTS neap.outage CASCADE;
 CREATE TABLE neap.outage(
-	ingest_id uuid NOT NULL,
-	started_at date NOT NULL DEFAULT now(),
-	ended_at date,
-	CONSTRAINT outage_ingest_id_started_at_pk PRIMARY KEY (ingest_id,started_at)
+	outage_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	ingest_id uuid,
+	started_at timestamptz DEFAULT now(),
+	ended_at timestamptz,
+	CONSTRAINT outage_outage_id_pk PRIMARY KEY (outage_id)
 
 );
 -- ddl-end --
@@ -647,3 +650,5 @@ ALTER TABLE neap.favorite ADD CONSTRAINT favorite_video_id_fk FOREIGN KEY (video
 REFERENCES neap.video (video_id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
+
+

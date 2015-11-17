@@ -40,10 +40,20 @@ class UserResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        $collection = $this->userService->fetchAll($params);
+        return $this->userService->fetchAll($params);
+    }
 
-        return $collection;
+    /**
+     * Patch (partial in-place update) a resource
+     *
+     * @param  mixed $id
+     * @param  mixed $data
+     * @return ApiProblem|mixed
+     */
+    public function patch($id, $data)
+    {
+        return $this->userService->update($id, $data);
     }
 }

@@ -29,14 +29,10 @@ class FollowResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        $params = array_merge((array) $params, array(
-            'channel_id' => $this->getEvent()->getRouteParam('channel_id')
-        ));
+        $params->set('channel_id', $this->getEvent()->getRouteParam('channel_id'));
 
-        $collection = $this->channelService->fetchFollowers($params);
-
-        return $collection;
+        return $this->channelService->fetchFollowers($params);
     }
 }

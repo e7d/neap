@@ -26,6 +26,8 @@ return array(
                 'Topic\\V1' => 'oauth2',
                 'Panel\\V1' => 'oauth2',
                 'Chat\\V1' => 'oauth2',
+                'Outage\\V1' => 'oauth2',
+                'Ingest\\V1' => 'oauth2',
             ),
         ),
     ),

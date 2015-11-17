@@ -40,11 +40,8 @@ class StreamResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        $live = !array_key_exists('all', $params);
-        $collection = $this->streamService->fetchAll($params, $live);
-
-        return $collection;
+        return $this->streamService->fetchAll($params);
     }
 }

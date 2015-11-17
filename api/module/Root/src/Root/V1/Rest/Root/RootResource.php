@@ -22,7 +22,7 @@ class RootResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
         $root = new Entity(array());
 

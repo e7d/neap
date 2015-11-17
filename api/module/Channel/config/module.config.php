@@ -2,12 +2,12 @@
 return array(
     'service_manager' => array(
         'factories' => array(
+            'Channel\\V1\\Service\\ChannelService' => 'Channel\\V1\\Service\\ChannelServiceFactory',
             'Channel\\V1\\Rest\\Channel\\ChannelResource' => 'Channel\\V1\\Rest\\Channel\\ChannelResourceFactory',
             'Channel\\V1\\Rest\\Follow\\FollowResource' => 'Channel\\V1\\Rest\\Follow\\FollowResourceFactory',
             'Channel\\V1\\Rest\\Video\\VideoResource' => 'Channel\\V1\\Rest\\Video\\VideoResourceFactory',
             'Channel\\V1\\Rest\\StreamKey\\StreamKeyResource' => 'Channel\\V1\\Rest\\StreamKey\\StreamKeyResourceFactory',
             'Channel\\V1\\Rest\\MyChannel\\MyChannelResource' => 'Channel\\V1\\Rest\\MyChannel\\MyChannelResourceFactory',
-            'Channel\\V1\\Service\\ChannelService' => 'Channel\\V1\\Service\\ChannelServiceFactory',
         ),
     ),
     'router' => array(

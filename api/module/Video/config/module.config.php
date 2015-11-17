@@ -2,8 +2,8 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Video\\V1\\Rest\\Video\\VideoResource' => 'Video\\V1\\Rest\\Video\\VideoResourceFactory',
             'Video\\V1\\Service\\VideoService' => 'Video\\V1\\Service\\VideoServiceFactory',
+            'Video\\V1\\Rest\\Video\\VideoResource' => 'Video\\V1\\Rest\\Video\\VideoResourceFactory',
             'Video\\V1\\Rest\\Favorite\\FavoriteResource' => 'Video\\V1\\Rest\\Favorite\\FavoriteResourceFactory',
         ),
     ),
@@ -125,7 +125,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'video.rest.favorite',
                 'route_identifier_name' => 'favorite_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'Video\\V1\\Rest\\Favorite\\FavoriteCollection' => array(
                 'entity_identifier_name' => 'id',

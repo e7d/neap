@@ -241,6 +241,9 @@
 
             // Reference the list of outage
             for ($outageIndex = 0; $outageIndex < 10; $outageIndex++) {
+                // Prepare outage related ID
+                $outageId = UUID::v4();
+
                 // Prepare topic specific data
                 $outageStartedAtTimestamp = DateConverter::randomTimestamp(1420070400);
                 $outageStartedAt = DateConverter::fromTimestamp($outageStartedAtTimestamp);
@@ -248,6 +251,7 @@
 
                 // Build the outage related SQL query
                 $this->addStatement('outage', array(
+                    'outage_id' => $outageId,
                     'ingest_id' => $ingestId,
                     'started_at' => $outageStartedAt,
                     'ended_at' => $outageEndedAt,

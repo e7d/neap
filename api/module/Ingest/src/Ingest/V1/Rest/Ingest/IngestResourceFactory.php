@@ -13,6 +13,9 @@ class IngestResourceFactory
 {
     public function __invoke($services)
     {
-        return new IngestResource();
+        return new IngestResource(
+            $services->get('Application\Authorization\IdentityService'),
+            $services->get('Ingest\V1\Service\IngestService')
+        );
     }
 }

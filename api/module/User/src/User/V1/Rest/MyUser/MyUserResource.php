@@ -21,7 +21,7 @@ class MyUserResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
         $user = $this->identityService->getIdentity();
         return $this->userService->fetch($user->id);

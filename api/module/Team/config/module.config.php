@@ -115,7 +115,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'team.rest.team',
                 'route_identifier_name' => 'team_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'Team\\V1\\Rest\\Team\\TeamCollection' => array(
                 'entity_identifier_name' => 'id',
@@ -127,7 +127,7 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'team.rest.user',
                 'route_identifier_name' => 'user_id',
-                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ArraySerializable',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
             ),
             'Team\\V1\\Rest\\User\\UserCollection' => array(
                 'entity_identifier_name' => 'id',

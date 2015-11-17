@@ -25,8 +25,6 @@ class ChannelResource extends AbstractResourceListener
     {
         $this->identityService = $identityService;
         $this->channelService = $channelService;
-
-        $this->service = $this->channelService;
     }
 
     /**
@@ -46,11 +44,9 @@ class ChannelResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        $collection = $this->channelService->fetchAll($params);
-
-        return $collection;
+        return $this->channelService->fetchAll($params);
     }
 
     /**

@@ -14,19 +14,34 @@ use ZF\Rest\AbstractResourceListener;
 
 class IngestResource extends AbstractResourceListener
 {
+    private $identityService;
+    private $ingestService;
+
+    function __construct($identityService, $ingestService)
+    {
+        $this->identityService = $identityService;
+        $this->ingestService = $ingestService;
+    }
+
+    /**
+     * Fetch a resource
+     *
+     * @param  mixed $id
+     * @return ApiProblem|mixed
+     */
+    public function fetch($id)
+    {
+        return $this->ingestService->fetch($id);
+    }
+
     /**
      * Fetch all or a subset of resources
      *
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        $ingest = new IngestEntity();
-        $ingest->id = 'rtmp';
-        $ingest->url_template = "rtmp://rtmp.neap.dev/live/{stream_key}";
-        return array(
-            $ingest
-        );
+        return $this->ingestService->fetchAll($params);
     }
 }

@@ -23,8 +23,10 @@ class OutageResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
-        $params->set('ingest_id', $this->getEvent()->getRouteParam('ingest_id'));
+        $data = array(
+            'ingest_id' => $this->getEvent()->getRouteParam('ingest_id')
+        );
 
-        return $this->ingestService->fetchOutages($params);
+        return $this->ingestService->fetchOutages(array_merge($data, (array) $params));
     }
 }

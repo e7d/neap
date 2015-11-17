@@ -34,9 +34,11 @@ class FavoriteResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
-        $params->set('user_id', $this->getEvent()->getRouteParam('user_id'));
+        $data = array(
+            'user_id' => $this->getEvent()->getRouteParam('user_id')
+        );
 
-        return $this->userService->fetchFavorites($params);
+        return $this->userService->fetchFavorites(array_merge($data, (array) $params));
     }
 
     /**

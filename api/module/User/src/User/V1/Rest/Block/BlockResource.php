@@ -34,9 +34,11 @@ class BlockResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
-        $params->set('user_id', $this->getEvent()->getRouteParam('user_id'));
+        $data = array(
+            'user_id' => $this->getEvent()->getRouteParam('user_id')
+        );
 
-        return $this->userService->fetchBlockedUsers($params);
+        return $this->userService->fetchBlockedUsers(array_merge($data, (array) $params));
     }
 
     /**

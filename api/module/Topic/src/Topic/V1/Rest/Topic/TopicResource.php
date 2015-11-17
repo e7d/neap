@@ -42,8 +42,10 @@ class TopicResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
-        $params->set('top', true);
+        $data = array(
+            'top' => true
+        );
 
-        return $this->topicService->fetchAll($params);
+        return $this->topicService->fetchAll(array_merge($data, (array) $params));
     }
 }

@@ -34,9 +34,11 @@ class FollowResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
-        $params->set('user_id', $this->getEvent()->getRouteParam('user_id'));
+        $data = array(
+            'user_id' => $this->getEvent()->getRouteParam('user_id')
+        );
 
-        return $this->userService->fetchFollows($params);
+        return $this->userService->fetchFollows(array_merge($data, (array) $params));
     }
 
     /**

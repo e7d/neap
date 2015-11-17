@@ -31,8 +31,10 @@ class VideoResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
-        $params->set('channel_id', $this->getEvent()->getRouteParam('channel_id'));
+        $data = array(
+            'channel_id' => $this->getEvent()->getRouteParam('channel_id')
+        );
 
-        return $this->channelService->fetchVideos($params);
+        return $this->channelService->fetchVideos(array_merge($data, (array) $params));
     }
 }

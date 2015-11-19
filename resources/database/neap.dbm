@@ -400,7 +400,7 @@ END;]]></definition>
 <table name="stream">
 	<schema name="neap"/>
 	<role name="neap"/>
-	<position x="40" y="243"/>
+	<position x="39" y="243"/>
 	<column name="stream_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
@@ -526,57 +526,6 @@ END;]]></definition>
 	</constraint>
 </table>
 
-<trigger name="stream_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.stream">
-		<function signature="neap.update_updated_at()"/>
-</trigger>
-
-<trigger name="video_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.video">
-		<function signature="neap.update_updated_at()"/>
-</trigger>
-
-<trigger name="channel_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.channel">
-		<function signature="neap.update_updated_at()"/>
-</trigger>
-
-<trigger name="channel_stream_key_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.channel">
-		<function signature="neap.delete_stream_key()"/>
-		<columns names="stream_key"/>
-</trigger>
-
-<trigger name="user_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.&quot;user&quot;">
-		<function signature="neap.update_updated_at()"/>
-</trigger>
-
-<trigger name="panel_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.panel">
-		<function signature="neap.update_updated_at()"/>
-</trigger>
-
-<trigger name="mod_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.mod">
-		<function signature="neap.update_updated_at()"/>
-</trigger>
-
-<index name="stream_title_idx" table="neap.stream"
-	 concurrent="false" unique="false" fast-update="false" buffering="false"
-	 index-type="gin" factor="0">
-		<idxelement use-sorting="false">
-			<expression><![CDATA[title gin_trgm_ops]]></expression>
-		</idxelement>
-</index>
-
 <table name="ingest">
 	<schema name="neap"/>
 	<role name="neap"/>
@@ -617,10 +566,10 @@ END;]]></definition>
 	<column name="outage_id" not-null="true" default-value="gen_random_uuid()">
 		<type name="uuid"/>
 	</column>
-	<column name="ingest_id">
+	<column name="ingest_id" not-null="true">
 		<type name="uuid"/>
 	</column>
-	<column name="started_at" default-value="now()">
+	<column name="started_at" not-null="true" default-value="now()">
 		<type name="timestamptz"/>
 	</column>
 	<column name="ended_at">
@@ -630,12 +579,6 @@ END;]]></definition>
 		<columns names="outage_id" ref-type="src-columns"/>
 	</constraint>
 </table>
-
-<trigger name="ingest_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.ingest">
-		<function signature="neap.update_updated_at()"/>
-</trigger>
 
 <table name="emoji">
 	<schema name="neap"/>
@@ -706,12 +649,6 @@ END;]]></definition>
 	</constraint>
 </table>
 
-<trigger name="team_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
-	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
-	 table="neap.team">
-		<function signature="neap.update_updated_at()"/>
-</trigger>
-
 <table name="member">
 	<schema name="neap"/>
 	<role name="neap"/>
@@ -747,6 +684,69 @@ END;]]></definition>
 		<columns names="user_id,video_id" ref-type="src-columns"/>
 	</constraint>
 </table>
+
+<trigger name="stream_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.stream">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="video_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.video">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="channel_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.channel">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="channel_stream_key_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.channel">
+		<function signature="neap.delete_stream_key()"/>
+		<columns names="stream_key"/>
+</trigger>
+
+<trigger name="user_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.&quot;user&quot;">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="panel_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.panel">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="mod_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.mod">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="ingest_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.ingest">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<trigger name="team_updated_at_trigger" firing-type="BEFORE" per-line="true" constraint="false"
+	 ins-event="false" del-event="false" upd-event="true" trunc-event="false"
+	 table="neap.team">
+		<function signature="neap.update_updated_at()"/>
+</trigger>
+
+<index name="stream_title_index" table="neap.stream"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="gin" factor="0">
+		<idxelement use-sorting="false">
+			<expression><![CDATA[title gin_trgm_ops]]></expression>
+		</idxelement>
+</index>
 
 <constraint name="channel_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="neap.&quot;user&quot;"

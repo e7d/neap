@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "Fix temp files permissions"
-chmod -cR 700 /var/tmp/rec
-chown -cR www-data.root /var/tmp/rec
+# echo "Fix temp files permissions"
+# chmod -cR 700 /var/www/neap/rtmp
+# chown -cR www-data.root /var/www/neap/rtmp
 
 echo "Fix log files permissions"
 chown -cR www-data.root /var/log/ffmpeg

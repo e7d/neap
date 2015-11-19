@@ -23,7 +23,11 @@ class MyChannelResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
+        $data = array(
+            'stream_key' => true,
+        );
         $user = $this->identityService->getIdentity();
-        return $this->channelService->fetchByUser($user->id);
+
+        return $this->channelService->fetchByUser($user->id, array_merge($data, (array) $params));
     }
 }

@@ -89,13 +89,16 @@ class ChannelService
         return $this->channelHydrator->buildEntity($channel);
     }
 
-    public function fetchByUser($userId)
+    public function fetchByUser($userId, $params)
     {
         $channel = $this->channelModel->fetchByUser($userId);
         if (!$channel) {
             return null;
         }
 
+        if (array_key_exists('stream_key', $params)) {
+            $this->channelHydrator->setParam('keepStreamKey');
+        }
         $this->channelHydrator->setParam('embedUser');
         $this->channelHydrator->setParam('linkChat');
 

@@ -9,7 +9,7 @@ SET check_function_bodies = false;
 
 -- object: neap | type: ROLE --
 -- DROP ROLE IF EXISTS neap;
-CREATE ROLE neap WITH 
+CREATE ROLE neap WITH
 	LOGIN
 	ENCRYPTED PASSWORD 'neap';
 -- ddl-end --
@@ -23,7 +23,7 @@ CREATE ROLE neap WITH
 -- 	OWNER = neap
 -- ;
 -- -- ddl-end --
--- 
+--
 
 -- object: neap | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS neap CASCADE;
@@ -52,7 +52,7 @@ CREATE EXTENSION pg_trgm
 CREATE FUNCTION neap.generate_stream_key ()
 	RETURNS text
 	LANGUAGE plpgsql
-	VOLATILE 
+	VOLATILE
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -82,7 +82,7 @@ ALTER FUNCTION neap.generate_stream_key() OWNER TO neap;
 CREATE FUNCTION neap.update_updated_at ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE 
+	STABLE
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -101,7 +101,7 @@ ALTER FUNCTION neap.update_updated_at() OWNER TO neap;
 CREATE FUNCTION neap.delete_stream_key ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE 
+	STABLE
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -305,6 +305,101 @@ CREATE TABLE neap.block(
 ALTER TABLE neap.block OWNER TO neap;
 -- ddl-end --
 
+-- object: neap.ingest | type: TABLE --
+-- DROP TABLE IF EXISTS neap.ingest CASCADE;
+CREATE TABLE neap.ingest(
+	ingest_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	name character varying NOT NULL,
+	hostname character varying NOT NULL,
+	port smallint NOT NULL DEFAULT 1935,
+	availability float NOT NULL DEFAULT 1,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT ingest_ingest_id_pk PRIMARY KEY (ingest_id),
+	CONSTRAINT ingest_name_uq UNIQUE (name)
+
+);
+-- ddl-end --
+ALTER TABLE neap.ingest OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.outage | type: TABLE --
+-- DROP TABLE IF EXISTS neap.outage CASCADE;
+CREATE TABLE neap.outage(
+	outage_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	ingest_id uuid NOT NULL,
+	started_at timestamptz NOT NULL DEFAULT now(),
+	ended_at timestamptz,
+	CONSTRAINT outage_outage_id_pk PRIMARY KEY (outage_id)
+
+);
+-- ddl-end --
+ALTER TABLE neap.outage OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.emoji | type: TABLE --
+-- DROP TABLE IF EXISTS neap.emoji CASCADE;
+CREATE TABLE neap.emoji(
+	emoji_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	chat_id uuid,
+	code character varying NOT NULL,
+	width smallint NOT NULL DEFAULT 24,
+	height smallint NOT NULL DEFAULT 24,
+	url character varying NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT emoticon_emoticon_id_pk PRIMARY KEY (emoji_id),
+	CONSTRAINT emoticon_code_uq UNIQUE (code)
+
+);
+-- ddl-end --
+ALTER TABLE neap.emoji OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.team | type: TABLE --
+-- DROP TABLE IF EXISTS neap.team CASCADE;
+CREATE TABLE neap.team(
+	team_id uuid NOT NULL DEFAULT gen_random_uuid(),
+	name character varying NOT NULL,
+	display_name character varying NOT NULL,
+	logo character varying,
+	banner character varying,
+	background character varying,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	updated_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT team_team_id_pk PRIMARY KEY (team_id),
+	CONSTRAINT team_name_uq UNIQUE (name)
+
+);
+-- ddl-end --
+ALTER TABLE neap.team OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.member | type: TABLE --
+-- DROP TABLE IF EXISTS neap.member CASCADE;
+CREATE TABLE neap.member(
+	user_id uuid NOT NULL,
+	team_id uuid NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT member_user_id_team_id_pk PRIMARY KEY (user_id,team_id)
+
+);
+-- ddl-end --
+ALTER TABLE neap.member OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.favorite | type: TABLE --
+-- DROP TABLE IF EXISTS neap.favorite CASCADE;
+CREATE TABLE neap.favorite(
+	user_id uuid NOT NULL,
+	video_id uuid NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT favorite_user_id_video_id_pk PRIMARY KEY (user_id,video_id)
+
+);
+-- ddl-end --
+ALTER TABLE neap.favorite OWNER TO neap;
+-- ddl-end --
+
 -- object: stream_updated_at_trigger | type: TRIGGER --
 -- DROP TRIGGER IF EXISTS stream_updated_at_trigger ON neap.stream  ON neap.stream CASCADE;
 CREATE TRIGGER stream_updated_at_trigger
@@ -368,47 +463,6 @@ CREATE TRIGGER mod_updated_at_trigger
 	EXECUTE PROCEDURE neap.update_updated_at();
 -- ddl-end --
 
--- object: stream_title_idx | type: INDEX --
--- DROP INDEX IF EXISTS neap.stream_title_idx CASCADE;
-CREATE INDEX stream_title_idx ON neap.stream
-	USING gin
-	(
-	  (title gin_trgm_ops)
-	);
--- ddl-end --
-
--- object: neap.ingest | type: TABLE --
--- DROP TABLE IF EXISTS neap.ingest CASCADE;
-CREATE TABLE neap.ingest(
-	ingest_id uuid NOT NULL DEFAULT gen_random_uuid(),
-	name character varying NOT NULL,
-	hostname character varying NOT NULL,
-	port smallint NOT NULL DEFAULT 1935,
-	availability float NOT NULL DEFAULT 1,
-	created_at timestamptz NOT NULL DEFAULT now(),
-	updated_at timestamptz NOT NULL DEFAULT now(),
-	CONSTRAINT ingest_ingest_id_pk PRIMARY KEY (ingest_id),
-	CONSTRAINT ingest_name_uq UNIQUE (name)
-
-);
--- ddl-end --
-ALTER TABLE neap.ingest OWNER TO neap;
--- ddl-end --
-
--- object: neap.outage | type: TABLE --
--- DROP TABLE IF EXISTS neap.outage CASCADE;
-CREATE TABLE neap.outage(
-	outage_id uuid NOT NULL DEFAULT gen_random_uuid(),
-	ingest_id uuid,
-	started_at timestamptz DEFAULT now(),
-	ended_at timestamptz,
-	CONSTRAINT outage_outage_id_pk PRIMARY KEY (outage_id)
-
-);
--- ddl-end --
-ALTER TABLE neap.outage OWNER TO neap;
--- ddl-end --
-
 -- object: ingest_updated_at_trigger | type: TRIGGER --
 -- DROP TRIGGER IF EXISTS ingest_updated_at_trigger ON neap.ingest  ON neap.ingest CASCADE;
 CREATE TRIGGER ingest_updated_at_trigger
@@ -416,43 +470,6 @@ CREATE TRIGGER ingest_updated_at_trigger
 	ON neap.ingest
 	FOR EACH ROW
 	EXECUTE PROCEDURE neap.update_updated_at();
--- ddl-end --
-
--- object: neap.emoji | type: TABLE --
--- DROP TABLE IF EXISTS neap.emoji CASCADE;
-CREATE TABLE neap.emoji(
-	emoji_id uuid NOT NULL DEFAULT gen_random_uuid(),
-	chat_id uuid,
-	code character varying NOT NULL,
-	width smallint NOT NULL DEFAULT 24,
-	height smallint NOT NULL DEFAULT 24,
-	url character varying NOT NULL,
-	created_at timestamptz NOT NULL DEFAULT now(),
-	CONSTRAINT emoticon_emoticon_id_pk PRIMARY KEY (emoji_id),
-	CONSTRAINT emoticon_code_uq UNIQUE (code)
-
-);
--- ddl-end --
-ALTER TABLE neap.emoji OWNER TO neap;
--- ddl-end --
-
--- object: neap.team | type: TABLE --
--- DROP TABLE IF EXISTS neap.team CASCADE;
-CREATE TABLE neap.team(
-	team_id uuid NOT NULL DEFAULT gen_random_uuid(),
-	name character varying NOT NULL,
-	display_name character varying NOT NULL,
-	logo character varying,
-	banner character varying,
-	background character varying,
-	created_at timestamptz NOT NULL DEFAULT now(),
-	updated_at timestamptz NOT NULL DEFAULT now(),
-	CONSTRAINT team_team_id_pk PRIMARY KEY (team_id),
-	CONSTRAINT team_name_uq UNIQUE (name)
-
-);
--- ddl-end --
-ALTER TABLE neap.team OWNER TO neap;
 -- ddl-end --
 
 -- object: team_updated_at_trigger | type: TRIGGER --
@@ -464,30 +481,11 @@ CREATE TRIGGER team_updated_at_trigger
 	EXECUTE PROCEDURE neap.update_updated_at();
 -- ddl-end --
 
--- object: neap.member | type: TABLE --
--- DROP TABLE IF EXISTS neap.member CASCADE;
-CREATE TABLE neap.member(
-	user_id uuid NOT NULL,
-	team_id uuid NOT NULL,
-	created_at timestamptz NOT NULL DEFAULT now(),
-	CONSTRAINT member_user_id_team_id_pk PRIMARY KEY (user_id,team_id)
-
-);
--- ddl-end --
-ALTER TABLE neap.member OWNER TO neap;
--- ddl-end --
-
--- object: neap.favorite | type: TABLE --
--- DROP TABLE IF EXISTS neap.favorite CASCADE;
-CREATE TABLE neap.favorite(
-	user_id uuid NOT NULL,
-	video_id uuid NOT NULL,
-	created_at timestamptz NOT NULL DEFAULT now(),
-	CONSTRAINT favorite_user_id_video_id_pk PRIMARY KEY (user_id,video_id)
-
-);
--- ddl-end --
-ALTER TABLE neap.favorite OWNER TO neap;
+-- object: stream_title_index | type: INDEX --
+-- DROP INDEX IF EXISTS neap.stream_title_index CASCADE;
+CREATE INDEX stream_title_index ON neap.stream
+	USING gin
+	(title gin_trgm_ops);
 -- ddl-end --
 
 -- object: channel_user_id_fk | type: CONSTRAINT --
@@ -650,5 +648,3 @@ ALTER TABLE neap.favorite ADD CONSTRAINT favorite_video_id_fk FOREIGN KEY (video
 REFERENCES neap.video (video_id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
-
-

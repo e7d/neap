@@ -23,13 +23,11 @@ server {
 
     # Serve recorded sessions
     location /rec {
-        root /var/tmp;
         autoindex on; # directory list accepted
     }
 
     # Serve HLS fragments
     location /hls {
-        root /var/tmp;
         add_header Cache-Control no-cache;
         types {
             application/vnd.apple.mpegurl m3u8;
@@ -39,7 +37,6 @@ server {
 
     # Serve DASH fragments
     location /dash {
-        root /var/tmp;
         add_header Cache-Control no-cache;
     }
 

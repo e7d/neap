@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
 
         # General configuration
         node.vm.hostname = "neap.dev"
-        node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "static.neap.dev", "rtmp.neap.dev"]
+        node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "rtmp.neap.dev", "static.neap.dev"]
         node.vm.box = "debian/jessie64"
 
         # Network configuration

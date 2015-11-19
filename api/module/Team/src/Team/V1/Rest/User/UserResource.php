@@ -1,4 +1,12 @@
 <?php
+/**
+ * Neap (http://neap.io/)
+ *
+ * @link      http://github.com/e7d/neap for the canonical source repository
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ */
+
 namespace Team\V1\Rest\User;
 
 use ZF\ApiProblem\ApiProblem;
@@ -6,6 +14,15 @@ use ZF\Rest\AbstractResourceListener;
 
 class UserResource extends AbstractResourceListener
 {
+    private $identityService;
+    private $teamService;
+
+    function __construct($identityService, $teamService)
+    {
+        $this->identityService = $identityService;
+        $this->teamService = $teamService;
+    }
+
     /**
      * Create a resource
      *
@@ -29,28 +46,6 @@ class UserResource extends AbstractResourceListener
     }
 
     /**
-     * Delete a collection, or members of a collection
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function deleteList($data)
-    {
-        return new ApiProblem(405, 'The DELETE method has not been defined for collections');
-    }
-
-    /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function fetch($id)
-    {
-        return new ApiProblem(405, 'The GET method has not been defined for individual resources');
-    }
-
-    /**
      * Fetch all or a subset of resources
      *
      * @param  array $params
@@ -58,30 +53,11 @@ class UserResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
-    }
+        $data = array(
+            'team_id' => $this->getEvent()->getRouteParam('team_id')
+        );
 
-    /**
-     * Patch (partial in-place update) a resource
-     *
-     * @param  mixed $id
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function patch($id, $data)
-    {
-        return new ApiProblem(405, 'The PATCH method has not been defined for individual resources');
-    }
-
-    /**
-     * Replace a collection or members of a collection
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function replaceList($data)
-    {
-        return new ApiProblem(405, 'The PUT method has not been defined for collections');
+        return $this->teamService->fetchUsers(array_merge($data, (array) $params));
     }
 
     /**

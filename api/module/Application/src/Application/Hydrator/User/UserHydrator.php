@@ -3,7 +3,7 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
@@ -12,6 +12,7 @@ namespace Application\Hydrator\User;
 use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\User\UserModel;
+use Application\Database\Team\TeamModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
@@ -20,16 +21,19 @@ class UserHydrator extends Hydrator
 {
     protected $userModel;
     protected $channelModel;
+    protected $teamModel;
 
-    public function __construct(UserModel $userModel, ChannelModel $channelModel)
+    public function __construct(UserModel $userModel, ChannelModel $channelModel, TeamModel $teamModel)
     {
         $this->userModel = $userModel;
         $this->channelModel = $channelModel;
+        $this->teamModel = $teamModel;
     }
 
     public function buildEntity($user)
     {
         $channel = $this->channelModel->fetch($user->channel_id);
+        $team = $this->teamModel->fetchByUser($user->id);
         unset($channel->stream_key);
 
         if ($this->getParam('embedChannel')) {
@@ -78,6 +82,19 @@ class UserHydrator extends Hydrator
                     'name' => 'channel.rest.channel',
                     'params' => array(
                         'channel_id' => $channel->id,
+                    ),
+                ),
+            )));
+            unset($user->channel_id);
+        }
+
+        if ($this->getParam('linkTeam')) {
+            $userEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'team',
+                'route' => array(
+                    'name' => 'team.rest.team',
+                    'params' => array(
+                        'team_id' => $team->id,
                     ),
                 ),
             )));

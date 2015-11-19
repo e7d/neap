@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
 
         # General configuration
         node.vm.hostname = "neap.dev"
-        node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "rtmp.neap.dev", "static.neap.dev"]
+        node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "irc.neap.dev", "rtmp.neap.dev", "static.neap.dev"]
         node.vm.box = "debian/jessie64"
 
         # Network configuration
@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
         node.vm.network "forwarded_port", guest: 5432, host: 5432
 
         # Synced folder configuration
-        node.vm.synced_folder '.', '/vagrant', type: 'nfs'
+        node.vm.synced_folder ".", "/vagrant", type: "nfs"
 
         # VirtualBox provider
         node.vm.provider "virtualbox" do |vb|

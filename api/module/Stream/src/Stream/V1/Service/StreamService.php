@@ -3,7 +3,7 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
@@ -76,14 +76,30 @@ class StreamService
     {
         $live = !array_key_exists('all', $params);
 
-        return $this->streamModel->fetchByChannel($channelId, $live);
+        $stream = $this->streamModel->fetchByChannel($channelId, $live);
+        if (!$stream) {
+            return null;
+        }
+
+        $this->streamHydrator->setParam('embedChannel');
+        $this->streamHydrator->setParam('linkUser');
+
+        return $this->streamHydrator->buildEntity($stream);
     }
 
     public function fetchByUser($userId, $live = true)
     {
         $live = !array_key_exists('all', $params);
 
-        return $this->streamModel->fetchByUser($userId, $live);
+        $stream = $this->streamModel->fetchByUser($userId, $live);
+        if (!$stream) {
+            return null;
+        }
+
+        $this->streamHydrator->setParam('embedChannel');
+        $this->streamHydrator->setParam('linkUser');
+
+        return $this->streamHydrator->buildEntity($stream);
     }
 
     public function fetchStats($params, $live = true)

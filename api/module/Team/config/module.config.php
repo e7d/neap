@@ -2,6 +2,7 @@
 return array(
     'service_manager' => array(
         'factories' => array(
+            'Team\\V1\\Service\\TeamService' => 'Team\\V1\\Service\\TeamServiceFactory',
             'Team\\V1\\Rest\\Team\\TeamResource' => 'Team\\V1\\Rest\\Team\\TeamResourceFactory',
             'Team\\V1\\Rest\\User\\UserResource' => 'Team\\V1\\Rest\\User\\UserResourceFactory',
         ),
@@ -20,7 +21,7 @@ return array(
             'team.rest.user' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/teams/:team_id/user[/:user_id]',
+                    'route' => '/teams/:team_id/users[/:user_id]',
                     'defaults' => array(
                         'controller' => 'Team\\V1\\Rest\\User\\Controller',
                     ),
@@ -70,6 +71,7 @@ return array(
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
+                1 => 'POST',
             ),
             'collection_query_whitelist' => array(
                 0 => 'limit',

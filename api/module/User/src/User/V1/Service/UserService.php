@@ -3,7 +3,7 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
@@ -69,6 +69,7 @@ class UserService
         $select = new Select('user');
 
         $this->userHydrator->setParam('linkChannel');
+        $this->userHydrator->setParam('linkTeam');
 
         $hydratingResultSet = new HydratingResultSet(
             $this->userHydrator,

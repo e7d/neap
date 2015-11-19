@@ -18,6 +18,8 @@ class UserServiceFactory
             $services->get('Application\Hydrator\Channel\ChannelHydrator'),
             $services->get('Application\Database\Chat\ChatModel'),
             $services->get('Application\Hydrator\Chat\ChatHydrator'),
+            $services->get('Application\Database\Team\TeamModel'),
+            $services->get('Application\Hydrator\Team\TeamHydrator'),
             $services->get('Application\Database\User\UserModel'),
             $services->get('Application\Hydrator\User\UserHydrator'),
             $services->get('Application\Database\Video\VideoModel'),

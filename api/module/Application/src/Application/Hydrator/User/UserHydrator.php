@@ -33,8 +33,8 @@ class UserHydrator extends Hydrator
     public function buildEntity($user)
     {
         $channel = $this->channelModel->fetch($user->channel_id);
-        $team = $this->teamModel->fetchByUser($user->id);
         unset($channel->stream_key);
+        $team = $this->teamModel->fetchByUser($user->id);
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
@@ -130,6 +130,18 @@ class UserHydrator extends Hydrator
                 'rel' => 'mods',
                 'route' => array(
                     'name' => 'user.rest.mod',
+                    'params' => array(
+                        'user_id' => $user->id,
+                    ),
+                ),
+            )));
+        }
+
+        if ($this->getParam('linkTeams')) {
+            $userEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'teams',
+                'route' => array(
+                    'name' => 'user.rest.team',
                     'params' => array(
                         'user_id' => $user->id,
                     ),

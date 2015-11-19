@@ -9,6 +9,7 @@ return array(
             'User\\V1\\Rest\\Mod\\ModResource' => 'User\\V1\\Rest\\Mod\\ModResourceFactory',
             'User\\V1\\Rest\\MyUser\\MyUserResource' => 'User\\V1\\Rest\\MyUser\\MyUserResourceFactory',
             'User\\V1\\Rest\\User\\UserResource' => 'User\\V1\\Rest\\User\\UserResourceFactory',
+            'User\\V1\\Rest\\Team\\TeamResource' => 'User\\V1\\Rest\\Team\\TeamResourceFactory',
         ),
     ),
     'router' => array(
@@ -77,6 +78,15 @@ return array(
                     ),
                 ),
             ),
+            'user.rest.team' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/users/:user_id/teams[/:team_id]',
+                    'defaults' => array(
+                        'controller' => 'User\\V1\\Rest\\Team\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -88,6 +98,7 @@ return array(
             4 => 'user.rest.block',
             5 => 'user.rest.mod',
             6 => 'user.rest.favorite',
+            7 => 'user.rest.team',
         ),
     ),
     'zf-rest' => array(
@@ -213,6 +224,24 @@ return array(
             'collection_class' => 'User\\V1\\Rest\\Favorite\\FavoriteCollection',
             'service_name' => 'Favorite',
         ),
+        'User\\V1\\Rest\\Team\\Controller' => array(
+            'listener' => 'User\\V1\\Rest\\Team\\TeamResource',
+            'route_name' => 'user.rest.team',
+            'route_identifier_name' => 'team_id',
+            'collection_name' => 'teams',
+            'entity_http_methods' => array(),
+            'collection_http_methods' => array(
+                0 => 'GET',
+            ),
+            'collection_query_whitelist' => array(
+                0 => 'limit',
+            ),
+            'page_size' => '10',
+            'page_size_param' => 'limit',
+            'entity_class' => 'User\\V1\\Rest\\Team\\TeamEntity',
+            'collection_class' => 'User\\V1\\Rest\\Team\\TeamCollection',
+            'service_name' => 'Team',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -223,6 +252,7 @@ return array(
             'User\\V1\\Rest\\Block\\Controller' => 'HalJson',
             'User\\V1\\Rest\\Mod\\Controller' => 'HalJson',
             'User\\V1\\Rest\\Favorite\\Controller' => 'HalJson',
+            'User\\V1\\Rest\\Team\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'User\\V1\\Rpc\\Profile\\Controller' => array(
@@ -260,6 +290,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'User\\V1\\Rest\\Team\\Controller' => array(
+                0 => 'application/vnd.user.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'User\\V1\\Rpc\\Profile\\Controller' => array(
@@ -288,6 +323,10 @@ return array(
                 1 => 'application/json',
             ),
             'User\\V1\\Rest\\Favorite\\Controller' => array(
+                0 => 'application/vnd.user.v1+json',
+                1 => 'application/json',
+            ),
+            'User\\V1\\Rest\\Team\\Controller' => array(
                 0 => 'application/vnd.user.v1+json',
                 1 => 'application/json',
             ),
@@ -365,6 +404,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'user.rest.favorite',
                 'route_identifier_name' => 'favorite_id',
+                'is_collection' => true,
+            ),
+            'User\\V1\\Rest\\Team\\TeamEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'user.rest.team',
+                'route_identifier_name' => 'team_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
+            ),
+            'User\\V1\\Rest\\Team\\TeamCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'user.rest.team',
+                'route_identifier_name' => 'team_id',
                 'is_collection' => true,
             ),
         ),

@@ -7,12 +7,12 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace User\V1\Rest\Block;
+namespace User\V1\Rest\Team;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class BlockResource extends AbstractResourceListener
+class TeamResource extends AbstractResourceListener
 {
     private $identityService;
     private $userService;
@@ -24,40 +24,17 @@ class BlockResource extends AbstractResourceListener
     }
 
     /**
-     * Delete a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function delete($id)
-    {
-        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
-    }
-
-    /**
      * Fetch all or a subset of resources
      *
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = array())
     {
         $data = array(
             'user_id' => $this->getEvent()->getRouteParam('user_id')
         );
 
-        return $this->userService->fetchBlockedUsers(array_merge($data, (array) $params));
-    }
-
-    /**
-     * Update a resource
-     *
-     * @param  mixed $id
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function update($id, $data)
-    {
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
+        return $this->userService->fetchTeams(array_merge($data, (array) $params));
     }
 }

@@ -7,10 +7,15 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace User\V1\Rest\Mod;
+namespace User\V1\Rest\Team;
 
-use Zend\Paginator\Paginator;
-
-class ModCollection extends Paginator
+class TeamResourceFactory
 {
+    public function __invoke($services)
+    {
+        return new TeamResource(
+            $services->get('Application\Authorization\IdentityService'),
+            $services->get('User\V1\Service\UserService')
+        );
+    }
 }

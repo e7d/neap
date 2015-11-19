@@ -7,10 +7,8 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace User\V1\Rest\Mod;
+namespace User\V1\Rest\Team;
 
-use Zend\Paginator\Paginator;
-
-class ModCollection extends Paginator
+class TeamEntity
 {
 }

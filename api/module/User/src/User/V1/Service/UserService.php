@@ -11,12 +11,14 @@ namespace User\V1\Service;
 
 use Application\Database\Channel\Channel;
 use Application\Database\Chat\Chat;
+use Application\Database\Team\Team;
 use Application\Database\User\User;
 use Application\Database\Video\Video;
 use User\V1\Rest\Block\BlockCollection;
 use User\V1\Rest\Favorite\FavoriteCollection;
 use User\V1\Rest\Follow\FollowCollection;
 use User\V1\Rest\Mod\ModCollection;
+use Team\V1\Rest\Team\TeamCollection;
 use User\V1\Rest\User\UserCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
@@ -31,17 +33,21 @@ class UserService
     protected $channelHydrator;
     protected $chatModel;
     protected $chatHydrator;
+    protected $teamModel;
+    protected $teamHydrator;
     protected $userModel;
     protected $userHydrator;
     protected $videoModel;
     protected $videoHydrator;
 
-    public function __construct($channelModel, $channelHydrator, $chatModel, $chatHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
+    public function __construct($channelModel, $channelHydrator, $chatModel, $chatHydrator, $teamModel, $teamHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
     {
         $this->channelModel = $channelModel;
         $this->channelHydrator = $channelHydrator;
         $this->chatModel = $chatModel;
         $this->chatHydrator = $chatHydrator;
+        $this->teamModel = $teamModel;
+        $this->teamHydrator = $teamHydrator;
         $this->userModel = $userModel;
         $this->userHydrator = $userHydrator;
         $this->videoModel = $videoModel;
@@ -60,6 +66,7 @@ class UserService
         $this->userHydrator->setParam('linkFavorite');
         $this->userHydrator->setParam('linkFollow');
         $this->userHydrator->setParam('linkMod');
+        $this->userHydrator->setParam('linkTeams');
 
         return $this->userHydrator->buildEntity($user);
     }
@@ -69,7 +76,6 @@ class UserService
         $select = new Select('user');
 
         $this->userHydrator->setParam('linkChannel');
-        $this->userHydrator->setParam('linkTeam');
 
         $hydratingResultSet = new HydratingResultSet(
             $this->userHydrator,
@@ -191,6 +197,30 @@ class UserService
         );
 
         $collection = new ModCollection($paginatorAdapter);
+        return $collection;
+    }
+
+    public function fetchTeams($params)
+    {
+        $where = new Where();
+        $where->equalTo('member.user_id', $params['user_id']);
+
+        $select = new Select('team');
+        $select->join('member', 'member.team_id = team.team_id', array(), 'inner');
+        $select->where($where);
+
+        $hydratingResultSet = new HydratingResultSet(
+            $this->teamHydrator,
+            new Team()
+        );
+
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $this->teamModel->getTableGateway()->getAdapter(),
+            $hydratingResultSet
+        );
+
+        $collection = new TeamCollection($paginatorAdapter);
         return $collection;
     }
 

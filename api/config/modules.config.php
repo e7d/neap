@@ -23,6 +23,7 @@ return array(
     'ZF\\Versioning',
     'Channel',
     'Chat',
+    'Emoji',
     'Ingest',
     'Outage',
     'Panel',

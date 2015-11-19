@@ -28,6 +28,7 @@ return array(
                 'Chat\\V1' => 'oauth2',
                 'Outage\\V1' => 'oauth2',
                 'Ingest\\V1' => 'oauth2',
+                'Emoji\\V1' => 'oauth2',
             ),
         ),
     ),

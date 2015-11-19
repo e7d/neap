@@ -1,10 +1,10 @@
 <?php
-namespace Chat\V1\Rest\Emoticon;
+namespace Emoji\V1\Rest\Emoji;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class EmoticonResource extends AbstractResourceListener
+class EmojiResource extends AbstractResourceListener
 {
     /**
      * Create a resource
@@ -56,7 +56,7 @@ class EmoticonResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = array())
     {
         return new ApiProblem(405, 'The GET method has not been defined for collections');
     }

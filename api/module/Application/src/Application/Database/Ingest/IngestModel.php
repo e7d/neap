@@ -36,4 +36,21 @@ class IngestModel
 
         return $ingest;
     }
+
+    public function fetchByHostname($hostname)
+    {
+        $where = new Where();
+        $where->equalTo('ingest.hostname', $hostname);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->where($where);
+
+        $rowset = $this->tableGateway->selectWith($select);
+        $ingest = $rowset->current();
+        if (!$ingest) {
+            return null;
+        }
+
+        return $ingest;
+    }
 }

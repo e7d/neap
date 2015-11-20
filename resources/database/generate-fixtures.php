@@ -222,7 +222,7 @@
 
             // Prepare ingest related data
             $ingestId = UUID::v4();
-            $ingestName = 'main';
+            $ingestName = 'neap';
             $ingestHostname = 'rtmp.neap.dev';
             $ingestPort = '1935';
             $ingestAvailability = 1.0;

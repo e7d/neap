@@ -38,6 +38,23 @@ class ChannelModel
         return $channel;
     }
 
+    public function fetchByStreamKey($streamKey)
+    {
+        $where = new Where();
+        $where->equalTo('channel.stream_key', $streamKey);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->where($where);
+
+        $rowset = $this->tableGateway->selectWith($select);
+        $channel = $rowset->current();
+        if (!$channel) {
+            return null;
+        }
+
+        return $channel;
+    }
+
     public function fetchByUser($userId)
     {
         $where = new Where();

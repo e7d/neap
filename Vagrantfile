@@ -19,14 +19,22 @@ Vagrant.configure(2) do |config|
 
         # VirtualBox provider
         node.vm.provider "virtualbox" do |vb|
+            # System configuration
             vb.name = "Neap"
             vb.cpus = "4"
             vb.memory = "1024"
+
+            # Additional storage configuration
+            data_disk = "./.vagrant/machines/neap/virtualbox/data.vdi"
+            unless File.exist?(data_disk)
+               vb.customize ["createhd", "--filename", data_disk, "--size", 512 * 1024]
+            end
+            vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", data_disk]
         end
         node.vbguest.auto_update = true
         node.vbguest.no_remote = true
 
         # Provisioning script
-        node.vm.provision "shell", inline: "/bin/sh /vagrant/setup.sh"
+        node.vm.provision "shell", inline: "/bin/sh /vagrant/bootstrap.sh"
     end
 end

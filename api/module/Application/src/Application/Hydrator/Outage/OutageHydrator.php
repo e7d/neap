@@ -10,20 +10,24 @@
 namespace Application\Hydrator\Outage;
 
 use Application\Hydrator\Hydrator;
-use Application\Database\Channel\ChannelModel;
-use Application\Database\User\UserModel;
+use Application\Database\Ingest\IngestModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
 class OutageHydrator extends Hydrator
 {
-    public function __construct()
+    protected $ingestModel;
+
+    public function __construct(IngestModel $ingestModel)
     {
+        $this->ingestModel = $ingestModel;
     }
 
     public function buildEntity($outage)
     {
+        $ingest = $this->ingestModel->fetch($outage->ingest_id);
+
         $outageEntity = new Entity($this->extract($outage));
 
         $outageEntity->getLinks()->add(Link::factory(array(
@@ -35,6 +39,19 @@ class OutageHydrator extends Hydrator
                 ),
             ),
         )));
+
+        if ($this->getParam('linkIngest')) {
+            $outageEntity->getLinks()->add(Link::factory(array(
+                'rel' => 'ingest',
+                'route' => array(
+                    'name' => 'ingest.rest.ingest',
+                    'params' => array(
+                        'ingest_id' => $ingest->id,
+                    ),
+                ),
+            )));
+            unset($outage->ingest_id);
+        }
 
         return $outageEntity;
     }

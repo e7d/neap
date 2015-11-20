@@ -37,4 +37,7 @@ return array(
             'Zend\\Db\\Adapter\\Adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
         ),
     ),
+    'zf-content-negotiation' => array(
+        'selectors' => array(),
+    ),
 );

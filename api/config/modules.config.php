@@ -28,6 +28,7 @@ return array(
     'Outage',
     'Panel',
     'Root',
+    'RTMP',
     'Search',
     'Status',
     'Stream',

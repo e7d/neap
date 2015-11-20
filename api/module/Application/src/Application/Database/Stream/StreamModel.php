@@ -27,6 +27,12 @@ class StreamModel
         return $this->tableGateway;
     }
 
+    public function create($data)
+    {
+        $insertedRows = $this->tableGateway->insert($data);
+        return $insertedRows;
+    }
+
     public function fetch($id)
     {
         $rowset = $this->tableGateway->select(array('stream_id' => $id));
@@ -103,5 +109,15 @@ class StreamModel
         }
 
         return $stats;
+    }
+
+    public function update($id, $data)
+    {
+        $where = new Where();
+        $where->equalTo('stream.stream_id', $id);
+
+        $this->tableGateway->update($data, $where);
+
+        return $this->fetch($id);
     }
 }

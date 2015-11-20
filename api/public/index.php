@@ -47,5 +47,11 @@ if (isset($appConfig['module_listener_options']['config_glob_paths'])) {
     }
 }
 
+// Nginx RTMP module is missing headers in some specific cases. We add it there
+// to ensure a normal functionning across all uses cases.
+if (!array_key_exists('HTTP_ACCEPT', $_SERVER)) {
+    $_SERVER['HTTP_ACCEPT'] = '*/*';
+}
+
 // Run the application!
 ZF\Apigility\Application::init($appConfig)->run();

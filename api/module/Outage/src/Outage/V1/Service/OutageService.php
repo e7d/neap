@@ -30,6 +30,8 @@ class OutageService
     {
         $select = new Select('outage');
 
+        $this->outageHydrator->setParam('linkIngest');
+
         $hydratingResultSet = new HydratingResultSet(
             $this->outageHydrator,
             new Outage()

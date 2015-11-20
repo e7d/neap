@@ -2,13 +2,18 @@
 
 DIR=`dirname $0`
 
-echo "Create Neap web folder"
-mkdir /var/www/neap
+echo "Create Neap RTMP folders"
+mkdir -p /data/rtmp/dash
+mkdir -p /data/rtmp/hls
+mkdir -p /data/rtmp/rec
 
-echo "Link websites folder"
+echo "Create Neap web folder"
+mkdir -p /var/www/neap
+
+echo "Link websites folders"
 ln -s /vagrant/api /var/www/neap/api
 ln -s /vagrant/adminer /var/www/neap/database
-ln -s /vagrant/rtmp /var/www/neap/rtmp
+ln -s /data/rtmp /var/www/neap/rtmp
 ln -s /vagrant/static /var/www/neap/static
 
 echo "Copy nginx configuration files"

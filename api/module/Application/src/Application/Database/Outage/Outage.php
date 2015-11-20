@@ -23,6 +23,6 @@ class Outage extends ObjectProperty
         $this->id = (!empty($data['outage_id'])) ? $data['outage_id'] : null;
         $this->ingest_id = (!empty($data['ingest_id'])) ? $data['ingest_id'] : null;
         $this->started_at = (!empty($data['started_at'])) ? $data['started_at'] : null;
-        $this->ended_at = (!empty($data['ended_at'])) ? $data['ended_at'] : null;l;
+        $this->ended_at = (!empty($data['ended_at'])) ? $data['ended_at'] : null;
     }
 }

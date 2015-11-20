@@ -13,6 +13,8 @@ class OutageHydratorFactory
 {
     public function __invoke($services)
     {
-        return new OutageHydrator();
+        return new OutageHydrator(
+            $services->get('Application\Database\Ingest\IngestModel')
+        );
     }
 }

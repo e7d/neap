@@ -39,7 +39,7 @@ class EventController extends LocalhostController
                             $this->streamModel->create(array(
                                 'channel_id' => $channel->id,
                                 'ingest_id' => $ingest->id,
-                                'title' => $channel->display_name,
+                                'title' => $channel->title,
                                 'topic_id' => $channel->topic_id,
                                 'topic' => $channel->topic,
                             ));

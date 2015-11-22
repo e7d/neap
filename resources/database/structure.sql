@@ -125,7 +125,7 @@ CREATE TABLE neap.channel(
 	chat_id uuid NOT NULL,
 	name character varying NOT NULL,
 	stream_key text NOT NULL DEFAULT generate_stream_key(),
-	display_name character varying NOT NULL,
+	title character varying NOT NULL,
 	topic_id uuid,
 	topic character varying NOT NULL,
 	language character varying(2) NOT NULL DEFAULT 'en',
@@ -139,7 +139,8 @@ CREATE TABLE neap.channel(
 	followers integer NOT NULL DEFAULT 0,
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
-	CONSTRAINT channel_channel_id_pk PRIMARY KEY (channel_id)
+	CONSTRAINT channel_channel_id_pk PRIMARY KEY (channel_id),
+	CONSTRAINT channel_name_uq UNIQUE (name)
 
 );
 -- ddl-end --
@@ -181,6 +182,19 @@ CREATE TABLE neap.follow(
 );
 -- ddl-end --
 ALTER TABLE neap.follow OWNER TO neap;
+-- ddl-end --
+
+-- object: neap.editor | type: TABLE --
+-- DROP TABLE IF EXISTS neap.editor CASCADE;
+CREATE TABLE neap.editor(
+	user_id uuid NOT NULL,
+	channel_id uuid NOT NULL,
+	created_at timestamptz NOT NULL DEFAULT now(),
+	CONSTRAINT editor_user_id_channel_id_pk PRIMARY KEY (user_id,channel_id)
+
+);
+-- ddl-end --
+ALTER TABLE neap.editor OWNER TO neap;
 -- ddl-end --
 
 -- object: neap.video | type: TABLE --
@@ -282,7 +296,7 @@ ALTER TABLE neap.chat OWNER TO neap;
 CREATE TABLE neap.mod(
 	user_id uuid NOT NULL,
 	chat_id uuid NOT NULL,
-	level character varying NOT NULL,
+	level character varying NOT NULL DEFAULT 'moderator',
 	created_at timestamptz NOT NULL DEFAULT now(),
 	updated_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT mod_user_id_chat_id_fk PRIMARY KEY (user_id,chat_id)
@@ -379,6 +393,7 @@ ALTER TABLE neap.team OWNER TO neap;
 CREATE TABLE neap.member(
 	user_id uuid NOT NULL,
 	team_id uuid NOT NULL,
+	level character varying NOT NULL DEFAULT 'member',
 	created_at timestamptz NOT NULL DEFAULT now(),
 	CONSTRAINT member_user_id_team_id_pk PRIMARY KEY (user_id,team_id)
 
@@ -488,6 +503,27 @@ CREATE INDEX stream_title_index ON neap.stream
 	(title gin_trgm_ops);
 -- ddl-end --
 
+-- object: channel_title_index | type: INDEX --
+-- DROP INDEX IF EXISTS neap.channel_title_index CASCADE;
+CREATE INDEX channel_title_index ON neap.channel
+	USING gin
+	(title gin_trgm_ops);
+-- ddl-end --
+
+-- object: user_display_name_index | type: INDEX --
+-- DROP INDEX IF EXISTS neap.user_display_name_index CASCADE;
+CREATE INDEX user_display_name_index ON neap."user"
+	USING gin
+	(display_name gin_trgm_ops);
+-- ddl-end --
+
+-- object: video_title_index | type: INDEX --
+-- DROP INDEX IF EXISTS neap.video_title_index CASCADE;
+CREATE INDEX video_title_index ON neap.video
+	USING gin
+	(title gin_trgm_ops);
+-- ddl-end --
+
 -- object: channel_user_id_fk | type: CONSTRAINT --
 -- ALTER TABLE neap.channel DROP CONSTRAINT IF EXISTS channel_user_id_fk CASCADE;
 ALTER TABLE neap.channel ADD CONSTRAINT channel_user_id_fk FOREIGN KEY (user_id)
@@ -528,6 +564,20 @@ ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 ALTER TABLE neap.follow ADD CONSTRAINT follow_channel_id_fk FOREIGN KEY (channel_id)
 REFERENCES neap.channel (channel_id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
+-- ddl-end --
+
+-- object: editor_user_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.editor DROP CONSTRAINT IF EXISTS editor_user_id_fk CASCADE;
+ALTER TABLE neap.editor ADD CONSTRAINT editor_user_id_fk FOREIGN KEY (user_id)
+REFERENCES neap."user" (user_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: editor_channel_id_fk | type: CONSTRAINT --
+-- ALTER TABLE neap.editor DROP CONSTRAINT IF EXISTS editor_channel_id_fk CASCADE;
+ALTER TABLE neap.editor ADD CONSTRAINT editor_channel_id_fk FOREIGN KEY (channel_id)
+REFERENCES neap.channel (channel_id) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: video_stream_id_fk | type: CONSTRAINT --

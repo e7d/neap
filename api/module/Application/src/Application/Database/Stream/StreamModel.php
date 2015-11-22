@@ -65,6 +65,27 @@ class StreamModel
         return $stream;
     }
 
+    public function fetchByStreamKey($streamKey, $live = true)
+    {
+        $where = new Where();
+        $where->equalTo('channel.stream_key', $streamKey);
+        if ($live) {
+            $where->isNull('stream.ended_at'); // No end date means stream is live
+        }
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
+        $select->where($where);
+
+        $rowset = $this->tableGateway->selectWith($select);
+        $channel = $rowset->current();
+        if (!$channel) {
+            return null;
+        }
+
+        return $channel;
+    }
+
     public function fetchByUser($userId, $live = true)
     {
         $where = new Where();

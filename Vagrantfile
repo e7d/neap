@@ -28,8 +28,8 @@ Vagrant.configure(2) do |config|
             data_disk = "./.vagrant/machines/neap/virtualbox/data.vdi"
             unless File.exist?(data_disk)
                vb.customize ["createhd", "--filename", data_disk, "--size", 512 * 1024]
+               vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", data_disk]
             end
-            vb.customize ["storageattach", :id, "--storagectl", "IDE Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", data_disk]
         end
         node.vbguest.auto_update = true
         node.vbguest.no_remote = true

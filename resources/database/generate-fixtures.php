@@ -380,7 +380,7 @@
                     'chat_id' => $chatId,
                     'stream_key' => $channelStreamKey,
                     'name' => $username,
-                    'display_name' => $userDisplayName. ' Channel',
+                    'title' => $userDisplayName. ' Channel',
                     'topic' => $channelTopic,
                     'language' => 'en',
                     'views' => $channelViews,

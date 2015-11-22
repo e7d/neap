@@ -18,7 +18,7 @@ class Channel extends ObjectProperty
     public $chat_id;
     public $name;
     public $stream_key;
-    public $display_name;
+    public $title;
     public $topic_id;
     public $topic;
     public $language;
@@ -40,7 +40,7 @@ class Channel extends ObjectProperty
         $this->chat_id = (!empty($data['chat_id'])) ? $data['chat_id'] : null;
         $this->name = (!empty($data['name'])) ? $data['name'] : null;
         $this->stream_key = (!empty($data['stream_key'])) ? $data['stream_key'] : null;
-        $this->display_name = (!empty($data['display_name'])) ? $data['display_name'] : null;
+        $this->title = (!empty($data['title'])) ? $data['title'] : null;
         $this->topic_id = (!empty($data['topic_id'])) ? $data['topic_id'] : null;
         $this->topic = (!empty($data['topic'])) ? $data['topic'] : null;
         $this->language = (!empty($data['language'])) ? $data['language'] : null;

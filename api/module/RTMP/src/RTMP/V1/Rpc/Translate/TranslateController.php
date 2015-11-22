@@ -5,11 +5,11 @@ use Application\Authorization\LocalhostController;
 
 class TranslateController extends LocalhostController
 {
-    private $channelService;
+    private $streamModel;
 
-    public function __construct($channelService)
+    public function __construct($streamModel)
     {
-        $this->channelService = $channelService;
+        $this->streamModel = $streamModel;
     }
 
     public function translateAction()
@@ -21,12 +21,12 @@ class TranslateController extends LocalhostController
             exit;
         }
 
-        $channel = $this->channelService->fetchByStreamKey($streamKey);
-        if (is_null($channel)) {
+        $stream = $this->streamModel->fetchByStreamKey($streamKey);
+        if (is_null($stream)) {
             exit;
         }
 
-        print $channel->id;
+        print $stream->id;
         exit;
     }
 }

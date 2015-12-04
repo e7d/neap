@@ -1,38 +1,37 @@
 {
-    "name": "zfcampus/zf-apigility-skeleton",
-    "description": "Skeleton Application for Apigility",
-    "type": "library",
-    "license": "BSD-3-Clause",
-    "keywords": [
-        "api",
-        "apigility",
-        "framework",
-        "zf2"
+    "name": "e7d/neap",
+    "description": "A ready to go streaming platform.",
+    "type": "software",
+    "keywords": ["streaming", "rtmp"],
+    "homepage": "https://github.com/e7d/neap",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Ferrand",
+            "homepage": "http://e7d.io"
+        }
     ],
-    "homepage": "http://apigility.org/",
     "support": {
-        "email": "apigility-users@zend.com",
-        "irc": "irc://irc.freenode.net/apigility",
-        "source": "https://github.com/zfcampus/zf-apigility-skeleton",
-        "issues": "https://github.com/zfcampus/zf-apigility-skeleton/issues"
+        "issues": "https://github.com/e7d/neap/issues",
+        "source": "https://github.com/e7d/neap"
     },
     "config": {
         "process-timeout": 5000
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.3-dev",
-            "dev-develop": "1.4-dev"
-        }
     },
     "require": {
         "php": ">=5.5",
         "zendframework/zendframework": "~2.4",
         "zfcampus/zf-apigility": "~1.1",
         "zfcampus/zf-apigility-documentation": "^1.0.5",
-        "zfcampus/zf-development-mode": "~2.0"
+        "zfcampus/zf-apigility-documentation-swagger": "^1.0.4",
+        "zfcampus/zf-development-mode": "~2.0",
+        "react/react": "^0.4.2"
     },
     "require-dev": {
+        "phpunit/phpunit": "4.0.7",
+        "squizlabs/php_codesniffer": "2.2.*",
+        "jakub-onderka/php-parallel-lint": "0.8.*",
+        "satooshi/php-coveralls": "0.6.*",
         "zendframework/zftool": "dev-master",
         "zendframework/zend-developer-tools": "dev-master",
         "zfcampus/zf-apigility-admin": "^1.3.1",

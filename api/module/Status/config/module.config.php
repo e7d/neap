@@ -12,7 +12,7 @@ return array(
             'status.rpc.version' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/version',
+                    'route' => '/version',
                     'defaults' => array(
                         'controller' => 'Status\\V1\\Rpc\\Version\\Controller',
                         'action' => 'version',
@@ -22,7 +22,7 @@ return array(
             'status.rpc.ping' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/ping',
+                    'route' => '/ping',
                     'defaults' => array(
                         'controller' => 'Status\\V1\\Rpc\\Ping\\Controller',
                         'action' => 'ping',
@@ -32,7 +32,7 @@ return array(
             'status.rpc.stats' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/stats',
+                    'route' => '/stats',
                     'defaults' => array(
                         'controller' => 'Status\\V1\\Rpc\\Stats\\Controller',
                         'action' => 'stats',
@@ -142,7 +142,7 @@ return array(
             'Status\\V1\\Rpc\\Stats\\Controller' => array(
                 'actions' => array(
                     'Stats' => array(
-                        'GET' => true,
+                        'GET' => false,
                         'POST' => false,
                         'PUT' => false,
                         'PATCH' => false,

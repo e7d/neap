@@ -45,15 +45,24 @@ printf "${CYAN}Setup database${DEFAULT}\n"
 ${DIR}/config/setup-db.sh
 ${DIR}/config/setup-fixtures.sh
 
+printf "${CYAN}Setup IRC${DEFAULT}\n"
+${DIR}/config/setup-irc.sh
+
 printf "${CYAN}Copy project resources${DEFAULT}\n"
 ${DIR}/config/copy-resources.sh
 
 printf "${CYAN}Fix permissions${DEFAULT}\n"
 ${DIR}/config/fix-permissions.sh
 
+printf "${CYAN}Setup Neap service${DEFAULT}\n"
+${DIR}/config/setup-service.sh
+
 printf "${CYAN}Restart services${DEFAULT}\n"
 service php5-fpm start
 service nginx start
+
+printf "${CYAN}Clean up${DEFAULT}\n"
+${DIR}/config/clean.sh
 
 printf "${CYAN}Network adresses${DEFAULT}\n"
 echo NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`

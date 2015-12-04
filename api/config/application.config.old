@@ -25,7 +25,6 @@ return array(
         'ZF\\Versioning',
         'Channel',
         'Chat',
-        'Console',
         'Emoji',
         'Ingest',
         'Outage',

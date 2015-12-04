@@ -24,7 +24,8 @@
         "zfcampus/zf-apigility": "~1.1",
         "zfcampus/zf-apigility-documentation": "^1.0.5",
         "zfcampus/zf-apigility-documentation-swagger": "^1.0.4",
-        "zfcampus/zf-development-mode": "~2.0"
+        "zfcampus/zf-development-mode": "~2.0",
+        "react/react": "^0.4.2"
     },
     "require-dev": {
         "phpunit/phpunit": "4.0.7",

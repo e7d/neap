@@ -5,9 +5,9 @@ A ready to go nginx RTMP streaming server.
 
 **Version:** 0.0.0
 
-**Web:** Coming later, [http://neap.io](http://neap.io)
+**Web:** Coming later, [neap.io](http://neap.io)
 
-**Project Owner:** Michaeël "[e7d](https://github.com/e7d)" Ferrand
+**Project Owner:** Michaël "[e7d](https://github.com/e7d)" Ferrand
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ In order to run the code of Neap effectively, you'll need to have a few tools in
 
 1. Use a development workstation with at least 2 cores and 8GB of RAM, as Vagrant should be allocated 1GB of RAM
 1. Install [Vagrant::Hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater), to keep your hosts file in line with the built VM  
-`vagrant plugin install vagrant-ghost`
+`vagrant plugin install vagrant-hostsupdater`
 1. Install [Vagrant::VBGuest](https://github.com/dotless-de/vagrant-vbguest), to manage the host's VirtualBox Guest Additions on the guest system  
 `vagrant plugin install vagrant-vbguest`
 
@@ -54,19 +54,20 @@ For a complete update from scratch, destroying and rebuilding everything:
 
 ### Software stack ###
 
-Neap uses a mixture of Vagrant's [shell provisioner](https://docs.vagrantup.com/v2/provisioning/shell.html) to kick things off and then uses a tool called [Ansible](http://docs.ansible.com) to complete the configuration of the system.
+Neap uses a mixture of Vagrant's [shell provisioner](https://docs.vagrantup.com/v2/provisioning/shell.html) to kick things off and sill soon then use a tool called [Ansible](http://docs.ansible.com) to complete the configuration of the system.
 
 Once Vagrant is done provisioning the VM, you will have a box running Debian 8 (aka Jessie) containing:
 
-* [PostgreSQL](http://www.postgresql.org), as database
-* [PHP-FPM](http://php-fpm.org)
-* [PHP 5.6](http://php.net)
-* [Nginx](http://nginx.com), as web server, with:
-* [Nginx RTMP module](https://github.com/arut/nginx-rtmp-module), as RTMP protocol handler
+* [Nginx](http://nginx.com/), as web server, with:
+  * [Nginx RTMP module](https://github.com/arut/nginx-rtmp-module), as streaming server (RTMP, HLS and DASH protocols)
+  * [PHP 7.0](http://php.net/), as web scripting language, with:
+    * [PHP-FPM](http://php-fpm.org/), as PHP process manager
+* [PostgreSQL](http://www.postgresql.org/), as database
+* [UnrealIRCd](https://www.unrealircd.org/), as IRC server daemon, with:
+  * [Anope](https://www.anope.org/), as IRC services
 * Soon: [Let's Encrypt](https://letsencrypt.org/), as SSL certificate generator
-* Soon: [UnrealIRCd](https://www.unrealircd.org/), as IRC daemon
-* Soon: [Varnish](http://varnish-cache.org), as static files cache
-* Soon: [Memcached](http://memcached.org), as memory object cache
+* Soon: [Varnish](http://varnish-cache.org/), as static files cache
+* Soon: [Memcached](http://memcached.org/), as memory object cache
 
 ### Next Steps ###
 
@@ -74,10 +75,11 @@ Once the VM is done provisioning, direct your browser to http://neap.dev You wil
 
 These URLs also provide you some control over the project:
 * [neap.dev](http://neap.dev) -- General documentation and links for all of the tools
-* [api.neap.dev](http//api.neap.dev) -- API administration interface
+* [api.neap.dev](http//api.neap.dev) -- API interface
 * [doc.neap.dev](http//doc.neap.dev) -- API documentation interface
-* [swagger.neap.dev](http://swagger.neap.dev) -- API Swagger documentation interface
+* [swagger.neap.dev](http://swagger.neap.dev) -- Swagger documentation interface
 * [db.neap.dev](http://db.neap.dev) -- Database administration interface
+* [irc.neap.dev](http://irc.neap.dev) -- IRC server
 * Soon: [static.neap.dev](http://static.neap.dev) -- Cache content access
 * Soon: [cache.neap.dev](http://cache.neap.dev) -- Cache performance test
 

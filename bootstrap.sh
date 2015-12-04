@@ -57,10 +57,6 @@ ${DIR}/config/fix-permissions.sh
 printf "${CYAN}Setup Neap service${DEFAULT}\n"
 ${DIR}/config/setup-service.sh
 
-printf "${CYAN}Restart services${DEFAULT}\n"
-service php5-fpm start
-service nginx start
-
 printf "${CYAN}Clean up${DEFAULT}\n"
 ${DIR}/config/clean.sh
 

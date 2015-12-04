@@ -25,6 +25,10 @@ ln -s /etc/nginx/sites-available/neap-db /etc/nginx/sites-enabled/neap-db
 ln -s /etc/nginx/sites-available/neap-rtmp /etc/nginx/sites-enabled/neap-rtmp
 ln -s /etc/nginx/sites-available/neap-static /etc/nginx/sites-enabled/neap-static
 
+echo "Restart web related services"
+service php7.0-fpm start
+service nginx start
+
 echo "Create ffmpeg log folder"
 mkdir /var/log/ffmpeg
 

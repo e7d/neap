@@ -1,39 +1,109 @@
-SET search_path TO pg_catalog, public, "neap";
+SET search_path TO pg_catalog,public,"neap";
+-- ddl-end --
 
 TRUNCATE oauth_clients CASCADE;
-TRUNCATE "neap"."block" CASCADE;
-TRUNCATE "neap"."channel" CASCADE;
-TRUNCATE "neap"."chat" CASCADE;
-TRUNCATE "neap"."editor" CASCADE;
-TRUNCATE "neap"."emoji" CASCADE;
-TRUNCATE "neap"."favorite" CASCADE;
-TRUNCATE "neap"."follow" CASCADE;
-TRUNCATE "neap"."ingest" CASCADE;
-TRUNCATE "neap"."member" CASCADE;
-TRUNCATE "neap"."mod" CASCADE;
-TRUNCATE "neap"."outage" CASCADE;
-TRUNCATE "neap"."panel" CASCADE;
-TRUNCATE "neap"."stream" CASCADE;
-TRUNCATE "neap"."team" CASCADE;
-TRUNCATE "neap"."topic" CASCADE;
 TRUNCATE "neap"."user" CASCADE;
-TRUNCATE "neap"."video" CASCADE;
+TRUNCATE "neap".channel CASCADE;
+TRUNCATE "neap".chat CASCADE;
+TRUNCATE "neap".stream CASCADE;
+TRUNCATE "neap".video CASCADE;
 
-INSERT INTO oauth_clients (client_id, client_secret, redirect_uri)
-VALUES ( 'neap', '', '/oauth/receivecode');
-INSERT INTO oauth_clients (client_id, client_secret, redirect_uri)
-VALUES ( 'postman', '$2y$14$Fz3BBwXpVi2OZz7AUoXzlOpUKgrgC9unWUgqGAnFkGdEUM96CFsda', 'https://www.getpostman.com/oauth2/callback');
+-- Clients
+INSERT INTO oauth_clients (
+    client_id,
+    client_secret,
+    redirect_uri)
+VALUES (
+    'public',
+    '',
+    '/oauth/receivecode'
+);
 
 BEGIN;
-SET CONSTRAINTS ALL DEFERRED;
 
-INSERT INTO "neap"."user"(user_id, channel_id, type, username, email, password, display_name)
-VALUES ('a976df64-6925-457e-81ab-e6d683c8a25d', '0700a07f-9f82-4dc2-bb03-7217e2cc8b74', 'admin', 'admin', 'admin@localhost', '$2y$10$xQeAtGJ6snEjr.Oqgt74KuWtu2QUoLjH1j75e7RJVUPckU8CNR5BO', 'Admin');
+INSERT INTO "neap"."user"(
+		user_id,
+		channel_id,
+		type,
+		username,
+		email,
+		password,
+		display_name)
+    VALUES (
+		'a976df64-6925-457e-81ab-e6d683c8a25d',
+		'0700a07f-9f82-4dc2-bb03-7217e2cc8b74',
+		'admin',
+		'admin',
+		'admin@localhost',
+		'$2y$10$xQeAtGJ6snEjr.Oqgt74KuWtu2QUoLjH1j75e7RJVUPckU8CNR5BO',
+		'Admin');
 
-INSERT INTO "neap"."channel"(channel_id, user_id, chat_id, name, title, topic, language, views, followers)
-VALUES ('0700a07f-9f82-4dc2-bb03-7217e2cc8b74', 'a976df64-6925-457e-81ab-e6d683c8a25d', '960f686c-d101-4125-8457-014f2a26c842', 'admin', 'Admin Channel', '', 'en', 0, 0);
+INSERT INTO "neap".channel(
+		channel_id,
+		user_id,
+		chat_id,
+		name,
+		display_name,
+		topic,
+		language,
+		views,
+		followers)
+    VALUES (
+		'0700a07f-9f82-4dc2-bb03-7217e2cc8b74',
+		'a976df64-6925-457e-81ab-e6d683c8a25d',
+		'960f686c-d101-4125-8457-014f2a26c842',
+		'admin',
+		'Admin Channel',
+		'',
+		'en',
+		0,
+		0);
 
-INSERT INTO "neap"."chat"(chat_id, channel_id, name)
-VALUES ('960f686c-d101-4125-8457-014f2a26c842', '0700a07f-9f82-4dc2-bb03-7217e2cc8b74', 'admin');
+INSERT INTO "neap".chat(
+        chat_id,
+		channel_id,
+		name)
+    VALUES (
+		'960f686c-d101-4125-8457-014f2a26c842',
+		'0700a07f-9f82-4dc2-bb03-7217e2cc8b74',
+		'admin');
 
-COMMIT;
+INSERT INTO "neap".stream(
+        stream_id,
+        channel_id,
+        title,
+        topic_id,
+        topic,
+        media_info,
+        viewers)
+    VALUES (
+        '7132dc5d-aba3-4494-976d-aad2423f062a',
+        '0700a07f-9f82-4dc2-bb03-7217e2cc8b74',
+        'Testing the demo channel with a demo stream!',
+        null,
+        'Demo',
+        '{}',
+        173);
+
+INSERT INTO "neap".video(
+        video_id,
+        stream_id,
+        title,
+        description,
+        status,
+        tags,
+        topic,
+        media_info,
+        views)
+    VALUES (
+        'dacd1de6-c145-4ce6-88a0-f6fbe1640fc7',
+        '7132dc5d-aba3-4494-976d-aad2423f062a',
+        'Demo stream',
+        'This is a test stream on Admin channel',
+        'recorded',
+        '["demo"]',
+        'Demo',
+        '{}',
+        1291);
+
+        COMMIT;

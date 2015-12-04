@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Update APT definitions"
+echo "Update apt definitions"
 cd /tmp
 wget http://www.deb-multimedia.org/pool/main/d/deb-multimedia-keyring/deb-multimedia-keyring_2015.6.1_all.deb
 dpkg -i deb-multimedia-keyring_2015.6.1_all.deb

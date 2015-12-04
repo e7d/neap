@@ -23,12 +23,6 @@ return array(
                 'Channel\\V1' => 'oauth2',
                 'Stream\\V1' => 'oauth2',
                 'Video\\V1' => 'oauth2',
-                'Topic\\V1' => 'oauth2',
-                'Panel\\V1' => 'oauth2',
-                'Chat\\V1' => 'oauth2',
-                'Outage\\V1' => 'oauth2',
-                'Ingest\\V1' => 'oauth2',
-                'Emoji\\V1' => 'oauth2',
             ),
         ),
     ),
@@ -36,8 +30,5 @@ return array(
         'factories' => array(
             'Zend\\Db\\Adapter\\Adapter' => 'Zend\\Db\\Adapter\\AdapterServiceFactory',
         ),
-    ),
-    'zf-content-negotiation' => array(
-        'selectors' => array(),
     ),
 );

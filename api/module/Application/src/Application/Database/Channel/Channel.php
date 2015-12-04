@@ -3,7 +3,7 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
@@ -17,7 +17,8 @@ class Channel extends ObjectProperty
     public $user_id;
     public $chat_id;
     public $name;
-    public $display_name;
+    public $stream_key;
+    public $title;
     public $topic_id;
     public $topic;
     public $language;
@@ -38,7 +39,8 @@ class Channel extends ObjectProperty
         $this->user_id = (!empty($data['user_id'])) ? $data['user_id'] : null;
         $this->chat_id = (!empty($data['chat_id'])) ? $data['chat_id'] : null;
         $this->name = (!empty($data['name'])) ? $data['name'] : null;
-        $this->display_name = (!empty($data['display_name'])) ? $data['display_name'] : null;
+        $this->stream_key = (!empty($data['stream_key'])) ? $data['stream_key'] : null;
+        $this->title = (!empty($data['title'])) ? $data['title'] : null;
         $this->topic_id = (!empty($data['topic_id'])) ? $data['topic_id'] : null;
         $this->topic = (!empty($data['topic'])) ? $data['topic'] : null;
         $this->language = (!empty($data['language'])) ? $data['language'] : null;

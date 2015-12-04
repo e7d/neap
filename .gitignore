@@ -1,3 +1,5 @@
 /.vscode
 /.vagrant
-/api/puphpet
+*.cache.php
+*.log
+*.pid

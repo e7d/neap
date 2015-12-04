@@ -3,7 +3,7 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
@@ -14,11 +14,16 @@ use Zend\Db\TableGateway\TableGateway;
 
 class VideoModel
 {
-    public $tableGateway;
+    private $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
+    }
+
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
     }
 
     public function fetch($id)
@@ -37,12 +42,13 @@ class VideoModel
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
 
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('stream', 'stream.stream_id = video.stream_id', array(), 'left');
-        $sqlSelect->join('channel', 'channel.channel_id = stream.channel_id', array(), 'left');
-        $sqlSelect->join('user', 'user.user_id = channel.user_id', array(), 'left');
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('stream', 'stream.stream_id = video.stream_id', array(), 'inner');
+        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
+        $select->join('user', 'user.user_id = channel.user_id', array(), 'inner');
+        $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $rowset = $this->tableGateway->selectWith($select);
         $video = $rowset->current();
         if (!$video) {
             return null;

@@ -3,7 +3,7 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
@@ -24,29 +24,17 @@ class FollowResource extends AbstractResourceListener
     }
 
     /**
-     * Fetch a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function fetch($id)
-    {
-        return $this->channelService->fetchFollower($id);
-    }
-
-    /**
      * Fetch all or a subset of resources
      *
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params)
     {
-        $paginator = $this->channelService->fetchFollowers($params, true);
+        $data = array(
+            'channel_id' => $this->getEvent()->getRouteParam('channel_id')
+        );
 
-        $paginator->setCurrentPageNumber((int) $params['page']);
-        $paginator->setItemCountPerPage(25);
-
-        return $paginator;
+        return $this->channelService->fetchFollowers(array_merge($data, (array) $params));
     }
 }

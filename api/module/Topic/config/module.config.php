@@ -2,6 +2,7 @@
 return array(
     'service_manager' => array(
         'factories' => array(
+            'Topic\\V1\\Service\\TopicService' => 'Topic\\V1\\Service\\TopicServiceFactory',
             'Topic\\V1\\Rest\\Topic\\TopicResource' => 'Topic\\V1\\Rest\\Topic\\TopicResourceFactory',
         ),
     ),
@@ -39,8 +40,10 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
-            'page_size' => 25,
+            'collection_query_whitelist' => array(
+                0 => 'limit',
+            ),
+            'page_size' => '10',
             'page_size_param' => 'limit',
             'entity_class' => 'Topic\\V1\\Rest\\Topic\\TopicEntity',
             'collection_class' => 'Topic\\V1\\Rest\\Topic\\TopicCollection',

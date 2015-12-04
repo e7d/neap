@@ -2,9 +2,9 @@
 return array(
     'service_manager' => array(
         'factories' => array(
-            'Stream\\Service\\StreamHydratorService' => 'Stream\\Service\\StreamHydratorServiceFactory',
-            'Stream\\Service\\StreamService' => 'Stream\\Service\\StreamServiceFactory',
+            'Stream\\V1\\Service\\StreamService' => 'Stream\\V1\\Service\\StreamServiceFactory',
             'Stream\\V1\\Rest\\Stream\\StreamResource' => 'Stream\\V1\\Rest\\Stream\\StreamResourceFactory',
+            'Stream\\V1\\Rest\\Summary\\SummaryResource' => 'Stream\\V1\\Rest\\Summary\\SummaryResourceFactory',
         ),
     ),
     'router' => array(
@@ -18,11 +18,21 @@ return array(
                     ),
                 ),
             ),
+            'stream.rest.summary' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/streams/summary',
+                    'defaults' => array(
+                        'controller' => 'Stream\\V1\\Rest\\Summary\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
         'uri' => array(
             1 => 'stream.rest.stream',
+            0 => 'stream.rest.summary',
         ),
     ),
     'zf-rest' => array(
@@ -41,17 +51,37 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
-            'page_size' => 25,
+            'collection_query_whitelist' => array(
+                0 => 'limit',
+                1 => 'all',
+            ),
+            'page_size' => '25',
             'page_size_param' => 'limit',
             'entity_class' => 'Stream\\V1\\Rest\\Stream\\StreamEntity',
             'collection_class' => 'Stream\\V1\\Rest\\Stream\\StreamCollection',
             'service_name' => 'Stream',
         ),
+        'Stream\\V1\\Rest\\Summary\\Controller' => array(
+            'listener' => 'Stream\\V1\\Rest\\Summary\\SummaryResource',
+            'route_name' => 'stream.rest.summary',
+            'route_identifier_name' => 'stream_id',
+            'collection_name' => 'streams',
+            'entity_http_methods' => array(),
+            'collection_http_methods' => array(
+                0 => 'GET',
+            ),
+            'collection_query_whitelist' => array(),
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => 'Stream\\V1\\Rest\\Summary\\SummaryEntity',
+            'collection_class' => 'Stream\\V1\\Rest\\Summary\\SummaryCollection',
+            'service_name' => 'Summary',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
             'Stream\\V1\\Rest\\Stream\\Controller' => 'HalJson',
+            'Stream\\V1\\Rest\\Summary\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'Stream\\V1\\Rest\\Stream\\Controller' => array(
@@ -59,9 +89,18 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'Stream\\V1\\Rest\\Summary\\Controller' => array(
+                0 => 'application/vnd.stream.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'Stream\\V1\\Rest\\Stream\\Controller' => array(
+                0 => 'application/vnd.stream.v1+json',
+                1 => 'application/json',
+            ),
+            'Stream\\V1\\Rest\\Summary\\Controller' => array(
                 0 => 'application/vnd.stream.v1+json',
                 1 => 'application/json',
             ),
@@ -86,6 +125,18 @@ return array(
                 'route_name' => 'stream.rest.stream',
                 'route_identifier_name' => 'stream_id',
                 'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
+            ),
+            'Stream\\V1\\Rest\\Summary\\SummaryEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'stream.rest.summary',
+                'route_identifier_name' => 'stream_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
+            ),
+            'Stream\\V1\\Rest\\Summary\\SummaryCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'stream.rest.summary',
+                'route_identifier_name' => 'stream_id',
+                'is_collection' => true,
             ),
         ),
     ),

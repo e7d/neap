@@ -3,7 +3,7 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
@@ -14,11 +14,16 @@ use Zend\Db\TableGateway\TableGateway;
 
 class UserModel
 {
-    public $tableGateway;
+    private $tableGateway;
 
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
+    }
+
+    public function getTableGateway()
+    {
+        return $this->tableGateway;
     }
 
     public function fetch($id)
@@ -37,15 +42,22 @@ class UserModel
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);
 
-        $sqlSelect = $this->tableGateway->getSql()->select()->where($where);
-        $sqlSelect->join('channel', 'channel.channel_id = user.channel_id', array(), 'left');
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('channel', 'channel.channel_id = user.channel_id', array(), 'inner');
+        $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($sqlSelect);
+        $rowset = $this->tableGateway->selectWith($select);
         $user = $rowset->current();
         if (!$user) {
             return null;
         }
 
         return $user;
+    }
+
+    public function update($id, $data)
+    {
+        // todo
+        return;
     }
 }

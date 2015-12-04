@@ -3,7 +3,7 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 e7d (http://e7d.io)
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
@@ -23,7 +23,7 @@ class UuidV4 extends AbstractValidator
     {
         $this->setValue($value);
 
-        if (1 !== preg_match('/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/', $value)) {
+        if (1 !== preg_match('^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$', $value)) {
             $this->error(self::UUIDV4);
             return false;
         }

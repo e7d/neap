@@ -5,9 +5,6 @@ DIR=`dirname $0`
 echo "Install dependencies"
 apt-get -y install curl
 
-echo "Link website folder to api folder"
-ln -s ${DIR}/../api /var/www/neap
-
 echo "Install Composer"
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer

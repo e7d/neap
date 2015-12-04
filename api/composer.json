@@ -19,7 +19,7 @@
         "process-timeout": 5000
     },
     "require": {
-        "php": ">=5.5",
+        "php": ">=7.0",
         "zendframework/zendframework": "~2.4",
         "zfcampus/zf-apigility": "~1.1",
         "zfcampus/zf-apigility-documentation": "^1.0.5",
@@ -34,6 +34,7 @@
         "satooshi/php-coveralls": "0.6.*",
         "zendframework/zftool": "dev-master",
         "zendframework/zend-developer-tools": "dev-master",
+        "zendframework/zend-test": "2.5.1",
         "zfcampus/zf-apigility-admin": "^1.3.1",
         "zfcampus/zf-deploy": "~1.0"
     },

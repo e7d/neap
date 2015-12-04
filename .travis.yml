@@ -14,7 +14,7 @@ matrix:
 before_script:
     - cd api
     - composer self-update
-    - composer install --no-interaction
+    - composer install --no-interaction --prefer-source
 
 script:
     phpunit tests/bootstrap.php

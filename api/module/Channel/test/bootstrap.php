@@ -1,4 +1,13 @@
 <?php
+/**
+ * Neap (http://neap.io/)
+ *
+ * @link      http://github.com/e7d/neap for the canonical source repository
+ * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ */
+
+namespace ChannelTest;
 
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;
@@ -33,14 +42,14 @@ class Bootstrap
                 'module_paths' => $zf2ModulePaths,
             ),
             'modules' => array(
-                'Application',
-                'Database',
+                'Channel'
             )
         );
 
         $serviceManager = new ServiceManager(new ServiceManagerConfig());
         $serviceManager->setService('ApplicationConfig', $config);
         $serviceManager->get('ModuleManager')->loadModules();
+        static::$serviceManager = $serviceManager;
     }
 
     public static function chroot()
@@ -49,33 +58,25 @@ class Bootstrap
         chdir($rootPath);
     }
 
+    public static function getServiceManager()
+    {
+        return static::$serviceManager;
+    }
+
     protected static function initAutoloader()
     {
         $vendorPath = static::findParentPath('vendor');
 
-        $zf2Path = getenv('ZF2_PATH');
-        if (!$zf2Path) {
-            if (defined('ZF2_PATH')) {
-                $zf2Path = ZF2_PATH;
-            } elseif (is_dir($vendorPath . '/ZF2/library')) {
-                $zf2Path = $vendorPath . '/ZF2/library';
-            } elseif (is_dir($vendorPath . '/zendframework/zendframework/library')) {
-                $zf2Path = $vendorPath . '/zendframework/zendframework/library';
-            }
+        if (file_exists($vendorPath.'/autoload.php')) {
+            include $vendorPath.'/autoload.php';
         }
 
-        if (!$zf2Path) {
+        if (! class_exists('Zend\Loader\AutoloaderFactory')) {
             throw new RuntimeException(
-                'Unable to load ZF2. Run `php composer.phar install` or'
-                . ' define a ZF2_PATH environment variable.'
+                'Unable to load ZF2. Run `php composer.phar install`'
             );
         }
 
-        if (file_exists($vendorPath . '/autoload.php')) {
-            include $vendorPath . '/autoload.php';
-        }
-
-        include $zf2Path . '/Zend/Loader/AutoloaderFactory.php';
         AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
                 'autoregister_zf' => true,

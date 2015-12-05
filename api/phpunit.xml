@@ -1,8 +1,0 @@
-<phpunit bootstrap="./init_autoloader.php"
-         colors="true">
-    <testsuites>
-        <testsuite name="Modules">
-            <directory>./module</directory>
-        </testsuite>
-    </testsuites>
-</phpunit>

@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace Channel\V1\Service;
+namespace ChannelTest\V1\Service;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
@@ -23,11 +23,6 @@ class ChannelServiceTest extends AbstractHttpControllerTestCase
         parent::setUp();
         $this->serviceManager = $this->getApplicationServiceLocator();
         $this->serviceManager->setAllowOverride(true);
-    }
-
-    public function getServiceManager()
-    {
-        return $this->serviceManager;
     }
 
     public function testClassType()

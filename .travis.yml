@@ -20,5 +20,4 @@ before_script:
 #     - composer install --no-interaction --ignore-platform-reqs --prefer-source
 
 script:
-    ls module/Channel/test
     phpunit -c module/Channel/test/phpunit.xml

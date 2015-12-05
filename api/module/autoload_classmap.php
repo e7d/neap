@@ -116,6 +116,7 @@ return array(
     'Channel\V1\Rest\Video\VideoResourceFactory'                => __DIR__ . '/Channel/src/Channel/V1/Rest/Video/VideoResourceFactory.php',
     'Channel\V1\Service\ChannelService'                         => __DIR__ . '/Channel/src/Channel/V1/Service/ChannelService.php',
     'Channel\V1\Service\ChannelServiceFactory'                  => __DIR__ . '/Channel/src/Channel/V1/Service/ChannelServiceFactory.php',
+    'Channel\V1\Service\ChannelServiceTest'                     => __DIR__ . '/Channel/test/Channel/V1/Service/ChannelServiceTest.php',
     'Chat\Module'                                               => __DIR__ . '/Chat/src/Chat/Module.php',
     'Chat\V1\Rest\Chat\ChatCollection'                          => __DIR__ . '/Chat/src/Chat/V1/Rest/Chat/ChatCollection.php',
     'Chat\V1\Rest\Chat\ChatEntity'                              => __DIR__ . '/Chat/src/Chat/V1/Rest/Chat/ChatEntity.php',

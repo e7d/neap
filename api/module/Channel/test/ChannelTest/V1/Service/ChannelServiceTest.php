@@ -28,9 +28,12 @@ class ChannelServiceTest extends AbstractHttpControllerTestCase
     public function testClassType()
     {
         var_dump($this->serviceManager->has('Channel\V1\Service\ChannelService'));
-        die;
 
         $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
+        
+        var_dump($this->serviceManager->get('Channel\V1\Service\ChannelService'));
+        die;
+
         $this->assertEquals('Channel\V1\Service\ChannelService', get_class($channelService));
     }
 }

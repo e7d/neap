@@ -14,9 +14,10 @@ matrix:
 before_script:
     - cd api
     - composer self-update
-
-install:
     - composer install --no-interaction --ignore-platform-reqs --prefer-source
+
+# install:
+#     - composer install --no-interaction --ignore-platform-reqs --prefer-source
 
 script:
     phpunit -c module/Channel/test/phpunit.xml

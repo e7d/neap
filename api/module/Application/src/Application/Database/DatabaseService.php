@@ -15,6 +15,7 @@ class DatabaseService
 
     public function __construct($config)
     {
+        var_dump($config); die;
         $this->adapter = new \Zend\Db\Adapter\Adapter($config);
     }
 

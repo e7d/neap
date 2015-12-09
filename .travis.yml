@@ -1,5 +1,13 @@
 language: php
 
+php:
+    - 5.6
+    - 7.0
+    - hhvm
+
+env:
+    - DB=pgsql
+
 matrix:
     include:
         - php: 5.6
@@ -7,12 +15,19 @@ matrix:
             - EXECUTE_COVERAGE=true
         - php: 7
         - php: hhvm
+    exclude:
+        - php: hhvm
+          env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party)
     allow_failures:
         - php: 7
         - php: hhvm
 
 before_script:
     - cd api
+    - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "postgres" < resources/database/init.sql; fi
+    - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/structure.sql; fi
+    - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/oauth2.sql; fi
+    - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/data.sql; fi
     - composer self-update
     - composer install --no-interaction --ignore-platform-reqs --prefer-source
 

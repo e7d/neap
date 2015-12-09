@@ -9,7 +9,7 @@ echo "deb-src http://packages.dotdeb.org jessie all" >>/etc/apt/sources.list.d/d
 apt-get update
 
 echo "Install PHP7"
-apt-get -y install php7.0 php7.0-fpm php7.0-cli php7.0-curl php7.0-json php7.0-pgsql
+apt-get -y install php7.0 php7.0-fpm php7.0-cli php7.0-curl php7.0-json php7.0-opcache php7.0-pgsql
 
 echo "Install Xdebug"
 cd /usr/src

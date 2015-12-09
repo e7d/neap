@@ -12,12 +12,11 @@ matrix:
         - php: 7.0
 
 before_script:
-    - cd api
-    - ls
     - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "postgres" < resources/database/init.sql; fi
     - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/structure.sql; fi
     - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/oauth2.sql; fi
     - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/data.sql; fi
+    - cd api
     - composer self-update
     - composer install --no-interaction --ignore-platform-reqs --prefer-source
 

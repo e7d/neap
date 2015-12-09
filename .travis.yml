@@ -1,3 +1,9 @@
+addons:
+    postgresql: "9.4"
+
+services:
+    - postgresql
+
 language: php
 
 php:
@@ -11,11 +17,17 @@ matrix:
     allow_failures:
         - php: 7.0
 
+before_install:
+    - sudo apt-get update
+    - sudo apt-get -y install postgresql postgresql-contrib
+    - sudo /etc/init.d/postgresql stop
+    - sudo /etc/init.d/postgresql start 9.4
+
 before_script:
-    - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "postgres" < resources/database/init.sql; fi
-    - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/structure.sql; fi
-    - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/oauth2.sql; fi
-    - if [[ "$DB" == "pgsql" ]]; then sudo -u "postgres" psql "neap" < resources/database/data.sql; fi
+    - psql "postgres" -U postgres < resources/database/init.sql
+    - psql "neap" -U postgres < resources/database/structure.sql
+    - psql "neap" -U postgres < resources/database/oauth2.sql
+    - psql "neap" -U postgres < resources/database/data.sql
     - cd api
     - composer self-update
     - composer install --no-interaction --ignore-platform-reqs --prefer-source

@@ -28,7 +28,7 @@ matrix:
 install:
     - cd api
     - composer self-update
-    - composer update --no-interaction --ignore-platform-reqs --prefer-source
+    - composer install --no-interaction --ignore-platform-reqs --prefer-source
 
 before_script:
     - psql "postgres" -U postgres < ../resources/database/init.sql

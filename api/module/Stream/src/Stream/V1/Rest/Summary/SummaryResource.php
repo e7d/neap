@@ -24,7 +24,11 @@ class SummaryResource extends AbstractResourceListener
      */
     public function fetchAll($params)
     {
-        $stats = $this->streamService->fetchStats($params);
+        $data = array(
+            'live' => is_null($this->getEvent()->getQueryParam('all'))
+        );
+
+        $stats = $this->streamService->fetchStats(array_merge($data, (array) $params));
 
         $entity = new ObjectProperty();
         $entity->hydrate($stats, $entity);

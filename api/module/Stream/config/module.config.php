@@ -70,7 +70,9 @@ return array(
             'collection_http_methods' => array(
                 0 => 'GET',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'all',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'Stream\\V1\\Rest\\Summary\\SummaryEntity',

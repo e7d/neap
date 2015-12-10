@@ -102,7 +102,7 @@ class StreamService
         return $this->streamHydrator->buildEntity($stream);
     }
 
-    public function fetchStats($params, $live = true)
+    public function fetchStats($params)
     {
         $live = !array_key_exists('all', $params);
 

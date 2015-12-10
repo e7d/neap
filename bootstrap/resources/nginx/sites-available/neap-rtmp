@@ -3,12 +3,12 @@ server {
     listen 80;
     listen 443 ssl;
 
+    # Hostname
+    server_name rtmp.neap.dev neap;
+
     # Root folder
     root neap/rtmp;
     index index.php index.html;
-
-    # Hostname
-    server_name rtmp.neap.dev neap;
 
     # SSL settings
     include snippets/ssl.conf;

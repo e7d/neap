@@ -10,7 +10,7 @@ cd unreal*
 
 echo "Build UnrealIRCd"
 rm -fr /etc/unrealircd/
-cp -R ${DIR}/../resources/irc/unrealircd/src/* .
+cp -R ${DIR}/resources/irc/unrealircd/src/* .
 chmod +x config.settings
 ./config.settings
 ./Config -nointro -quick
@@ -18,10 +18,10 @@ make
 make install
 
 echo "Copy UnrealIRCd configuration files"
-cp -R ${DIR}/../resources/irc/unrealircd/conf/* /etc/unrealircd/conf
+cp -R ${DIR}/resources/irc/unrealircd/conf/* /etc/unrealircd/conf
 
 echo "Copy UnrealIRCd service script"
-cp ${DIR}/../resources/irc/unrealircd/bin/unrealircd /etc/init.d
+cp ${DIR}/resources/irc/unrealircd/bin/unrealircd /etc/init.d
 
 echo "Fix UnrealIRCd permissions"
 chown -cR irc.irc /etc/unrealircd
@@ -42,17 +42,17 @@ cd anope*
 
 echo "Build Anope"
 rm -fr /etc/anope/
-cp -R ${DIR}/../resources/irc/anope/src/* .
+cp -R ${DIR}/resources/irc/anope/src/* .
 ./Config -nointro -quick
 cd build
 make
 make install
 
 echo "Copy Anope configuration files"
-cp -R ${DIR}/../resources/irc/anope/conf/* /etc/anope/conf
+cp -R ${DIR}/resources/irc/anope/conf/* /etc/anope/conf
 
 echo "Copy Anope service script"
-cp ${DIR}/../resources/irc/anope/bin/anope /etc/init.d
+cp ${DIR}/resources/irc/anope/bin/anope /etc/init.d
 
 echo "Fix Anope permissions"
 chown -cR irc.irc /etc/anope

@@ -17,48 +17,47 @@ fi
 printf "${GREEN}Ok!${DEFAULT}\n"
 
 printf "${CYAN}Prepare data disk${DEFAULT}\n"
-${DIR}/config/mount-data-disk.sh
+${DIR}/bootstrap/mount-data-disk.sh
 
 printf "${CYAN}Prepare Debian environment${DEFAULT}\n"
-${DIR}/config/prepare-env.sh
+${DIR}/bootstrap/prepare-env.sh
 
 printf "${CYAN}Setup ffmpeg${DEFAULT}\n"
-${DIR}/config/setup-ffmpeg.sh
+${DIR}/bootstrap/setup-ffmpeg.sh
 
 #printf "${CYAN}Build OpenSSL${DEFAULT}\n"
 #printf "${YELLOW}Warning:${DEFAULT} Skipped, as long as OpenSSL 1.0.2d is breaking nginx 1.9.* build\n"
-#${DIR}/config/build-openssl.sh
+#${DIR}/bootstrap/build-openssl.sh
 
 printf "${CYAN}Generate certificates${DEFAULT}\n"
-${DIR}/config/generate-certificates.sh
+${DIR}/bootstrap/generate-certificates.sh
 
-printf "${CYAN}Build web server${DEFAULT}\n"
-${DIR}/config/build-nginx.sh
+printf "${CYAN}Build nginx${DEFAULT}\n"
+${DIR}/bootstrap/build-nginx.sh
 
 printf "${CYAN}Setup PHP${DEFAULT}\n"
-${DIR}/config/setup-php.sh
+${DIR}/bootstrap/setup-php.sh
+
+printf "${CYAN}Setup web server${DEFAULT}\n"
+${DIR}/bootstrap/setup-web.sh
 
 printf "${CYAN}Setup API${DEFAULT}\n"
-${DIR}/config/setup-api.sh
+${DIR}/bootstrap/setup-api.sh
 
 printf "${CYAN}Setup database${DEFAULT}\n"
-${DIR}/config/setup-db.sh
-${DIR}/config/setup-fixtures.sh
+${DIR}/bootstrap/setup-db.sh
+
+printf "${CYAN}Insert fixtures${DEFAULT}\n"
+${DIR}/bootstrap/setup-fixtures.sh
 
 printf "${CYAN}Setup IRC${DEFAULT}\n"
-${DIR}/config/setup-irc.sh
-
-printf "${CYAN}Copy project resources${DEFAULT}\n"
-${DIR}/config/copy-resources.sh
-
-printf "${CYAN}Fix permissions${DEFAULT}\n"
-${DIR}/config/fix-permissions.sh
+${DIR}/bootstrap/setup-irc.sh
 
 printf "${CYAN}Setup Neap service${DEFAULT}\n"
-${DIR}/config/setup-service.sh
+${DIR}/bootstrap/setup-service.sh
 
 printf "${CYAN}Clean up${DEFAULT}\n"
-${DIR}/config/clean.sh
+${DIR}/bootstrap/clean.sh
 
 printf "${CYAN}Network adresses${DEFAULT}\n"
 echo NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`

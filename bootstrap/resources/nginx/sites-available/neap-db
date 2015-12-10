@@ -3,23 +3,16 @@ server {
     listen 80;
     listen 443 ssl;
 
-    # Root folder
-    root neap/api/public;
-    index index.php index.html;
-
     # Hostname
-    server_name api.neap.dev;
+    server_name db.neap.dev;
+
+    # Root folder
+    root neap/database;
+    index index.php index.html;
 
     # SSL settings
     include snippets/ssl.conf;
 
     # PHP Pear
     include snippets/php.conf;
-
-    # Apigility rewrite
-    location / {
-        if (!-f $request_filename) {
-            rewrite ^(.*)$ /index.php;
-        }
-    }
 }

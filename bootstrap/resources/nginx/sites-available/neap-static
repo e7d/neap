@@ -3,12 +3,12 @@ server {
     listen 80;
     listen 443 ssl;
 
+    # Hostname
+    server_name static.neap.dev;
+
     # Root folder
     root neap/static;
     index no;
-
-    # Hostname
-    server_name static.neap.dev;
 
     # SSL settings
     include snippets/ssl.conf;

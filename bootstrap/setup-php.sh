@@ -23,7 +23,7 @@ echo 'zend_extension="xdebug.so"' >>/etc/php/7.0/cli/php.ini
 echo 'zend_extension="xdebug.so"' >>/etc/php/7.0/fpm/php.ini
 
 echo "Disable OP Cache"
-sed -i '/;opcache.enable=1/c\opcache.enable=0' /etc/php/7.0/fpm/php.ini
+sed -i '/;opcache.enable=0/c\opcache.enable=0' /etc/php/7.0/fpm/php.ini
 
 echo "Restart PHP FPM"
 service php7.0-fpm restart

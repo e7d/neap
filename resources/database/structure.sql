@@ -9,7 +9,7 @@ SET check_function_bodies = false;
 
 -- object: neap | type: ROLE --
 -- DROP ROLE IF EXISTS neap;
-CREATE ROLE neap WITH
+CREATE ROLE neap WITH 
 	LOGIN
 	ENCRYPTED PASSWORD 'neap';
 -- ddl-end --
@@ -23,7 +23,7 @@ CREATE ROLE neap WITH
 -- 	OWNER = neap
 -- ;
 -- -- ddl-end --
---
+-- 
 
 -- object: neap | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS neap CASCADE;
@@ -35,16 +35,32 @@ ALTER SCHEMA neap OWNER TO neap;
 SET search_path TO pg_catalog,public,neap;
 -- ddl-end --
 
+-- -- object: internal | type: LANGUAGE --
+-- -- DROP LANGUAGE IF EXISTS internal CASCADE;
+-- CREATE  LANGUAGE internal;
+-- -- ddl-end --
+-- ALTER LANGUAGE internal OWNER TO postgres;
+-- -- ddl-end --
+-- 
 -- object: pgcrypto | type: EXTENSION --
 -- DROP EXTENSION IF EXISTS pgcrypto CASCADE;
 CREATE EXTENSION pgcrypto
-      WITH SCHEMA neap;
+      WITH SCHEMA pg_catalog;
 -- ddl-end --
 
 -- object: pg_trgm | type: EXTENSION --
 -- DROP EXTENSION IF EXISTS pg_trgm CASCADE;
 CREATE EXTENSION pg_trgm
-      WITH SCHEMA neap;
+      WITH SCHEMA pg_catalog;
+-- ddl-end --
+
+-- object: pg_catalog.gin_trgm_ops | type: OPERATOR CLASS --
+-- DROP OPERATOR CLASS IF EXISTS pg_catalog.gin_trgm_ops USING gin CASCADE;
+CREATE OPERATOR CLASS pg_catalog.gin_trgm_ops FOR TYPE text
+ USING gin AS
+	STORAGE	integer;
+-- ddl-end --
+ALTER OPERATOR CLASS pg_catalog.gin_trgm_ops USING gin OWNER TO postgres;
 -- ddl-end --
 
 -- object: neap.generate_stream_key | type: FUNCTION --
@@ -52,7 +68,7 @@ CREATE EXTENSION pg_trgm
 CREATE FUNCTION neap.generate_stream_key ()
 	RETURNS text
 	LANGUAGE plpgsql
-	VOLATILE
+	VOLATILE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -82,7 +98,7 @@ ALTER FUNCTION neap.generate_stream_key() OWNER TO neap;
 CREATE FUNCTION neap.update_updated_at ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE
+	STABLE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -101,7 +117,7 @@ ALTER FUNCTION neap.update_updated_at() OWNER TO neap;
 CREATE FUNCTION neap.delete_stream_key ()
 	RETURNS trigger
 	LANGUAGE plpgsql
-	STABLE
+	STABLE 
 	CALLED ON NULL INPUT
 	SECURITY INVOKER
 	COST 1
@@ -500,28 +516,45 @@ CREATE TRIGGER team_updated_at_trigger
 -- DROP INDEX IF EXISTS neap.stream_title_index CASCADE;
 CREATE INDEX stream_title_index ON neap.stream
 	USING gin
-	(title gin_trgm_ops);
+	(
+	  title COLLATE pg_catalog."default" pg_catalog.gin_trgm_ops
+	);
 -- ddl-end --
 
 -- object: channel_title_index | type: INDEX --
 -- DROP INDEX IF EXISTS neap.channel_title_index CASCADE;
 CREATE INDEX channel_title_index ON neap.channel
 	USING gin
-	(title gin_trgm_ops);
+	(
+	  title COLLATE pg_catalog."default" pg_catalog.gin_trgm_ops
+	);
 -- ddl-end --
 
 -- object: user_display_name_index | type: INDEX --
 -- DROP INDEX IF EXISTS neap.user_display_name_index CASCADE;
 CREATE INDEX user_display_name_index ON neap."user"
 	USING gin
-	(display_name gin_trgm_ops);
+	(
+	  display_name COLLATE pg_catalog."default" pg_catalog.gin_trgm_ops
+	);
 -- ddl-end --
 
 -- object: video_title_index | type: INDEX --
 -- DROP INDEX IF EXISTS neap.video_title_index CASCADE;
 CREATE INDEX video_title_index ON neap.video
 	USING gin
-	(title gin_trgm_ops);
+	(
+	  title COLLATE pg_catalog."default" pg_catalog.gin_trgm_ops
+	);
+-- ddl-end --
+
+-- object: team_display_name_index | type: INDEX --
+-- DROP INDEX IF EXISTS neap.team_display_name_index CASCADE;
+CREATE INDEX team_display_name_index ON neap.team
+	USING gin
+	(
+	  display_name COLLATE pg_catalog."default" pg_catalog.gin_trgm_ops
+	);
 -- ddl-end --
 
 -- object: channel_user_id_fk | type: CONSTRAINT --
@@ -698,3 +731,5 @@ ALTER TABLE neap.favorite ADD CONSTRAINT favorite_video_id_fk FOREIGN KEY (video
 REFERENCES neap.video (video_id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE DEFERRABLE INITIALLY IMMEDIATE;
 -- ddl-end --
+
+

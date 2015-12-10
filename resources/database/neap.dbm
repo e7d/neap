@@ -15,6 +15,27 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="neap"/>
 </database>
 
+<language name="internal" sql-disabled="true" trusted="false">
+	<role name="postgres"/>
+</language>
+
+<extension name="pgcrypto">
+	<schema name="pg_catalog"/>
+</extension>
+
+<extension name="pg_trgm">
+	<schema name="pg_catalog"/>
+</extension>
+
+<opclass name="gin_trgm_ops" index-type="gin" default="false">
+	<schema name="pg_catalog"/>
+	<role name="postgres"/>
+	<type name="text"/>
+	<element type="storage">
+		<type name="integer"/>
+	</element>
+</opclass>
+
 <schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
 	<appended-sql><![CDATA[CREATE TABLE oauth_access_tokens
 (
@@ -90,14 +111,6 @@ CREATE TABLE oauth_users
 <schema name="neap" rect-visible="true" fill-color="#e1e1e1">
 	<role name="neap"/>
 </schema>
-
-<extension name="pgcrypto">
-	<schema name="neap"/>
-</extension>
-
-<extension name="pg_trgm">
-	<schema name="neap"/>
-</extension>
 
 <function name="generate_stream_key"
 		window-func="false"
@@ -768,7 +781,9 @@ END;]]></definition>
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="gin" factor="0">
 		<idxelement use-sorting="false">
-			<expression><![CDATA[title gin_trgm_ops]]></expression>
+			<column name="title"/>
+			<collation name="pg_catalog.&quot;default&quot;"/>
+			<opclass name="pg_catalog.gin_trgm_ops"/>
 		</idxelement>
 </index>
 
@@ -776,7 +791,9 @@ END;]]></definition>
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="gin" factor="0">
 		<idxelement use-sorting="false">
-			<expression><![CDATA[title gin_trgm_ops]]></expression>
+			<column name="title"/>
+			<collation name="pg_catalog.&quot;default&quot;"/>
+			<opclass name="pg_catalog.gin_trgm_ops"/>
 		</idxelement>
 </index>
 
@@ -784,7 +801,9 @@ END;]]></definition>
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="gin" factor="0">
 		<idxelement use-sorting="false">
-			<expression><![CDATA[display_name gin_trgm_ops]]></expression>
+			<column name="display_name"/>
+			<collation name="pg_catalog.&quot;default&quot;"/>
+			<opclass name="pg_catalog.gin_trgm_ops"/>
 		</idxelement>
 </index>
 
@@ -792,7 +811,19 @@ END;]]></definition>
 	 concurrent="false" unique="false" fast-update="false" buffering="false"
 	 index-type="gin" factor="0">
 		<idxelement use-sorting="false">
-			<expression><![CDATA[title gin_trgm_ops]]></expression>
+			<column name="title"/>
+			<collation name="pg_catalog.&quot;default&quot;"/>
+			<opclass name="pg_catalog.gin_trgm_ops"/>
+		</idxelement>
+</index>
+
+<index name="team_display_name_index" table="neap.team"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="gin" factor="0">
+		<idxelement use-sorting="false">
+			<column name="display_name"/>
+			<collation name="pg_catalog.&quot;default&quot;"/>
+			<opclass name="pg_catalog.gin_trgm_ops"/>
 		</idxelement>
 </index>
 

@@ -24,16 +24,15 @@ before_install:
     # - apt-get update -q
 
 install:
-    - cd api
     - composer self-update
-    - composer install --no-interaction --ignore-platform-reqs --prefer-source
+    - ( cd ./api ; composer install --no-interaction --ignore-platform-reqs --prefer-source )
 
 before_script:
-    - psql "postgres" -U postgres < ../resources/database/init.sql
-    - psql "neap" -U postgres < ../resources/database/structure.sql
-    - psql "neap" -U postgres < ../resources/database/oauth2.sql
-    - psql "neap" -U postgres < ../resources/database/data.sql
-    - cp config/autoload/local.php.dist config/autoload/local.php
+    - psql "postgres" -U postgres < bootstrap/resources/database/init.sql
+    - psql "neap" -U postgres < bootstrap/resources/database/structure.sql
+    - psql "neap" -U postgres < bootstrap/resources/database/oauth2.sql
+    - psql "neap" -U postgres < bootstrap/resources/database/data.sql
+    - cp api/config/autoload/local.php.dist api/config/autoload/local.php
 
 script:
-    phpunit -c module/Channel/test/phpunit.xml
+    phpunit -c api/module/Channel/test/phpunit.xml

@@ -15,26 +15,25 @@ services:
     - postgresql
 addons:
     postgresql: "9.4"
+env:
+    - MODULE=api
+    # - MODULE=web
 
 matrix:
     allow_failures:
         - php: 7.0
 
 before_install:
-    # - apt-get update -q
+    # Nothing
 
 install:
-    - composer self-update
-    - ( cd api ; composer install --no-interaction --ignore-platform-reqs --prefer-source )
+    # Nothing
 
 before_script:
     - psql "postgres" -U postgres < bootstrap/resources/database/init.sql
     - psql "neap" -U postgres < bootstrap/resources/database/structure.sql
     - psql "neap" -U postgres < bootstrap/resources/database/oauth2.sql
     - psql "neap" -U postgres < bootstrap/resources/database/data.sql
-    - cp api/config/autoload/local.php.dist api/config/autoload/local.php
-    - cp api/config/autoload/oauth2.local.php.dist api/config/autoload/oauth2.local.php
 
 script:
-    - pushd api
-    - phpunit -c module/Channel/test/phpunit.xml
+    - $MODULE/test.sh

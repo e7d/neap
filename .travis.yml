@@ -25,7 +25,7 @@ before_install:
 
 install:
     - composer self-update
-    - ( cd ./api ; composer install --no-interaction --ignore-platform-reqs --prefer-source )
+    - ( cd api ; composer install --no-interaction --ignore-platform-reqs --prefer-source )
 
 before_script:
     - psql "postgres" -U postgres < bootstrap/resources/database/init.sql
@@ -36,5 +36,5 @@ before_script:
     - cp api/config/autoload/oauth2.local.php.dist api/config/autoload/oauth2.local.php
 
 script:
-    ls api/module/Channel/test/
-    phpunit -c api/module/Channel/test/phpunit.xml
+    - ls api/module/Channel/test/
+    - phpunit -c api/module/Channel/test/phpunit.xml

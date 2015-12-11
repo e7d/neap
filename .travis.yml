@@ -38,4 +38,5 @@ before_script:
 script:
     - ls api/module/Channel/test/
     - cat api/module/Channel/test/phpunit.xml
-    - phpunit -c api/module/Channel/test/phpunit.xml
+    - cd api/module/Channel/test
+    - phpunit -c phpunit.xml

@@ -36,7 +36,5 @@ before_script:
     - cp api/config/autoload/oauth2.local.php.dist api/config/autoload/oauth2.local.php
 
 script:
-    - ls api/module/Channel/test/
-    - cat api/module/Channel/test/phpunit.xml
-    - cd api/module/Channel/test
-    - phpunit -c phpunit.xml
+    - pushd api
+    - phpunit -c module/Channel/test/phpunit.xml

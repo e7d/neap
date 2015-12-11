@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DIR=`dirname $0`
-CYAN='\033[4;36m'
+CYAN='\033[0;36m'
 DEFAULT='\033[0m'
 
 cd $DIR

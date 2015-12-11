@@ -34,7 +34,7 @@ before_script:
     - psql "neap" -U postgres < bootstrap/resources/database/structure.sql
     - psql "neap" -U postgres < bootstrap/resources/database/oauth2.sql
     - psql "neap" -U postgres < bootstrap/resources/database/data.sql
+    - chmod +x $MODULE/test.sh
 
 script:
-    - ls $MODULE
     - $MODULE/test.sh

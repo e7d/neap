@@ -33,6 +33,8 @@ before_script:
     - psql "neap" -U postgres < bootstrap/resources/database/oauth2.sql
     - psql "neap" -U postgres < bootstrap/resources/database/data.sql
     - cp api/config/autoload/local.php.dist api/config/autoload/local.php
+    - cp api/config/autoload/oauth2.local.php.dist api/config/autoload/oauth2.local.php
 
 script:
+    ls api/module/Channel/test/
     phpunit -c api/module/Channel/test/phpunit.xml

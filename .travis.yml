@@ -36,4 +36,5 @@ before_script:
     - psql "neap" -U postgres < bootstrap/resources/database/data.sql
 
 script:
+    - ls $MODULE
     - $MODULE/test.sh

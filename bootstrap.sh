@@ -1,66 +1,73 @@
 #!/bin/sh
 
+# Start stopwatch
+BEGIN=$(date +%s)
+
 # Store execution directory
 DIR=`dirname $0`
-# Store text colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[4;36m'
-DEFAULT='\033[0m'
 
-printf "${CYAN}Check admin rights${DEFAULT}\n"
-if [ "$(id -u)" != "0" ]; then
-    printf "${RED}Error:${DEFAULT} This script must be run as root!\n" 1>&2
+# Load dependencies
+. ${DIR}/bootstrap/resources/colors.sh
+
+# This script needs admin rights
+echo_cyan Check admin rights
+if [ 0 != $(id -u) ]; then
+    echo_error "This script must be as root!"
     exit 1
 fi
-printf "${GREEN}Ok!${DEFAULT}\n"
 
-printf "${CYAN}Prepare data disk${DEFAULT}\n"
+echo_cyan "Prepare data disk"
 ${DIR}/bootstrap/mount-data-disk.sh
 
-printf "${CYAN}Prepare Debian environment${DEFAULT}\n"
+echo_cyan "Prepare Debian environment"
 ${DIR}/bootstrap/prepare-env.sh
 
-printf "${CYAN}Setup ffmpeg${DEFAULT}\n"
+echo_cyan "Setup ffmpeg"
 ${DIR}/bootstrap/setup-ffmpeg.sh
 
-#printf "${CYAN}Build OpenSSL${DEFAULT}\n"
-#printf "${YELLOW}Warning:${DEFAULT} Skipped, as long as OpenSSL 1.0.2d is breaking nginx 1.9.* build\n"
+echo_cyan "Build OpenSSL"
+echo_warning "Skipped, as long as OpenSSL 1.0.2d is breaking nginx 1.9.* build"
+sleep 5
 #${DIR}/bootstrap/build-openssl.sh
 
-printf "${CYAN}Generate certificates${DEFAULT}\n"
+echo_cyan "Generate certificates"
 ${DIR}/bootstrap/generate-certificates.sh
 
-printf "${CYAN}Build nginx${DEFAULT}\n"
+echo_cyan "Build nginx"
 ${DIR}/bootstrap/build-nginx.sh
 
-printf "${CYAN}Setup PHP${DEFAULT}\n"
+echo_cyan "Setup PHP"
 ${DIR}/bootstrap/setup-php.sh
 
-printf "${CYAN}Setup web server${DEFAULT}\n"
+echo_cyan "Setup web server"
 ${DIR}/bootstrap/setup-web.sh
 
-printf "${CYAN}Setup API${DEFAULT}\n"
+echo_cyan "Setup API"
 ${DIR}/bootstrap/setup-api.sh
 
-printf "${CYAN}Setup database${DEFAULT}\n"
+echo_cyan "Setup database"
 ${DIR}/bootstrap/setup-db.sh
 
-printf "${CYAN}Insert fixtures${DEFAULT}\n"
+echo_cyan "Insert fixtures"
 ${DIR}/bootstrap/setup-fixtures.sh
 
-printf "${CYAN}Setup IRC${DEFAULT}\n"
+echo_cyan "Setup IRC"
 ${DIR}/bootstrap/setup-irc.sh
 
-printf "${CYAN}Setup Neap service${DEFAULT}\n"
+echo_cyan "Setup Neap service"
 ${DIR}/bootstrap/setup-service.sh
 
-printf "${CYAN}Clean up${DEFAULT}\n"
+echo_cyan "Clean up"
 ${DIR}/bootstrap/clean.sh
 
-printf "${CYAN}Network adresses${DEFAULT}\n"
-echo NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
-echo Bridge: `/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
+echo_cyan "Network adresses"
+echo_info NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
+echo_info Bridge: `/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
+
+NOW=$(date +%s)
+DIFF=$(($NOW - $BEGIN))
+MINS=$(($DIFF / 60))
+SECS=$(($DIFF % 60))
+echo_info "Startup duration: $MINS mins and $SECS secs"
 
 exit 0

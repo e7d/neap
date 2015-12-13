@@ -31,10 +31,15 @@ Vagrant.configure(2) do |config|
                vb.customize ["storageattach", :id, "--storagectl", "SATA Controller", "--port", 1, "--device", 0, "--type", "hdd", "--medium", data_disk]
             end
         end
-        node.vbguest.auto_update = true
-        node.vbguest.no_remote = true
+
+        #  VirtualBox Guest update
+        node.vbguest.auto_update = false
+        # node.vbguest.no_remote = true
 
         # Provisioning script
-        node.vm.provision "shell", inline: "/bin/sh /vagrant/bootstrap.sh"
+        node.vm.provision "shell" do |s|
+            s.inline = "/bin/sh /vagrant/bootstrap.sh"
+            s.keep_color = true
+        end
     end
 end

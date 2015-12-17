@@ -14,6 +14,9 @@ chown -cR www-data.root /data/rtmp
 echo "Create Neap web folder"
 mkdir -p /var/www/neap
 
+echo "Download latest Adminer"
+wget https://www.adminer.org/latest-en.php -O ${DIR}/../adminer/index.php
+
 echo "Link websites folders"
 ln -s /vagrant/api /var/www/neap/api
 ln -s /vagrant/adminer /var/www/neap/database

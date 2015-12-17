@@ -15,6 +15,7 @@ A ready to go streaming server.
 ## Prerequisites
 
 In order to run the code of Neap effectively, you'll need to have a few tools installed:
+
 1. Install [Git](https://git-scm.com)
 1. Install [VirtualBox](http://virtualbox.org)
 1. Install [Vagrant](http://vagrantup.com)

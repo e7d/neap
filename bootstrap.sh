@@ -16,8 +16,8 @@ if [ 0 != $(id -u) ]; then
     exit 1
 fi
 
-# echo_cyan "Prepare data disk"
-# ${DIR}/bootstrap/mount-data-disk.sh
+echo_cyan "Prepare data disk"
+${DIR}/bootstrap/mount-data-disk.sh
 
 echo_cyan "Prepare Debian environment"
 ${DIR}/bootstrap/prepare-env.sh
@@ -27,9 +27,6 @@ ${DIR}/bootstrap/setup-structure.sh
 
 echo_cyan "Setup database"
 ${DIR}/bootstrap/setup-db.sh
-
-echo_cyan "Insert fixtures"
-${DIR}/bootstrap/insert-fixtures.sh
 
 echo_cyan "Setup API"
 ${DIR}/bootstrap/setup-api.sh
@@ -55,5 +52,7 @@ DIFF=$(($NOW - $BEGIN))
 MINS=$(($DIFF / 60))
 SECS=$(($DIFF % 60))
 echo_info "Bootstrap lasted $MINS mins and $SECS secs"
+
+echo_info "If you need it sample data, it should be inserted as root with ${DIR}/bootstrap/insert-fixtures.sh"
 
 exit 0

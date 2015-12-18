@@ -27,5 +27,3 @@ chmod -cR 600 /etc/ssl/localcerts/self.*
 
 echo "Generate dhparam file"
 openssl dhparam -out /etc/ssl/private/dhparam.pem 2048
-
-exit 0

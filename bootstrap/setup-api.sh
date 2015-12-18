@@ -19,5 +19,3 @@ echo "Copy Neap configuration files"
 cp ${DIR}/../api/config/development.config.php.dist ${DIR}/../api/config/development.config.php
 cp ${DIR}/../api/config/autoload/local.php.dist ${DIR}/../api/config/autoload/local.php
 cp ${DIR}/../api/config/autoload/oauth2.local.php.dist ${DIR}/../api/config/autoload/oauth2.local.php
-
-exit 0

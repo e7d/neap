@@ -20,5 +20,3 @@ systemctl daemon-reload
 sleep 5
 /etc/init.d/anope start
 sleep 5
-
-exit 0

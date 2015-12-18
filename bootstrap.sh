@@ -25,17 +25,20 @@ ${DIR}/bootstrap/prepare-env.sh
 echo_cyan "Generate certificates"
 ${DIR}/bootstrap/generate-certificates.sh
 
-echo_cyan "Setup web server"
-${DIR}/bootstrap/setup-web.sh
-
-echo_cyan "Setup API"
-${DIR}/bootstrap/setup-api.sh
+echo_cyan "Setup structure"
+${DIR}/bootstrap/setup-structure.sh
 
 echo_cyan "Setup database"
 ${DIR}/bootstrap/setup-db.sh
 
 echo_cyan "Insert fixtures"
 ${DIR}/bootstrap/insert-fixtures.sh
+
+echo_cyan "Setup API"
+${DIR}/bootstrap/setup-api.sh
+
+echo_cyan "Setup Web"
+${DIR}/bootstrap/setup-web.sh
 
 echo_cyan "Setup IRC"
 ${DIR}/bootstrap/setup-irc.sh
@@ -44,7 +47,7 @@ echo_cyan "Setup Neap service"
 ${DIR}/bootstrap/setup-service.sh
 
 echo_cyan "Clean up"
-${DIR}/bootstrap/clean.sh
+${DIR}/bootstrap/cleanup.sh
 
 echo_cyan "Network adresses"
 echo NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`

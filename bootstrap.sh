@@ -22,9 +22,6 @@ fi
 echo_cyan "Prepare Debian environment"
 ${DIR}/bootstrap/prepare-env.sh
 
-echo_cyan "Generate certificates"
-${DIR}/bootstrap/generate-certificates.sh
-
 echo_cyan "Setup structure"
 ${DIR}/bootstrap/setup-structure.sh
 

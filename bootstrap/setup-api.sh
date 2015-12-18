@@ -2,11 +2,6 @@
 
 DIR=`dirname $0`
 
-echo "Install Composer"
-apt-get -y install curl
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
-
 echo "Install dependencies"
 cd ${DIR}/../api/
 composer install --no-interaction --prefer-source

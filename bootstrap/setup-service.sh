@@ -13,7 +13,7 @@ chown -c neap.neap /etc/init.d/neap
 chmod -c +x /etc/init.d/neap
 
 echo "Register service script"
-systemctl enable neapneap
+systemctl enable neap
 systemctl unmask neap
 systemctl daemon-reload
 

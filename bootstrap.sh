@@ -35,6 +35,9 @@ try
     echox "${text_cyan}Setup database"
     ${DIR}/bootstrap/setup-db.sh
 
+    echox "${text_cyan}Insert fixtures"
+    ${DIR}/bootstrap/insert-fixtures.sh
+
     echox "${text_cyan}Setup API"
     ${DIR}/bootstrap/setup-api.sh
 
@@ -59,8 +62,6 @@ try
     MINS=$(($DIFF / 60))
     SECS=$(($DIFF % 60))
     echox "${text_cyan}Info:${text_reset} Bootstrap lasted $MINS mins and $SECS secs"
-
-    echox "${text_cyan}Info:${text_reset} If you need sample data, it should be inserted as root with ${DIR}/bootstrap/insert-fixtures.sh"
 )
 catch || {
     case $ex in

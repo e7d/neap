@@ -53,9 +53,8 @@ try
     echox "${text_cyan}Clean up"
     ${DIR}/bootstrap/cleanup.sh
 
-    echox "${text_cyan}Network adresses"
-    echo NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
-    echo Bridge: `/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
+    echox "${text_cyan}Info:${text_reset} NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`"
+    echox "${text_cyan}Info:${text_reset} Bridge: `/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`"
 
     NOW=$(date +%s)
     DIFF=$(($NOW - $BEGIN))

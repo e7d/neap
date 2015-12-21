@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if ! grep -qs '/dev/sdb1' /proc/mounts; then
     if ! file -sL /dev/sdb1 | grep -s 'ext4'; then

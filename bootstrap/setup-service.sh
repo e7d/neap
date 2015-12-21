@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DIR=`dirname $0`
 
@@ -12,9 +12,10 @@ echo "Fix the service permissions"
 chown -c neap.neap /etc/init.d/neap
 chmod -c +x /etc/init.d/neap
 
-echo "Register the service for auto-start"
-update-rc.d neap defaults
+echo "Register service script"
+systemctl enable neapneap
+systemctl unmask neap
+systemctl daemon-reload
 
 echo "Start the Neap service"
-systemctl daemon-reload
-/etc/init.d/neap start
+service neap start

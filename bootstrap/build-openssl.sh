@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SRC=/usr/src
 OPENSSL_VERSION=1.0.2d # http://www.linuxfromscratch.org/blfs/view/svn/postlfs/openssl.html

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 DIR=`dirname $0`
 
@@ -29,7 +29,7 @@ ln -s /etc/nginx/sites-available/neap-static.conf /etc/nginx/sites-enabled/neap-
 ln -s /etc/nginx/sites-available/neap-web.conf /etc/nginx/sites-enabled/neap-web.conf
 
 echo "Download latest Adminer"
-wget https://www.adminer.org/latest-en.php -O /var/www/neap/db/index.php
+wget -q https://www.adminer.org/latest-en.php -O /var/www/neap/db/index.php
 
 echo "Build static folders structure"
 mkdir -p /var/www/neap/

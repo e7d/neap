@@ -7,7 +7,7 @@ try
     # echo "Generate random fixtures"
     # sudo ${DIR}/resources/database/generate-fixtures.php;
 
-    echo "Import SQL file to databse"
+    echo "Import SQL file to database"
     sudo -u "postgres" psql --quiet "neap" -f ${DIR}/bootstrap/resources/database/fixtures.sql;
 )
 catch || {

@@ -49,7 +49,7 @@ try
     chown -cR www-data:www-data /var/www/neap
 
     echo "Copy nginx configuration files"
-    cp -R ${DIR}/bootstrap/resources/nginx/* /etc/nginx
+    cp -R ${DIR}/resources/nginx/* /etc/nginx
 
     echo "Enable nginx Neap sites"
     ln -s /etc/nginx/sites-available/neap-api.conf /etc/nginx/sites-enabled/neap-api.conf

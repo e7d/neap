@@ -8,7 +8,7 @@ try
     # sudo ${DIR}/resources/database/generate-fixtures.php;
 
     echo "Import SQL file to database"
-    sudo -u "postgres" psql --quiet "neap" -f ${DIR}/bootstrap/resources/database/fixtures.sql;
+    sudo -u "postgres" psql --quiet "neap" -f ${DIR}/resources/database/fixtures.sql;
 )
 catch || {
     case $ex_code in

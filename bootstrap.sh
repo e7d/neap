@@ -8,8 +8,8 @@ export DIR=$(dirname `which $0`)
 export SRC=/usr/src
 
 # Load dependencies
-. ${DIR}/bootstrap/resources/colors.sh
-. ${DIR}/bootstrap/resources/trycatch.sh
+. ${DIR}/resources/colors.sh
+. ${DIR}/resources/trycatch.sh
 
 # This script needs admin rights
 echox "${text_cyan}Check admin rights"

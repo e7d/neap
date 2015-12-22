@@ -5,7 +5,7 @@ try
     throwErrors
 
     echo "Copy the gateway service binary"
-    cp ${DIR}/bootstrap/resources/service/bin/neap /etc/init.d
+    cp ${DIR}/resources/service/bin/neap /etc/init.d
 
     echo "Register the neap user account"
     useradd neap

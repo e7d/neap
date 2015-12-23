@@ -4,9 +4,10 @@ Vagrant.configure(2) do |config|
         # https://docs.vagrantup.com.
 
         # General configuration
-        node.vm.box = "e7d/neap-box"
         node.vm.hostname = "neap.dev"
-        node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "irc.neap.dev", "rtmp.neap.dev", "static.neap.dev"]
+        node.vm.box = "e7d/neap-box"
+        node.vm.box_version = ">= 1.0.2"
+        node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "irc.neap.dev", "rtmp.neap.dev", "static.neap.dev", "web.neap.dev", "www.neap.dev"]
 
         # Network configuration
         node.vm.network "private_network", ip: "192.168.32.10"
@@ -38,7 +39,7 @@ Vagrant.configure(2) do |config|
 
         # Provisioning script
         node.vm.provision "shell" do |s|
-            s.inline = "/bin/sh /vagrant/bootstrap.sh"
+            s.inline = "/vagrant/bootstrap.sh | tee /vagrant/bootstrap.log"
             s.keep_color = true
         end
     end

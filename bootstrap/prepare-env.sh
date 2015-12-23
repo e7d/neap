@@ -1,9 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "Update dependencies"
-apt-get update
+try
+(
+    throwErrors
 
-echo "Clean outdated packages"
-apt-get -y autoremove
+    echo "Update dependencies"
+    apt-get update
 
-exit 0
+    echo "Clean outdated packages"
+    apt-get -y autoremove
+)
+catch || {
+    case $ex_code in
+        *)
+            echox "${text_red}Error:${text_reset} An unexpected exception was thrown"
+            throw $ex_code
+        ;;
+    esac
+}

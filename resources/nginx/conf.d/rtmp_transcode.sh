@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 
-on_die ()
+function on_die()
 {
     pkill -KILL -P $$
 }

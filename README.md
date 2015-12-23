@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/e7d/neap.svg)](https://travis-ci.org/e7d/neap)
 
-A ready to go nginx RTMP streaming server.
+A ready to go streaming server.
 
 ## About
 
@@ -15,6 +15,7 @@ A ready to go nginx RTMP streaming server.
 ## Prerequisites
 
 In order to run the code of Neap effectively, you'll need to have a few tools installed:
+
 1. Install [Git](https://git-scm.com)
 1. Install [VirtualBox](http://virtualbox.org)
 1. Install [Vagrant](http://vagrantup.com)
@@ -57,22 +58,10 @@ For a complete update from scratch, destroying and rebuilding everything:
 
 ## What you get ##
 
-### Software stack ###
+### Software environment ###
 
-Neap uses a mixture of Vagrant's [shell provisioner](https://docs.vagrantup.com/v2/provisioning/shell.html) to kick things off and sill soon then use a tool called [Ansible](http://docs.ansible.com) to complete the configuration of the system.
-
-Once Vagrant is done provisioning the VM, you will have a box running Debian 8 (aka Jessie) containing:
-
-* [Nginx](http://nginx.com/), as web server, with:
-  * [Nginx RTMP module](https://github.com/arut/nginx-rtmp-module), as streaming server (RTMP, HLS and DASH protocols)
-  * [PHP 7.0](http://php.net/), as web scripting language, with:
-    * [PHP-FPM](http://php-fpm.org/), as PHP process manager
-* [PostgreSQL](http://www.postgresql.org/), as database
-* [UnrealIRCd](https://www.unrealircd.org/), as IRC server daemon, with:
-  * [Anope](https://www.anope.org/), as IRC services
-* Soon: [Let's Encrypt](https://letsencrypt.org/), as SSL certificate generator
-* Soon: [Varnish](http://varnish-cache.org/), as static files cache
-* Soon: [Memcached](http://memcached.org/), as memory object cache
+Neap is using its own "virtual box" to manage its environment, embedding the whole needed software.
+You can consult a detailed list here: [Neap Box software stack](https://github.com/e7d/neap-box#software-stack)
 
 ### Next Steps ###
 
@@ -82,10 +71,10 @@ These URLs also provide you some control over the project:
 * [neap.dev](http://neap.dev) -- General documentation and links for all of the tools
 * [api.neap.dev](http//api.neap.dev) -- API interface
 * [doc.neap.dev](http//doc.neap.dev) -- API documentation interface
-* [swagger.neap.dev](http://swagger.neap.dev) -- Swagger documentation interface
 * [db.neap.dev](http://db.neap.dev) -- Database administration interface
 * [irc.neap.dev](http://irc.neap.dev) -- IRC server
-* Soon: [static.neap.dev](http://static.neap.dev) -- Cache content access
+* [static.neap.dev](http://static.neap.dev) -- Cache content access
+* Soon: [swagger.neap.dev](http://swagger.neap.dev) -- Swagger documentation interface
 * Soon: [cache.neap.dev](http://cache.neap.dev) -- Cache performance test
 
 ## Development and debugging ##

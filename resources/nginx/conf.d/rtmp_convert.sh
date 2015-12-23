@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo $(date +[%FT%TZ]) convert $2.flv >>/var/log/nginx/convert.log
 ffmpeg -i $1/$2.flv -vcodec copy -acodec copy $1/$2.mp4 2> /var/log/ffmpeg/convert-$2.log

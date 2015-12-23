@@ -1,5 +1,5 @@
-/.vscode
 /.vagrant
+/static
 *.cache.php
 *.log
 *.pid

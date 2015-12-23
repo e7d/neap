@@ -1,4 +1,5 @@
 /.vagrant
+/static
 *.cache.php
 *.log
 *.pid

@@ -7,11 +7,11 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
-namespace ChatTest\V1\Service;
+namespace TeamTest\V1\Service;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
-class ChatServiceTest extends AbstractHttpControllerTestCase
+class TeamServiceTest extends AbstractHttpControllerTestCase
 {
     private $serviceManager;
 
@@ -27,8 +27,8 @@ class ChatServiceTest extends AbstractHttpControllerTestCase
 
     public function testClassType()
     {
-        $chatService = $this->serviceManager->get('Chat\V1\Service\ChatService');
+        $teamService = $this->serviceManager->get('Team\V1\Service\TeamService');
 
-        $this->assertEquals('Chat\V1\Service\ChatService', get_class($chatService));
+        $this->assertEquals('Team\V1\Service\TeamService', get_class($teamService));
     }
 }

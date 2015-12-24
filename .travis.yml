@@ -39,7 +39,7 @@ before_script:
     - psql --quiet "neap" -U postgres -f resources/database/structure.sql
     - psql --quiet "neap" -U postgres -f resources/database/oauth2.sql
     - psql --quiet "neap" -U postgres -f resources/database/data.sql
-    - psql --quiet "neap" -U postgres -f resources/database/fixtures.sql
+    # - psql --quiet "neap" -U postgres -f resources/database/fixtures.sql
     - chmod +x $MODULE/test.sh
 
 script:

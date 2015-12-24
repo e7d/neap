@@ -8,8 +8,8 @@
         <var name="db_password" value="neap"/>
     </php>
     <testsuites>
-        <testsuite name="Chat">
-            <directory>./ChatTest</directory>
+        <testsuite name="Team">
+            <directory>./TeamTest</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="Bootstrap.php"
+         colors="true">
+    <php>
+        <var name="db_dsn" value="pgsql:dbname=neap;host=localhost"/>
+        <var name="db_username" value="neap"/>
+        <var name="db_password" value="neap"/>
+    </php>
+    <testsuites>
+        <testsuite name="Application">
+            <directory>./Application/test/ApplicationTest</directory>
+        </testsuite>
+        <testsuite name="Channel">
+            <directory>./Channel/test/ChannelTest</directory>
+        </testsuite>
+        <testsuite name="Chat">
+            <directory>./Chat/test/ChatTest</directory>
+        </testsuite>
+        <testsuite name="Console">
+            <directory>./Console/test/ConsoleTest</directory>
+        </testsuite>
+        <testsuite name="Emoji">
+            <directory>./Emoji/test/EmojiTest</directory>
+        </testsuite>
+        <testsuite name="Ingest">
+            <directory>./Ingest/test/IngestTest</directory>
+        </testsuite>
+        <testsuite name="Outage">
+            <directory>./Outage/test/OutageTest</directory>
+        </testsuite>
+        <testsuite name="Panel">
+            <directory>./Panel/test/PanelTest</directory>
+        </testsuite>
+        <testsuite name="Root">
+            <directory>./Root/test/RootTest</directory>
+        </testsuite>
+        <testsuite name="RTMP">
+            <directory>./RTMP/test/RTMPTest</directory>
+        </testsuite>
+        <testsuite name="Search">
+            <directory>./Search/test/SearchTest</directory>
+        </testsuite>
+        <testsuite name="Status">
+            <directory>./Status/test/StatusTest</directory>
+        </testsuite>
+        <testsuite name="Stream">
+            <directory>./Stream/test/StreamTest</directory>
+        </testsuite>
+        <testsuite name="Team">
+            <directory>./Team/test/TeamTest</directory>
+        </testsuite>
+        <testsuite name="Topic">
+            <directory>./Topic/test/TopicTest</directory>
+        </testsuite>
+        <testsuite name="User">
+            <directory>./User/test/UserTest</directory>
+        </testsuite>
+        <testsuite name="Video">
+            <directory>./Video/test/VideoTest</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

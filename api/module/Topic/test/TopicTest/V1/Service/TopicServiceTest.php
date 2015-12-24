@@ -29,6 +29,6 @@ class TopicServiceTest extends AbstractHttpControllerTestCase
     {
         $topicService = $this->serviceManager->get('Topic\V1\Service\TopicService');
 
-        $this->assertEquals('Topic\V1\Service\TopicService', get_class($topicService));
+        $this->assertInstanceOf('Topic\V1\Service\TopicService', $topicService);
     }
 }

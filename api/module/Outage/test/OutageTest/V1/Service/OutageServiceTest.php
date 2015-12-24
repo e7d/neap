@@ -29,6 +29,6 @@ class OutageServiceTest extends AbstractHttpControllerTestCase
     {
         $outageService = $this->serviceManager->get('Outage\V1\Service\OutageService');
 
-        $this->assertEquals('Outage\V1\Service\OutageService', get_class($outageService));
+        $this->assertInstanceOf('Outage\V1\Service\OutageService', $outageService);
     }
 }

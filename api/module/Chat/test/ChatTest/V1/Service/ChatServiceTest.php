@@ -29,6 +29,6 @@ class ChatServiceTest extends AbstractHttpControllerTestCase
     {
         $chatService = $this->serviceManager->get('Chat\V1\Service\ChatService');
 
-        $this->assertEquals('Chat\V1\Service\ChatService', get_class($chatService));
+        $this->assertInstanceOf('Chat\V1\Service\ChatService', $chatService);
     }
 }

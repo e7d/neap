@@ -29,6 +29,6 @@ class UserServiceTest extends AbstractHttpControllerTestCase
     {
         $userService = $this->serviceManager->get('User\V1\Service\UserService');
 
-        $this->assertEquals('User\V1\Service\UserService', get_class($userService));
+        $this->assertInstanceOf('User\V1\Service\UserService', $userService);
     }
 }

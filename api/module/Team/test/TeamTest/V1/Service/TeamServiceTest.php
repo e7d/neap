@@ -29,6 +29,6 @@ class TeamServiceTest extends AbstractHttpControllerTestCase
     {
         $teamService = $this->serviceManager->get('Team\V1\Service\TeamService');
 
-        $this->assertEquals('Team\V1\Service\TeamService', get_class($teamService));
+        $this->assertInstanceOf('Team\V1\Service\TeamService', $teamService);
     }
 }

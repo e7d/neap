@@ -29,6 +29,6 @@ class VideoServiceTest extends AbstractHttpControllerTestCase
     {
         $videoService = $this->serviceManager->get('Video\V1\Service\VideoService');
 
-        $this->assertEquals('Video\V1\Service\VideoService', get_class($videoService));
+        $this->assertInstanceOf('Video\V1\Service\VideoService', $videoService);
     }
 }

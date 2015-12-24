@@ -29,6 +29,6 @@ class ChannelServiceTest extends AbstractHttpControllerTestCase
     {
         $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
 
-        $this->assertEquals('Channel\V1\Service\ChannelService', get_class($channelService));
+        $this->assertInstanceOf('Channel\V1\Service\ChannelService', $channelService);
     }
 }

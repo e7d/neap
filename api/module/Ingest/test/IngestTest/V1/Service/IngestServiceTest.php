@@ -29,6 +29,6 @@ class IngestServiceTest extends AbstractHttpControllerTestCase
     {
         $ingestService = $this->serviceManager->get('Ingest\V1\Service\IngestService');
 
-        $this->assertEquals('Ingest\V1\Service\IngestService', get_class($ingestService));
+        $this->assertInstanceOf('Ingest\V1\Service\IngestService', $ingestService);
     }
 }

@@ -29,6 +29,6 @@ class StreamServiceTest extends AbstractHttpControllerTestCase
     {
         $streamService = $this->serviceManager->get('Stream\V1\Service\StreamService');
 
-        $this->assertEquals('Stream\V1\Service\StreamService', get_class($streamService));
+        $this->assertInstanceOf('Stream\V1\Service\StreamService', $streamService);
     }
 }

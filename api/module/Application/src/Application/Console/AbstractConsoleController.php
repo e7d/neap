@@ -18,6 +18,9 @@ class AbstractConsoleController extends ZendAbstractConsoleController implements
     private $config;
     private $services;
 
+    /**
+     * @param string $key
+     */
     public function getConfig($key = null)
     {
         if (is_null($key)) {

@@ -7,6 +7,9 @@
         <var name="db_username" value="neap"/>
         <var name="db_password" value="neap"/>
     </php>
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
     <testsuites>
         <testsuite name="Application">
             <directory>./Application/test/ApplicationTest</directory>
@@ -60,4 +63,9 @@
             <directory>./Video/test/VideoTest</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">.</directory>
+        </whitelist>
+    </filter>
 </phpunit>

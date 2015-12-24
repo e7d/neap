@@ -35,11 +35,11 @@ install:
     # Nothing
 
 before_script:
-    - psql "postgres" -U postgres < resources/database/init.sql
-    - psql "neap" -U postgres < resources/database/structure.sql
-    - psql "neap" -U postgres < resources/database/oauth2.sql
-    - psql "neap" -U postgres < resources/database/data.sql
-    - psql "neap" -U postgres < resources/database/fixtures.sql
+    - psql --quiet "postgres" -U postgres -f resources/database/init.sql
+    - psql --quiet "neap" -U postgres -f resources/database/structure.sql
+    - psql --quiet "neap" -U postgres -f resources/database/oauth2.sql
+    - psql --quiet "neap" -U postgres -f resources/database/data.sql
+    - psql --quiet "neap" -U postgres -f resources/database/fixtures.sql
     - chmod +x $MODULE/test.sh
 
 script:

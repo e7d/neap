@@ -28,6 +28,9 @@
             return $date->format('Y-m-d H:i:s.uO');
         }
 
+        /**
+         * @param double $max
+         */
         public static function randomTimestamp($min = 0, $max = null)
         {
             if ($max === null) {
@@ -37,6 +40,9 @@
             return self::big_rand($min * 10000, $max * 10000) / 10000;
         }
 
+        /**
+         * @param integer $min
+         */
         private static function big_rand($min, $max)
         {
             $difference   = bcadd(bcsub($max, $min),1);
@@ -63,6 +69,9 @@
             return (float) $sec + ((float) $usec * 100000);
         }
 
+        /**
+         * @param string $table
+         */
         private function addStatement($table, $data)
         {
             if (!array_key_exists($table, $this->sql)) {

@@ -19,6 +19,11 @@ env:
     - MODULE=api
     # - MODULE=web
 
+branches:
+    except:
+        - legacy
+        - experimental
+
 matrix:
     allow_failures:
         - php: 7.0
@@ -34,6 +39,7 @@ before_script:
     - psql "neap" -U postgres < resources/database/structure.sql
     - psql "neap" -U postgres < resources/database/oauth2.sql
     - psql "neap" -U postgres < resources/database/data.sql
+    - psql "neap" -U postgres < resources/database/fixtures.sql
     - chmod +x $MODULE/test.sh
 
 script:

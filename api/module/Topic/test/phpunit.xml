@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="Bootstrap.php"
+         colors="true">
+    <php>
+        <var name="db_dsn" value="pgsql:dbname=neap;host=localhost"/>
+        <var name="db_username" value="neap"/>
+        <var name="db_password" value="neap"/>
+    </php>
+    <testsuites>
+        <testsuite name="Topic">
+            <directory>./TopicTest</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

@@ -1,18 +1,34 @@
-#!/bin/sh
+#!/bin/bash
 
-DIR=`dirname $0`
-CYAN='\033[0;36m'
-DEFAULT='\033[0m'
+DIR=$(dirname `which $0`)
 
-cd $DIR
+. ${DIR}/../resources/colors.sh
 
-echo "${CYAN}Update composer${DEFAULT}"
+cd ${DIR}
+
+echox "${text_cyan}Update composer"
 composer self-update
 composer install --no-interaction --ignore-platform-reqs --prefer-source
 
-echo "${CYAN}Copy latest configuration files${DEFAULT}"
+echox "${text_cyan}Copy latest configuration files"
 cp -v config/autoload/local.php.dist config/autoload/local.php
 cp -v config/autoload/oauth2.local.php.dist config/autoload/oauth2.local.php
 
-echo "${CYAN}Run phpunit tests${DEFAULT}"
-phpunit -c module/Channel/test/phpunit.xml
+echox "${text_cyan}Run phpunit tests"
+./vendor/bin/phpunit -c module/Application/test/phpunit.xml
+./vendor/bin/phpunit -c module/Channel/test/phpunit.xml
+./vendor/bin/phpunit -c module/Chat/test/phpunit.xml
+./vendor/bin/phpunit -c module/Console/test/phpunit.xml
+./vendor/bin/phpunit -c module/Emoji/test/phpunit.xml
+./vendor/bin/phpunit -c module/Ingest/test/phpunit.xml
+./vendor/bin/phpunit -c module/Outage/test/phpunit.xml
+./vendor/bin/phpunit -c module/Panel/test/phpunit.xml
+./vendor/bin/phpunit -c module/Root/test/phpunit.xml
+./vendor/bin/phpunit -c module/RTMP/test/phpunit.xml
+./vendor/bin/phpunit -c module/Search/test/phpunit.xml
+./vendor/bin/phpunit -c module/Status/test/phpunit.xml
+./vendor/bin/phpunit -c module/Stream/test/phpunit.xml
+./vendor/bin/phpunit -c module/Team/test/phpunit.xml
+./vendor/bin/phpunit -c module/Topic/test/phpunit.xml
+./vendor/bin/phpunit -c module/User/test/phpunit.xml
+./vendor/bin/phpunit -c module/Video/test/phpunit.xml

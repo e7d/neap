@@ -6,7 +6,7 @@ build:
     tests:
         override:
             -
-                command: ./api/module/run-tests.sh
+                command: ./api/run-tests.sh
                 coverage:
                     file: ./api/build/logs/clover.xml
                     format: php-clover

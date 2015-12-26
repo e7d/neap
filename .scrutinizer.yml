@@ -1,40 +1,12 @@
-before_commands:
-    - "composer install --dev --prefer-source"
-
-tools:
-    php_code_coverage:
-        enabled: true
-        test_command: ./vendor/bin/phpunit -c module/phpunit.xml
-    php_code_sniffer:
-        enabled: true
-        config:
-            standard: PSR2
-        filter:
-            paths: ["module/*"]
-    php_cpd:
-        enabled: true
-        filter:
-            paths: ["module/*"]
-    php_cs_fixer:
-        enabled: true
-        config:
-            level: all
-        filter:
-            paths: ["module/*"]
-    php_loc:
-        enabled: true
-        filter:
-            paths: ["module/*"]
-    php_mess_detector:
-        enabled: true
-        filter:
-            paths: ["module/*"]
-    php_pdepend:
-        enabled: true
-        filter:
-            paths: ["module/*"]
-    php_analyzer: true
-    php_analyzer:
-        filter:
-            paths: ["module/*"]
-    sensiolabs_security_checker: true
+# .scrutinizer.yml
+build:
+    environment:
+        php:
+            version: 7.0
+    tests:
+        override:
+            -
+                command: ./module/run-tests.sh
+                coverage:
+                    file: ./build/logs/clover.xml
+                    format: php-clover

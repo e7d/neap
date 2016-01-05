@@ -20,5 +20,8 @@ echox "${text_cyan}Run phpunit tests"
 echox "${text_cyan}Check code quality"
 ./vendor/bin/phpcs --standard=PSR2 module/
 
-echox "${text_cyan}Compute code coverage"
+echox "${text_cyan}Send clover log to Coveralls"
 ./vendor/bin/coveralls -v
+
+echox "${text_cyan}Send clover log to Scrutinizer"
+./vendor/bin/ocular code-coverage:upload --format=php-clover ./build/logs/clover.xml

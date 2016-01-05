@@ -1,6 +1,8 @@
 # Neap
 
-[![Build Status](https://travis-ci.org/e7d/neap.svg)](https://travis-ci.org/e7d/neap)
+[![Build Status](https://img.shields.io/travis/e7d/neap.svg)](https://travis-ci.org/e7d/neap)
+[![Code Quality](https://img.shields.io/scrutinizer/g/e7d/neap.svg)](https://scrutinizer-ci.com/g/e7d/neap)
+[![Coverage](https://img.shields.io/coveralls/e7d/neap.svg)](https://coveralls.io/github/e7d/neap)
 
 A ready to go streaming server.
 

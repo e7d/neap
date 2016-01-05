@@ -9,7 +9,6 @@
 
 namespace Channel\V1\Rest\StreamKey;
 
-use Application\Authorization\OwnerListener;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 

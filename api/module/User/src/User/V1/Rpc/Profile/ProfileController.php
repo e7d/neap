@@ -33,7 +33,7 @@ class ProfileController extends AbstractActionController
                 break;
 
             default:
-                return new ApiProblem(405, 'The '.$method.' method has not been defined');
+                return new ApiProblem(405, 'The ' . $method . ' method has not been defined');
         }
     }
 }

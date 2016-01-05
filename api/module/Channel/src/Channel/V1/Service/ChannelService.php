@@ -15,12 +15,9 @@ use Channel\V1\Rest\Channel\ChannelCollection;
 use Channel\V1\Rest\Follow\FollowCollection;
 use Channel\V1\Rest\Video\VideoCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
-use Zend\Db\TableGateway\TableGateway;
 use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
 
 class ChannelService
 {

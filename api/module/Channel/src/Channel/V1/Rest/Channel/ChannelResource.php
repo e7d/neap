@@ -10,7 +10,6 @@
 namespace Channel\V1\Rest\Channel;
 
 use Application\Authorization\AuthorizationAwareResourceTrait;
-
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 

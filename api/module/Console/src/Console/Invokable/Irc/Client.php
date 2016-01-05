@@ -44,35 +44,35 @@ class Client extends AbstractConsoleController
 
         $registerCommands = array(
             'PRIVMSG NickServ LOGOUT',
-            'NICK '.$this->getConfig('irc')['nick'],
-            'PRIVMSG NickServ IDENTIFY '.$this->getConfig('irc')['password'],
-            'PRIVMSG ChanServ KICK #'.$username.' *',
-            'PRIVMSG ChanServ DROP #'.$username.' #'.$username,
+            'NICK ' . $this->getConfig('irc')['nick'],
+            'PRIVMSG NickServ IDENTIFY ' . $this->getConfig('irc')['password'],
+            'PRIVMSG ChanServ KICK #' . $username . ' *',
+            'PRIVMSG ChanServ DROP #' . $username . ' #' . $username,
             //'KILL '.$username. ' Registering the username',
-            'PRIVMSG NickServ DROP '.$username,
+            'PRIVMSG NickServ DROP ' . $username,
 
             'PRIVMSG NickServ LOGOUT',
-            'NICK '.$username,
-            'PRIVMSG NickServ REGISTER password '.$username.'@neap.dev',
+            'NICK ' . $username,
+            'PRIVMSG NickServ REGISTER password ' . $username . '@neap.dev',
             'PRIVMSG NickServ LOGOUT',
 
-            'NICK '.$this->getConfig('irc')['nick'],
-            'PRIVMSG NickServ IDENTIFY '.$this->getConfig('irc')['password'],
-            'JOIN #'.$username,
-            'PRIVMSG ChanServ REGISTER #'.$username,
-            'PRIVMSG ChanServ SET AUTOOP #'.$username.' ON',
-            'PRIVMSG ChanServ SET KEEPMODES #'.$username.' ON',
-            'PRIVMSG ChanServ SET PERSIST #'.$username.' ON',
-            'PRIVMSG ChanServ SET SECUREFOUNDER #'.$username.' ON',
-            'PRIVMSG ChanServ SET SECUREOPS #'.$username.' ON',
-            'PRIVMSG ChanServ SET FOUNDER #'.$username.' '.$username,
-            'PRIVMSG ChanServ QOP #'.$username.' ADD '.$username,
+            'NICK ' . $this->getConfig('irc')['nick'],
+            'PRIVMSG NickServ IDENTIFY ' . $this->getConfig('irc')['password'],
+            'JOIN #' . $username,
+            'PRIVMSG ChanServ REGISTER #' . $username,
+            'PRIVMSG ChanServ SET AUTOOP #' . $username . ' ON',
+            'PRIVMSG ChanServ SET KEEPMODES #' . $username . ' ON',
+            'PRIVMSG ChanServ SET PERSIST #' . $username . ' ON',
+            'PRIVMSG ChanServ SET SECUREFOUNDER #' . $username . ' ON',
+            'PRIVMSG ChanServ SET SECUREOPS #' . $username . ' ON',
+            'PRIVMSG ChanServ SET FOUNDER #' . $username . ' ' . $username,
+            'PRIVMSG ChanServ QOP #' . $username . ' ADD ' . $username,
             //'PRIVMSG ChanServ AOP #'.$username.' ADD toto',
-            'PRIVMSG BotServ KICK BADWORDS #'.$username.' ON',
-            'PRIVMSG BotServ KICK FLOOD #'.$username.' ON',
-            'PRIVMSG BotServ KICK REPEAT #'.$username.' ON',
+            'PRIVMSG BotServ KICK BADWORDS #' . $username . ' ON',
+            'PRIVMSG BotServ KICK FLOOD #' . $username . ' ON',
+            'PRIVMSG BotServ KICK REPEAT #' . $username . ' ON',
             'PRIVMSG OperServ UPDATE',
-            'PART #'.$username,
+            'PART #' . $username,
         );
 
         $this->sendAction($registerCommands);
@@ -82,13 +82,13 @@ class Client extends AbstractConsoleController
     {
         $command .= PHP_EOL;
 
-        print ConsoleStyle::build('{green}['.DateConverter::fromTimestamp().']{/} ==>').PHP_EOL.$command; //displays it on the screen
+        print ConsoleStyle::build('{green}[' . DateConverter::fromTimestamp() . ']{/} ==>') . PHP_EOL . $command; //displays it on the screen
 
         $loop = ReactEventLoopFactory::create();
 
-        $gatewaySocket = stream_socket_client('tcp://localhost:'.$this->getConfig('gateway')['port']);
+        $gatewaySocket = stream_socket_client('tcp://localhost:' . $this->getConfig('gateway')['port']);
         $this->gatewayClient = new ReactStream($gatewaySocket, $loop);
-        $this->gatewayClient->on('data', function ($data) {
+        $this->gatewayClient->on('data', function($data) {
             $this->receive($data);
             $this->gatewayClient->close();
         });
@@ -100,6 +100,6 @@ class Client extends AbstractConsoleController
 
     private function receive($data)
     {
-        print ConsoleStyle::build('{yellow}['.DateConverter::fromTimestamp().']{/} <==').PHP_EOL.$data;
+        print ConsoleStyle::build('{yellow}[' . DateConverter::fromTimestamp() . ']{/} <==') . PHP_EOL . $data;
     }
 }

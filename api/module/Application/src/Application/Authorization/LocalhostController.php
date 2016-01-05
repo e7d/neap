@@ -25,6 +25,6 @@ class LocalhostController extends AbstractActionController
             $data = json_encode($data, JSON_PRETTY_PRINT);
         }
 
-        file_put_contents('/var/log/nginx/transcode.log', $data.PHP_EOL, FILE_APPEND);
+        file_put_contents('/var/log/nginx/transcode.log', $data . PHP_EOL, FILE_APPEND);
     }
 }

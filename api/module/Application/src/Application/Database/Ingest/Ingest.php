@@ -28,7 +28,7 @@ class Ingest extends ObjectProperty
         $this->hostname = (!empty($data['hostname'])) ? $data['hostname'] : null;
         $this->port = (!empty($data['port'])) ? $data['port'] : null;
         $this->availability = (!empty($data['availability'])) ? $data['availability'] : null;
-        $this->url_template = 'rtmp://'.$this->hostname.($this->port != 1935 ? ':'.$this->port : '').'/live/{stream_key}';
+        $this->url_template = 'rtmp://' . $this->hostname . ($this->port != 1935 ? ':' . $this->port : '') . '/live/{stream_key}';
         $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
         $this->updated_at = (!empty($data['updated_at'])) ? $data['updated_at'] : null;
     }

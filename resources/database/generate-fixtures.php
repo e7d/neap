@@ -42,10 +42,11 @@
 
         /**
          * @param integer $min
+         * @param double $max
          */
         private static function big_rand($min, $max)
         {
-            $difference   = bcadd(bcsub($max, $min),1);
+            $difference   = bcadd(bcsub($max, $min), 1);
             $rand_percent = bcdiv(mt_rand(), mt_getrandmax(), 8); // 0 - 1.0
             return bcadd($min, bcmul($difference, $rand_percent, 8), 0);
         }
@@ -58,7 +59,7 @@
         private $sql = array();
 
         public function __construct() {
-            $this->filename = realpath(dirname(__FILE__)).'/fixtures.sql';
+            $this->filename = realpath(dirname(__FILE__)) . '/fixtures.sql';
             mt_srand($this->makeSeed());
             date_default_timezone_set('UTC');
         }
@@ -90,9 +91,9 @@
                 );
                 foreach ($data as $column => $value) {
                     $sql['columns'][] = $column;
-                    if(is_string($value)) {
-                        $sql['values'][] = '\''.$value.'\'';
-                    } elseif(is_null($value)) {
+                    if (is_string($value)) {
+                        $sql['values'][] = '\'' . $value . '\'';
+                    } elseif (is_null($value)) {
                         $sql['values'][] = 'null';
                     } else {
                         $sql['values'][] = $value;
@@ -103,10 +104,10 @@
                 $sql['values'] = implode(', ', $sql['values']);
 
                 $this->sql[$table]['query'][] =
-                    'INSERT INTO "neap"."'.$table.'"('.
-                    $sql['columns'].
-                    ') VALUES ('.
-                    $sql['values'].
+                    'INSERT INTO "neap"."' . $table . '"(' .
+                    $sql['columns'] .
+                    ') VALUES (' .
+                    $sql['values'] .
                     ');';
             } else {
                 $this->sql[$table]['query'][] = $data;
@@ -115,16 +116,16 @@
 
         private function writeFile()
         {
-            file_put_contents($this->filename, implode(PHP_EOL, $this->sql['before']['query']).PHP_EOL, LOCK_EX);
-            foreach(array('ingest', 'outage', 'topic', 'user', 'team', 'member', 'channel', 'panel', 'chat', 'stream', 'video', 'favorite', 'follow', 'block', 'mod') as $entity) {
+            file_put_contents($this->filename, implode(PHP_EOL, $this->sql['before']['query']) . PHP_EOL, LOCK_EX);
+            foreach (array('ingest', 'outage', 'topic', 'user', 'team', 'member', 'channel', 'panel', 'chat', 'stream', 'video', 'favorite', 'follow', 'block', 'mod') as $entity) {
                 if (!array_key_exists($entity, $this->sql)) {
                     continue;
                 }
 
-                file_put_contents($this->filename, implode(PHP_EOL, $this->sql[$entity]['query']).PHP_EOL, LOCK_EX | FILE_APPEND);
+                file_put_contents($this->filename, implode(PHP_EOL, $this->sql[$entity]['query']) . PHP_EOL, LOCK_EX | FILE_APPEND);
             }
 
-            file_put_contents($this->filename, implode(PHP_EOL, $this->sql['after']['query']).PHP_EOL, LOCK_EX | FILE_APPEND);
+            file_put_contents($this->filename, implode(PHP_EOL, $this->sql['after']['query']) . PHP_EOL, LOCK_EX | FILE_APPEND);
         }
 
         public function generate()
@@ -246,7 +247,7 @@
             ));
 
             // Output console that we generated some SQL
-            echo '1 ingest'.PHP_EOL;
+            echo '1 ingest' . PHP_EOL;
 
             // Reference the list of outage
             for ($outageIndex = 0; $outageIndex < 10; $outageIndex++) {
@@ -268,7 +269,7 @@
             }
 
             // Output console that we generated some SQL
-            echo ($outageIndex + 1).' outages'.PHP_EOL;
+            echo ($outageIndex + 1) . ' outages' . PHP_EOL;
 
             // Reference the list of topics
             foreach ($data['topics'] as $topicId => $topicName) {
@@ -284,7 +285,7 @@
             }
 
             // Output console that we generated some SQL
-            echo count($this->sql['topic']['data']).' topics'.PHP_EOL;
+            echo count($this->sql['topic']['data']) . ' topics' . PHP_EOL;
 
             foreach ($data['teamNames'] as $teamId => $teamDisplayName) {
                 // Prepare topic specific data
@@ -310,7 +311,7 @@
             }
 
             // Output console that we generated some SQL
-            echo count($this->sql['team']['data']).' teams'.PHP_EOL;
+            echo count($this->sql['team']['data']) . ' teams' . PHP_EOL;
 
             // Reference each retained user
             foreach ($data['userNames'] as $userDisplayName) {
@@ -321,9 +322,9 @@
 
                 // Prepare user specific data
                 $username = strtolower($userDisplayName);
-                $userEmail = $username.'@neap.io';
+                $userEmail = $username . '@neap.io';
                 $userPassword = password_hash($username, PASSWORD_BCRYPT, ['cost' => 10]);
-                $userLogo = 'https://gravatar.com/avatar/'.md5($userEmail).'?s=128&d=identicon';
+                $userLogo = 'https://gravatar.com/avatar/' . md5($userEmail) . '?s=128&d=identicon';
                 $userCreatedAtTimestamp = DateConverter::randomTimestamp(1420070400);
                 $userCreatedAt = DateConverter::fromTimestamp($userCreatedAtTimestamp);
                 $userUpdatedAt = DateConverter::fromTimestamp(DateConverter::randomTimestamp($userCreatedAtTimestamp));
@@ -338,7 +339,7 @@
                     'password' => $userPassword,
                     'display_name' => $userDisplayName,
                     'logo' => $userLogo,
-                    'bio' => 'This is the bio of '.$userDisplayName.'.',
+                    'bio' => 'This is the bio of ' . $userDisplayName . '.',
                     'created_at' => $userCreatedAt,
                     'updated_at' => $userUpdatedAt,
                 ));
@@ -364,7 +365,7 @@
                 }
 
                 // Prepare channel specific data
-                $channelStreamKey = 'live_'.bin2hex(openssl_random_pseudo_bytes(4)).'_'.bin2hex(openssl_random_pseudo_bytes(12));
+                $channelStreamKey = 'live_' . bin2hex(openssl_random_pseudo_bytes(4)) . '_' . bin2hex(openssl_random_pseudo_bytes(12));
                 $channelTopicId = array_rand($data['topics']);
                 $channelTopic = $data['topics'][$channelTopicId];
                 $channelLanguage = 'en';
@@ -389,7 +390,7 @@
                     'chat_id' => $chatId,
                     'stream_key' => $channelStreamKey,
                     'name' => $username,
-                    'title' => $userDisplayName. ' Channel',
+                    'title' => $userDisplayName . ' Channel',
                     'topic' => $channelTopic,
                     'language' => 'en',
                     'views' => $channelViews,
@@ -400,7 +401,7 @@
                 for ($panelIndex = 0; $panelIndex < mt_rand(0, 10); $panelIndex++) {
                     // Prepare channel specific data
                     $panelId = UUID::v4();
-                    $panelTitle = 'Panel '.($panelIndex + 1);
+                    $panelTitle = 'Panel ' . ($panelIndex + 1);
                     $panelPosition = $panelIndex;
                     $panelBanner = 'http://lorempixel.com/320/80/';
                     $panelBannerLink = null;
@@ -533,7 +534,7 @@
 
                         for ($favoriteIndex = 0; $favoriteIndex < mt_rand(0, round($videoViews / 100)); $favoriteIndex++) {
                             // Check for unicity
-                            $favoriteUser =  $this->sql['user']['data'][array_rand($this->sql['user']['data'])];
+                            $favoriteUser = $this->sql['user']['data'][array_rand($this->sql['user']['data'])];
                             if (in_array($favoriteUser, $favorites)) {
                                 continue;
                             }
@@ -555,13 +556,13 @@
             }
 
             // Output console that we generated some SQL
-            echo count($this->sql['user']['data']).' users'.PHP_EOL;
-            echo count($this->sql['member']['data']).' members'.PHP_EOL;
-            echo count($this->sql['channel']['data']).' channels'.PHP_EOL;
-            echo count($this->sql['chat']['data']).' chats'.PHP_EOL;
-            echo count($this->sql['stream']['data']).' streams'.PHP_EOL;
-            echo count($this->sql['video']['data']).' videos'.PHP_EOL;
-            echo count($this->sql['favorite']['data']).' favorites'.PHP_EOL;
+            echo count($this->sql['user']['data']) . ' users' . PHP_EOL;
+            echo count($this->sql['member']['data']) . ' members' . PHP_EOL;
+            echo count($this->sql['channel']['data']) . ' channels' . PHP_EOL;
+            echo count($this->sql['chat']['data']) . ' chats' . PHP_EOL;
+            echo count($this->sql['stream']['data']) . ' streams' . PHP_EOL;
+            echo count($this->sql['video']['data']) . ' videos' . PHP_EOL;
+            echo count($this->sql['favorite']['data']) . ' favorites' . PHP_EOL;
 
             foreach ($this->sql['channel']['data'] as $channel) {
                 $follows = array();
@@ -571,7 +572,7 @@
                 // Reference random follows between generated users and channels
                 for ($followIndex = 0; $followIndex < $channel['followers']; $followIndex++) {
                     // Check for unicity
-                    $user =  $this->sql['user']['data'][array_rand($this->sql['user']['data'])];
+                    $user = $this->sql['user']['data'][array_rand($this->sql['user']['data'])];
                     if (in_array($user, $follows)) {
                         continue;
                     }
@@ -592,7 +593,7 @@
                 if (mt_rand(0, 50) === 50) {
                     for ($blockIndex = 0; $blockIndex < mt_rand(0, 10); $blockIndex++) {
                         // Check for unicity
-                        $blockedUser =  $this->sql['user']['data'][array_rand($this->sql['user']['data'])];
+                        $blockedUser = $this->sql['user']['data'][array_rand($this->sql['user']['data'])];
                         if (in_array($blockedUser, $blocks)) {
                             continue;
                         }
@@ -614,7 +615,7 @@
                 if (mt_rand(0, 25) === 25) {
                     for ($modIndex = 0; $modIndex < mt_rand(0, 5); $modIndex++) {
                         // Check for unicity
-                        $chat =  $this->sql['chat']['data'][array_rand($this->sql['chat']['data'])];
+                        $chat = $this->sql['chat']['data'][array_rand($this->sql['chat']['data'])];
                         if (in_array($chat, $mods)) {
                             continue;
                         }
@@ -638,9 +639,9 @@
             }
 
             // Output console that we generated some SQL
-            echo count($this->sql['follow']['data']).' follows'.PHP_EOL;
-            echo count($this->sql['block']['data']).' blocks'.PHP_EOL;
-            echo count($this->sql['mod']['data']).' mods'.PHP_EOL;
+            echo count($this->sql['follow']['data']) . ' follows' . PHP_EOL;
+            echo count($this->sql['block']['data']) . ' blocks' . PHP_EOL;
+            echo count($this->sql['mod']['data']) . ' mods' . PHP_EOL;
 
             // Finish the SQL script by committing the whole huge transaction we generated
             // We do not want partial fixtures

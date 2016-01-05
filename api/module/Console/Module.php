@@ -38,8 +38,8 @@ class Module implements
             'IRC',
             'irc send <command>'       => 'Send an IRC command',
             'irc register <username>'  => 'Register a user and its channel against IRC',
-            array('<command>' , 'IRC command', 'Command to execute through the gateway'),
-            array('<username>', 'user name'  , 'The user to register against IRC'),
+            array('<command>', 'IRC command', 'Command to execute through the gateway'),
+            array('<username>', 'user name', 'The user to register against IRC'),
         );
     }
 }

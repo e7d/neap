@@ -14,7 +14,7 @@ use Application\Console\ConsoleStyle;
 use Application\Converter\DateConverter;
 use React\EventLoop\Factory as ReactEventLoopFactory;
 use React\Socket\Server as ReactServer;
-use React\Stream\Stream As ReactStream;
+use React\Stream\Stream as ReactStream;
 
 class Gateway extends AbstractConsoleController
 {
@@ -32,8 +32,8 @@ class Gateway extends AbstractConsoleController
         $loop = ReactEventLoopFactory::create();
 
         $this->gatewayListener = new ReactServer($loop);
-        $this->gatewayListener->on('connection', function ($gatewayConnection) {
-            $gatewayConnection->on('data', function ($command) use ($gatewayConnection) {
+        $this->gatewayListener->on('connection', function($gatewayConnection) {
+            $gatewayConnection->on('data', function($command) use ($gatewayConnection) {
                 if ($this->ready) {
                     // $this->send($command);
                     // $gatewayConnection->write('OK'.PHP_EOL);
@@ -45,9 +45,9 @@ class Gateway extends AbstractConsoleController
         });
         $this->gatewayListener->listen($this->config['gateway']['port'], 'localhost');
 
-        $ircSocket = stream_socket_client('tcp://'.$this->config['irc']['hostname'].':'.$this->config['irc']['port']);
+        $ircSocket = stream_socket_client('tcp://' . $this->config['irc']['hostname'] . ':' . $this->config['irc']['port']);
         $this->ircClient = new ReactStream($ircSocket, $loop);
-        $this->ircClient->on('data', function ($data) {
+        $this->ircClient->on('data', function($data) {
             $this->receive($data);
         });
 
@@ -70,13 +70,13 @@ class Gateway extends AbstractConsoleController
         $this->ircClient->write($command);
 
         // Print what we sent
-        print ConsoleStyle::build('{green}['.DateConverter::fromTimestamp().']{/} ==> ').PHP_EOL.$command; //displays it on the screen
+        print ConsoleStyle::build('{green}[' . DateConverter::fromTimestamp() . ']{/} ==> ') . PHP_EOL . $command; //displays it on the screen
     }
 
     private function receive($data)
     {
         // Print what we received
-        print ConsoleStyle::build('{yellow}['.DateConverter::fromTimestamp().']{/} <== ').PHP_EOL.$data;
+        print ConsoleStyle::build('{yellow}[' . DateConverter::fromTimestamp() . ']{/} <== ') . PHP_EOL . $data;
 
         // If we receive data with a populated upon stack, we have something to give back
         if (count($this->gatewayConnections) > 0) {
@@ -86,7 +86,7 @@ class Gateway extends AbstractConsoleController
 
         // Ping response to keep alive
         if (substr($data, 0, 4) == "PING") {
-            $this->send("PONG ".substr($data, 5));
+            $this->send("PONG " . substr($data, 5));
         }
 
         // Get operator privileges

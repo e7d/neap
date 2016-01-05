@@ -10,9 +10,6 @@
 namespace Application\Hydrator\Ingest;
 
 use Application\Hydrator\Hydrator;
-use Application\Database\Channel\ChannelModel;
-use Application\Database\User\UserModel;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 

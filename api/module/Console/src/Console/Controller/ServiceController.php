@@ -28,8 +28,8 @@ class ServiceController extends AbstractConsoleController
 
             // Write a pid file to mark as running
             file_put_contents(
-                getcwd().$this->pidFile,
-                getmypid().PHP_EOL
+                getcwd() . $this->pidFile,
+                getmypid() . PHP_EOL
             );
 
             // Run the IRC gateway listener

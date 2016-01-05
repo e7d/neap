@@ -24,13 +24,13 @@ class Team extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['team_id'])) ? $data['team_id'] : null;
-        $this->name = (!empty($data['name'])) ? $data['name'] : null;
-        $this->display_name = (!empty($data['display_name'])) ? $data['display_name'] : null;
-        $this->logo = (!empty($data['logo'])) ? $data['logo'] : null;
-        $this->banner = (!empty($data['banner'])) ? $data['banner'] : null;
-        $this->background = (!empty($data['background'])) ? $data['background'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
-        $this->updated_at = (!empty($data['updated_at'])) ? $data['updated_at'] : null;
+        $this->id = $data['team_id'];
+        $this->name = $data['name'];
+        $this->display_name = $data['display_name'];
+        $this->logo = $data['logo'];
+        $this->banner = $data['banner'];
+        $this->background = $data['background'];
+        $this->created_at = $data['created_at'];
+        $this->updated_at = $data['updated_at'];
     }
 }

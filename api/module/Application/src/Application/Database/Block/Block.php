@@ -19,8 +19,8 @@ class Block extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->user_id = (!empty($data['user_id'])) ? $data['user_id'] : null;
-        $this->blocked_user_id = (!empty($data['blocked_user_id'])) ? $data['blocked_user_id'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
+        $this->user_id = $data['user_id'];
+        $this->blocked_user_id = $data['blocked_user_id'];
+        $this->created_at = $data['created_at'];
     }
 }

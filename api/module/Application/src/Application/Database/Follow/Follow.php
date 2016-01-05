@@ -19,8 +19,8 @@ class Follow extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->user_id = (!empty($data['user_id'])) ? $data['user_id'] : null;
-        $this->channel_id = (!empty($data['channel_id'])) ? $data['channel_id'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
+        $this->user_id = $data['user_id'];
+        $this->channel_id = $data['channel_id'];
+        $this->created_at = $data['created_at'];
     }
 }

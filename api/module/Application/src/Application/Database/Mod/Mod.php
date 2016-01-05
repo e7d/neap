@@ -21,10 +21,10 @@ class Mod extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->user_id = (!empty($data['user_id'])) ? $data['user_id'] : null;
-        $this->chat_id = (!empty($data['chat_id'])) ? $data['chat_id'] : null;
-        $this->level = (!empty($data['level'])) ? $data['level'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
-        $this->update_at = (!empty($data['update_at'])) ? $data['update_at'] : null;
+        $this->user_id = $data['user_id'];
+        $this->chat_id = $data['chat_id'];
+        $this->level = $data['level'];
+        $this->created_at = $data['created_at'];
+        $this->update_at = $data['update_at'];
     }
 }

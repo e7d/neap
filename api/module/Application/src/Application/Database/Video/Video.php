@@ -30,19 +30,19 @@ class Video extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['video_id'])) ? $data['video_id'] : null;
-        $this->stream_id = (!empty($data['stream_id'])) ? $data['stream_id'] : null;
-        $this->title = (!empty($data['title'])) ? $data['title'] : null;
-        $this->type = (!empty($data['type'])) ? $data['type'] : null;
-        $this->description = (!empty($data['description'])) ? $data['description'] : null;
-        $this->status = (!empty($data['status'])) ? $data['status'] : null;
-        $this->tags = (!empty($data['tags'])) ? json_decode($data['tags']) : null;
-        $this->topic_id = (!empty($data['topic_id'])) ? $data['topic_id'] : null;
-        $this->topic = (!empty($data['topic'])) ? $data['topic'] : null;
-        $this->media_info = (!empty($data['media_info'])) ? json_decode($data['media_info']) : null;
-        $this->preview = (!empty($data['preview'])) ? $data['preview'] : null;
-        $this->views = (!empty($data['views'])) ? $data['views'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
-        $this->updated_at = (!empty($data['updated_at'])) ? $data['updated_at'] : null;
+        $this->id = $data['video_id'];
+        $this->stream_id = $data['stream_id'];
+        $this->title = $data['title'];
+        $this->type = $data['type'];
+        $this->description = $data['description'];
+        $this->status = $data['status'];
+        $this->tags = json_decode($data['tags']);
+        $this->topic_id = $data['topic_id'];
+        $this->topic = $data['topic'];
+        $this->media_info = json_decode($data['media_info']);
+        $this->preview = $data['preview'];
+        $this->views = $data['views'];
+        $this->created_at = $data['created_at'];
+        $this->updated_at = $data['updated_at'];
     }
 }

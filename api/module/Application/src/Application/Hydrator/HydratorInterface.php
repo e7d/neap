@@ -25,7 +25,7 @@ interface HydratorInterface extends BaseHydratorInterface
      * Build an HAL Entity from an object
      *
      * @param mixed $object
-     * @return ZF\Hal\Entity
+     * @return \ZF\Hal\Entity
      **/
     public function buildEntity($object);
 }

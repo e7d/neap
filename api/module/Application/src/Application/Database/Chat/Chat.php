@@ -20,9 +20,9 @@ class Chat extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['chat_id'])) ? $data['chat_id'] : null;
-        $this->channel_id = (!empty($data['channel_id'])) ? $data['channel_id'] : null;
-        $this->name = (!empty($data['name'])) ? $data['name'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
+        $this->id = $data['chat_id'];
+        $this->channel_id = $data['channel_id'];
+        $this->name = $data['name'];
+        $this->created_at = $data['created_at'];
     }
 }

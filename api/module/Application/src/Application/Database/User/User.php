@@ -24,14 +24,14 @@ class User extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['user_id'])) ? $data['user_id'] : null;
-        $this->channel_id = (!empty($data['channel_id'])) ? $data['channel_id'] : null;
-        $this->username = (!empty($data['username'])) ? $data['username'] : null;
-        $this->email = (!empty($data['email'])) ? $data['email'] : null;
-        $this->display_name = (!empty($data['display_name'])) ? $data['display_name'] : null;
-        $this->logo = (!empty($data['logo'])) ? $data['logo'] : null;
-        $this->bio = (!empty($data['bio'])) ? $data['bio'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
-        $this->updated_at = (!empty($data['updated_at'])) ? $data['updated_at'] : null;
+        $this->id = $data['user_id'];
+        $this->channel_id = $data['channel_id'];
+        $this->username = $data['username'];
+        $this->email = $data['email'];
+        $this->display_name = $data['display_name'];
+        $this->logo = $data['logo'];
+        $this->bio = $data['bio'];
+        $this->created_at = $data['created_at'];
+        $this->updated_at = $data['updated_at'];
     }
 }

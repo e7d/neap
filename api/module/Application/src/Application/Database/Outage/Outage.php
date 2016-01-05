@@ -20,9 +20,9 @@ class Outage extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['outage_id'])) ? $data['outage_id'] : null;
-        $this->ingest_id = (!empty($data['ingest_id'])) ? $data['ingest_id'] : null;
-        $this->started_at = (!empty($data['started_at'])) ? $data['started_at'] : null;
-        $this->ended_at = (!empty($data['ended_at'])) ? $data['ended_at'] : null;
+        $this->id = $data['outage_id'];
+        $this->ingest_id = $data['ingest_id'];
+        $this->started_at = $data['started_at'];
+        $this->ended_at = $data['ended_at'];
     }
 }

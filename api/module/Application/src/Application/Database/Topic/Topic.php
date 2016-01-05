@@ -19,9 +19,9 @@ class Topic extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['topic_id'])) ? $data['topic_id'] : null;
-        $this->name = (!empty($data['name'])) ? $data['name'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
+        $this->id = $data['topic_id'];
+        $this->name = $data['name'];
+        $this->created_at = $data['created_at'];
 
         // Additional data
         if (!empty($data['streams'])) {

@@ -18,6 +18,9 @@ try
         echo "Mount data disk partition on /data"
         mkdir -p /data
         mount -t ext4 /dev/sdb1 /data
+
+        echo "Write fstab file"
+        echo '/dev/sdb1  /data  ext4  defaults  0  0' >>/etc/fstab
     fi
 )
 catch || {

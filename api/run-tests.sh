@@ -36,7 +36,7 @@ fi
 
 if [[ $@ == *"--coveralls"* ]]; then
 	echox "${text_cyan}Send clover log to Coveralls"
-	./vendor/bin/coveralls -x ./build/logs/coverage.xml
+	./vendor/bin/coveralls -v -x ./build/logs/coverage.xml
 fi
 
 if [[ $@ == *"--scrutinizer"* ]]; then

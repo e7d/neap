@@ -43,4 +43,4 @@ before_script:
   - chmod +x $MODULE/run-tests.sh
 
 script:
-  - $MODULE/run-tests.sh
+  - $MODULE/run-tests.sh --travis

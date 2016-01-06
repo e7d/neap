@@ -2,7 +2,7 @@
 
 function on_die()
 {
-    pkill -KILL -P $$
+	pkill -KILL -P $$
 }
 
 trap 'on_die' TERM

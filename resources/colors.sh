@@ -60,7 +60,7 @@ export text_reset='\033[0m'                     # Reset
 
 function echox()
 {
-    echo -e "$@${text_reset}"
+	echo -e "$@${text_reset}"
 }
 
 export -f echox

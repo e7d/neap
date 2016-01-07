@@ -6,16 +6,20 @@ DIR=$(dirname `which $0`)
 
 cd ${DIR}
 
-echox "${text_cyan}Update composer"
-composer self-update
-composer install --no-interaction --ignore-platform-reqs --prefer-source
-
-echox "${text_cyan}Copy latest configuration files"
-cp -v config/autoload/local.php.dist config/autoload/local.php
-cp -v config/autoload/oauth2.local.php.dist config/autoload/oauth2.local.php
-
 if [[ $@ == *"--travis"* ]]; then
-	set @=$@"--coverage-clover --code-quality --coveralls --scrutinizer"
+	set @=$@"--composer-update --copy-configuration --coverage-clover --code-quality --coveralls --scrutinizer"
+fi
+
+if [[ $@ == *"--composer-update"* ]]; then
+	echox "${text_cyan}Update composer"
+	composer self-update
+	composer install --no-interaction --ignore-platform-reqs --prefer-source
+fi
+
+if [[ $@ == *"--copy-configuration"* ]]; then
+	echox "${text_cyan}Copy latest configuration files"
+	cp -v config/autoload/local.php.dist config/autoload/local.php
+	cp -v config/autoload/oauth2.local.php.dist config/autoload/oauth2.local.php
 fi
 
 if [[ $@ == *"--coverage-clover"* ]]; then

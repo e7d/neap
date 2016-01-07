@@ -69,7 +69,7 @@ class UserService
         return $this->userHydrator->buildEntity($user);
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $select = new Select('user');
 

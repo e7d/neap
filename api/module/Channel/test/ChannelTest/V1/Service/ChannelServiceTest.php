@@ -9,9 +9,9 @@
 
 namespace ChannelTest\V1\Service;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class ChannelServiceTest extends AbstractHttpControllerTestCase
+class ChannelServiceTest extends AbstractControllerTestCase
 {
     private $serviceManager;
 

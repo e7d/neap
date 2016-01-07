@@ -9,9 +9,9 @@
 
 namespace VideoTest\V1\Service;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class VideoServiceTest extends AbstractHttpControllerTestCase
+class VideoServiceTest extends AbstractControllerTestCase
 {
     private $serviceManager;
 

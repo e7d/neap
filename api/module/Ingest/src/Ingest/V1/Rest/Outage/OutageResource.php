@@ -21,7 +21,7 @@ class OutageResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $data = array(
             'ingest_id' => $this->getEvent()->getRouteParam('ingest_id')

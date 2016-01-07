@@ -4,7 +4,7 @@
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
  * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
  */
 
 namespace Channel\V1\Rest\Channel;
@@ -43,7 +43,7 @@ class ChannelResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         return $this->channelService->fetchAll($params);
     }

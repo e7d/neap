@@ -9,9 +9,9 @@
 
 namespace IngestTest\V1\Service;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class IngestServiceTest extends AbstractHttpControllerTestCase
+class IngestServiceTest extends AbstractControllerTestCase
 {
     private $serviceManager;
 

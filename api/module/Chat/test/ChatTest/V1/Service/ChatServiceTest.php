@@ -9,9 +9,9 @@
 
 namespace ChatTest\V1\Service;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class ChatServiceTest extends AbstractHttpControllerTestCase
+class ChatServiceTest extends AbstractControllerTestCase
 {
     private $serviceManager;
 

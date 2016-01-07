@@ -29,7 +29,7 @@ class TopicService
         $this->topicHydrator = $topicHydrator;
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $select = new Select('topic');
         $select->columns(array(

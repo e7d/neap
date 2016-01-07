@@ -22,7 +22,7 @@ class SummaryResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $data = array(
             'live' => is_null($this->getEvent()->getQueryParam('all'))

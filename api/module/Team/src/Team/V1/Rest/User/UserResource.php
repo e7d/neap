@@ -51,7 +51,7 @@ class UserResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $data = array(
             'team_id' => $this->getEvent()->getRouteParam('team_id')

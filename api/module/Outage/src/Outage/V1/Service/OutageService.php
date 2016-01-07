@@ -26,7 +26,7 @@ class OutageService
         $this->outageHydrator = $outageHydrator;
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $select = new Select('outage');
 

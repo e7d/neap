@@ -34,7 +34,7 @@ class TeamService
         $this->userHydrator = $userHydrator;
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $select = new Select('team');
 

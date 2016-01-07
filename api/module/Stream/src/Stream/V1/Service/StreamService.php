@@ -28,7 +28,7 @@ class StreamService
         $this->streamHydrator = $streamHydrator;
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $live = !array_key_exists('all', $params);
 

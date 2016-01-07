@@ -9,9 +9,9 @@
 
 namespace OutageTest\V1\Service;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class OutageServiceTest extends AbstractHttpControllerTestCase
+class OutageServiceTest extends AbstractControllerTestCase
 {
     private $serviceManager;
 

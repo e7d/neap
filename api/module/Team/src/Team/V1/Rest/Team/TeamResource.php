@@ -40,7 +40,7 @@ class TeamResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         return $this->teamService->fetchAll($params);
     }

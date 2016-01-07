@@ -29,7 +29,7 @@ class FollowResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $data = array(
             'channel_id' => $this->getEvent()->getRouteParam('channel_id')

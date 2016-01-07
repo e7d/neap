@@ -29,7 +29,7 @@ class VideoService
         $this->userModel = $userModel;
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $select = new Select('video');
 

@@ -9,9 +9,9 @@
 
 namespace TopicTest\V1\Service;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class TopicServiceTest extends AbstractHttpControllerTestCase
+class TopicServiceTest extends AbstractControllerTestCase
 {
     private $serviceManager;
 

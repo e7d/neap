@@ -9,9 +9,9 @@
 
 namespace StreamTest\V1\Service;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class StreamServiceTest extends AbstractHttpControllerTestCase
+class StreamServiceTest extends AbstractControllerTestCase
 {
     private $serviceManager;
 

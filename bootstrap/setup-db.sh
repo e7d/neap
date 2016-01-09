@@ -5,7 +5,7 @@ try
 	throwErrors
 
 	echo "Copy PostgreSQL configuration files"
-	cp -R ${DIR}/resources/postgresql/* /etc/postgresql/9.4/main
+	cp -R ${DIR}/resources/postgresql/* /etc/postgresql/9.5/main
 
 	echo "Restart PostgreSQL"
 	service postgresql restart

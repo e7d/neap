@@ -18,7 +18,7 @@ class ChatServiceTest extends AbstractControllerTestCase
     public function setUp()
     {
         $this->setApplicationConfig(
-            include './config/application.config.php'
+            include './config/tests.config.php'
         );
         parent::setUp();
         $this->serviceManager = $this->getApplicationServiceLocator();

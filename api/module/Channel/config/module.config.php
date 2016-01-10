@@ -368,7 +368,7 @@ return array(
                 'required' => false,
                 'validators' => array(
                     0 => array(
-                        'name' => 'Application\\Validator\\UuidV4',
+                        'name' => 'Application\\Validator\\UuidV4Validator',
                         'options' => array(),
                     ),
                 ),

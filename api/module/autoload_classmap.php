@@ -92,7 +92,7 @@ return array(
     'Application\Hydrator\User\UserHydratorFactory'             => __DIR__ . '/Application/src/Application/Hydrator/User/UserHydratorFactory.php',
     'Application\Hydrator\Video\VideoHydrator'                  => __DIR__ . '/Application/src/Application/Hydrator/Video/VideoHydrator.php',
     'Application\Hydrator\Video\VideoHydratorFactory'           => __DIR__ . '/Application/src/Application/Hydrator/Video/VideoHydratorFactory.php',
-    'Application\Validator\UuidV4'                              => __DIR__ . '/Application/src/Application/Validator/UuidV4.php',
+    'Application\Validator\UuidV4Validator'                     => __DIR__ . '/Application/src/Application/Validator/UuidV4Validator.php',
     'Channel\Module'                                            => __DIR__ . '/Channel/src/Channel/Module.php',
     'Channel\V1\Rest\Channel\ChannelCollection'                 => __DIR__ . '/Channel/src/Channel/V1/Rest/Channel/ChannelCollection.php',
     'Channel\V1\Rest\Channel\ChannelEntity'                     => __DIR__ . '/Channel/src/Channel/V1/Rest/Channel/ChannelEntity.php',

@@ -9,16 +9,16 @@
 
 namespace ChannelTest\V1\Rest\MyChannel;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
-class MyChannelResourceTest extends AbstractHttpControllerTestCase
+class MyChannelResourceTest extends AbstractControllerTestCase
 {
     private $serviceManager;
 
     public function setUp()
     {
         $this->setApplicationConfig(
-            include './config/application.config.php'
+            include './config/tests.config.php'
         );
         parent::setUp();
         $this->serviceManager = $this->getApplicationServiceLocator();

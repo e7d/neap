@@ -10,6 +10,7 @@
 namespace Application\Hydrator\Mod;
 
 use Application\Hydrator\Hydrator;
+use Application\Database\Chat\ChatModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;

@@ -11,7 +11,7 @@ namespace Application\Validator;
 
 use Zend\Validator\AbstractValidator;
 
-class UuidV4 extends AbstractValidator
+class UuidV4Validator extends AbstractValidator
 {
     const UUIDV4 = 'uuidv4';
 

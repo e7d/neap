@@ -5,14 +5,14 @@ try
 	throwErrors
 
 	echo "Search for provided certificates"
-	# ToDo: Look inside /${DIR}/bootstrap/ources/ssl for provided certificate
+	# ToDo: Look inside //vagrant/bootstrap/ources/ssl for provided certificate
 
 	echo "Try to generate \"Let's Encrypt\" certificate"
 	# ToDo: Check for a valid reverse hostname to generate let's encrypt certificate
 	# read -p "Domain name: " domain
 	# if [ ! -z "$domain" ]
 	# then
-	#	 cd ${SRC}
+	#	 cd /usr/src
 	#	 git clone https://github.com/letsencrypt/letsencrypt
 	#	 cd letsencrypt
 	#	 ./bootstrap/debian.sh

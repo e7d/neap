@@ -3,13 +3,9 @@
 # Start stopwatch
 export BEGIN=$(date +%s)
 
-# Store execution directory
-export DIR=$(dirname `which $0`)
-export SRC=/usr/src
-
 # Load dependencies
-. ${DIR}/resources/colors.sh
-. ${DIR}/resources/trycatch.sh
+. /vagrant/resources/colors.sh
+. /vagrant/resources/trycatch.sh
 
 # This script needs admin rights
 echox "${text_cyan}Check admin rights"
@@ -24,34 +20,34 @@ try
 	throwErrors
 
 	echox "${text_cyan}Prepare data disk"
-	${DIR}/bootstrap/mount-data-disk.sh
+	/vagrant/bootstrap/mount-data-disk.sh
 
 	echox "${text_cyan}Prepare Debian environment"
-	${DIR}/bootstrap/prepare-env.sh
+	/vagrant/bootstrap/prepare-env.sh
 
 	echox "${text_cyan}Setup structure"
-	${DIR}/bootstrap/setup-structure.sh
+	/vagrant/bootstrap/setup-structure.sh
 
 	echox "${text_cyan}Setup database"
-	${DIR}/bootstrap/setup-db.sh
+	/vagrant/bootstrap/setup-db.sh
 
 	echox "${text_cyan}Insert fixtures"
-	${DIR}/bootstrap/insert-fixtures.sh
+	/vagrant/bootstrap/insert-fixtures.sh
 
 	echox "${text_cyan}Setup API"
-	${DIR}/bootstrap/setup-api.sh
+	/vagrant/bootstrap/setup-api.sh
 
 	echox "${text_cyan}Setup Web"
-	${DIR}/bootstrap/setup-web.sh
+	/vagrant/bootstrap/setup-web.sh
 
 	echox "${text_cyan}Setup IRC"
-	${DIR}/bootstrap/setup-irc.sh
+	/vagrant/bootstrap/setup-irc.sh
 
 	echox "${text_cyan}Setup Neap service"
-	${DIR}/bootstrap/setup-service.sh
+	/vagrant/bootstrap/setup-service.sh
 
 	echox "${text_cyan}Clean up"
-	${DIR}/bootstrap/cleanup.sh
+	/vagrant/bootstrap/cleanup.sh
 
 	echox "${text_cyan}Info:${text_reset} NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`"
 	echox "${text_cyan}Info:${text_reset} Bridge: `/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`"

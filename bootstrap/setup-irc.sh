@@ -5,10 +5,10 @@ try
 	throwErrors
 
 	echo "Copy UnrealIRCd configuration files"
-	cp -R ${DIR}/resources/unrealircd/conf/* /etc/unrealircd/conf
+	cp -R /vagrant/resources/unrealircd/conf/* /etc/unrealircd/conf
 
 	echo "Copy Anope configuration files"
-	cp -R ${DIR}/resources/anope/conf/* /etc/anope/conf
+	cp -R /vagrant/resources/anope/conf/* /etc/anope/conf
 
 	echo "Restart UnrealIRCd with Anope services"
 	service unrealircd restart

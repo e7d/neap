@@ -12,7 +12,7 @@ php:
   - 5.6
   - 7.0
 addons:
-  postgresql: "9.4"
+  postgresql: "9.5"
 services:
   - postgresql
 env:
@@ -24,12 +24,17 @@ branches:
     - legacy
     - experimental
 
-matrix:
-  allow_failures:
-    - php: 7.0
+# matrix:
+#   allow_failures:
+#     - php: 7.0
 
 before_install:
-  # Nothing
+  # temporarily add custom PostgreSQL 9.5 setup commands until available
+  - sudo /etc/init.d/postgresql stop
+  - wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  - sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main 9.5" >> /etc/apt/sources.list.d/postgresql.list'
+  - sudo apt-get update
+  - sudo apt-get install postgresql-9.5
 
 install:
   # Nothing
@@ -40,6 +45,7 @@ before_script:
   - psql --quiet "neap" -U postgres -f resources/database/oauth2.sql
   - psql --quiet "neap" -U postgres -f resources/database/data.sql
   # - psql --quiet "neap" -U postgres -f resources/database/fixtures.sql
+  # - psql --quiet "neap" -U postgres -f resources/database/test-fixtures.sql
   - chmod +x $MODULE/run-tests.sh
 
 script:

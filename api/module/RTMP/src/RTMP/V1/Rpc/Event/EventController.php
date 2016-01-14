@@ -12,6 +12,7 @@ namespace RTMP\V1\Rpc\Event;
 use Application\Authorization\LocalhostController;
 use ZF\ApiProblem\ApiProblemResponse;
 use ZF\ApiProblem\ApiProblem;
+use ZF\ContentNegotiation\ViewModel;
 
 class EventController extends LocalhostController
 {
@@ -42,6 +43,13 @@ class EventController extends LocalhostController
                     switch ($_POST['call']) {
                         case 'publish':
                             $channel = $this->channelModel->fetchByStreamKey($streamKey);
+
+                            if (is_null($channel)) {
+                                return new ApiProblemResponse(
+                                    new ApiProblem(403, 'This stream key is invalid')
+                                );
+                            }
+
                             $ingest = $this->ingestModel->fetchByHostname($hostname);
 
                             $this->streamModel->create(array(
@@ -55,6 +63,13 @@ class EventController extends LocalhostController
                             break;
                         case 'publish_done':
                             $channel = $this->channelModel->fetchByStreamKey($streamKey);
+
+                            if (is_null($channel)) {
+                                return new ApiProblemResponse(
+                                    new ApiProblem(403, 'This stream key is invalid')
+                                );
+                            }
+
                             $stream = $this->streamModel->fetchByChannel($channel->id);
 
                             $now = \DateTime::createFromFormat('U.u', microtime(true));
@@ -69,10 +84,14 @@ class EventController extends LocalhostController
                     }
             }
 
-            exit;
+            return new ViewModel(array());
         } catch (\DomainException $e) {
             return new ApiProblemResponse(
                 new ApiProblem(403, 'This route must be invoked from the local host')
+            );
+        } catch (\Exception $e) {
+            return new ApiProblemResponse(
+                new ApiProblem(500, 'A technical error occured')
             );
         }
     }

@@ -1,26 +1,34 @@
 #!/bin/bash
 
+. /vagrant/resources/colors.sh
+. /vagrant/resources/trycatch.sh
+
 try
 (
 	throwErrors
 
-	echo "Copy the gateway service binary"
-	cp /vagrant/resources/service/bin/neap /etc/init.d
+	echo "Copy the gateway service binaries"
+	cp /vagrant/resources/service/bin/* /etc/init.d
 
+	ignoreErrors
 	echo "Register the neap user account"
 	useradd neap
 
-	echo "Fix the service permissions"
-	chown -c neap.neap /etc/init.d/neap
-	chmod -c +x /etc/init.d/neap
+	throwErrors
+	echo "Fix the services permissions"
+	chown -c neap.neap /etc/init.d/neap-*
+	chmod -c +x /etc/init.d/neap-*
 
-	echo "Register service script"
-	systemctl enable neap
-	systemctl unmask neap
+	echo "Register service scripts"
+	systemctl enable neap-irc
+	systemctl unmask neap-irc
+	systemctl enable neap-websocket
+	systemctl unmask neap-websocket
 	systemctl daemon-reload
 
-	echo "Start the Neap service"
-	service neap start
+	echo "Start the Neap services"
+	service neap-irc start
+	service neap-websocket start
 )
 catch || {
 	case $ex_code in

@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
-namespace Console\Invokable\Irc;
+namespace Console\Controller\Irc;
 
 use Application\Console\AbstractConsoleController;
 use Application\Console\ConsoleStyle;
@@ -16,19 +16,25 @@ use React\EventLoop\Factory as ReactEventLoopFactory;
 use React\Socket\Server as ReactServer;
 use React\Stream\Stream as ReactStream;
 
-class Gateway extends AbstractConsoleController
+class IrcGateway extends AbstractConsoleController
 {
+    private $config;
     private $gatewayConnections = array();
     private $gatewayListener;
     private $ircClient;
+    private $pidFile = '/bin/neap-irc.pid';
     private $ready = false;
 
-    public function __construct($config) {
-        $this->config = $config;
-    }
-
-    public function run()
+    public function runAction()
     {
+        // Write a pid file to mark as running
+        file_put_contents(
+            getcwd() . $this->pidFile,
+            getmypid() . PHP_EOL
+        );
+
+        $this->config = $this->getConfig();
+
         $loop = ReactEventLoopFactory::create();
 
         $this->gatewayListener = new ReactServer($loop);

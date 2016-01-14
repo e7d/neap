@@ -65,6 +65,19 @@ For a complete update from scratch, destroying and rebuilding everything:
 Neap is using its own "virtual box" to manage its environment, embedding the whole needed software.
 You can consult a detailed list here: [Neap Box software stack](https://github.com/e7d/neap-box#software-stack)
 
+On top of that, Neap adds:
+* [Zend Framework](http://framework.zend.com/) 2 as PHP framework, with:
+    * [Apigility](https://apigility.org/) as API framework
+    * [React](http://reactphp.org/) as I/O library
+    * [Ratchet](http://socketo.me/) as WebSocket library
+* [Angular](https://angular.io/) 2 as JavaScript framework, with:
+    * [Polymer](https://www.polymer-project.org/1.0/) as Web Components library
+    * [React](https://facebook.github.io/react/) as use interfaces library
+    * [lodash](https://lodash.com/) as utility library
+* [Emoji One](http://emojione.com/) as Emoji collection
+* [twemoji](http://twitter.github.io/twemoji/) as alternative Emoji collection
+
+
 ### Next Steps ###
 
 Once the VM is done provisioning, direct your browser to http://neap.dev You will receive fuller instructions on the use of this Vagrant environment there.

@@ -10,6 +10,7 @@
 namespace RTMP\V1\Rpc\Translate;
 
 use Application\Authorization\LocalhostController;
+use ZF\ContentNegotiation\ViewModel;
 
 class TranslateController extends LocalhostController
 {
@@ -26,15 +27,14 @@ class TranslateController extends LocalhostController
 
         $streamKey = $this->getEvent()->getRequest()->getQuery('stream_key');
         if (is_null($streamKey)) {
-            exit;
+            return new ViewModel(array());
         }
 
         $stream = $this->streamModel->fetchByStreamKey($streamKey);
         if (is_null($stream)) {
-            exit;
+            return new ViewModel(array());
         }
 
-        print $stream->id;
-        exit;
+        return new ViewModel(array("stream_id" => $stream->id));
     }
 }

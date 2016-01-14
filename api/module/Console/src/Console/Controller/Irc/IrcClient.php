@@ -7,7 +7,7 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
-namespace Console\Invokable\Irc;
+namespace Console\Controller\Irc;
 
 use Application\Console\AbstractConsoleController;
 use Application\Console\ConsoleStyle;
@@ -16,11 +16,11 @@ use React\EventLoop\Factory as ReactEventLoopFactory;
 use React\Stream\Stream As ReactStream;
 use RuntimeException;
 
-class Client extends AbstractConsoleController
+class IrcClient extends AbstractConsoleController
 {
     private $gatewayClient;
 
-    public function sendCommand($commands = null)
+    public function sendAction($commands = null)
     {
         $request = $this->getRequest();
         if (is_null($commands)) {
@@ -33,17 +33,21 @@ class Client extends AbstractConsoleController
 
         foreach ($commands as $command) {
             $this->send($command);
-            usleep(10000);
+            usleep(100000);
         }
+
+        return true;
     }
 
-    public function register()
+    public function registerAction()
     {
         $request = $this->getRequest();
         $username = $request->getParam('username');
+        $password = $request->getParam('password');
 
         $registerCommands = array(
             'PRIVMSG NickServ LOGOUT',
+            'NICK ' . $this->getConfig('irc')['nick'] . '-tmp',
             'NICK ' . $this->getConfig('irc')['nick'],
             'PRIVMSG NickServ IDENTIFY ' . $this->getConfig('irc')['password'],
             'PRIVMSG ChanServ KICK #' . $username . ' *',
@@ -53,7 +57,7 @@ class Client extends AbstractConsoleController
 
             'PRIVMSG NickServ LOGOUT',
             'NICK ' . $username,
-            'PRIVMSG NickServ REGISTER password ' . $username . '@neap.dev',
+            'PRIVMSG NickServ REGISTER ' . $password . ' ' . $username . '@neap.dev',
             'PRIVMSG NickServ LOGOUT',
 
             'NICK ' . $this->getConfig('irc')['nick'],
@@ -78,7 +82,7 @@ class Client extends AbstractConsoleController
         $this->sendAction($registerCommands);
     }
 
-    private function send($command)
+    private function send($command, $timeout = 2)
     {
         $command .= PHP_EOL;
 

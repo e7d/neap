@@ -34,6 +34,14 @@ case $arg in
 		CODECOVERAGE="${arg#*=}"
 		shift # past argument=value
 	;;
+	--coverage-clover)
+		CODECOVERAGE="xml"
+		shift # past argument=value
+	;;
+	--coverage-html)
+		CODECOVERAGE="html"
+		shift # past argument=value
+	;;
 	*)
 		# unknown option
 	;;

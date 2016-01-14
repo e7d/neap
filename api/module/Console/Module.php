@@ -33,13 +33,15 @@ class Module implements
     public function getConsoleUsage(Console $console)
     {
         return array(
-            'Service',
-            'service' => 'Run the gateway service',
             'IRC',
+            'irc gateway'    => 'Run the IRC gateway',
             'irc send <command>'       => 'Send an IRC command',
-            'irc register <username>'  => 'Register a user and its channel against IRC',
+            'irc register <username> <password>'  => 'Register a user and its channel against IRC',
             array('<command>', 'IRC command', 'Command to execute through the gateway'),
             array('<username>', 'user name', 'The user to register against IRC'),
+            array('<password>', 'password', 'The password to register against IRC'),
+            'WebSocket',
+            'websocket server'    => 'Run the WebSocket server',
         );
     }
 }

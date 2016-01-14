@@ -2,20 +2,30 @@
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Console\\Controller\\ServiceController' => 'Console\\Controller\\ServiceController',
-            'Console\\Invokable\\Irc\\Client' => 'Console\\Invokable\\Irc\\Client',
-            'Console\\Invokable\\Irc\\Gateway' => 'Console\\Invokable\\Irc\\Gateway',
+            'Console\\Controller\\Irc\\IrcClient' => 'Console\\Controller\\Irc\\IrcClient',
+            'Console\\Controller\\Irc\\IrcGateway' => 'Console\\Controller\\Irc\\IrcGateway',
+            'Console\\Controller\\WebSocket\\WebSocketEventGateway' => 'Console\\Controller\\WebSocket\\WebSocketEventGateway',
+            'Console\\Controller\\WebSocket\\WebSocketServer' => 'Console\\Controller\\WebSocket\\WebSocketServer',
         ),
     ),
     'console' => array(
         'router' => array(
             'routes' => array(
-                'service' => array(
+                'irc-gateway' => array(
                     'options' => array(
-                        'route'    => 'service',
+                        'route'    => 'irc gateway',
                         'defaults' => array(
-                            'controller' => 'Console\Controller\ServiceController',
-                            'action'     => 'service'
+                            'controller' => 'Console\Controller\Irc\IrcGateway',
+                            'action'     => 'run'
+                        ),
+                    ),
+                ),
+                'irc-register ' => array(
+                    'options' => array(
+                        'route'    => 'irc register <username> <password>',
+                        'defaults' => array(
+                            'controller' => 'Console\Controller\Irc\IrcClient',
+                            'action'     => 'register'
                         ),
                     ),
                 ),
@@ -23,17 +33,17 @@ return array(
                     'options' => array(
                         'route'    => 'irc send <command>',
                         'defaults' => array(
-                            'controller' => 'Console\Controller\ServiceController',
-                            'action'     => 'ircSend'
+                            'controller' => 'Console\Controller\Irc\IrcClient',
+                            'action'     => 'send'
                         ),
                     ),
                 ),
-                'irc-register ' => array(
+                'websocket-server' => array(
                     'options' => array(
-                        'route'    => 'irc register <username>',
+                        'route'    => 'websocket server',
                         'defaults' => array(
-                            'controller' => 'Console\Controller\ServiceController',
-                            'action'     => 'ircRegister'
+                            'controller' => 'Console\Controller\WebSocket\WebSocketServer',
+                            'action'     => 'run'
                         ),
                     ),
                 ),

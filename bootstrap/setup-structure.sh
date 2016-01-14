@@ -1,5 +1,8 @@
 #!/bin/bash
 
+. /vagrant/resources/colors.sh
+. /vagrant/resources/trycatch.sh
+
 try
 (
 	throwErrors
@@ -55,6 +58,7 @@ try
 	ln -s /etc/nginx/sites-available/neap-api.conf /etc/nginx/sites-enabled/neap-api.conf
 	ln -s /etc/nginx/sites-available/neap-db.conf /etc/nginx/sites-enabled/neap-db.conf
 	ln -s /etc/nginx/sites-available/neap-rtmp.conf /etc/nginx/sites-enabled/neap-rtmp.conf
+	ln -s /etc/nginx/sites-available/neap-socket.conf /etc/nginx/sites-enabled/neap-socket.conf
 	ln -s /etc/nginx/sites-available/neap-static.conf /etc/nginx/sites-enabled/neap-static.conf
 	ln -s /etc/nginx/sites-available/neap-web.conf /etc/nginx/sites-enabled/neap-web.conf
 

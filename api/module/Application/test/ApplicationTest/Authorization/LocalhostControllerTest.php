@@ -31,4 +31,14 @@ class LocalhostControllerTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Authorization\LocalhostController', $localhostController);
     }
+
+    public function testInvalidRemoteAddress()
+    {
+        $localhostController = $this->serviceManager->get('Application\Authorization\LocalhostController');
+
+        $this->setExpectedException('DomainException');
+
+        $_SERVER['REMOTE_ADDR'] = '8.8.8.8';
+        $localhostController->assertLocalConnection();
+    }
 }

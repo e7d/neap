@@ -16,6 +16,9 @@ use React\EventLoop\Factory as ReactEventLoopFactory;
 use React\Stream\Stream As ReactStream;
 use RuntimeException;
 
+/**
+ * @codeCoverageIgnore
+ */
 class IrcClient extends AbstractConsoleController
 {
     private $gatewayClient;
@@ -80,30 +83,49 @@ class IrcClient extends AbstractConsoleController
         );
 
         $this->sendAction($registerCommands);
+
+        return true;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function send($command, $timeout = 2)
     {
         $command .= PHP_EOL;
 
-        print ConsoleStyle::build('{green}[' . DateConverter::fromTimestamp() . ']{/} ==>') . PHP_EOL . $command; //displays it on the screen
-
         $loop = ReactEventLoopFactory::create();
 
-        $gatewaySocket = stream_socket_client('tcp://localhost:' . $this->getConfig('gateway')['port']);
+        try {
+            $gatewaySocket = stream_socket_client('tcp://127.0.0.1:' . $this->getConfig('gateway')['port'], $errno, $errstr, 5);
+            if (!$gatewaySocket) {
+                print '[' . DateConverter::fromTimestamp() . '] ' . ConsoleStyle::build('{red}Error:{/} ') . "$errstr ($errno)"; //displays it on the screen
+                return;
+            }
+        } catch (\Exception $e) {
+            print '[' . DateConverter::fromTimestamp() . '] ' . ConsoleStyle::build('{red}Error:{/} ') . $e->getMessage(); //displays it on the screen
+            return;
+        }
+
+
+
         $this->gatewayClient = new ReactStream($gatewaySocket, $loop);
         $this->gatewayClient->on('data', function($data) {
             $this->receive($data);
             $this->gatewayClient->close();
         });
 
+        print '[' . DateConverter::fromTimestamp() . ']' . ConsoleStyle::build(' {green}==>{/} ') . PHP_EOL . $command; //displays it on the screen
         $this->gatewayClient->write($command);
 
         $loop->run();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function receive($data)
     {
-        print ConsoleStyle::build('{yellow}[' . DateConverter::fromTimestamp() . ']{/} <==') . PHP_EOL . $data;
+        print '[' . DateConverter::fromTimestamp() . ']' . ConsoleStyle::build(' {yellow}<=={/} ') . PHP_EOL . $data;
     }
 }

@@ -16,6 +16,9 @@ use React\EventLoop\Factory as ReactEventLoopFactory;
 use React\Socket\Server as ReactServer;
 use React\Stream\Stream as ReactStream;
 
+/**
+ * @codeCoverageIgnore
+ */
 class IrcGateway extends AbstractConsoleController
 {
     private $config;

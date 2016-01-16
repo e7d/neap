@@ -31,4 +31,13 @@ class IdentityServiceTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Authorization\IdentityService', $identityService);
     }
+
+    public function testSetAndGetIdentity()
+    {
+        $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
+
+        $identity = 'test';
+        $identityService->setIdentity($identity);
+        $this->assertEquals($identity, $identityService->getIdentity());
+    }
 }

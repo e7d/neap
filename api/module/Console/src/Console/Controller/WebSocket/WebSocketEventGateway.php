@@ -14,6 +14,9 @@ use Application\Console\ConsoleStyle;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class WebSocketEventGateway extends AbstractConsoleController implements MessageComponentInterface {
     protected $clients;
 

@@ -14,6 +14,9 @@ use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 
+/**
+ * @codeCoverageIgnore
+ */
 class WebSocketServer extends AbstractConsoleController
 {
     private $pidFile = '/bin/neap-websocket.pid';

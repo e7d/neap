@@ -15,6 +15,10 @@ case $arg in
 	-h|--help)
 		HELP=YES
 	;;
+	-f=*|--filter=*)
+		FILTER="${arg#*=}"
+		shift
+	;;
 	-l|--coveralls)
 		COVERALLS=YES
 	;;
@@ -32,15 +36,19 @@ case $arg in
 	;;
 	-v=*|--code-coverage=*)
 		CODECOVERAGE="${arg#*=}"
-		shift # past argument=value
+		shift
 	;;
 	--coverage-clover)
 		CODECOVERAGE="xml"
-		shift # past argument=value
+		shift
 	;;
 	--coverage-html)
 		CODECOVERAGE="html"
-		shift # past argument=value
+		shift
+	;;
+	--coverage-tap)
+		CODECOVERAGE="txt"
+		shift
 	;;
 	*)
 		# unknown option
@@ -62,9 +70,11 @@ if [[ "$HELP" == "YES" ]]; then
 	echo "  -u, --composer-update       update Composer dependencies before tests"
 	echo "  -v, --code-coverage=TYPE    generate code coverage report:"
 	echo "                                TYPE=html for HTML output"
+	echo "                                TYPE=txt for TAP (text) outpout"
 	echo "                                TYPE=xml for Clover (XML) outpout"
 	echo "      --coverage-clover       equivalent to --code-coverage=xml"
 	echo "      --coverage-html         equivalent to --code-coverage=html"
+	echo "      --coverage-tap          equivalent to --code-coverage=txt"
 	echo
 	exit 0
 fi
@@ -97,6 +107,9 @@ if [[ "$CODECOVERAGE" == "xml" ]]; then
 elif [[ "$CODECOVERAGE" == "html" ]]; then
 	echox "${text_cyan}Run phpunit tests with HTML code coverage"
 	./vendor/bin/phpunit -c module/phpunit.xml --coverage-html ./build/logs/coverage
+elif [[ "$CODECOVERAGE" == "txt" ]]; then
+	echox "${text_cyan}Run phpunit tests with TAP code coverage"
+	./vendor/bin/phpunit -c module/phpunit.xml --coverage-text=./build/logs/coverage.txt
 else
 	echox "${text_cyan}Run phpunit tests"
 	./vendor/bin/phpunit -c module/phpunit.xml

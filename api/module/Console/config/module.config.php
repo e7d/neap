@@ -20,7 +20,7 @@ return array(
                         ),
                     ),
                 ),
-                'irc-register ' => array(
+                'irc-register' => array(
                     'options' => array(
                         'route'    => 'irc register <username> <password>',
                         'defaults' => array(
@@ -29,7 +29,7 @@ return array(
                         ),
                     ),
                 ),
-                'irc-send ' => array(
+                'irc-send' => array(
                     'options' => array(
                         'route'    => 'irc send <command>',
                         'defaults' => array(

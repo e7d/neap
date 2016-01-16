@@ -19,12 +19,4 @@ class LocalhostController extends AbstractActionController
             throw new \DomainException('Access');
         }
     }
-
-    public function log($data) {
-        if (is_array($data)) {
-            $data = json_encode($data, JSON_PRETTY_PRINT);
-        }
-
-        file_put_contents('/var/log/nginx/transcode.log', $data . PHP_EOL, FILE_APPEND);
-    }
 }

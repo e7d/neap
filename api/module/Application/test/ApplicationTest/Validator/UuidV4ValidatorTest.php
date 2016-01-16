@@ -31,4 +31,17 @@ class UuidV4ValidatorTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Validator\UuidV4Validator', $uuidV4Validator);
     }
+
+    public function testIsValid()
+    {
+        $uuidV4Validator = $this->serviceManager->get('Application\Validator\UuidV4Validator');
+
+        $validUuidV4 = '95d36156-24fc-4b9f-9490-4adf4e48d08c';
+        $malformedUuid = 'c671d543-9c16-4dfa-90';
+        $invalidUuidV4 = '61fdf5e8-474e-7140-9470-08af54aea5af';
+
+        $this->assertTrue($uuidV4Validator->isValid($validUuidV4));
+        $this->assertFalse($uuidV4Validator->isValid($malformedUuid));
+        $this->assertFalse($uuidV4Validator->isValid($invalidUuidV4));
+    }
 }

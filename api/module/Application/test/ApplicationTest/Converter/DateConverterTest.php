@@ -31,4 +31,18 @@ class DateConverterTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Converter\DateConverter', $dateConverter);
     }
+
+    public function testFromTimestamp()
+    {
+        $dateConverter = $this->serviceManager->get('Application\Converter\DateConverter');
+
+        // test result format
+        $result = $dateConverter->fromTimestamp();
+        $this->assertEquals(1, preg_match('/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{6}\+[0-9]{4}/', $result));
+
+        // test exact value
+        $microtime = 1452977584.0254;
+        $result = $dateConverter->fromTimestamp($microtime);
+        $this->assertEquals('2016-01-16 20:53:04.025400+0000', $result);
+    }
 }

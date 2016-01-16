@@ -20,6 +20,12 @@ class AuthorizationListener
         $this->services = $services;
     }
 
+    /**
+     * [__invoke description]
+     * @param  MvcAuthEvent $mvcAuthEvent [description]
+     * @return [type]                     [description]
+     * @codeCoverageIgnore
+     */
     public function __invoke(MvcAuthEvent $mvcAuthEvent)
     {
         $identity = $mvcAuthEvent->getIdentity()->getAuthenticationIdentity();

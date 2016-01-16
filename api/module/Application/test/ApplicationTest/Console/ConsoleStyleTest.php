@@ -31,4 +31,17 @@ class ConsoleStyleTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Console\ConsoleStyle', $consoleStyle);
     }
+
+    public function testBuild()
+    {
+        $consoleStyle = $this->serviceManager->get('Application\Console\ConsoleStyle');
+
+        // Test red text
+        $result = $consoleStyle->build('{red}Red{/} text');
+        $this->assertEquals('1b5b303b33316d5265641b5b306d2074657874', bin2hex($result));
+
+        // Test yellow background with bold blue text
+        $result = $consoleStyle->build('{bg,yellow}{bold,blue}Blue on Yellow{/} text');
+        $this->assertEquals('1b5b34336d1b5b313b33346d426c7565206f6e2059656c6c6f771b5b306d2074657874', bin2hex($result));
+    }
 }

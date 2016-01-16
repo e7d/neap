@@ -32,9 +32,6 @@ class EventController extends LocalhostController
         try {
             $this->assertLocalConnection();
 
-            // $this->log('Event:');
-            // $this->log($_POST);
-
             switch ($_POST['app']) {
                 case 'transcode':
                     $streamKey = $_POST['name'];

@@ -16,15 +16,19 @@ class StatsController extends AbstractActionController
 {
     public function statsAction()
     {
-        $statsXmlStr = file_get_contents("http://neap/stats");
-        if (!$statsXmlStr) {
+        try {
+            $statsXmlStr = file_get_contents("http://neap/stats");
+            if (!$statsXmlStr) {
+                return new ViewModel();
+            }
+
+            $statsXml = simplexml_load_string($statsXmlStr);
+            $statsJson = json_encode($statsXml);
+            $stats = json_decode($statsJson, true);
+
+            return new ViewModel($stats);
+        } catch (\Exception $e) {
             return new ViewModel();
         }
-
-        $statsXml = simplexml_load_string($statsXmlStr);
-        $statsJson = json_encode($statsXml);
-        $stats = json_decode($statsJson, true);
-
-        return new ViewModel($stats);
     }
 }

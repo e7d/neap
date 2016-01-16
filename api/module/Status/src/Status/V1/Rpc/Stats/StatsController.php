@@ -17,6 +17,10 @@ class StatsController extends AbstractActionController
     public function statsAction()
     {
         $statsXmlStr = file_get_contents("http://neap/stats");
+        if (!$statsXmlStr) {
+            return new ViewModel();
+        }
+
         $statsXml = simplexml_load_string($statsXmlStr);
         $statsJson = json_encode($statsXml);
         $stats = json_decode($statsJson, true);

@@ -120,6 +120,8 @@ try
 		./vendor/bin/phpunit -c module/phpunit.xml
 	fi
 
+	ignoreErrors
+
 	if [[ "$CODEQUALITY" == "YES" ]]; then
 		echox "${text_cyan}Check code quality"
 		./vendor/bin/phpcs --standard=PSR2 module/

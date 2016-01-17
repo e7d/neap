@@ -125,9 +125,6 @@ class StreamModel
         $statement = $this->tableGateway->getAdapter()->createStatement($select->getSqlString());
         $rowset = $statement->execute();
         $stats = $rowset->current();
-        if (!$stats) {
-            return null;
-        }
 
         return $stats;
     }

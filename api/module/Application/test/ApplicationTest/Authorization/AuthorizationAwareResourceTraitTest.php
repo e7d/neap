@@ -59,17 +59,17 @@ class AuthorizationAwareResourceTraitTest extends AbstractControllerTestCase
         $this->service = $this->serviceManager->get('Channel\V1\Service\ChannelService');
 
         // Test an invalid entity
-        $channelId = 'e310dfdc-bf2e-4b28-8e37-00f12677cf5b';
+        $channelId = 'e310dfdc-bf2e-4b28-8e37-00f12677cf5b'; // Invalid channel id
         $isOwner = $this->userIsOwner($channelId);
         $this->assertInstanceOf('ZF\ApiProblem\ApiProblem', $isOwner);
         $this->assertEquals(404, $isOwner->status);
 
         // Now use a valid entity
-        $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e';
+        $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
 
         // Test with the rightful owner
         $identity = new \stdClass();
-        $identity->id = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax
+        $identity->id = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
         $this->identityService->setIdentity($identity);
         $isOwner = $this->userIsOwner($channelId);
         $this->assertTrue($isOwner);

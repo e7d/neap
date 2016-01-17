@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Team;
 
+use Application\Database\Team\Team;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class TeamTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class TeamTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $team = $this->serviceManager->get('Application\Database\Team\Team');
+        $team = new Team();
 
         $this->assertInstanceOf('Application\Database\Team\Team', $team);
     }

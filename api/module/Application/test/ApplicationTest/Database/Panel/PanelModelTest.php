@@ -31,4 +31,12 @@ class PanelModelTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Database\Panel\PanelModel', $panelModel);
     }
+
+    public function testGetTableGateway()
+    {
+        $panelModel = $this->serviceManager->get('Application\Database\Panel\PanelModel');
+
+        $tableGateway = $panelModel->getTableGateway();
+        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
+    }
 }

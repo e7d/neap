@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Outage;
 
+use Application\Database\Outage\Outage;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class OutageTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class OutageTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $outage = $this->serviceManager->get('Application\Database\Outage\Outage');
+        $outage = new Outage();
 
         $this->assertInstanceOf('Application\Database\Outage\Outage', $outage);
     }

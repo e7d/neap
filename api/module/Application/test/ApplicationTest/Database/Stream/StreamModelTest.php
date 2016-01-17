@@ -31,4 +31,109 @@ class StreamModelTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Database\Stream\StreamModel', $streamModel);
     }
+
+    public function testGetTableGateway()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+
+        $tableGateway = $streamModel->getTableGateway();
+        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
+    }
+
+    public function testCreate()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+
+        $data = array(
+            'title' => 'test stream',
+            'channel_id' => '23a057b7-a5b2-48da-ae73-6fd130e8c55e', // Jax channel id
+            'ingest_id' => 'c3aae4dc-dd8d-4e81-a151-7ba30cec1b4a', // neap ingest id
+            'topic' => 'Test',
+        );
+        $rows = $streamModel->create($data);
+        $this->assertEquals(1, $rows);
+    }
+
+    public function testFetch()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+
+        $streamId = '823084a6-3f6e-4305-a21b-e28e9f47c43c'; // Jax's channel stream id
+        $stream = $streamModel->fetch($streamId);
+        $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
+        $this->assertEquals($streamId, $stream->id);
+
+        $streamId = '00000000-0000-0000-0000-000000000000'; // Invalid stream id
+        $stream = $streamModel->fetch($streamId);
+        $this->assertNull($stream);
+    }
+
+    public function testFetchByChannel()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+
+        $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
+        $stream = $streamModel->fetchByChannel($channelId, $live = false);
+        $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
+
+        $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id
+        $stream = $streamModel->fetchByChannel($channelId);
+        $this->assertNull($stream);
+    }
+
+    public function testFetchByStreamKey()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+
+        $streamKey = 'live_1b0f5864_d637993a8bf849b3c8aad171'; // Jax stream key
+        $stream = $streamModel->fetchByStreamKey($streamKey, $live = false);
+        $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
+
+        $streamKey = 'live_00000000_000000000000000000000000'; // Invalid stream key
+        $stream = $streamModel->fetchByStreamKey($streamKey);
+        $this->assertNull($stream);
+    }
+
+    public function testFetchByUser()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+
+        $userId = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
+        $stream = $streamModel->fetchByUser($userId, $live = false);
+        $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
+
+        $userId = '00000000-0000-0000-0000-000000000000'; // Invalid stream key
+        $stream = $streamModel->fetchByUser($userId);
+        $this->assertNull($stream);
+    }
+
+    public function testFetchStats()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+
+        $stats = $streamModel->fetchStats();
+        $this->assertInternalType('array', $stats);
+
+        $stats = $streamModel->fetchStats($live = false);
+        $this->assertInternalType('array', $stats);
+    }
+
+    public function testUpdate()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+
+        $data = array(
+            'viewers' => '500'
+        );
+
+        $streamId = '823084a6-3f6e-4305-a21b-e28e9f47c43c'; // Jax's channel stream id
+        $stream = $streamModel->update($streamId, $data);
+        $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
+        $this->assertEquals($streamId, $stream->id);
+        $this->assertEquals($data['viewers'], $stream->viewers);
+
+        $streamId = '00000000-0000-0000-0000-000000000000'; // Invalid stream id
+        $stream = $streamModel->update($streamId, $data);
+        $this->assertNull($stream);
+    }
 }

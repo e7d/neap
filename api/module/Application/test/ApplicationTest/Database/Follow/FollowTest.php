@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Follow;
 
+use Application\Database\Follow\Follow;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class FollowTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class FollowTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $follow = $this->serviceManager->get('Application\Database\Follow\Follow');
+        $follow = new Follow();
 
         $this->assertInstanceOf('Application\Database\Follow\Follow', $follow);
     }

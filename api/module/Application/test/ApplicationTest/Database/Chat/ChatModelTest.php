@@ -31,4 +31,26 @@ class ChatModelTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Database\Chat\ChatModel', $chatModel);
     }
+
+    public function testGetTableGateway()
+    {
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+
+        $tableGateway = $chatModel->getTableGateway();
+        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
+    }
+
+    public function testFetch()
+    {
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+
+        $chatId = 'f598d270-281b-40c9-a2d8-eb35b56e9412'; // Jax chat id
+        $chat = $chatModel->fetch($chatId);
+        $this->assertInstanceOf('Application\Database\Chat\Chat', $chat);
+        $this->assertEquals($chatId, $chat->id);
+
+        $chatId = '00000000-0000-0000-0000-000000000000'; // Invalid chat id
+        $chat = $chatModel->fetch($chatId);
+        $this->assertNull($chat);
+    }
 }

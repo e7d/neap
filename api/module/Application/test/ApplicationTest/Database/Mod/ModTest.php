@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Mod;
 
+use Application\Database\Mod\Mod;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class ModTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class ModTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $mod = $this->serviceManager->get('Application\Database\Mod\Mod');
+        $mod = new Mod();
 
         $this->assertInstanceOf('Application\Database\Mod\Mod', $mod);
     }

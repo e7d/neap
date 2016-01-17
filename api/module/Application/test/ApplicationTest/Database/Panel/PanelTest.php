@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Panel;
 
+use Application\Database\Panel\Panel;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class PanelTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class PanelTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $panel = $this->serviceManager->get('Application\Database\Panel\Panel');
+        $panel = new Panel();
 
         $this->assertInstanceOf('Application\Database\Panel\Panel', $panel);
     }

@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Channel;
 
+use Application\Database\Channel\Channel;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class ChannelTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class ChannelTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $channel = $this->serviceManager->get('Application\Database\Channel\Channel');
+        $channel = new Channel();
 
         $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
     }

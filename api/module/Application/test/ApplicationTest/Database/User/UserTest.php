@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\User;
 
+use Application\Database\User\User;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class UserTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class UserTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $user = $this->serviceManager->get('Application\Database\User\User');
+        $user = new User();
 
         $this->assertInstanceOf('Application\Database\User\User', $user);
     }

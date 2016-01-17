@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Ingest;
 
+use Application\Database\Ingest\Ingest;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class IngestTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class IngestTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $ingest = $this->serviceManager->get('Application\Database\Ingest\Ingest');
+        $ingest = new Ingest();
 
         $this->assertInstanceOf('Application\Database\Ingest\Ingest', $ingest);
     }

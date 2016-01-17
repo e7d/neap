@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Chat;
 
+use Application\Database\Chat\Chat;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class ChatTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class ChatTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $chat = $this->serviceManager->get('Application\Database\Chat\Chat');
+        $chat = new Chat();
 
         $this->assertInstanceOf('Application\Database\Chat\Chat', $chat);
     }

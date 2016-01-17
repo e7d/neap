@@ -31,4 +31,12 @@ class ModModelTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Database\Mod\ModModel', $modModel);
     }
+
+    public function testGetTableGateway()
+    {
+        $modModel = $this->serviceManager->get('Application\Database\Mod\ModModel');
+
+        $tableGateway = $modModel->getTableGateway();
+        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
+    }
 }

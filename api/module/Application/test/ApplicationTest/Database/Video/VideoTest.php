@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Video;
 
+use Application\Database\Video\Video;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class VideoTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class VideoTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $video = $this->serviceManager->get('Application\Database\Video\Video');
+        $video = new Video();
 
         $this->assertInstanceOf('Application\Database\Video\Video', $video);
     }

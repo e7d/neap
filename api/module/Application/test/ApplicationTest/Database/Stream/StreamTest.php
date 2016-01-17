@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Stream;
 
+use Application\Database\Stream\Stream;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class StreamTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class StreamTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $stream = $this->serviceManager->get('Application\Database\Stream\Stream');
+        $stream = new Stream();
 
         $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
     }

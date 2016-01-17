@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Topic;
 
+use Application\Database\Topic\Topic;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class TopicTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class TopicTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $topic = $this->serviceManager->get('Application\Database\Topic\Topic');
+        $topic = new Topic();
 
         $this->assertInstanceOf('Application\Database\Topic\Topic', $topic);
     }

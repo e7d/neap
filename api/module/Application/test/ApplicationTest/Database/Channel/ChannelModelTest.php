@@ -31,4 +31,75 @@ class ChannelModelTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Database\Channel\ChannelModel', $channelModel);
     }
+
+    public function testGetTableGateway()
+    {
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+
+        $tableGateway = $channelModel->getTableGateway();
+        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
+    }
+
+    public function testFetch()
+    {
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+
+        $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
+        $channel = $channelModel->fetch($channelId);
+        $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
+        $this->assertEquals($channelId, $channel->id);
+
+        $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id
+        $channel = $channelModel->fetch($channelId);
+        $this->assertNull($channel);
+    }
+
+    public function testFetchByStreamKey()
+    {
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+
+        $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
+        $streamKey = 'live_1b0f5864_d637993a8bf849b3c8aad171'; // Jax channel stream key
+        $channel = $channelModel->fetchByStreamKey($streamKey);
+        $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
+        $this->assertEquals($channelId, $channel->id);
+
+        $streamKey = 'live_00000000_000000000000000000000000'; // Invalid stream key
+        $channel = $channelModel->fetchByStreamKey($streamKey);
+        $this->assertNull($channel);
+    }
+
+    public function testFetchByUser()
+    {
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+
+        $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
+        $userId = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
+        $channel = $channelModel->fetchByUser($userId);
+        $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
+        $this->assertEquals($channelId, $channel->id);
+
+        $userId = '00000000-0000-0000-0000-000000000000'; // Invalid user id
+        $channel = $channelModel->fetchByUser($userId);
+        $this->assertNull($channel);
+    }
+
+    public function testUpdate()
+    {
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+
+        $data = array(
+            'logo' => 'https://gravatar.com/avatar/' . md5('testUpdate') . '?s=128&d=identicon'
+        );
+
+        $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
+        $channel = $channelModel->update($channelId, $data);
+        $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
+        $this->assertEquals($channelId, $channel->id);
+        $this->assertEquals($data['logo'], $channel->logo);
+
+        $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id
+        $channel = $channelModel->update($channelId, $data);
+        $this->assertNull($channel);
+    }
 }

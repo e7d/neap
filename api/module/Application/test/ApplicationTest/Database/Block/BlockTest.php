@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Database\Block;
 
+use Application\Database\Block\Block;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class BlockTest extends AbstractControllerTestCase
@@ -27,7 +28,7 @@ class BlockTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $block = $this->serviceManager->get('Application\Database\Block\Block');
+        $block = new Block();
 
         $this->assertInstanceOf('Application\Database\Block\Block', $block);
     }

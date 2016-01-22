@@ -13,7 +13,6 @@ use Application\Hydrator\Hydrator;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class BlockHydrator extends Hydrator
 {
@@ -21,6 +20,7 @@ class BlockHydrator extends Hydrator
 
     public function __construct(UserModel $userModel)
     {
+        parent::__construct();
         $this->userModel = $userModel;
     }
 
@@ -31,7 +31,7 @@ class BlockHydrator extends Hydrator
 
         if ($this->getParam('embedUser')) {
             $userEntity = new Entity($user, $user->id);
-            $userEntity->getLinks()->add(Link::factory(array(
+            $userEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'user.rest.user',
@@ -46,7 +46,7 @@ class BlockHydrator extends Hydrator
 
         if ($this->getParam('embedBlockedUser')) {
             $blockedUserEntity = new Entity($blockedUser, $blockedUser->id);
-            $blockedUserEntity->getLinks()->add(Link::factory(array(
+            $blockedUserEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'user.rest.user',
@@ -62,7 +62,7 @@ class BlockHydrator extends Hydrator
         $blockEntity = new Entity($this->extract($block));
 
         // ToDo: define a self link attached to the user API /users/:id/blocks
-        // $blockEntity->getLinks()->add(Link::factory(array(
+        // $blockEntity->getLinks()->add($this->link::factory(array(
         //     'rel' => 'self',
         //     'route' => array(
         //         'name' => 'block.rest.block',
@@ -73,7 +73,7 @@ class BlockHydrator extends Hydrator
         // )));
 
         if ($this->getParam('linkUser')) {
-            $blockEntity->getLinks()->add(Link::factory(array(
+            $blockEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'user',
                 'route' => array(
                     'name' => 'user.rest.user',
@@ -86,7 +86,7 @@ class BlockHydrator extends Hydrator
         }
 
         if ($this->getParam('linkBlockedUser')) {
-            $blockEntity->getLinks()->add(Link::factory(array(
+            $blockEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'blocked_user',
                 'route' => array(
                     'name' => 'user.rest.user',

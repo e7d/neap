@@ -14,7 +14,6 @@ use Application\Database\Channel\ChannelModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class StreamHydrator extends Hydrator
 {
@@ -23,6 +22,7 @@ class StreamHydrator extends Hydrator
 
     public function __construct(ChannelModel $channelModel, UserModel $userModel)
     {
+        parent::__construct();
         $this->channelModel = $channelModel;
         $this->userModel = $userModel;
     }
@@ -38,7 +38,7 @@ class StreamHydrator extends Hydrator
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
-            $channelEntity->getLinks()->add(Link::factory(array(
+            $channelEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -53,7 +53,7 @@ class StreamHydrator extends Hydrator
 
         $streamEntity = new Entity($this->extract($stream), $stream->id);
 
-        $streamEntity->getLinks()->add(Link::factory(array(
+        $streamEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'stream.rest.stream',
@@ -64,7 +64,7 @@ class StreamHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkChannel')) {
-            $streamEntity->getLinks()->add(Link::factory(array(
+            $streamEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -77,7 +77,7 @@ class StreamHydrator extends Hydrator
         }
 
         if ($this->getParam('linkUser')) {
-            $streamEntity->getLinks()->add(Link::factory(array(
+            $streamEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'user',
                 'route' => array(
                     'name' => 'user.rest.user',

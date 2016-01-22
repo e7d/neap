@@ -15,7 +15,6 @@ use Application\Database\Stream\StreamModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class VideoHydrator extends Hydrator
 {
@@ -25,6 +24,7 @@ class VideoHydrator extends Hydrator
 
     public function __construct(StreamModel $streamModel, ChannelModel $channelModel, UserModel $userModel)
     {
+        parent::__construct();
         $this->streamModel = $streamModel;
         $this->channelModel = $channelModel;
         $this->userModel = $userModel;
@@ -38,7 +38,7 @@ class VideoHydrator extends Hydrator
 
         $videoEntity = new Entity($this->extract($video), $video->id);
 
-        $videoEntity->getLinks()->add(Link::factory(array(
+        $videoEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'video.rest.video',
@@ -49,7 +49,7 @@ class VideoHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkStream')) {
-            $videoEntity->getLinks()->add(Link::factory(array(
+            $videoEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'stream',
                 'route' => array(
                     'name' => 'stream.rest.stream',
@@ -61,7 +61,7 @@ class VideoHydrator extends Hydrator
         }
 
         if ($this->getParam('linkChannel')) {
-            $videoEntity->getLinks()->add(Link::factory(array(
+            $videoEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -73,7 +73,7 @@ class VideoHydrator extends Hydrator
         }
 
         if ($this->getParam('linkUser')) {
-            $videoEntity->getLinks()->add(Link::factory(array(
+            $videoEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'user',
                 'route' => array(
                     'name' => 'user.rest.user',

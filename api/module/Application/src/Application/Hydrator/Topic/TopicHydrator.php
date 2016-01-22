@@ -11,19 +11,19 @@ namespace Application\Hydrator\Topic;
 
 use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class TopicHydrator extends Hydrator
 {
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function buildEntity($topic)
     {
         $topicEntity = new Entity($this->extract($topic), $topic->id);
 
-        $topicEntity->getLinks()->add(Link::factory(array(
+        $topicEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'topic.rest.topic',

@@ -14,7 +14,6 @@ use Application\Database\Chat\ChatModel;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class ModHydrator extends Hydrator
 {
@@ -23,6 +22,7 @@ class ModHydrator extends Hydrator
 
     public function __construct(UserModel $userModel, ChatModel $chatModel)
     {
+        parent::__construct();
         $this->userModel = $userModel;
         $this->chatModel = $chatModel;
     }
@@ -34,7 +34,7 @@ class ModHydrator extends Hydrator
 
         if ($this->getParam('embedUser')) {
             $userEntity = new Entity($user, $user->id);
-            $userEntity->getLinks()->add(Link::factory(array(
+            $userEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'user.rest.user',
@@ -49,7 +49,7 @@ class ModHydrator extends Hydrator
 
         if ($this->getParam('embedChat')) {
             $userEntity = new Entity($chat, $chat->id);
-            $chatEntity->getLinks()->add(Link::factory(array(
+            $chatEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'chat.rest.chat',
@@ -67,7 +67,7 @@ class ModHydrator extends Hydrator
         // ToDo: define a self link attached to, with parameter, either:
         //       - for "linkSelfUser", the user API /users/:id/mods
         //       - for "linkSelfChat", the chat API /chat/:id/mods
-        // $modEntity->getLinks()->add(Link::factory(array(
+        // $modEntity->getLinks()->add($this->link::factory(array(
         //     'rel' => 'self',
         //     'route' => array(
         //         'name' => 'mod.rest.mod',
@@ -78,7 +78,7 @@ class ModHydrator extends Hydrator
         // )));
 
         if ($this->getParam('linkUser')) {
-            $modEntity->getLinks()->add(Link::factory(array(
+            $modEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'user',
                 'route' => array(
                     'name' => 'user.rest.user',
@@ -91,7 +91,7 @@ class ModHydrator extends Hydrator
         }
 
         if ($this->getParam('linkChat')) {
-            $modEntity->getLinks()->add(Link::factory(array(
+            $modEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'chat',
                 'route' => array(
                     'name' => 'chat.rest.chat',

@@ -13,7 +13,6 @@ use Application\Hydrator\Hydrator;
 use Application\Database\User\UserModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class TeamHydrator extends Hydrator
 {
@@ -21,6 +20,7 @@ class TeamHydrator extends Hydrator
 
     public function __construct(UserModel $userModel)
     {
+        parent::__construct();
         $this->userModel = $userModel;
     }
 
@@ -28,7 +28,7 @@ class TeamHydrator extends Hydrator
     {
         $teamEntity = new Entity($this->extract($team), $team->id);
 
-        $teamEntity->getLinks()->add(Link::factory(array(
+        $teamEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'team.rest.team',
@@ -39,7 +39,7 @@ class TeamHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkUsers')) {
-            $teamEntity->getLinks()->add(Link::factory(array(
+            $teamEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'users',
                 'route' => array(
                     'name' => 'team.rest.user',

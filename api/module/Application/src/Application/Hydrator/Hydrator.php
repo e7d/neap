@@ -9,9 +9,17 @@
 
 namespace Application\Hydrator;
 
+use ZF\Hal\Link\Link;
+
 abstract class Hydrator implements HydratorInterface
 {
+    protected $link;
     private $params = array();
+
+    function __construct()
+    {
+        $this->link = new Link('hydrator');
+    }
 
     public function hydrate(array $data, $object)
     {

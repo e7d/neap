@@ -13,7 +13,6 @@ use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class PanelHydrator extends Hydrator
 {
@@ -21,6 +20,7 @@ class PanelHydrator extends Hydrator
 
     public function __construct(ChannelModel $channelModel)
     {
+        parent::__construct();
         $this->channelModel = $channelModel;
     }
 
@@ -30,7 +30,7 @@ class PanelHydrator extends Hydrator
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->id);
-            $channelEntity->getLinks()->add(Link::factory(array(
+            $channelEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -45,7 +45,7 @@ class PanelHydrator extends Hydrator
 
         $panelEntity = new Entity($this->extract($panel), $panel->id);
 
-        $panelEntity->getLinks()->add(Link::factory(array(
+        $panelEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'panel.rest.panel',
@@ -56,7 +56,7 @@ class PanelHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkChannel')) {
-            $panelEntity->getLinks()->add(Link::factory(array(
+            $panelEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',

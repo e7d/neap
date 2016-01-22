@@ -11,19 +11,19 @@ namespace Application\Hydrator\Ingest;
 
 use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class IngestHydrator extends Hydrator
 {
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function buildEntity($ingest)
     {
         $ingestEntity = new Entity($this->extract($ingest));
 
-        $ingestEntity->getLinks()->add(Link::factory(array(
+        $ingestEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'ingest.rest.ingest',
@@ -34,7 +34,7 @@ class IngestHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkOutages')) {
-            $ingestEntity->getLinks()->add(Link::factory(array(
+            $ingestEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'outages',
                 'route' => array(
                     'name' => 'ingest.rest.outage',

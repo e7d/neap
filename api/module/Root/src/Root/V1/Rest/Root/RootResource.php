@@ -16,6 +16,13 @@ use ZF\Rest\AbstractResourceListener;
 
 class RootResource extends AbstractResourceListener
 {
+    private $link;
+
+    function __construct()
+    {
+        $this->link = new Link('root');
+    }
+
     /**
      * Fetch all or a subset of resources
      *
@@ -26,42 +33,42 @@ class RootResource extends AbstractResourceListener
     {
         $root = new Entity(array());
 
-        $root->getLinks()->add(Link::factory(array(
+        $root->getLinks()->add($this->link::factory(array(
             'rel' => 'ingests',
             'route' => array(
                 'name' => 'ingest.rest.ingest',
             ),
         )));
 
-        $root->getLinks()->add(Link::factory(array(
+        $root->getLinks()->add($this->link::factory(array(
             'rel' => 'users',
             'route' => array(
                 'name' => 'user.rest.user',
             ),
         )));
 
-        $root->getLinks()->add(Link::factory(array(
+        $root->getLinks()->add($this->link::factory(array(
             'rel' => 'channels',
             'route' => array(
                 'name' => 'channel.rest.channel',
             ),
         )));
 
-        $root->getLinks()->add(Link::factory(array(
+        $root->getLinks()->add($this->link::factory(array(
             'rel' => 'streams',
             'route' => array(
                 'name' => 'stream.rest.stream',
             ),
         )));
 
-        $root->getLinks()->add(Link::factory(array(
+        $root->getLinks()->add($this->link::factory(array(
             'rel' => 'videos',
             'route' => array(
                 'name' => 'video.rest.video',
             ),
         )));
 
-        $root->getLinks()->add(Link::factory(array(
+        $root->getLinks()->add($this->link::factory(array(
             'rel' => 'search',
             'route' => array(
                 'name' => 'search.rest.search',

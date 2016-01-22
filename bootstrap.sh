@@ -25,6 +25,9 @@ try
 	echox "${text_cyan}Prepare Debian environment"
 	/vagrant/bootstrap/prepare-env.sh
 
+	echox "${text_cyan}Setup certificates"
+	/vagrant/bootstrap/setup-certificates.sh
+
 	echox "${text_cyan}Setup structure"
 	/vagrant/bootstrap/setup-structure.sh
 

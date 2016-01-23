@@ -28,7 +28,7 @@ class TeamHydrator extends Hydrator
     {
         $teamEntity = new Entity($this->extract($team), $team->team_id);
 
-        $teamEntity->getLinks()->add($this->link::factory(array(
+        $teamEntity->getLinks()->add($this->link->factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'team.rest.team',
@@ -39,7 +39,7 @@ class TeamHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkUsers')) {
-            $teamEntity->getLinks()->add($this->link::factory(array(
+            $teamEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'users',
                 'route' => array(
                     'name' => 'team.rest.user',

@@ -38,7 +38,7 @@ class ChatHydrator extends Hydrator
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->channel_id);
-            $channelEntity->getLinks()->add($this->link::factory(array(
+            $channelEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -53,7 +53,7 @@ class ChatHydrator extends Hydrator
 
         if ($this->getParam('embedUser')) {
             $userEntity = new Entity($user, $user->user_id);
-            $userEntity->getLinks()->add($this->link::factory(array(
+            $userEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'user.rest.user',
@@ -67,7 +67,7 @@ class ChatHydrator extends Hydrator
 
         $chatEntity = new Entity($this->extract($chat), $chat->chat_id);
 
-        $chatEntity->getLinks()->add($this->link::factory(array(
+        $chatEntity->getLinks()->add($this->link->factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'chat.rest.chat',
@@ -78,7 +78,7 @@ class ChatHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkChannel')) {
-            $chatEntity->getLinks()->add($this->link::factory(array(
+            $chatEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -91,7 +91,7 @@ class ChatHydrator extends Hydrator
         }
 
         if ($this->getParam('linkUser')) {
-            $chatEntity->getLinks()->add($this->link::factory(array(
+            $chatEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'user',
                 'route' => array(
                     'name' => 'user.rest.user',

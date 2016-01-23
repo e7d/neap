@@ -30,7 +30,7 @@ class PanelHydrator extends Hydrator
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->channel_id);
-            $channelEntity->getLinks()->add($this->link::factory(array(
+            $channelEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -45,7 +45,7 @@ class PanelHydrator extends Hydrator
 
         $panelEntity = new Entity($this->extract($panel), $panel->panel_id);
 
-        $panelEntity->getLinks()->add($this->link::factory(array(
+        $panelEntity->getLinks()->add($this->link->factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'panel.rest.panel',
@@ -56,7 +56,7 @@ class PanelHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkChannel')) {
-            $panelEntity->getLinks()->add($this->link::factory(array(
+            $panelEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',

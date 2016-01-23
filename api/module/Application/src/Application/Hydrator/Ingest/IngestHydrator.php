@@ -23,7 +23,7 @@ class IngestHydrator extends Hydrator
     {
         $ingestEntity = new Entity($this->extract($ingest));
 
-        $ingestEntity->getLinks()->add($this->link::factory(array(
+        $ingestEntity->getLinks()->add($this->link->factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'ingest.rest.ingest',
@@ -34,7 +34,7 @@ class IngestHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkOutages')) {
-            $ingestEntity->getLinks()->add($this->link::factory(array(
+            $ingestEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'outages',
                 'route' => array(
                     'name' => 'ingest.rest.outage',

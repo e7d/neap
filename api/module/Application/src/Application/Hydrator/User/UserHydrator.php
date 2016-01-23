@@ -36,7 +36,7 @@ class UserHydrator extends Hydrator
 
         if ($this->getParam('embedChannel')) {
             $channelEntity = new Entity($channel, $channel->channel_id);
-            $channelEntity->getLinks()->add($this->link::factory(array(
+            $channelEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -51,7 +51,7 @@ class UserHydrator extends Hydrator
 
         $userEntity = new Entity($this->extract($user), $user->user_id);
 
-        $userEntity->getLinks()->add($this->link::factory(array(
+        $userEntity->getLinks()->add($this->link->factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'user.rest.user',
@@ -62,7 +62,7 @@ class UserHydrator extends Hydrator
         )));
 
         if ($this->getParam('linkBlock')) {
-            $userEntity->getLinks()->add($this->link::factory(array(
+            $userEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'blocks',
                 'route' => array(
                     'name' => 'user.rest.block',
@@ -74,7 +74,7 @@ class UserHydrator extends Hydrator
         }
 
         if ($this->getParam('linkChannel')) {
-            $userEntity->getLinks()->add($this->link::factory(array(
+            $userEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'channel',
                 'route' => array(
                     'name' => 'channel.rest.channel',
@@ -87,7 +87,7 @@ class UserHydrator extends Hydrator
         }
 
         if ($this->getParam('linkFavorite')) {
-            $userEntity->getLinks()->add($this->link::factory(array(
+            $userEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'favorites',
                 'route' => array(
                     'name' => 'user.rest.favorite',
@@ -99,7 +99,7 @@ class UserHydrator extends Hydrator
         }
 
         if ($this->getParam('linkFollow')) {
-            $userEntity->getLinks()->add($this->link::factory(array(
+            $userEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'follows',
                 'route' => array(
                     'name' => 'user.rest.follow',
@@ -111,7 +111,7 @@ class UserHydrator extends Hydrator
         }
 
         if ($this->getParam('linkMod')) {
-            $userEntity->getLinks()->add($this->link::factory(array(
+            $userEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'mods',
                 'route' => array(
                     'name' => 'user.rest.mod',
@@ -123,7 +123,7 @@ class UserHydrator extends Hydrator
         }
 
         if ($this->getParam('linkTeams')) {
-            $userEntity->getLinks()->add($this->link::factory(array(
+            $userEntity->getLinks()->add($this->link->factory(array(
                 'rel' => 'teams',
                 'route' => array(
                     'name' => 'user.rest.team',

@@ -23,7 +23,7 @@ class TopicHydrator extends Hydrator
     {
         $topicEntity = new Entity($this->extract($topic), $topic->topic_id);
 
-        $topicEntity->getLinks()->add($this->link::factory(array(
+        $topicEntity->getLinks()->add($this->link->factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'topic.rest.topic',

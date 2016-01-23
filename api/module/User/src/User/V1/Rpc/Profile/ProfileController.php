@@ -18,11 +18,7 @@ class ProfileController extends AbstractActionController
                     ->get('Application\Authorization\IdentityService')
                     ->getIdentity();
 
-                $user = $this->getServiceLocator()
-                    ->get('Application\Database\User\UserModel')
-                    ->fetch($profile->id);
-
-                return new ViewModel((array) $user);
+                return new ViewModel((array) $profile->entity);
                 break;
 
             case 'DELETE':

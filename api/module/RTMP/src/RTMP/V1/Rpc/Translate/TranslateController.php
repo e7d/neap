@@ -35,6 +35,6 @@ class TranslateController extends LocalhostController
             return new ViewModel(array());
         }
 
-        return new ViewModel(array("stream_id" => $stream->id));
+        return new ViewModel(array("stream_id" => $stream->stream_id));
     }
 }

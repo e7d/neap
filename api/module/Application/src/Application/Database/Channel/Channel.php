@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Channel extends ObjectProperty
 {
-    public $id;
+    public $channel_id;
     public $user_id;
     public $chat_id;
     public $name;
@@ -35,7 +35,7 @@ class Channel extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = $data['channel_id'];
+        $this->channel_id = $data['channel_id'];
         $this->user_id = $data['user_id'];
         $this->chat_id = $data['chat_id'];
         $this->name = $data['name'];

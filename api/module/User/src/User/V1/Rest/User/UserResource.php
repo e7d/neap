@@ -17,7 +17,7 @@ class UserResource extends AbstractResourceListener
     private $identityService;
     private $userService;
 
-    function __construct($identityService, $userService)
+    public function __construct($identityService, $userService)
     {
         $this->identityService = $identityService;
         $this->userService = $userService;
@@ -26,12 +26,12 @@ class UserResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $userId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($userId)
     {
-        return $this->userService->fetch($id);
+        return $this->userService->fetch($userId);
     }
 
     /**
@@ -48,12 +48,12 @@ class UserResource extends AbstractResourceListener
     /**
      * Patch (partial in-place update) a resource
      *
-     * @param  mixed $id
+     * @param  mixed $userId
      * @param  mixed $data
      * @return ApiProblem|mixed
      */
-    public function patch($id, $data)
+    public function patch($userId, $data)
     {
-        return $this->userService->update($id, $data);
+        return $this->userService->update($userId, $data);
     }
 }

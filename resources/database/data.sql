@@ -1,6 +1,6 @@
 SET search_path TO pg_catalog, public, "neap";
 
-TRUNCATE oauth_clients CASCADE;
+TRUNCATE "public"."oauth_clients" CASCADE;
 TRUNCATE "neap"."block" CASCADE;
 TRUNCATE "neap"."channel" CASCADE;
 TRUNCATE "neap"."chat" CASCADE;
@@ -19,10 +19,12 @@ TRUNCATE "neap"."topic" CASCADE;
 TRUNCATE "neap"."user" CASCADE;
 TRUNCATE "neap"."video" CASCADE;
 
-INSERT INTO oauth_clients (client_id, client_secret, redirect_uri)
-VALUES ( 'neap', '', '/oauth/receivecode');
-INSERT INTO oauth_clients (client_id, client_secret, redirect_uri)
-VALUES ( 'postman', '$2y$14$Fz3BBwXpVi2OZz7AUoXzlOpUKgrgC9unWUgqGAnFkGdEUM96CFsda', 'https://www.getpostman.com/oauth2/callback');
+INSERT INTO "public"."oauth_clients"(client_id, client_secret, redirect_uri)
+VALUES ('neap', '', '/oauth/receivecode');
+INSERT INTO "public"."oauth_clients"(client_id, client_secret, redirect_uri)
+VALUES ('postman', '$2y$14$Fz3BBwXpVi2OZz7AUoXzlOpUKgrgC9unWUgqGAnFkGdEUM96CFsda', 'https://www.getpostman.com/oauth2/callback');
+INSERT INTO "public"."oauth_access_tokens"(access_token, client_id, user_id, expires, scope)
+VALUES ('78870440483965eabbdb53210937b5242387b63d', 'neap', 'bd71ac6c-5fbd-4767-b9d5-6ddea02d8fc6', '2050-01-01 00:00:00', '');
 
 BEGIN;
 SET CONSTRAINTS ALL DEFERRED;

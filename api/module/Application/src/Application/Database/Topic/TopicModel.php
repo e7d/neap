@@ -28,10 +28,10 @@ class TopicModel
         return $this->tableGateway;
     }
 
-    public function fetch($id)
+    public function fetch($topicId)
     {
         $where = new Where();
-        $where->equalTo('topic.topic_id', $id);
+        $where->equalTo('topic.topic_id', $topicId);
 
         $select = new Select('topic');
         $select->columns(array(

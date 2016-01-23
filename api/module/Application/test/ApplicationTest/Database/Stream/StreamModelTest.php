@@ -61,7 +61,7 @@ class StreamModelTest extends AbstractControllerTestCase
         $streamId = '823084a6-3f6e-4305-a21b-e28e9f47c43c'; // Jax's channel stream id
         $stream = $streamModel->fetch($streamId);
         $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
-        $this->assertEquals($streamId, $stream->id);
+        $this->assertEquals($streamId, $stream->stream_id);
 
         $streamId = '00000000-0000-0000-0000-000000000000'; // Invalid stream id
         $stream = $streamModel->fetch($streamId);
@@ -129,7 +129,7 @@ class StreamModelTest extends AbstractControllerTestCase
         $streamId = '823084a6-3f6e-4305-a21b-e28e9f47c43c'; // Jax's channel stream id
         $stream = $streamModel->update($streamId, $data);
         $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
-        $this->assertEquals($streamId, $stream->id);
+        $this->assertEquals($streamId, $stream->stream_id);
         $this->assertEquals($data['viewers'], $stream->viewers);
 
         $streamId = '00000000-0000-0000-0000-000000000000'; // Invalid stream id

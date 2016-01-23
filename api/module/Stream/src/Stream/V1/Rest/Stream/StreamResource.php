@@ -17,7 +17,7 @@ class StreamResource extends AbstractResourceListener
     private $identityService;
     private $streamService;
 
-    function __construct($identityService, $streamService)
+    public function __construct($identityService, $streamService)
     {
         $this->identityService = $identityService;
         $this->streamService = $streamService;
@@ -26,12 +26,12 @@ class StreamResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $streamId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($streamId)
     {
-        return $this->streamService->fetch($id);
+        return $this->streamService->fetch($streamId);
     }
 
     /**

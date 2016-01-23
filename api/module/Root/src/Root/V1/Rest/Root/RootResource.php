@@ -18,7 +18,7 @@ class RootResource extends AbstractResourceListener
 {
     private $link;
 
-    function __construct()
+    public function __construct()
     {
         $this->link = new Link('root');
     }

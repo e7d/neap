@@ -17,34 +17,12 @@ class UserResource extends AbstractResourceListener
     private $identityService;
     private $teamService;
 
-    function __construct($identityService, $teamService)
+    public function __construct($identityService, $teamService)
     {
         $this->identityService = $identityService;
         $this->teamService = $teamService;
     }
-
-    /**
-     * Create a resource
-     *
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function create($data)
-    {
-        return new ApiProblem(405, 'The POST method has not been defined');
-    }
-
-    /**
-     * Delete a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function delete($id)
-    {
-        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
-    }
-
+    
     /**
      * Fetch all or a subset of resources
      *
@@ -58,17 +36,5 @@ class UserResource extends AbstractResourceListener
         );
 
         return $this->teamService->fetchUsers(array_merge($data, (array) $params));
-    }
-
-    /**
-     * Update a resource
-     *
-     * @param  mixed $id
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function update($id, $data)
-    {
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
 }

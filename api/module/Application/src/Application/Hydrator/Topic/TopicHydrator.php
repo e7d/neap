@@ -21,14 +21,14 @@ class TopicHydrator extends Hydrator
 
     public function buildEntity($topic)
     {
-        $topicEntity = new Entity($this->extract($topic), $topic->id);
+        $topicEntity = new Entity($this->extract($topic), $topic->topic_id);
 
         $topicEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'topic.rest.topic',
                 'params' => array(
-                    'topic_id' => $topic->id,
+                    'topic_id' => $topic->topic_id,
                 ),
             ),
         )));

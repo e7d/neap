@@ -20,7 +20,7 @@ class ChannelResource extends AbstractResourceListener
     private $identityService;
     private $channelService;
 
-    function __construct($identityService, $channelService)
+    public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
         $this->channelService = $channelService;
@@ -29,12 +29,12 @@ class ChannelResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $channelId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($channelId)
     {
-        return $this->channelService->fetch($id);
+        return $this->channelService->fetch($channelId);
     }
 
     /**
@@ -51,17 +51,17 @@ class ChannelResource extends AbstractResourceListener
     /**
      * Update a resource
      *
-     * @param  mixed $id
+     * @param  mixed $channelId
      * @param  mixed $data
      * @return ApiProblem|mixed
      */
-    public function update($id, $data)
+    public function update($channelId, $data)
     {
-        $userIsOwner = $this->userIsOwner($id);
+        $userIsOwner = $this->userIsOwner($channelId);
         if ($userIsOwner instanceof ApiProblem) {
             return $userIsOwner;
         }
 
-        return $this->channelService->update($id, (array) $data);
+        return $this->channelService->update($channelId, (array) $data);
     }
 }

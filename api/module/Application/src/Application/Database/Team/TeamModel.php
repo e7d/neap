@@ -27,9 +27,9 @@ class TeamModel
         return $this->tableGateway;
     }
 
-    public function fetch($id)
+    public function fetch($teamId)
     {
-        $rowset = $this->tableGateway->select(array('team_id' => $id));
+        $rowset = $this->tableGateway->select(array('team_id' => $teamId));
         $team = $rowset->current();
         if (!$team) {
             return null;
@@ -48,11 +48,6 @@ class TeamModel
         $select->where($where);
 
         $rowset = $this->tableGateway->selectWith($select);
-        $team = $rowset->current();
-        if (!$team) {
-            return null;
-        }
-
-        return $team;
+        return $rowset;
     }
 }

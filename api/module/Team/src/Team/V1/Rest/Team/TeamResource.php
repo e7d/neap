@@ -17,7 +17,7 @@ class TeamResource extends AbstractResourceListener
     private $identityService;
     private $teamService;
 
-    function __construct($identityService, $teamService)
+    public function __construct($identityService, $teamService)
     {
         $this->identityService = $identityService;
         $this->teamService = $teamService;
@@ -26,12 +26,12 @@ class TeamResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $teamId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($teamId)
     {
-        return $this->teamService->fetch($id);
+        return $this->teamService->fetch($teamId);
     }
 
     /**

@@ -47,7 +47,7 @@ class VideoModelTest extends AbstractControllerTestCase
         $videoId = '2be039b2-f04c-4f6c-82aa-11aed1465f1a'; // Jax video id
         $video = $videoModel->fetch($videoId);
         $this->assertInstanceOf('Application\Database\Video\Video', $video);
-        $this->assertEquals($videoId, $video->id);
+        $this->assertEquals($videoId, $video->video_id);
 
         $videoId = '00000000-0000-0000-0000-000000000000'; // Invalid video id
         $video = $videoModel->fetch($videoId);
@@ -58,14 +58,14 @@ class VideoModelTest extends AbstractControllerTestCase
     {
         $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
 
-        $videoId = '2be039b2-f04c-4f6c-82aa-11aed1465f1a'; // Jax video id
         $userId = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
-        $video = $videoModel->fetchByUser($userId);
-        $this->assertInstanceOf('Application\Database\Video\Video', $video);
-        $this->assertEquals($videoId, $video->id);
+        $videos = $videoModel->fetchByUser($userId);
+        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $videos);
+        $this->assertEquals(4, $videos->count());
 
         $userId = '00000000-0000-0000-0000-000000000000'; // Invalid user id
-        $video = $videoModel->fetchByUser($userId);
-        $this->assertNull($video);
+        $videos = $videoModel->fetchByUser($userId);
+        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $videos);
+        $this->assertEquals(0, $videos->count());
     }
 }

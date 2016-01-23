@@ -26,9 +26,9 @@ class OutageModel
         return $this->tableGateway;
     }
 
-    public function fetch($id)
+    public function fetch($outageId)
     {
-        $rowset = $this->tableGateway->select(array('outage_id' => $id));
+        $rowset = $this->tableGateway->select(array('outage_id' => $outageId));
         $outage = $rowset->current();
         if (!$outage) {
             return null;

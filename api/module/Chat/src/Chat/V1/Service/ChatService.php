@@ -29,9 +29,9 @@ class ChatService
         $this->chatHydrator = $chatHydrator;
     }
 
-    public function fetch($id)
+    public function fetch($chatId)
     {
-        $chat = $this->chatModel->fetch($id);
+        $chat = $this->chatModel->fetch($chatId);
         if (!$chat) {
             return null;
         }

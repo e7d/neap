@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Panel extends ObjectProperty
 {
-    public $id;
+    public $panel_id;
     public $channel_id;
     public $title;
     public $position;
@@ -25,7 +25,7 @@ class Panel extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = $data['panel_id'];
+        $this->panel_id = $data['panel_id'];
         $this->channel_id = $data['channel_id'];
         $this->title = $data['title'];
         $this->position = $data['position'];

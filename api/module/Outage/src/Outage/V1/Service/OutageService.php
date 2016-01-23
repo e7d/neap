@@ -47,9 +47,9 @@ class OutageService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($outageId)
     {
-        $outage = $this->outageModel->fetch($id);
+        $outage = $this->outageModel->fetch($outageId);
         if (!$outage) {
             return null;
         }

@@ -17,7 +17,7 @@ class MyUserResource extends AbstractResourceListener
     private $identityService;
     private $userService;
 
-    function __construct($identityService, $userService)
+    public function __construct($identityService, $userService)
     {
         $this->identityService = $identityService;
         $this->userService = $userService;
@@ -32,6 +32,6 @@ class MyUserResource extends AbstractResourceListener
     public function fetchAll($params = [])
     {
         $user = $this->identityService->getIdentity();
-        return $this->userService->fetch($user->id);
+        return $this->userService->fetch($user->entity['user_id']);
     }
 }

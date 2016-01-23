@@ -59,9 +59,9 @@ class StreamService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($streamId)
     {
-        $stream = $this->streamModel->fetch($id);
+        $stream = $this->streamModel->fetch($streamId);
         if (!$stream) {
             return null;
         }

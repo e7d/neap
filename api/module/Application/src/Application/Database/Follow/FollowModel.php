@@ -36,11 +36,6 @@ class FollowModel
         $select->where($where);
 
         $rowset = $this->tableGateway->selectWith($select);
-        $follow = $rowset->current();
-        if (!$follow) {
-            return null;
-        }
-
-        return $follow;
+        return $rowset;
     }
 }

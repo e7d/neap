@@ -47,7 +47,7 @@ class ChannelModelTest extends AbstractControllerTestCase
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->fetch($channelId);
         $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
-        $this->assertEquals($channelId, $channel->id);
+        $this->assertEquals($channelId, $channel->channel_id);
 
         $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id
         $channel = $channelModel->fetch($channelId);
@@ -62,7 +62,7 @@ class ChannelModelTest extends AbstractControllerTestCase
         $streamKey = 'live_1b0f5864_d637993a8bf849b3c8aad171'; // Jax channel stream key
         $channel = $channelModel->fetchByStreamKey($streamKey);
         $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
-        $this->assertEquals($channelId, $channel->id);
+        $this->assertEquals($channelId, $channel->channel_id);
 
         $streamKey = 'live_00000000_000000000000000000000000'; // Invalid stream key
         $channel = $channelModel->fetchByStreamKey($streamKey);
@@ -77,7 +77,7 @@ class ChannelModelTest extends AbstractControllerTestCase
         $userId = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
         $channel = $channelModel->fetchByUser($userId);
         $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
-        $this->assertEquals($channelId, $channel->id);
+        $this->assertEquals($channelId, $channel->channel_id);
 
         $userId = '00000000-0000-0000-0000-000000000000'; // Invalid user id
         $channel = $channelModel->fetchByUser($userId);
@@ -95,7 +95,7 @@ class ChannelModelTest extends AbstractControllerTestCase
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->update($channelId, $data);
         $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
-        $this->assertEquals($channelId, $channel->id);
+        $this->assertEquals($channelId, $channel->channel_id);
         $this->assertEquals($data['logo'], $channel->logo);
 
         $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id

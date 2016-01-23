@@ -31,4 +31,30 @@ class IngestHydratorTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Application\Hydrator\Ingest\IngestHydrator', $ingestHydrator);
     }
+
+    public function testBuildEntity()
+    {
+        $ingestHydrator = $this->serviceManager->get('Application\Hydrator\Ingest\IngestHydrator');
+        $ingestModel = $this->serviceManager->get('Application\Database\Ingest\IngestModel');
+
+        $ingestId = 'c3aae4dc-dd8d-4e81-a151-7ba30cec1b4a'; // Neap ingest id
+        $ingest = $ingestModel->fetch($ingestId);
+        $ingestEntity = $ingestHydrator->buildEntity($ingest);
+
+        $this->assertInstanceOf('ZF\Hal\Entity', $ingestEntity);
+        $this->assertInstanceOf('ZF\Hal\Link\Link', $ingestEntity->getLinks()->get('self'));
+    }
+
+    public function testBuildEntityWithLinkOutages()
+    {
+        $ingestHydrator = $this->serviceManager->get('Application\Hydrator\Ingest\IngestHydrator');
+        $ingestModel = $this->serviceManager->get('Application\Database\Ingest\IngestModel');
+
+        $ingestId = 'c3aae4dc-dd8d-4e81-a151-7ba30cec1b4a'; // Neap ingest id
+        $ingest = $ingestModel->fetch($ingestId);
+        $ingestHydrator->setParam('linkOutages');
+        $ingestEntity = $ingestHydrator->buildEntity($ingest);
+
+        $this->assertInstanceOf('ZF\Hal\Link\Link', $ingestEntity->getLinks()->get('outages'));
+    }
 }

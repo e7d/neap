@@ -17,7 +17,7 @@ class TeamResource extends AbstractResourceListener
     private $identityService;
     private $userService;
 
-    function __construct($identityService, $userService)
+    public function __construct($identityService, $userService)
     {
         $this->identityService = $identityService;
         $this->userService = $userService;

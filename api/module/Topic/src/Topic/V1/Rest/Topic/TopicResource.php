@@ -17,7 +17,7 @@ class TopicResource extends AbstractResourceListener
     private $identityService;
     private $topicService;
 
-    function __construct($identityService, $topicService)
+    public function __construct($identityService, $topicService)
     {
         $this->identityService = $identityService;
         $this->topicService = $topicService;
@@ -26,12 +26,12 @@ class TopicResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $topicId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($topicId)
     {
-        return $this->topicService->fetch($id);
+        return $this->topicService->fetch($topicId);
     }
 
     /**

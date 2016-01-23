@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Ingest extends ObjectProperty
 {
-    public $id;
+    public $ingest_id;
     public $name;
     public $hostname;
     public $port;
@@ -23,7 +23,7 @@ class Ingest extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = $data['ingest_id'];
+        $this->ingest_id = $data['ingest_id'];
         $this->name = $data['name'];
         $this->hostname = $data['hostname'];
         $this->port = $data['port'];

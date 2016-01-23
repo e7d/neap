@@ -33,9 +33,9 @@ class StreamModel
         return $insertedRows;
     }
 
-    public function fetch($id)
+    public function fetch($streamId)
     {
-        $rowset = $this->tableGateway->select(array('stream_id' => $id));
+        $rowset = $this->tableGateway->select(array('stream_id' => $streamId));
         $stream = $rowset->current();
         if (!$stream) {
             return null;
@@ -46,6 +46,8 @@ class StreamModel
 
     public function fetchByChannel($channelId, $live = true)
     {
+        // ToDo: separate into different functions to get the live stream or the collection of stream
+        //
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);
         if ($live) {
@@ -88,6 +90,8 @@ class StreamModel
 
     public function fetchByUser($userId, $live = true)
     {
+        // ToDo: separate into different functions to get the live stream or the collection of stream
+
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
         if ($live) {
@@ -129,13 +133,13 @@ class StreamModel
         return $stats;
     }
 
-    public function update($id, $data)
+    public function update($streamId, $data)
     {
         $where = new Where();
-        $where->equalTo('stream.stream_id', $id);
+        $where->equalTo('stream.stream_id', $streamId);
 
         $this->tableGateway->update($data, $where);
 
-        return $this->fetch($id);
+        return $this->fetch($streamId);
     }
 }

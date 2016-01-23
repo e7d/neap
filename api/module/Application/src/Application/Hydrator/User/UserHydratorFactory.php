@@ -15,8 +15,7 @@ class UserHydratorFactory
     {
         return new UserHydrator(
             $services->get('Application\Database\User\UserModel'),
-            $services->get('Application\Database\Channel\ChannelModel'),
-            $services->get('Application\Database\Team\TeamModel')
+            $services->get('Application\Database\Channel\ChannelModel')
         );
     }
 }

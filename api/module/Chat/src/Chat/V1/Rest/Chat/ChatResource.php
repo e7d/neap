@@ -17,7 +17,7 @@ class ChatResource extends AbstractResourceListener
     private $identityService;
     private $chatService;
 
-    function __construct($identityService, $chatService)
+    public function __construct($identityService, $chatService)
     {
         $this->identityService = $identityService;
         $this->chatService = $chatService;
@@ -26,11 +26,11 @@ class ChatResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $chatId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($chatId)
     {
-        return $this->chatService->fetch($id);
+        return $this->chatService->fetch($chatId);
     }
 }

@@ -13,14 +13,14 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Outage extends ObjectProperty
 {
-    public $id;
+    public $outage_id;
     public $ingest_id;
     public $started_at;
     public $ended_at;
 
     public function exchangeArray($data)
     {
-        $this->id = $data['outage_id'];
+        $this->outage_id = $data['outage_id'];
         $this->ingest_id = $data['ingest_id'];
         $this->started_at = $data['started_at'];
         $this->ended_at = $data['ended_at'];

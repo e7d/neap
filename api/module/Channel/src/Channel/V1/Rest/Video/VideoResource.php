@@ -17,7 +17,7 @@ class VideoResource extends AbstractResourceListener
     private $identityService;
     private $channelService;
 
-    function __construct($identityService, $channelService)
+    public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
         $this->channelService = $channelService;

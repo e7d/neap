@@ -9,7 +9,7 @@ class MyChannelResource extends AbstractResourceListener
     private $identityService;
     private $channelService;
 
-    function __construct($identityService, $channelService)
+    public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
         $this->channelService = $channelService;
@@ -28,6 +28,6 @@ class MyChannelResource extends AbstractResourceListener
         );
         $user = $this->identityService->getIdentity();
 
-        return $this->channelService->fetchByUser($user->id, array_merge($data, (array) $params));
+        return $this->channelService->fetchByUser($user->entity['user_id'], array_merge($data, (array) $params));
     }
 }

@@ -55,9 +55,9 @@ class TeamService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($teamId)
     {
-        $team = $this->teamModel->fetch($id);
+        $team = $this->teamModel->fetch($teamId);
         if (!$team) {
             return null;
         }

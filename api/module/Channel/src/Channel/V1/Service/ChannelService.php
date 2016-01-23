@@ -8,6 +8,7 @@
  */
 
 namespace Channel\V1\Service;
+
 use Application\Database\Channel\Channel;
 use Application\Database\User\User;
 use Application\Database\Video\Video;
@@ -23,19 +24,15 @@ class ChannelService
 {
     protected $channelModel;
     protected $channelHydrator;
-    protected $followModel;
-    protected $followHydrator;
     protected $userModel;
     protected $userHydrator;
     protected $videoModel;
     protected $videoHydrator;
 
-    public function __construct($channelModel, $channelHydrator, $followModel, $followHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
+    public function __construct($channelModel, $channelHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
     {
         $this->channelModel = $channelModel;
         $this->channelHydrator = $channelHydrator;
-        $this->followModel = $followModel;
-        $this->followHydrator = $followHydrator;
         $this->userModel = $userModel;
         $this->userHydrator = $userHydrator;
         $this->videoModel = $videoModel;
@@ -65,9 +62,9 @@ class ChannelService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($channelId)
     {
-        $channel = $this->channelModel->fetch($id);
+        $channel = $this->channelModel->fetch($channelId);
         if (!$channel) {
             return null;
         }
@@ -80,9 +77,9 @@ class ChannelService
         return $this->channelHydrator->buildEntity($channel);
     }
 
-    public function update($id, $data)
+    public function update($channelId, $data)
     {
-        $channel = $this->channelModel->update($id, $data);
+        $channel = $this->channelModel->update($channelId, $data);
 
         return $this->channelHydrator->buildEntity($channel);
     }
@@ -163,9 +160,9 @@ class ChannelService
         return $collection;
     }
 
-    public function isOwner($id, $userId)
+    public function isOwner($channelId, $userId)
     {
-        $channel = $this->channelModel->fetch($id);
+        $channel = $this->channelModel->fetch($channelId);
 
         return $channel->user_id === $userId;
     }

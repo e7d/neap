@@ -52,9 +52,9 @@ class VideoService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($videoId)
     {
-        $video = $this->videoModel->fetch($id);
+        $video = $this->videoModel->fetch($videoId);
         if (!$video) {
             return null;
         }

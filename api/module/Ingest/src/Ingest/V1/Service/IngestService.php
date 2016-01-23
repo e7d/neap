@@ -54,9 +54,9 @@ class IngestService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($ingestId)
     {
-        $ingest = $this->ingestModel->fetch($id);
+        $ingest = $this->ingestModel->fetch($ingestId);
         if (!$ingest) {
             return null;
         }

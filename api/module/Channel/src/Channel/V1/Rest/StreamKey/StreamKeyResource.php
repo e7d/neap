@@ -17,7 +17,7 @@ class StreamKeyResource extends AbstractResourceListener
     private $identityService;
     private $channelService;
 
-    function __construct($identityService, $channelService)
+    public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
         $this->channelService = $channelService;
@@ -26,22 +26,22 @@ class StreamKeyResource extends AbstractResourceListener
     /**
      * Delete a resource
      *
-     * @param  mixed $id
+     * @param  mixed $channelId
      * @return ApiProblem|mixed
      */
-    public function delete($id)
+    public function delete($channelId)
     {
-        $channel = $this->channelService->fetch($id);
+        $channel = $this->channelService->fetch($channelId);
         if (!$channel) {
             return new ApiProblem(404, 'The channel does not exists.');
         }
 
         $identity = $this->identityService->getIdentity();
-        if (!$this->channelService->isOwner($id, $identity->id)) {
+        if (!$this->channelService->isOwner($channelId, $identity->entity['user_id'])) {
             return new ApiProblem(403, 'The channel is not your property.');
         }
 
-        $channel = $this->channelService->update($id, array('stream_key' => ''));
+        $channel = $this->channelService->update($channelId, array('stream_key' => ''));
 
         return true;
     }

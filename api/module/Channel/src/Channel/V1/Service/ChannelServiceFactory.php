@@ -16,8 +16,6 @@ class ChannelServiceFactory
         return new ChannelService(
             $services->get('Application\Database\Channel\ChannelModel'),
             $services->get('Application\Hydrator\Channel\ChannelHydrator'),
-            $services->get('Application\Database\Follow\FollowModel'),
-            $services->get('Application\Hydrator\Follow\FollowHydrator'),
             $services->get('Application\Database\User\UserModel'),
             $services->get('Application\Hydrator\User\UserHydrator'),
             $services->get('Application\Database\Video\VideoModel'),

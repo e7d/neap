@@ -37,13 +37,13 @@ class StreamHydrator extends Hydrator
         }
 
         if ($this->getParam('embedChannel')) {
-            $channelEntity = new Entity($channel, $channel->id);
+            $channelEntity = new Entity($channel, $channel->channel_id);
             $channelEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'channel.rest.channel',
                     'params' => array(
-                        'channel_id' => $channel->id,
+                        'channel_id' => $channel->channel_id,
                     ),
                 ),
             )));
@@ -51,14 +51,14 @@ class StreamHydrator extends Hydrator
             unset($stream->channel_id);
         }
 
-        $streamEntity = new Entity($this->extract($stream), $stream->id);
+        $streamEntity = new Entity($this->extract($stream), $stream->stream_id);
 
         $streamEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'stream.rest.stream',
                 'params' => array(
-                    'stream_id' => $stream->id,
+                    'stream_id' => $stream->stream_id,
                 ),
             ),
         )));
@@ -69,7 +69,7 @@ class StreamHydrator extends Hydrator
                 'route' => array(
                     'name' => 'channel.rest.channel',
                     'params' => array(
-                        'channel_id' => $channel->id,
+                        'channel_id' => $channel->channel_id,
                     ),
                 ),
             )));
@@ -82,7 +82,7 @@ class StreamHydrator extends Hydrator
                 'route' => array(
                     'name' => 'user.rest.user',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));

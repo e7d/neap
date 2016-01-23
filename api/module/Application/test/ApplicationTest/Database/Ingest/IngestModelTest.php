@@ -47,7 +47,7 @@ class IngestModelTest extends AbstractControllerTestCase
         $ingestId = 'c3aae4dc-dd8d-4e81-a151-7ba30cec1b4a'; // neap ingest id
         $ingest = $ingestModel->fetch($ingestId);
         $this->assertInstanceOf('Application\Database\Ingest\Ingest', $ingest);
-        $this->assertEquals($ingestId, $ingest->id);
+        $this->assertEquals($ingestId, $ingest->ingest_id);
 
         $ingestId = '00000000-0000-0000-0000-000000000000'; // Invalid ingest id
         $ingest = $ingestModel->fetch($ingestId);
@@ -62,7 +62,7 @@ class IngestModelTest extends AbstractControllerTestCase
         $hostname = 'rtmp.neap.dev'; // neap ingest hostname
         $ingest = $ingestModel->fetchByHostname($hostname);
         $this->assertInstanceOf('Application\Database\Ingest\Ingest', $ingest);
-        $this->assertEquals($ingestId, $ingest->id);
+        $this->assertEquals($ingestId, $ingest->ingest_id);
 
         $hostname = 'invalid.host.name'; // Invalid hostname
         $ingest = $ingestModel->fetchByHostname($hostname);

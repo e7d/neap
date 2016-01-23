@@ -16,7 +16,7 @@ abstract class Hydrator implements HydratorInterface
     protected $link;
     private $params = array();
 
-    function __construct()
+    public function __construct()
     {
         $this->link = new Link('hydrator');
     }

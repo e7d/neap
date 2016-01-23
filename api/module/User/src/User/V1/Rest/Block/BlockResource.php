@@ -17,21 +17,10 @@ class BlockResource extends AbstractResourceListener
     private $identityService;
     private $userService;
 
-    function __construct($identityService, $userService)
+    public function __construct($identityService, $userService)
     {
         $this->identityService = $identityService;
         $this->userService = $userService;
-    }
-
-    /**
-     * Delete a resource
-     *
-     * @param  mixed $id
-     * @return ApiProblem|mixed
-     */
-    public function delete($id)
-    {
-        return new ApiProblem(405, 'The DELETE method has not been defined for individual resources');
     }
 
     /**
@@ -47,17 +36,5 @@ class BlockResource extends AbstractResourceListener
         );
 
         return $this->userService->fetchBlockedUsers(array_merge($data, (array) $params));
-    }
-
-    /**
-     * Update a resource
-     *
-     * @param  mixed $id
-     * @param  mixed $data
-     * @return ApiProblem|mixed
-     */
-    public function update($id, $data)
-    {
-        return new ApiProblem(405, 'The PUT method has not been defined for individual resources');
     }
 }

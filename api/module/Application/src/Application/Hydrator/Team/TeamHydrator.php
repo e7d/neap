@@ -26,14 +26,14 @@ class TeamHydrator extends Hydrator
 
     public function buildEntity($team)
     {
-        $teamEntity = new Entity($this->extract($team), $team->id);
+        $teamEntity = new Entity($this->extract($team), $team->team_id);
 
         $teamEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'team.rest.team',
                 'params' => array(
-                    'team_id' => $team->id,
+                    'team_id' => $team->team_id,
                 ),
             ),
         )));
@@ -44,7 +44,7 @@ class TeamHydrator extends Hydrator
                 'route' => array(
                     'name' => 'team.rest.user',
                     'params' => array(
-                        'team_id' => $team->id,
+                        'team_id' => $team->team_id,
                     ),
                 ),
             )));

@@ -13,13 +13,13 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Topic extends ObjectProperty
 {
-    public $id;
+    public $topic_id;
     public $name;
     public $created_at;
 
     public function exchangeArray($data)
     {
-        $this->id = $data['topic_id'];
+        $this->topic_id = $data['topic_id'];
         $this->name = $data['name'];
         $this->created_at = $data['created_at'];
 

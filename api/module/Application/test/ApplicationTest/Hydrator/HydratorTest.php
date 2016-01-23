@@ -61,7 +61,7 @@ class HydratorTest extends AbstractControllerTestCase
         $result = $hydratorStub->hydrate($data, $stream);
 
         $this->assertInstanceOf('Application\Database\Stream\Stream', $result);
-        $this->assertEquals($streamId, $stream->id);
+        $this->assertEquals($streamId, $stream->stream_id);
     }
 
     public function testGetAndSetParam()

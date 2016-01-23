@@ -17,7 +17,7 @@ class IngestResource extends AbstractResourceListener
     private $identityService;
     private $ingestService;
 
-    function __construct($identityService, $ingestService)
+    public function __construct($identityService, $ingestService)
     {
         $this->identityService = $identityService;
         $this->ingestService = $ingestService;
@@ -26,12 +26,12 @@ class IngestResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $ingestId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($ingestId)
     {
-        return $this->ingestService->fetch($id);
+        return $this->ingestService->fetch($ingestId);
     }
 
     /**

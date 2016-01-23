@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Team extends ObjectProperty
 {
-    public $id;
+    public $team_id;
     public $name;
     public $display_name;
     public $logo;
@@ -24,7 +24,7 @@ class Team extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = $data['team_id'];
+        $this->team_id = $data['team_id'];
         $this->name = $data['name'];
         $this->display_name = $data['display_name'];
         $this->logo = $data['logo'];

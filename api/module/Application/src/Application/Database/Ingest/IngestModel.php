@@ -26,9 +26,9 @@ class IngestModel
         return $this->tableGateway;
     }
 
-    public function fetch($id)
+    public function fetch($ingestId)
     {
-        $rowset = $this->tableGateway->select(array('ingest_id' => $id));
+        $rowset = $this->tableGateway->select(array('ingest_id' => $ingestId));
         $ingest = $rowset->current();
         if (!$ingest) {
             return null;

@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class User extends ObjectProperty
 {
-    public $id;
+    public $user_id;
     public $username;
     public $email;
     public $display_name;
@@ -24,7 +24,7 @@ class User extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = $data['user_id'];
+        $this->user_id = $data['user_id'];
         $this->channel_id = $data['channel_id'];
         $this->username = $data['username'];
         $this->email = $data['email'];

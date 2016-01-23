@@ -58,9 +58,9 @@ class TopicService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($topicId)
     {
-        $topic = $this->topicModel->fetch($id);
+        $topic = $this->topicModel->fetch($topicId);
         if (!$topic) {
             return null;
         }

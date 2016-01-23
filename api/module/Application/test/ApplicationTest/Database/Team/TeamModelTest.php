@@ -47,7 +47,7 @@ class TeamModelTest extends AbstractControllerTestCase
         $teamId = '9880b00c-814a-423e-ab39-5fa20039414a'; // Lonely Assailant team id
         $team = $teamModel->fetch($teamId);
         $this->assertInstanceOf('Application\Database\Team\Team', $team);
-        $this->assertEquals($teamId, $team->id);
+        $this->assertEquals($teamId, $team->team_id);
 
         $teamId = '00000000-0000-0000-0000-000000000000'; // Invalid team id
         $team = $teamModel->fetch($teamId);
@@ -58,14 +58,14 @@ class TeamModelTest extends AbstractControllerTestCase
     {
         $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');
 
-        $teamId = '9880b00c-814a-423e-ab39-5fa20039414a'; // Lonely Assailant team id
         $userId = 'bdda6afe-3e48-41a8-9131-e12ac1bf9dd0'; // Kellan user id
-        $team = $teamModel->fetchByUser($userId);
-        $this->assertInstanceOf('Application\Database\Team\Team', $team);
-        $this->assertEquals($teamId, $team->id);
+        $teams = $teamModel->fetchByUser($userId);
+        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $teams);
+        $this->assertEquals(5, $teams->count());
 
         $userId = '00000000-0000-0000-0000-000000000000'; // Invalid user id
-        $team = $teamModel->fetchByUser($userId);
-        $this->assertNull($team);
+        $teams = $teamModel->fetchByUser($userId);
+        $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $teams);
+        $this->assertEquals(0, $teams->count());
     }
 }

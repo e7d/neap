@@ -9,7 +9,7 @@ class OutageResource extends AbstractResourceListener
     private $identityService;
     private $outageService;
 
-    function __construct($identityService, $outageService)
+    public function __construct($identityService, $outageService)
     {
         $this->identityService = $identityService;
         $this->outageService = $outageService;
@@ -18,12 +18,12 @@ class OutageResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $outageId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($outageId)
     {
-        return $this->outageService->fetch($id);
+        return $this->outageService->fetch($outageId);
     }
 
     /**

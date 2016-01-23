@@ -26,9 +26,9 @@ class ChatModel
         return $this->tableGateway;
     }
 
-    public function fetch($id)
+    public function fetch($chatId)
     {
-        $rowset = $this->tableGateway->select(array('chat_id' => $id));
+        $rowset = $this->tableGateway->select(array('chat_id' => $chatId));
         $chat = $rowset->current();
         if (!$chat) {
             return null;

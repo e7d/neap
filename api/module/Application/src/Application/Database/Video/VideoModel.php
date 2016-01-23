@@ -26,9 +26,9 @@ class VideoModel
         return $this->tableGateway;
     }
 
-    public function fetch($id)
+    public function fetch($videoId)
     {
-        $rowset = $this->tableGateway->select(array('video_id' => $id));
+        $rowset = $this->tableGateway->select(array('video_id' => $videoId));
         $video = $rowset->current();
         if (!$video) {
             return null;
@@ -49,11 +49,6 @@ class VideoModel
         $select->where($where);
 
         $rowset = $this->tableGateway->selectWith($select);
-        $video = $rowset->current();
-        if (!$video) {
-            return null;
-        }
-
-        return $video;
+        return $rowset;
     }
 }

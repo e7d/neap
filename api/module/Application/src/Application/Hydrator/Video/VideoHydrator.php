@@ -36,14 +36,14 @@ class VideoHydrator extends Hydrator
         $channel = $this->channelModel->fetch($stream->channel_id);
         $user = $this->userModel->fetch($channel->user_id);
 
-        $videoEntity = new Entity($this->extract($video), $video->id);
+        $videoEntity = new Entity($this->extract($video), $video->video_id);
 
         $videoEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'video.rest.video',
                 'params' => array(
-                    'video_id' => $video->id,
+                    'video_id' => $video->video_id,
                 ),
             ),
         )));
@@ -54,7 +54,7 @@ class VideoHydrator extends Hydrator
                 'route' => array(
                     'name' => 'stream.rest.stream',
                     'params' => array(
-                        'stream_id' => $stream->id,
+                        'stream_id' => $stream->stream_id,
                     ),
                 ),
             )));
@@ -66,7 +66,7 @@ class VideoHydrator extends Hydrator
                 'route' => array(
                     'name' => 'channel.rest.channel',
                     'params' => array(
-                        'channel_id' => $channel->id,
+                        'channel_id' => $channel->channel_id,
                     ),
                 ),
             )));
@@ -78,7 +78,7 @@ class VideoHydrator extends Hydrator
                 'route' => array(
                     'name' => 'user.rest.user',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));

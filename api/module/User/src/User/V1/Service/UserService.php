@@ -38,8 +38,18 @@ class UserService
     protected $videoModel;
     protected $videoHydrator;
 
-    public function __construct($channelModel, $channelHydrator, $chatModel, $chatHydrator, $teamModel, $teamHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
-    {
+    public function __construct(
+        $channelModel,
+        $channelHydrator,
+        $chatModel,
+        $chatHydrator,
+        $teamModel,
+        $teamHydrator,
+        $userModel,
+        $userHydrator,
+        $videoModel,
+        $videoHydrator
+    ) {
         $this->channelModel = $channelModel;
         $this->channelHydrator = $channelHydrator;
         $this->chatModel = $chatModel;
@@ -52,9 +62,9 @@ class UserService
         $this->videoHydrator = $videoHydrator;
     }
 
-    public function fetch($id)
+    public function fetch($userId)
     {
-        $user = $this->userModel->fetch($id);
+        $user = $this->userModel->fetch($userId);
         if (!$user) {
             return null;
         }
@@ -222,14 +232,15 @@ class UserService
         return $collection;
     }
 
-    public function update($id, $data)
+    public function update($userId, $data)
     {
         // if we have an updated logo
         if (array_key_exists('logo', $data)) {
-            $data->logo = '//' . str_replace('api', 'static', $_SERVER['SERVER_NAME']) . '/user/logo/' . $id . '.png';
+            $data->logo = '//' . str_replace('api', 'static', $_SERVER['SERVER_NAME']) .
+                '/user/logo/' . $userId . '.png';
         }
 
-        $user = $this->userModel->update($id, $data);
+        $user = $this->userModel->update($userId, $data);
         if (!$user) {
             return null;
         }

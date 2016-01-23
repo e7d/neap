@@ -9,7 +9,7 @@ class OutageResource extends AbstractResourceListener
     private $identityService;
     private $ingestService;
 
-    function __construct($identityService, $ingestService)
+    public function __construct($identityService, $ingestService)
     {
         $this->identityService = $identityService;
         $this->ingestService = $ingestService;

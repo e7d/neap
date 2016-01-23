@@ -29,13 +29,13 @@ class PanelHydrator extends Hydrator
         $channel = $this->channelModel->fetch($panel->channel_id);
 
         if ($this->getParam('embedChannel')) {
-            $channelEntity = new Entity($channel, $channel->id);
+            $channelEntity = new Entity($channel, $channel->channel_id);
             $channelEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'channel.rest.channel',
                     'params' => array(
-                        'channel_id' => $channel->id,
+                        'channel_id' => $channel->channel_id,
                     ),
                 ),
             )));
@@ -43,14 +43,14 @@ class PanelHydrator extends Hydrator
             unset($panel->channel_id);
         }
 
-        $panelEntity = new Entity($this->extract($panel), $panel->id);
+        $panelEntity = new Entity($this->extract($panel), $panel->panel_id);
 
         $panelEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'panel.rest.panel',
                 'params' => array(
-                    'panel_id' => $panel->id,
+                    'panel_id' => $panel->panel_id,
                 ),
             ),
         )));
@@ -61,7 +61,7 @@ class PanelHydrator extends Hydrator
                 'route' => array(
                     'name' => 'channel.rest.channel',
                     'params' => array(
-                        'channel_id' => $channel->id,
+                        'channel_id' => $channel->channel_id,
                     ),
                 ),
             )));

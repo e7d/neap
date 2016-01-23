@@ -69,14 +69,14 @@ class AuthorizationAwareResourceTraitTest extends AbstractControllerTestCase
 
         // Test with the rightful owner
         $identity = new \stdClass();
-        $identity->id = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
+        $identity->user_id = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
         $this->identityService->setIdentity($identity);
         $isOwner = $this->userIsOwner($channelId);
         $this->assertTrue($isOwner);
 
         // Test with a random id
         $identity = new \stdClass();
-        $identity->id = '6941f890-aea2-4e18-b9af-b9896f328a56';
+        $identity->user_id = '6941f890-aea2-4e18-b9af-b9896f328a56';
         $this->identityService->setIdentity($identity);
         $isOwner = $this->userIsOwner($channelId);
         $this->assertInstanceOf('ZF\ApiProblem\ApiProblem', $isOwner);

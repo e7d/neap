@@ -26,9 +26,9 @@ class UserModel
         return $this->tableGateway;
     }
 
-    public function fetch($id)
+    public function fetch($userId)
     {
-        $rowset = $this->tableGateway->select(array('user_id' => $id));
+        $rowset = $this->tableGateway->select(array('user_id' => $userId));
         $user = $rowset->current();
         if (!$user) {
             return null;

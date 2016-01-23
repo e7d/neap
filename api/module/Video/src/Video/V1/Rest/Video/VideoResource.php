@@ -17,7 +17,7 @@ class VideoResource extends AbstractResourceListener
     private $identityService;
     private $videoService;
 
-    function __construct($identityService, $videoService)
+    public function __construct($identityService, $videoService)
     {
         $this->identityService = $identityService;
         $this->videoService = $videoService;
@@ -26,12 +26,12 @@ class VideoResource extends AbstractResourceListener
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $videoId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($videoId)
     {
-        return $this->videoService->fetch($id);
+        return $this->videoService->fetch($videoId);
     }
 
     /**

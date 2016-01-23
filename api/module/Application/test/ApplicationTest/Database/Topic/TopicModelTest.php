@@ -47,7 +47,7 @@ class TopicModelTest extends AbstractControllerTestCase
         $topicId = '0a686e36-f1a5-4829-8fc3-3f885dc1ec28'; // Video Games topic id
         $topic = $topicModel->fetch($topicId);
         $this->assertInstanceOf('Application\Database\Topic\Topic', $topic);
-        $this->assertEquals($topicId, $topic->id);
+        $this->assertEquals($topicId, $topic->topic_id);
 
         $topicId = '00000000-0000-0000-0000-000000000000'; // Invalid topic id
         $topic = $topicModel->fetch($topicId);

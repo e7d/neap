@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Stream extends ObjectProperty
 {
-    public $id;
+    public $stream_id;
     public $channel_id;
     public $title;
     public $topic_id;
@@ -26,7 +26,7 @@ class Stream extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = $data['stream_id'];
+        $this->stream_id = $data['stream_id'];
         $this->channel_id = $data['channel_id'];
         $this->title = $data['title'];
         $this->topic_id = $data['topic_id'];

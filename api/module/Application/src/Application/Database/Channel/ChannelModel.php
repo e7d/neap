@@ -27,9 +27,9 @@ class ChannelModel
         return $this->tableGateway;
     }
 
-    public function fetch($id)
+    public function fetch($channelId)
     {
-        $rowset = $this->tableGateway->select(array('channel_id' => $id));
+        $rowset = $this->tableGateway->select(array('channel_id' => $channelId));
         $channel = $rowset->current();
         if (!$channel) {
             return null;
@@ -73,13 +73,13 @@ class ChannelModel
         return $channel;
     }
 
-    public function update($id, $data)
+    public function update($channelId, $data)
     {
         $where = new Where();
-        $where->equalTo('channel.channel_id', $id);
+        $where->equalTo('channel.channel_id', $channelId);
 
         $this->tableGateway->update($data, $where);
 
-        return $this->fetch($id);
+        return $this->fetch($channelId);
     }
 }

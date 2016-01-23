@@ -14,14 +14,4 @@ use ZF\Rest\AbstractResourceListener;
 
 class TopicResource extends AbstractResourceListener
 {
-    /**
-     * Fetch all or a subset of resources
-     *
-     * @param  array $params
-     * @return ApiProblem|mixed
-     */
-    public function fetchAll($params = [])
-    {
-        return new ApiProblem(405, 'The GET method has not been defined for collections');
-    }
 }

@@ -11,33 +11,33 @@ namespace Application\Authorization;
 
 use ZF\ApiProblem\ApiProblem;
 
-trait AuthorizationAwareResourceTrait {
+trait AuthorizationAwareResourceTrait
+{
     private $service;
 
     /**
      * Checks user's rights on requested resource
      *
-     * @param  mixed $id
+     * @param  mixed $entityId
      * @return ApiProblem|true
      */
-    public function userIsOwner($id)
+    public function userIsOwner($entityId)
     {
         if (!$this->service) {
             return new ApiProblem(500, 'This resource does not expose a valid service');
         }
 
-        if (!method_exists($this->service, 'isOwner'))
-        {
+        if (!method_exists($this->service, 'isOwner')) {
             return new ApiProblem(500, 'This resource service does not expose a owner validation method');
         }
 
-        $entity = $this->service->fetch($id);
+        $entity = $this->service->fetch($entityId);
         if (!$entity) {
             return new ApiProblem(404, 'The entity does not exists');
         }
 
         $identity = $this->identityService->getIdentity();
-        if (!$this->service->isOwner($id, $identity->id)) {
+        if (!$this->service->isOwner($entityId, $identity->user_id)) {
             return new ApiProblem(403, 'The entity is not your property');
         }
 

@@ -10,7 +10,7 @@ class SummaryResource extends AbstractResourceListener
     private $identityService;
     private $streamService;
 
-    function __construct($identityService, $streamService)
+    public function __construct($identityService, $streamService)
     {
         $this->identityService = $identityService;
         $this->streamService = $streamService;

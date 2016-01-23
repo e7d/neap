@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Video extends ObjectProperty
 {
-    public $id;
+    public $video_id;
     public $stream_id;
     public $title;
     public $type;
@@ -30,7 +30,7 @@ class Video extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = $data['video_id'];
+        $this->video_id = $data['video_id'];
         $this->stream_id = $data['stream_id'];
         $this->title = $data['title'];
         $this->type = $data['type'];

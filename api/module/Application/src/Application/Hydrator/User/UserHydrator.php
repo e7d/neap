@@ -16,34 +16,32 @@ use Application\Database\Team\TeamModel;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
+
 class UserHydrator extends Hydrator
 {
     protected $userModel;
     protected $channelModel;
-    protected $teamModel;
 
-    public function __construct(UserModel $userModel, ChannelModel $channelModel, TeamModel $teamModel)
+    public function __construct(UserModel $userModel, ChannelModel $channelModel)
     {
         parent::__construct();
         $this->userModel = $userModel;
         $this->channelModel = $channelModel;
-        $this->teamModel = $teamModel;
     }
 
     public function buildEntity($user)
     {
         $channel = $this->channelModel->fetch($user->channel_id);
         unset($channel->stream_key);
-        $team = $this->teamModel->fetchByUser($user->id);
 
         if ($this->getParam('embedChannel')) {
-            $channelEntity = new Entity($channel, $channel->id);
+            $channelEntity = new Entity($channel, $channel->channel_id);
             $channelEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'channel.rest.channel',
                     'params' => array(
-                        'channel_id' => $channel->id,
+                        'channel_id' => $channel->channel_id,
                     ),
                 ),
             )));
@@ -51,14 +49,14 @@ class UserHydrator extends Hydrator
             unset($user->channel_id);
         }
 
-        $userEntity = new Entity($this->extract($user), $user->id);
+        $userEntity = new Entity($this->extract($user), $user->user_id);
 
         $userEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'user.rest.user',
                 'params' => array(
-                    'user_id' => $user->id,
+                    'user_id' => $user->user_id,
                 ),
             ),
         )));
@@ -69,7 +67,7 @@ class UserHydrator extends Hydrator
                 'route' => array(
                     'name' => 'user.rest.block',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));
@@ -81,20 +79,7 @@ class UserHydrator extends Hydrator
                 'route' => array(
                     'name' => 'channel.rest.channel',
                     'params' => array(
-                        'channel_id' => $channel->id,
-                    ),
-                ),
-            )));
-            unset($user->channel_id);
-        }
-
-        if ($this->getParam('linkTeam')) {
-            $userEntity->getLinks()->add($this->link::factory(array(
-                'rel' => 'team',
-                'route' => array(
-                    'name' => 'team.rest.team',
-                    'params' => array(
-                        'team_id' => $team->id,
+                        'channel_id' => $channel->channel_id,
                     ),
                 ),
             )));
@@ -107,7 +92,7 @@ class UserHydrator extends Hydrator
                 'route' => array(
                     'name' => 'user.rest.favorite',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));
@@ -119,7 +104,7 @@ class UserHydrator extends Hydrator
                 'route' => array(
                     'name' => 'user.rest.follow',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));
@@ -131,7 +116,7 @@ class UserHydrator extends Hydrator
                 'route' => array(
                     'name' => 'user.rest.mod',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));
@@ -143,7 +128,7 @@ class UserHydrator extends Hydrator
                 'route' => array(
                     'name' => 'user.rest.team',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));

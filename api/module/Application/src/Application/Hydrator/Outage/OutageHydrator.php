@@ -35,7 +35,7 @@ class OutageHydrator extends Hydrator
             'route' => array(
                 'name' => 'outage.rest.outage',
                 'params' => array(
-                    'outage_id' => $outage->id,
+                    'outage_id' => $outage->outage_id,
                 ),
             ),
         )));
@@ -46,7 +46,7 @@ class OutageHydrator extends Hydrator
                 'route' => array(
                     'name' => 'ingest.rest.ingest',
                     'params' => array(
-                        'ingest_id' => $ingest->id,
+                        'ingest_id' => $ingest->ingest_id,
                     ),
                 ),
             )));

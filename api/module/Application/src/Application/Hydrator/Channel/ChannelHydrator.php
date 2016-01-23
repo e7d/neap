@@ -34,20 +34,20 @@ class ChannelHydrator extends Hydrator
     {
         $user = $this->userModel->fetch($channel->user_id);
         $chat = $this->chatModel->fetch($channel->chat_id);
-        $liveStream = $this->streamModel->fetchByChannel($channel->id);
+        $liveStream = $this->streamModel->fetchByChannel($channel->channel_id);
 
         if (!$this->getParam('keepStreamKey')) {
             unset($channel->stream_key);
         }
 
         if ($this->getParam('embedUser')) {
-            $userEntity = new Entity($user, $user->id);
+            $userEntity = new Entity($user, $user->user_id);
             $userEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'user.rest.user',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));
@@ -56,27 +56,27 @@ class ChannelHydrator extends Hydrator
         }
 
         if ($this->getParam('embedLiveStream') && !is_null($liveStream)) {
-            $liveStreamEntity = new Entity($liveStream, $liveStream->id);
+            $liveStreamEntity = new Entity($liveStream, $liveStream->stream_id);
             $liveStreamEntity->getLinks()->add($this->link::factory(array(
                 'rel' => 'self',
                 'route' => array(
                     'name' => 'stream.rest.stream',
                     'params' => array(
-                        'stream_id' => $liveStream->id,
+                        'stream_id' => $liveStream->stream_id,
                     ),
                 ),
             )));
             $channel->stream = $liveStreamEntity;
         }
 
-        $channelEntity = new Entity($this->extract($channel), $channel->id);
+        $channelEntity = new Entity($this->extract($channel), $channel->channel_id);
 
         $channelEntity->getLinks()->add($this->link::factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'channel.rest.channel',
                 'params' => array(
-                    'channel_id' => $channel->id,
+                    'channel_id' => $channel->channel_id,
                 ),
             ),
         )));
@@ -87,7 +87,7 @@ class ChannelHydrator extends Hydrator
                 'route' => array(
                     'name' => 'user.rest.user',
                     'params' => array(
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                     ),
                 ),
             )));
@@ -100,7 +100,7 @@ class ChannelHydrator extends Hydrator
                 'route' => array(
                     'name' => 'stream.rest.stream',
                     'params' => array(
-                        'stream_id' => $liveStream->id,
+                        'stream_id' => $liveStream->stream_id,
                     ),
                 ),
             )));
@@ -112,7 +112,7 @@ class ChannelHydrator extends Hydrator
                 'route' => array(
                     'name' => 'channel.rest.video',
                     'params' => array(
-                        'channel_id' => $channel->id,
+                        'channel_id' => $channel->channel_id,
                     ),
                 ),
             )));
@@ -124,7 +124,7 @@ class ChannelHydrator extends Hydrator
                 'route' => array(
                     'name' => 'chat.rest.chat',
                     'params' => array(
-                        'chat_id' => $chat->id,
+                        'chat_id' => $chat->chat_id,
                     ),
                 ),
             )));

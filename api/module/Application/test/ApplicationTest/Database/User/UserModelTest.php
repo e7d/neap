@@ -47,7 +47,7 @@ class UserModelTest extends AbstractControllerTestCase
         $userId = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
         $user = $userModel->fetch($userId);
         $this->assertInstanceOf('Application\Database\User\User', $user);
-        $this->assertEquals($userId, $user->id);
+        $this->assertEquals($userId, $user->user_id);
 
         $userId = '00000000-0000-0000-0000-000000000000'; // Invalid user id
         $user = $userModel->fetch($userId);
@@ -62,21 +62,10 @@ class UserModelTest extends AbstractControllerTestCase
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $user = $userModel->fetchByChannel($channelId);
         $this->assertInstanceOf('Application\Database\User\User', $user);
-        $this->assertEquals($userId, $user->id);
+        $this->assertEquals($userId, $user->user_id);
 
         $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid user id
         $user = $userModel->fetchByChannel($channelId);
-        $this->assertNull($user);
-    }
-
-    public function testUpdate()
-    {
-        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
-
-        $data = array();
-
-        $userId = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
-        $user = $userModel->update($userId, $data);
         $this->assertNull($user);
     }
 }

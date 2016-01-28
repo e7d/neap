@@ -12,46 +12,38 @@ namespace Stream\V1\Service;
 use Application\Database\Stream\Stream;
 use Stream\V1\Rest\Stream\StreamCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;
 
 class StreamService
 {
-    protected $streamModel;
-    protected $streamHydrator;
+    private $services;
 
-    public function __construct($streamModel, $streamHydrator)
+    public function __construct($services)
     {
-        $this->streamModel = $streamModel;
-        $this->streamHydrator = $streamHydrator;
+        $this->services = $services;
     }
 
     public function fetchAll($params = [])
     {
+        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
+        $streamHydrator = $this->services->get('Application\Hydrator\Stream\StreamHydrator');
+
         $live = !array_key_exists('all', $params);
 
-        $select = new Select('stream');
+        $select = $streamModel->select($live);
 
-        if ($live) {
-            $where = new Where();
-            $where->isNull('stream.ended_at');
-
-            $select->where($where);
-        }
-
-        $this->streamHydrator->setParam('linkChannel');
-        $this->streamHydrator->setParam('linkUser');
+        $streamHydrator->setParam('linkChannel', true);
+        $streamHydrator->setParam('linkUser', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->streamHydrator,
+            $streamHydrator,
             new Stream()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->streamModel->getTableGateway()->getAdapter(),
+            $streamModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -61,51 +53,58 @@ class StreamService
 
     public function fetch($streamId)
     {
-        $stream = $this->streamModel->fetch($streamId);
+        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
+        $streamHydrator = $this->services->get('Application\Hydrator\Stream\StreamHydrator');
+
+        $stream = $streamModel->fetch($streamId);
         if (!$stream) {
             return null;
         }
 
-        $this->streamHydrator->setParam('embedChannel');
-        $this->streamHydrator->setParam('linkUser');
+        $streamHydrator->setParam('embedChannel', true);
+        $streamHydrator->setParam('linkUser', true);
 
-        return $this->streamHydrator->buildEntity($stream);
+        return $streamHydrator->buildEntity($stream);
     }
 
-    public function fetchByChannel($channelId)
+    public function fetchByChannel($channelId, $live = null)
     {
-        $live = !array_key_exists('all', $params);
+        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
+        $streamHydrator = $this->services->get('Application\Hydrator\Stream\StreamHydrator');
 
-        $stream = $this->streamModel->fetchByChannel($channelId, $live);
+        $stream = $streamModel->fetchByChannel($channelId, $live);
         if (!$stream) {
             return null;
         }
 
-        $this->streamHydrator->setParam('embedChannel');
-        $this->streamHydrator->setParam('linkUser');
+        $streamHydrator->setParam('embedChannel', true);
+        $streamHydrator->setParam('linkUser', true);
 
-        return $this->streamHydrator->buildEntity($stream);
+        return $streamHydrator->buildEntity($stream);
     }
 
-    public function fetchByUser($userId, $live = true)
+    public function fetchByUser($userId, $live = null)
     {
-        $live = !array_key_exists('all', $params);
+        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
+        $streamHydrator = $this->services->get('Application\Hydrator\Stream\StreamHydrator');
 
-        $stream = $this->streamModel->fetchByUser($userId, $live);
+        $stream = $streamModel->fetchByUser($userId, $live);
         if (!$stream) {
             return null;
         }
 
-        $this->streamHydrator->setParam('embedChannel');
-        $this->streamHydrator->setParam('linkUser');
+        $streamHydrator->setParam('embedChannel', true);
+        $streamHydrator->setParam('linkUser', true);
 
-        return $this->streamHydrator->buildEntity($stream);
+        return $streamHydrator->buildEntity($stream);
     }
 
     public function fetchStats($params)
     {
+        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
+
         $live = !array_key_exists('all', $params);
 
-        return $this->streamModel->fetchStats($live);
+        return $streamModel->fetchStats($live);
     }
 }

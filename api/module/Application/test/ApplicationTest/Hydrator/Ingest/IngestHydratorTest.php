@@ -52,7 +52,7 @@ class IngestHydratorTest extends AbstractControllerTestCase
 
         $ingestId = 'c3aae4dc-dd8d-4e81-a151-7ba30cec1b4a'; // Neap ingest id
         $ingest = $ingestModel->fetch($ingestId);
-        $ingestHydrator->setParam('linkOutages');
+        $ingestHydrator->setParam('linkOutages', true);
         $ingestEntity = $ingestHydrator->buildEntity($ingest);
 
         $this->assertInstanceOf('ZF\Hal\Link\Link', $ingestEntity->getLinks()->get('outages'));

@@ -40,6 +40,15 @@ class VideoModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
+        $select = $videoModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "video".* FROM "video"', $select->getSqlString());
+    }
+
     public function testFetch()
     {
         $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');

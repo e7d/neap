@@ -9,27 +9,21 @@
 
 namespace Application\Database\Ingest;
 
+use Application\Database\AbstractModel;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class IngestModel
+class IngestModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
-    }
-
     public function fetch($ingestId)
     {
-        $rowset = $this->tableGateway->select(array('ingest_id' => $ingestId));
-        $ingest = $rowset->current();
+        $resultSet = $this->tableGateway->select(array('ingest_id' => $ingestId));
+        $ingest = $resultSet->current();
         if (!$ingest) {
             return null;
         }
@@ -37,7 +31,7 @@ class IngestModel
         return $ingest;
     }
 
-    public function fetchByHostname($hostname)
+    public function selectByHostname($hostname)
     {
         $where = new Where();
         $where->equalTo('ingest.hostname', $hostname);
@@ -45,12 +39,13 @@ class IngestModel
         $select = $this->tableGateway->getSql()->select();
         $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($select);
-        $ingest = $rowset->current();
-        if (!$ingest) {
-            return null;
-        }
+        return $select;
+    }
 
-        return $ingest;
+    public function fetchByHostname($hostname)
+    {
+        return $this->selectOne(
+            $this->selectByHostname($hostname)
+        );
     }
 }

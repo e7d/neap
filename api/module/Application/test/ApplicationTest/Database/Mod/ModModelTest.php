@@ -39,4 +39,13 @@ class ModModelTest extends AbstractControllerTestCase
         $tableGateway = $modModel->getTableGateway();
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
+
+    public function testGetSqlSelect()
+    {
+        $modModel = $this->serviceManager->get('Application\Database\Mod\ModModel');
+        $select = $modModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "mod".* FROM "mod"', $select->getSqlString());
+    }
 }

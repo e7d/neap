@@ -11,7 +11,7 @@ try
 	mkdir -p /var/www/neap
 
 	echo "Link API folder"
-	ln -s /vagrant/api /var/www/neap/api
+	ln -fs /vagrant/api/ /var/www/neap/
 
 	echo "Create database folder"
 	mkdir -p /var/www/neap/db
@@ -22,14 +22,14 @@ try
 	mkdir -p /data/rtmp/rec
 
 	echo "Link RTMP folder"
-	ln -s /data/rtmp /var/www/neap/rtmp
+	ln -fs /data/rtmp/ /var/www/neap/
 
 	echo "Fix RTMP folders permissions"
 	chmod -cR 700 /data/rtmp
 	chown -cR www-data.root /data/rtmp
 
 	echo "Link API folder"
-	ln -s /vagrant/static /var/www/neap/static
+	ln -fs /vagrant/static/ /var/www/neap/
 
 	echo "Create static folders"
 	mkdir -p /var/www/neap/static/channel/background
@@ -46,7 +46,7 @@ try
 	mkdir -p /var/www/neap/static/video/preview
 
 	echo "Link web folder"
-	ln -s /vagrant/web /var/www/neap/web
+	ln -fs /vagrant/web/ /var/www/neap/
 
 	echo "Fix Neap folders permissions"
 	chown -cR www-data:www-data /var/www/neap
@@ -55,18 +55,18 @@ try
 	cp -R /vagrant/resources/nginx/* /etc/nginx
 
 	echo "Enable nginx Neap sites"
-	ln -s /etc/nginx/sites-available/neap-api.conf /etc/nginx/sites-enabled/neap-api.conf
-	ln -s /etc/nginx/sites-available/neap-db.conf /etc/nginx/sites-enabled/neap-db.conf
-	ln -s /etc/nginx/sites-available/neap-rtmp.conf /etc/nginx/sites-enabled/neap-rtmp.conf
-	ln -s /etc/nginx/sites-available/neap-socket.conf /etc/nginx/sites-enabled/neap-socket.conf
-	ln -s /etc/nginx/sites-available/neap-static.conf /etc/nginx/sites-enabled/neap-static.conf
-	ln -s /etc/nginx/sites-available/neap-web.conf /etc/nginx/sites-enabled/neap-web.conf
+	ln -fs /etc/nginx/sites-available/neap-api.conf /etc/nginx/sites-enabled/neap-api.conf
+	ln -fs /etc/nginx/sites-available/neap-db.conf /etc/nginx/sites-enabled/neap-db.conf
+	ln -fs /etc/nginx/sites-available/neap-rtmp.conf /etc/nginx/sites-enabled/neap-rtmp.conf
+	ln -fs /etc/nginx/sites-available/neap-socket.conf /etc/nginx/sites-enabled/neap-socket.conf
+	ln -fs /etc/nginx/sites-available/neap-static.conf /etc/nginx/sites-enabled/neap-static.conf
+	ln -fs /etc/nginx/sites-available/neap-web.conf /etc/nginx/sites-enabled/neap-web.conf
 
 	echo "Download latest Adminer"
 	wget -q https://www.adminer.org/latest-en.php -O /var/www/neap/db/index.php
 
 	echo "Create ffmpeg operations log folder"
-	mkdir /var/log/ffmpeg
+	mkdir -p /var/log/ffmpeg
 
 	echo "Fix log files permissions"
 	chown -cR www-data.root /var/log/nginx

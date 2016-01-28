@@ -40,6 +40,15 @@ class TeamModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');
+        $select = $teamModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "team".* FROM "team"', $select->getSqlString());
+    }
+
     public function testFetch()
     {
         $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');

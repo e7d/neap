@@ -7,31 +7,20 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
-namespace Topic\V1\Rest\Topic;
+namespace Channel\V1\Rest\Panel;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-class TopicResource extends AbstractResourceListener
+class PanelResource extends AbstractResourceListener
 {
     private $identityService;
-    private $topicService;
+    private $channelService;
 
-    public function __construct($identityService, $topicService)
+    public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
-        $this->topicService = $topicService;
-    }
-
-    /**
-     * Fetch a resource
-     *
-     * @param  mixed $topicId
-     * @return ApiProblem|mixed
-     */
-    public function fetch($topicId)
-    {
-        return $this->topicService->fetch($topicId);
+        $this->channelService = $channelService;
     }
 
     /**
@@ -42,6 +31,10 @@ class TopicResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->topicService->fetchAll((array) $params);
+        $data = array(
+            'channel_id' => $this->getEvent()->getRouteParam('channel_id')
+        );
+
+        return $this->channelService->fetchPanels(array_merge($data, (array) $params));
     }
 }

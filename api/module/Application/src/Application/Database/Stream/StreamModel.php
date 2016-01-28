@@ -9,22 +9,17 @@
 
 namespace Application\Database\Stream;
 
+use Application\Database\AbstractModel;
 use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class StreamModel
+class StreamModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
-    }
-
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
     }
 
     public function create($data)
@@ -35,8 +30,8 @@ class StreamModel
 
     public function fetch($streamId)
     {
-        $rowset = $this->tableGateway->select(array('stream_id' => $streamId));
-        $stream = $rowset->current();
+        $resultSet = $this->tableGateway->select(array('stream_id' => $streamId));
+        $stream = $resultSet->current();
         if (!$stream) {
             return null;
         }
@@ -44,7 +39,20 @@ class StreamModel
         return $stream;
     }
 
-    public function fetchByChannel($channelId, $live = true)
+    public function select($live = null)
+    {
+        $select = $this->tableGateway->getSql()->select();
+
+        if ($live) {
+            $where = new Where();
+            $where->isNull('stream.ended_at');
+
+            $select->where($where);
+        }
+        return $select;
+    }
+
+    public function selectByChannel($channelId, $live)
     {
         // ToDo: separate into different functions to get the live stream or the collection of stream
         //
@@ -58,16 +66,17 @@ class StreamModel
         $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
         $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($select);
-        $stream = $rowset->current();
-        if (!$stream) {
-            return null;
-        }
-
-        return $stream;
+        return $select;
     }
 
-    public function fetchByStreamKey($streamKey, $live = true)
+    public function fetchByChannel($channelId, $live = null)
+    {
+        return $this->selectOne(
+            $this->selectByChannel($channelId, $live)
+        );
+    }
+
+    public function selectByStreamKey($streamKey, $live)
     {
         $where = new Where();
         $where->equalTo('channel.stream_key', $streamKey);
@@ -79,16 +88,17 @@ class StreamModel
         $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
         $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($select);
-        $channel = $rowset->current();
-        if (!$channel) {
-            return null;
-        }
-
-        return $channel;
+        return $select;
     }
 
-    public function fetchByUser($userId, $live = true)
+    public function fetchByStreamKey($streamKey, $live = null)
+    {
+        return $this->selectOne(
+            $this->selectByStreamKey($streamKey, $live)
+        );
+    }
+
+    public function selectByUser($userId, $live)
     {
         // ToDo: separate into different functions to get the live stream or the collection of stream
 
@@ -103,16 +113,17 @@ class StreamModel
         $select->join('user', 'user.user_id = channel.user_id', array(), 'inner');
         $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($select);
-        $stream = $rowset->current();
-        if (!$stream) {
-            return null;
-        }
-
-        return $stream;
+        return $select;
     }
 
-    public function fetchStats($live = true)
+    public function fetchByUser($userId, $live = null)
+    {
+        return $this->selectOne(
+            $this->selectByUser($userId, $live)
+        );
+    }
+
+    public function selectStats($live = null)
     {
         $where = new Where();
         if ($live) {
@@ -126,9 +137,16 @@ class StreamModel
         ));
         $select->where($where);
 
+        return $select;
+    }
+
+    public function fetchStats($live = null)
+    {
+        $select = $this->selectStats($live);
+
         $statement = $this->tableGateway->getAdapter()->createStatement($select->getSqlString());
-        $rowset = $statement->execute();
-        $stats = $rowset->current();
+        $resultSet = $statement->execute();
+        $stats = $resultSet->current();
 
         return $stats;
     }

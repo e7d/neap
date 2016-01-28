@@ -11,7 +11,6 @@ namespace Application\Hydrator\Outage;
 
 use Application\Hydrator\Hydrator;
 use Application\Database\Ingest\IngestModel;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 
 class OutageHydrator extends Hydrator
@@ -26,33 +25,15 @@ class OutageHydrator extends Hydrator
 
     public function buildEntity($outage)
     {
+        $this->object = $outage;
+
         $ingest = $this->ingestModel->fetch($outage->ingest_id);
 
-        $outageEntity = new Entity($this->extract($outage));
+        $this->entity = new Entity($this->extract($outage));
 
-        $outageEntity->getLinks()->add($this->link->factory(array(
-            'rel' => 'self',
-            'route' => array(
-                'name' => 'outage.rest.outage',
-                'params' => array(
-                    'outage_id' => $outage->outage_id,
-                ),
-            ),
-        )));
+        $this->addSelfLink();
+        $this->addLink('linkIngest', $ingest);
 
-        if ($this->getParam('linkIngest')) {
-            $outageEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'ingest',
-                'route' => array(
-                    'name' => 'ingest.rest.ingest',
-                    'params' => array(
-                        'ingest_id' => $ingest->ingest_id,
-                    ),
-                ),
-            )));
-            unset($outage->ingest_id);
-        }
-
-        return $outageEntity;
+        return $this->entity;
     }
 }

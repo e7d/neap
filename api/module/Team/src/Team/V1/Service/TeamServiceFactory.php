@@ -13,11 +13,6 @@ class TeamServiceFactory
 {
     public function __invoke($services)
     {
-        return new TeamService(
-            $services->get('Application\Database\Team\TeamModel'),
-            $services->get('Application\Hydrator\Team\TeamHydrator'),
-            $services->get('Application\Database\User\UserModel'),
-            $services->get('Application\Hydrator\User\UserHydrator')
-        );
+        return new TeamService($services);
     }
 }

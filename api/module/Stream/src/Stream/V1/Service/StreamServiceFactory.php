@@ -13,9 +13,6 @@ class StreamServiceFactory
 {
     public function __invoke($services)
     {
-        return new StreamService(
-            $services->get('Application\Database\Stream\StreamModel'),
-            $services->get('Application\Hydrator\Stream\StreamHydrator')
-        );
+        return new StreamService($services);
     }
 }

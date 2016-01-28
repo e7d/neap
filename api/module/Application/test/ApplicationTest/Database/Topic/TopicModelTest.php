@@ -40,6 +40,15 @@ class TopicModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $topicModel = $this->serviceManager->get('Application\Database\Topic\TopicModel');
+        $select = $topicModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "topic".* FROM "topic"', $select->getSqlString());
+    }
+
     public function testFetch()
     {
         $topicModel = $this->serviceManager->get('Application\Database\Topic\TopicModel');

@@ -40,6 +40,15 @@ class StreamModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+        $select = $streamModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "stream".* FROM "stream"', $select->getSqlString());
+    }
+
     public function testCreate()
     {
         $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
@@ -73,7 +82,7 @@ class StreamModelTest extends AbstractControllerTestCase
         $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
-        $stream = $streamModel->fetchByChannel($channelId, $live = false);
+        $stream = $streamModel->fetchByChannel($channelId);
         $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
 
         $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id
@@ -86,7 +95,7 @@ class StreamModelTest extends AbstractControllerTestCase
         $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
 
         $streamKey = 'live_1b0f5864_d637993a8bf849b3c8aad171'; // Jax stream key
-        $stream = $streamModel->fetchByStreamKey($streamKey, $live = false);
+        $stream = $streamModel->fetchByStreamKey($streamKey);
         $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
 
         $streamKey = 'live_00000000_000000000000000000000000'; // Invalid stream key
@@ -99,11 +108,12 @@ class StreamModelTest extends AbstractControllerTestCase
         $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
 
         $userId = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
-        $stream = $streamModel->fetchByUser($userId, $live = false);
+        $stream = $streamModel->fetchByUser($userId);
         $this->assertInstanceOf('Application\Database\Stream\Stream', $stream);
 
         $userId = '00000000-0000-0000-0000-000000000000'; // Invalid stream key
-        $stream = $streamModel->fetchByUser($userId);
+        $live = true;
+        $stream = $streamModel->fetchByUser($userId, $live);
         $this->assertNull($stream);
     }
 
@@ -111,10 +121,11 @@ class StreamModelTest extends AbstractControllerTestCase
     {
         $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
 
-        $stats = $streamModel->fetchStats();
+        $live = true;
+        $stats = $streamModel->fetchStats($live);
         $this->assertInternalType('array', $stats);
 
-        $stats = $streamModel->fetchStats($live = false);
+        $stats = $streamModel->fetchStats();
         $this->assertInternalType('array', $stats);
     }
 

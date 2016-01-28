@@ -9,28 +9,22 @@
 
 namespace Application\Database\Team;
 
+use Application\Database\AbstractModel;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class TeamModel
+class TeamModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
-    }
-
     public function fetch($teamId)
     {
-        $rowset = $this->tableGateway->select(array('team_id' => $teamId));
-        $team = $rowset->current();
+        $resultSet = $this->tableGateway->select(array('team_id' => $teamId));
+        $team = $resultSet->current();
         if (!$team) {
             return null;
         }
@@ -38,7 +32,7 @@ class TeamModel
         return $team;
     }
 
-    public function fetchByUser($userId)
+    public function selectByUser($userId)
     {
         $where = new Where();
         $where->equalTo('member.user_id', $userId);
@@ -47,7 +41,13 @@ class TeamModel
         $select->join('member', 'member.team_id = team.team_id', array(), 'inner');
         $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($select);
-        return $rowset;
+        return $select;
+    }
+
+    public function fetchByUser($userId)
+    {
+        return $this->selectAll(
+            $this->selectByUser($userId)
+        );
     }
 }

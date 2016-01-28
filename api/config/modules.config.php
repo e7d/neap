@@ -9,6 +9,7 @@ return array(
     'AssetManager',
     'Channel',
     'Chat',
+    'Console',
     'Emoji',
     'Ingest',
     'Outage',

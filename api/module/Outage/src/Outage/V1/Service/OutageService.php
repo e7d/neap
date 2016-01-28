@@ -8,38 +8,38 @@
  */
 
 namespace Outage\V1\Service;
+
 use Application\Database\Outage\Outage;
 use Outage\V1\Rest\Outage\OutageCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\TableGateway\TableGateway;
 use Zend\Paginator\Adapter\DbSelect;
 
 class OutageService
 {
-    protected $outageModel;
-    protected $outageHydrator;
+    private $services;
 
-    public function __construct($outageModel, $outageHydrator)
+    public function __construct($services)
     {
-        $this->outageModel = $outageModel;
-        $this->outageHydrator = $outageHydrator;
+        $this->services = $services;
     }
 
     public function fetchAll($params = [])
     {
-        $select = new Select('outage');
+        $outageModel = $this->services->get('Application\Database\Outage\OutageModel');
+        $outageHydrator = $this->services->get('Application\Hydrator\Outage\OutageHydrator');
 
-        $this->outageHydrator->setParam('linkIngest');
+        $select = $outageModel->getSqlSelect();
+
+        $outageHydrator->setParam('linkIngest', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->outageHydrator,
+            $outageHydrator,
             new Outage()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->outageModel->getTableGateway()->getAdapter(),
+            $outageModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -49,11 +49,14 @@ class OutageService
 
     public function fetch($outageId)
     {
-        $outage = $this->outageModel->fetch($outageId);
+        $outageModel = $this->services->get('Application\Database\Outage\OutageModel');
+        $outageHydrator = $this->services->get('Application\Hydrator\Outage\OutageHydrator');
+
+        $outage = $outageModel->fetch($outageId);
         if (!$outage) {
             return null;
         }
 
-        return $this->outageHydrator->buildEntity($outage);
+        return $outageHydrator->buildEntity($outage);
     }
 }

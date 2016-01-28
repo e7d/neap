@@ -7,12 +7,15 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
-namespace Chat\V1\Service;
+namespace Channel\V1\Rest\Panel;
 
-class ChatServiceFactory
+class PanelResourceFactory
 {
     public function __invoke($services)
     {
-        return new ChatService($services);
+        return new PanelResource(
+            $services->get('Application\Authorization\IdentityService'),
+            $services->get('Channel\V1\Service\ChannelService')
+        );
     }
 }

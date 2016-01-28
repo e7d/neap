@@ -13,7 +13,6 @@ use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\User\UserModel;
 use Application\Database\Team\TeamModel;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 
@@ -31,109 +30,23 @@ class UserHydrator extends Hydrator
 
     public function buildEntity($user)
     {
+        $this->object = $user;
+
         $channel = $this->channelModel->fetch($user->channel_id);
         unset($channel->stream_key);
 
-        if ($this->getParam('embedChannel')) {
-            $channelEntity = new Entity($channel, $channel->channel_id);
-            $channelEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'self',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->channel_id,
-                    ),
-                ),
-            )));
-            $user->channel = $channelEntity;
-            unset($user->channel_id);
-        }
+        $this->addEmbed('embedChannel', $channel);
 
-        $userEntity = new Entity($this->extract($user), $user->user_id);
+        $this->entity = new Entity($this->extract($user), $user->user_id);
 
-        $userEntity->getLinks()->add($this->link->factory(array(
-            'rel' => 'self',
-            'route' => array(
-                'name' => 'user.rest.user',
-                'params' => array(
-                    'user_id' => $user->user_id,
-                ),
-            ),
-        )));
+        $this->addSelfLink();
+        $this->addLink('linkBlock', $user, 'blocks', 'user.rest.block');
+        $this->addLink('linkChannel', $channel);
+        $this->addLink('linkFavorite', $user, 'favorites', 'user.rest.favorite');
+        $this->addLink('linkFollow', $user, 'follows', 'user.rest.follow');
+        $this->addLink('linkMod', $user, 'mods', 'user.rest.mod');
+        $this->addLink('linkTeams', $user, 'teams', 'user.rest.team');
 
-        if ($this->getParam('linkBlock')) {
-            $userEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'blocks',
-                'route' => array(
-                    'name' => 'user.rest.block',
-                    'params' => array(
-                        'user_id' => $user->user_id,
-                    ),
-                ),
-            )));
-        }
-
-        if ($this->getParam('linkChannel')) {
-            $userEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'channel',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->channel_id,
-                    ),
-                ),
-            )));
-            unset($user->channel_id);
-        }
-
-        if ($this->getParam('linkFavorite')) {
-            $userEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'favorites',
-                'route' => array(
-                    'name' => 'user.rest.favorite',
-                    'params' => array(
-                        'user_id' => $user->user_id,
-                    ),
-                ),
-            )));
-        }
-
-        if ($this->getParam('linkFollow')) {
-            $userEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'follows',
-                'route' => array(
-                    'name' => 'user.rest.follow',
-                    'params' => array(
-                        'user_id' => $user->user_id,
-                    ),
-                ),
-            )));
-        }
-
-        if ($this->getParam('linkMod')) {
-            $userEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'mods',
-                'route' => array(
-                    'name' => 'user.rest.mod',
-                    'params' => array(
-                        'user_id' => $user->user_id,
-                    ),
-                ),
-            )));
-        }
-
-        if ($this->getParam('linkTeams')) {
-            $userEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'teams',
-                'route' => array(
-                    'name' => 'user.rest.team',
-                    'params' => array(
-                        'user_id' => $user->user_id,
-                    ),
-                ),
-            )));
-        }
-
-        return $userEntity;
+        return $this->entity;
     }
 }

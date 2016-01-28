@@ -13,9 +13,6 @@ class TopicServiceFactory
 {
     public function __invoke($services)
     {
-        return new TopicService(
-            $services->get('Application\Database\Topic\TopicModel'),
-            $services->get('Application\Hydrator\Topic\TopicHydrator')
-        );
+        return new TopicService($services);
     }
 }

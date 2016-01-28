@@ -52,10 +52,9 @@ class ChatHydratorTest extends AbstractControllerTestCase
 
         $chatId = 'f598d270-281b-40c9-a2d8-eb35b56e9412'; // Jax chat id
         $chat = $chatModel->fetch($chatId);
-        $chatHydrator->setParam('embedChannel');
+        $chatHydrator->setParam('embedChannel', true);
         $chatEntity = $chatHydrator->buildEntity($chat);
 
-        $this->assertFalse(array_key_exists('channel_id', $chatEntity->entity));
         $this->assertInstanceOf('ZF\Hal\Entity', $chatEntity->entity['channel']);
     }
 
@@ -66,10 +65,9 @@ class ChatHydratorTest extends AbstractControllerTestCase
 
         $chatId = 'f598d270-281b-40c9-a2d8-eb35b56e9412'; // Jax chat id
         $chat = $chatModel->fetch($chatId);
-        $chatHydrator->setParam('embedUser');
+        $chatHydrator->setParam('embedUser', true);
         $chatEntity = $chatHydrator->buildEntity($chat);
 
-        $this->assertFalse(array_key_exists('user_id', $chatEntity->entity));
         $this->assertInstanceOf('ZF\Hal\Entity', $chatEntity->entity['user']);
     }
 
@@ -80,10 +78,9 @@ class ChatHydratorTest extends AbstractControllerTestCase
 
         $chatId = 'f598d270-281b-40c9-a2d8-eb35b56e9412'; // Jax chat id
         $chat = $chatModel->fetch($chatId);
-        $chatHydrator->setParam('linkChannel');
+        $chatHydrator->setParam('linkChannel', true);
         $chatEntity = $chatHydrator->buildEntity($chat);
 
-        $this->assertFalse(array_key_exists('channel_id', $chatEntity->entity));
         $this->assertInstanceOf('ZF\Hal\Link\Link', $chatEntity->getLinks()->get('channel'));
     }
 
@@ -94,7 +91,7 @@ class ChatHydratorTest extends AbstractControllerTestCase
 
         $chatId = 'f598d270-281b-40c9-a2d8-eb35b56e9412'; // Jax chat id
         $chat = $chatModel->fetch($chatId);
-        $chatHydrator->setParam('linkUser');
+        $chatHydrator->setParam('linkUser', true);
         $chatEntity = $chatHydrator->buildEntity($chat);
 
         $this->assertFalse(array_key_exists('user_id', $chatEntity->entity));

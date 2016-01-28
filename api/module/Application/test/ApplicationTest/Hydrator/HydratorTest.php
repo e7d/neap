@@ -36,13 +36,6 @@ class HydratorTest extends AbstractControllerTestCase
     public function testHydrate()
     {
         $hydratorStub = $this->getMockForAbstractClass('Application\Hydrator\Hydrator');
-        $hydratorStub->expects($this->any())
-                     ->method('buildEntity')
-                     ->will($this->returnCallback(
-                        function($object) {
-                            return $object;
-                        }
-                    ));
 
         $streamId = '680b705c-6eaa-4327-a441-6ebea32ae3c8';
         $stream = new Stream();
@@ -60,8 +53,8 @@ class HydratorTest extends AbstractControllerTestCase
         );
         $result = $hydratorStub->hydrate($data, $stream);
 
-        $this->assertInstanceOf('Application\Database\Stream\Stream', $result);
-        $this->assertEquals($streamId, $stream->stream_id);
+        $this->assertInstanceOf('ZF\Hal\Entity', $result);
+        $this->assertEquals($streamId, $result->entity->stream_id);
     }
 
     public function testGetAndSetParam()
@@ -69,6 +62,15 @@ class HydratorTest extends AbstractControllerTestCase
         $hydratorStub = $this->getMockForAbstractClass('Application\Hydrator\Hydrator');
 
         $hydratorStub->setParam('test', 'test');
+
+        $this->assertEquals('test', $hydratorStub->getParam('test'));
+    }
+
+    public function testGetAndSetArrayParam()
+    {
+        $hydratorStub = $this->getMockForAbstractClass('Application\Hydrator\Hydrator');
+
+        $hydratorStub->setParam(array('test' => 'test'));
 
         $this->assertEquals('test', $hydratorStub->getParam('test'));
     }

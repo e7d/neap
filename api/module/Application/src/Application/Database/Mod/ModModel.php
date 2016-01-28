@@ -9,20 +9,14 @@
 
 namespace Application\Database\Mod;
 
+use Application\Database\AbstractModel;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class ModModel
+class ModModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
-    }
-
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
     }
 }

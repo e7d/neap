@@ -40,6 +40,15 @@ class IngestModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $ingestModel = $this->serviceManager->get('Application\Database\Ingest\IngestModel');
+        $select = $ingestModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "ingest".* FROM "ingest"', $select->getSqlString());
+    }
+
     public function testFetch()
     {
         $ingestModel = $this->serviceManager->get('Application\Database\Ingest\IngestModel');

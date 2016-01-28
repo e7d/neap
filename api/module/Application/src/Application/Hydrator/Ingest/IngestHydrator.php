@@ -21,30 +21,13 @@ class IngestHydrator extends Hydrator
 
     public function buildEntity($ingest)
     {
-        $ingestEntity = new Entity($this->extract($ingest));
+        $this->object = $ingest;
 
-        $ingestEntity->getLinks()->add($this->link->factory(array(
-            'rel' => 'self',
-            'route' => array(
-                'name' => 'ingest.rest.ingest',
-                'params' => array(
-                    'ingest_id' => $ingest->ingest_id,
-                ),
-            ),
-        )));
+        $this->entity = new Entity($this->extract($ingest));
 
-        if ($this->getParam('linkOutages')) {
-            $ingestEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'outages',
-                'route' => array(
-                    'name' => 'ingest.rest.outage',
-                    'params' => array(
-                        'ingest_id' => $ingest->ingest_id,
-                    ),
-                ),
-            )));
-        }
+        $this->addSelfLink();
+        $this->addLink('linkOutages', $ingest, 'outages', 'ingest.rest.outage');
 
-        return $ingestEntity;
+        return $this->entity;
     }
 }

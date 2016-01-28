@@ -9,20 +9,26 @@
 
 namespace Application\Database\Panel;
 
+use Application\Database\AbstractModel;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class PanelModel
+class PanelModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function getTableGateway()
+    public function selectByChannel($channelId)
     {
-        return $this->tableGateway;
+        $where = new Where();
+        $where->equalTo('panel.channel_id', $channelId);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->where($where);
+
+        return $select;
     }
 }

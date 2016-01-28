@@ -8,45 +8,40 @@
  */
 
 namespace Ingest\V1\Service;
+
 use Application\Database\Ingest\Ingest;
 use Application\Database\Outage\Outage;
 use Ingest\V1\Rest\Ingest\IngestCollection;
 use Ingest\V1\Rest\Outage\OutageCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
-use Zend\Db\TableGateway\TableGateway;
 use Zend\Paginator\Adapter\DbSelect;
 
 class IngestService
 {
-    protected $ingestModel;
-    protected $ingestHydrator;
-    protected $outageModel;
-    protected $outageHydrator;
+    private $services;
 
-    public function __construct($ingestModel, $ingestHydrator, $outageModel, $outageHydrator)
+    public function __construct($services)
     {
-        $this->ingestModel = $ingestModel;
-        $this->ingestHydrator = $ingestHydrator;
-        $this->outageModel = $outageModel;
-        $this->outageHydrator = $outageHydrator;
+        $this->services = $services;
     }
 
     public function fetchAll($params = [])
     {
-        $select = new Select('ingest');
+        $ingestModel = $this->services->get('Application\Database\Ingest\IngestModel');
+        $ingestHydrator = $this->services->get('Application\Hydrator\Ingest\IngestHydrator');
 
-        $this->ingestHydrator->setParam('linkOutages');
+        $select = $ingestModel->getSqlSelect();
+
+        $ingestHydrator->setParam('linkOutages', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->ingestHydrator,
+            $ingestHydrator,
             new Ingest()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->ingestModel->getTableGateway()->getAdapter(),
+            $ingestModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -56,32 +51,34 @@ class IngestService
 
     public function fetch($ingestId)
     {
-        $ingest = $this->ingestModel->fetch($ingestId);
+        $ingestModel = $this->services->get('Application\Database\Ingest\IngestModel');
+        $ingestHydrator = $this->services->get('Application\Hydrator\Ingest\IngestHydrator');
+
+        $ingest = $ingestModel->fetch($ingestId);
         if (!$ingest) {
             return null;
         }
 
-        $this->ingestHydrator->setParam('linkOutages');
+        $ingestHydrator->setParam('linkOutages', true);
 
-        return $this->ingestHydrator->buildEntity($ingest);
+        return $ingestHydrator->buildEntity($ingest);
     }
 
     public function fetchOutages($params)
     {
-        $where = new Where();
-        $where->equalTo('outage.ingest_id', $params['ingest_id']);
+        $outageModel = $this->services->get('Application\Database\Outage\OutageModel');
+        $outageHydrator = $this->services->get('Application\Hydrator\Outage\OutageHydrator');
 
-        $select = new Select('outage');
-        $select->where($where);
+        $select = $outageModel->selectByIngest($params['ingest_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->outageHydrator,
+            $outageHydrator,
             new Outage()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->outageModel->getTableGateway()->getAdapter(),
+            $outageModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 

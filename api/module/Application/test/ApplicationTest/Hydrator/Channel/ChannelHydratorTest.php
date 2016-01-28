@@ -53,7 +53,7 @@ class ChannelHydratorTest extends AbstractControllerTestCase
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->fetch($channelId);
-        $channelHydrator->setParam('keepStreamKey');
+        $channelHydrator->setParam('keepStreamKey', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
         $this->assertTrue(array_key_exists('stream_key', $channelEntity->entity));
@@ -66,10 +66,9 @@ class ChannelHydratorTest extends AbstractControllerTestCase
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->fetch($channelId);
-        $channelHydrator->setParam('embedUser');
+        $channelHydrator->setParam('embedUser', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
-        $this->assertFalse(array_key_exists('user_id', $channelEntity->entity));
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity->entity['user']);
     }
 
@@ -80,7 +79,7 @@ class ChannelHydratorTest extends AbstractControllerTestCase
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->fetch($channelId);
-        $channelHydrator->setParam('embedLiveStream');
+        $channelHydrator->setParam('embedLiveStream', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity->entity['stream']);
@@ -93,10 +92,9 @@ class ChannelHydratorTest extends AbstractControllerTestCase
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->fetch($channelId);
-        $channelHydrator->setParam('linkUser');
+        $channelHydrator->setParam('linkUser', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
-        $this->assertFalse(array_key_exists('user_id', $channelEntity->entity));
         $this->assertInstanceOf('ZF\Hal\Link\Link', $channelEntity->getLinks()->get('user'));
     }
 
@@ -107,7 +105,7 @@ class ChannelHydratorTest extends AbstractControllerTestCase
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->fetch($channelId);
-        $channelHydrator->setParam('linkLiveStream');
+        $channelHydrator->setParam('linkLiveStream', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
         $this->assertInstanceOf('ZF\Hal\Link\Link', $channelEntity->getLinks()->get('stream'));
@@ -120,7 +118,7 @@ class ChannelHydratorTest extends AbstractControllerTestCase
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->fetch($channelId);
-        $channelHydrator->setParam('linkVideos');
+        $channelHydrator->setParam('linkVideos', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
         $this->assertInstanceOf('ZF\Hal\Link\Link', $channelEntity->getLinks()->get('videos'));
@@ -133,10 +131,9 @@ class ChannelHydratorTest extends AbstractControllerTestCase
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
         $channel = $channelModel->fetch($channelId);
-        $channelHydrator->setParam('linkChat');
+        $channelHydrator->setParam('linkChat', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
-        $this->assertFalse(array_key_exists('chat_id', $channelEntity->entity));
         $this->assertInstanceOf('ZF\Hal\Link\Link', $channelEntity->getLinks()->get('chat'));
     }
 }

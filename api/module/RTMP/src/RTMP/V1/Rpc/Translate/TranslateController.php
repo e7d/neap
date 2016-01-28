@@ -30,7 +30,8 @@ class TranslateController extends LocalhostController
             return new ViewModel(array());
         }
 
-        $stream = $this->streamModel->fetchByStreamKey($streamKey);
+        $live = true; // we need a live stream
+        $stream = $this->streamModel->fetchByStreamKey($streamKey, $live);
         if (is_null($stream)) {
             return new ViewModel(array());
         }

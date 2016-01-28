@@ -7,8 +7,8 @@
  * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
-namespace Channel\V1\Rest\Video;
+namespace Channel\V1\Rest\Panel;
 
-class VideoEntity
+class PanelEntity
 {
 }

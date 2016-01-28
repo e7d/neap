@@ -9,31 +9,38 @@
 
 namespace Application\Database\Chat;
 
+use Application\Database\AbstractModel;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class ChatModel
+class ChatModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
-    }
-
     public function fetch($chatId)
     {
-        $rowset = $this->tableGateway->select(array('chat_id' => $chatId));
-        $chat = $rowset->current();
+        $resultSet = $this->tableGateway->select(array('chat_id' => $chatId));
+        $chat = $resultSet->current();
         if (!$chat) {
             return null;
         }
 
         return $chat;
+    }
+
+    public function selectModsByUser($userId)
+    {
+        $where = new Where();
+        $where->equalTo('mod.user_id', $userId);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('mod', 'mod.chat_id = chat.chat_id', array(), 'inner');
+        $select->where($where);
+
+        return $select;
     }
 }

@@ -11,7 +11,6 @@ namespace Application\Hydrator\Team;
 
 use Application\Hydrator\Hydrator;
 use Application\Database\User\UserModel;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 
 class TeamHydrator extends Hydrator
@@ -26,30 +25,13 @@ class TeamHydrator extends Hydrator
 
     public function buildEntity($team)
     {
-        $teamEntity = new Entity($this->extract($team), $team->team_id);
+        $this->object = $team;
 
-        $teamEntity->getLinks()->add($this->link->factory(array(
-            'rel' => 'self',
-            'route' => array(
-                'name' => 'team.rest.team',
-                'params' => array(
-                    'team_id' => $team->team_id,
-                ),
-            ),
-        )));
+        $this->entity = new Entity($this->extract($team), $team->team_id);
 
-        if ($this->getParam('linkUsers')) {
-            $teamEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'users',
-                'route' => array(
-                    'name' => 'team.rest.user',
-                    'params' => array(
-                        'team_id' => $team->team_id,
-                    ),
-                ),
-            )));
-        }
+        $this->addSelfLink();
+        $this->addLink('linkUsers', $team, 'users', 'team.rest.user');
 
-        return $teamEntity;
+        return $this->entity;
     }
 }

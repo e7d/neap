@@ -15,6 +15,7 @@ class ChannelHydratorFactory
     {
         return new ChannelHydrator(
             $services->get('Application\Database\Chat\ChatModel'),
+            $services->get('Application\Database\Panel\PanelModel'),
             $services->get('Application\Database\Stream\StreamModel'),
             $services->get('Application\Database\User\UserModel')
         );

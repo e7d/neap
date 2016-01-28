@@ -11,7 +11,6 @@ namespace Application\Hydrator\Panel;
 
 use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 
 class PanelHydrator extends Hydrator
@@ -26,48 +25,17 @@ class PanelHydrator extends Hydrator
 
     public function buildEntity($panel)
     {
+        $this->object = $panel;
+
         $channel = $this->channelModel->fetch($panel->channel_id);
 
-        if ($this->getParam('embedChannel')) {
-            $channelEntity = new Entity($channel, $channel->channel_id);
-            $channelEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'self',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->channel_id,
-                    ),
-                ),
-            )));
-            $panel->channel = $channelEntity;
-            unset($panel->channel_id);
-        }
+        $this->addEmbed('embedChannel', $channel);
 
-        $panelEntity = new Entity($this->extract($panel), $panel->panel_id);
+        $this->entity = new Entity($this->extract($panel), $panel->panel_id);
 
-        $panelEntity->getLinks()->add($this->link->factory(array(
-            'rel' => 'self',
-            'route' => array(
-                'name' => 'panel.rest.panel',
-                'params' => array(
-                    'panel_id' => $panel->panel_id,
-                ),
-            ),
-        )));
+        $this->addSelfLink();
+        $this->addLink('linkChannel', $channel);
 
-        if ($this->getParam('linkChannel')) {
-            $panelEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'channel',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->channel_id,
-                    ),
-                ),
-            )));
-            unset($panel->channel_id);
-        }
-
-        return $panelEntity;
+        return $this->entity;
     }
 }

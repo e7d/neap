@@ -12,7 +12,6 @@ namespace Application\Hydrator\Stream;
 use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\User\UserModel;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 
 class StreamHydrator extends Hydrator
@@ -29,6 +28,8 @@ class StreamHydrator extends Hydrator
 
     public function buildEntity($stream)
     {
+        $this->object = $stream;
+
         $channel = $this->channelModel->fetch($stream->channel_id);
         $user = $this->userModel->fetch($channel->user_id);
 
@@ -36,24 +37,11 @@ class StreamHydrator extends Hydrator
             unset($channel->stream_key);
         }
 
-        if ($this->getParam('embedChannel')) {
-            $channelEntity = new Entity($channel, $channel->channel_id);
-            $channelEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'self',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->channel_id,
-                    ),
-                ),
-            )));
-            $stream->channel = $channelEntity;
-            unset($stream->channel_id);
-        }
+        $this->addEmbed('embedChannel', $channel);
 
-        $streamEntity = new Entity($this->extract($stream), $stream->stream_id);
+        $this->entity = new Entity($this->extract($stream), $stream->stream_id);
 
-        $streamEntity->getLinks()->add($this->link->factory(array(
+        $this->entity->getLinks()->add($this->link->factory(array(
             'rel' => 'self',
             'route' => array(
                 'name' => 'stream.rest.stream',
@@ -63,31 +51,9 @@ class StreamHydrator extends Hydrator
             ),
         )));
 
-        if ($this->getParam('linkChannel')) {
-            $streamEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'channel',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->channel_id,
-                    ),
-                ),
-            )));
-            unset($stream->channel_id);
-        }
+        $this->addLink('linkChannel', $channel);
+        $this->addLink('linkUser', $user);
 
-        if ($this->getParam('linkUser')) {
-            $streamEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'user',
-                'route' => array(
-                    'name' => 'user.rest.user',
-                    'params' => array(
-                        'user_id' => $user->user_id,
-                    ),
-                ),
-            )));
-        }
-
-        return $streamEntity;
+        return $this->entity;
     }
 }

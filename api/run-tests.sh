@@ -17,7 +17,7 @@ case $arg in
 		HELP=YES
 	;;
 	-f=*|--filter=*)
-		FILTER="${arg#*=}"
+		FILTER="--filter ${arg#*=}"
 		shift
 	;;
 	-l|--coveralls)
@@ -62,6 +62,7 @@ if [[ "$HELP" == "YES" ]]; then
 	echo "Usage: run-tests.sh [OPTION]..."
 	echo
 	echo "  -c, --copy-configuration    copy last API configuration before tests"
+	echo "  -f, --filter=FILTER         use a valid PHPUnit filter"
 	echo "  -l, --coveralls             upload code coverage report to Coveralls"
 	echo "                                requires -x"
 	echo "  -q, --code-quality          generate code quality report"
@@ -108,16 +109,16 @@ try
 
 	if [[ "$CODECOVERAGE" == "xml" ]]; then
 		echox "${text_cyan}Run phpunit tests with Clover code coverage"
-		./vendor/bin/phpunit -c module/phpunit.xml --coverage-clover ./build/logs/coverage.xml
+		./vendor/bin/phpunit -c module/phpunit.xml $FILTER --coverage-clover ./build/logs/coverage.xml
 	elif [[ "$CODECOVERAGE" == "html" ]]; then
 		echox "${text_cyan}Run phpunit tests with HTML code coverage"
-		./vendor/bin/phpunit -c module/phpunit.xml --coverage-html ./build/logs/coverage
+		./vendor/bin/phpunit -c module/phpunit.xml $FILTER --coverage-html ./build/logs/coverage
 	elif [[ "$CODECOVERAGE" == "txt" ]]; then
 		echox "${text_cyan}Run phpunit tests with TAP code coverage"
-		./vendor/bin/phpunit -c module/phpunit.xml --coverage-text=./build/logs/coverage.txt
+		./vendor/bin/phpunit -c module/phpunit.xml $FILTER --coverage-text=./build/logs/coverage.txt
 	else
 		echox "${text_cyan}Run phpunit tests"
-		./vendor/bin/phpunit -c module/phpunit.xml
+		./vendor/bin/phpunit -c module/phpunit.xml $FILTER
 	fi
 
 	ignoreErrors

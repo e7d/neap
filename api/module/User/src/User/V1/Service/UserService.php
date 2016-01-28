@@ -27,72 +27,50 @@ use Zend\Paginator\Adapter\DbSelect;
 
 class UserService
 {
-    protected $channelModel;
-    protected $channelHydrator;
-    protected $chatModel;
-    protected $chatHydrator;
-    protected $teamModel;
-    protected $teamHydrator;
-    protected $userModel;
-    protected $userHydrator;
-    protected $videoModel;
-    protected $videoHydrator;
+    private $services;
 
-    public function __construct(
-        $channelModel,
-        $channelHydrator,
-        $chatModel,
-        $chatHydrator,
-        $teamModel,
-        $teamHydrator,
-        $userModel,
-        $userHydrator,
-        $videoModel,
-        $videoHydrator
-    ) {
-        $this->channelModel = $channelModel;
-        $this->channelHydrator = $channelHydrator;
-        $this->chatModel = $chatModel;
-        $this->chatHydrator = $chatHydrator;
-        $this->teamModel = $teamModel;
-        $this->teamHydrator = $teamHydrator;
-        $this->userModel = $userModel;
-        $this->userHydrator = $userHydrator;
-        $this->videoModel = $videoModel;
-        $this->videoHydrator = $videoHydrator;
+    public function __construct($services)
+    {
+        $this->services = $services;
     }
 
     public function fetch($userId)
     {
-        $user = $this->userModel->fetch($userId);
+        $userModel = $this->services->get('Application\Database\User\UserModel');
+        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
+
+        $user = $userModel->fetch($userId);
         if (!$user) {
             return null;
         }
 
-        $this->userHydrator->setParam('embedChannel');
-        $this->userHydrator->setParam('linkBlock');
-        $this->userHydrator->setParam('linkFavorite');
-        $this->userHydrator->setParam('linkFollow');
-        $this->userHydrator->setParam('linkMod');
-        $this->userHydrator->setParam('linkTeams');
+        $userHydrator->setParam('embedChannel', true);
+        $userHydrator->setParam('linkBlock', true);
+        $userHydrator->setParam('linkFavorite', true);
+        $userHydrator->setParam('linkFollow', true);
+        $userHydrator->setParam('linkMod', true);
+        $userHydrator->setParam('linkTeams', true);
 
-        return $this->userHydrator->buildEntity($user);
+        return $userHydrator->buildEntity($user);
     }
 
     public function fetchAll($params = [])
     {
-        $select = new Select('user');
+        $userModel = $this->services->get('Application\Database\User\UserModel');
+        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
 
-        $this->userHydrator->setParam('linkChannel');
+        $select = $userModel->getSqlSelect();
+
+        $userHydrator->setParam('linkChannel', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->userHydrator,
+            $userHydrator,
             new User()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->getTableGateway()->getAdapter(),
+            $userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -102,21 +80,19 @@ class UserService
 
     public function fetchBlockedUsers($params)
     {
-        $where = new Where();
-        $where->equalTo('block.user_id', $params['user_id']);
+        $userModel = $this->services->get('Application\Database\User\UserModel');
+        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
 
-        $select = new Select('user');
-        $select->join('block', 'block.blocked_user_id = user.user_id', array(), 'inner');
-        $select->where($where);
+        $select = $userModel->selectBlocksByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->userHydrator,
+            $userHydrator,
             new User()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->getTableGateway()->getAdapter(),
+            $userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -126,33 +102,34 @@ class UserService
 
     public function fetchByChannel($channelId)
     {
-        $user = $this->userModel->fetchByChannel($channelId);
+        $userModel = $this->services->get('Application\Database\User\UserModel');
+        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
+
+        $user = $userModel->fetchByChannel($channelId);
         if (!$user) {
             return null;
         }
 
-        $this->userHydrator->setParam('embedChannel');
+        $userHydrator->setParam('embedChannel', true);
 
-        return $this->userHydrator->buildEntity($user);
+        return $userHydrator->buildEntity($user);
     }
 
     public function fetchFavorites($params)
     {
-        $where = new Where();
-        $where->equalTo('favorite.user_id', $params['user_id']);
+        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->services->get('Application\Hydrator\Video\VideoHydrator');
 
-        $select = new Select('video');
-        $select->join('favorite', 'favorite.video_id = video.video_id', array(), 'inner');
-        $select->where($where);
+        $select = $videoModel->selectFavoritesByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->videoHydrator,
+            $videoHydrator,
             new Video()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->videoModel->getTableGateway()->getAdapter(),
+            $videoModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -162,21 +139,19 @@ class UserService
 
     public function fetchFollows($params)
     {
-        $where = new Where();
-        $where->equalTo('follow.user_id', $params['user_id']);
+        $channelModel = $this->services->get('Application\Database\CHannel\CHannelModel');
+        $channelHydrator = $this->services->get('Application\Hydrator\CHannel\CHannelHydrator');
 
-        $select = new Select('channel');
-        $select->join('follow', 'follow.channel_id = channel.channel_id', array(), 'inner');
-        $select->where($where);
+        $select = $channelModel->selectFollowsByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->channelHydrator,
+            $channelHydrator,
             new Channel()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->channelModel->getTableGateway()->getAdapter(),
+            $channelModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -186,21 +161,19 @@ class UserService
 
     public function fetchMods($params)
     {
-        $where = new Where();
-        $where->equalTo('mod.user_id', $params['user_id']);
+        $chatModel = $this->services->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->services->get('Application\Hydrator\Chat\ChatHydrator');
 
-        $select = new Select('chat');
-        $select->join('mod', 'mod.chat_id = chat.chat_id', array(), 'inner');
-        $select->where($where);
+        $select = $chatModel->selectModsByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->chatHydrator,
+            $chatHydrator,
             new Chat()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->chatModel->getTableGateway()->getAdapter(),
+            $chatModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -210,21 +183,19 @@ class UserService
 
     public function fetchTeams($params)
     {
-        $where = new Where();
-        $where->equalTo('member.user_id', $params['user_id']);
+        $teamModel = $this->services->get('Application\Database\Team\TeamModel');
+        $teamHydrator = $this->services->get('Application\Hydrator\Team\TeamHydrator');
 
-        $select = new Select('team');
-        $select->join('member', 'member.team_id = team.team_id', array(), 'inner');
-        $select->where($where);
+        $select = $teamModel->selectByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->teamHydrator,
+            $teamHydrator,
             new Team()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->teamModel->getTableGateway()->getAdapter(),
+            $teamModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -234,13 +205,14 @@ class UserService
 
     public function update($userId, $data)
     {
+        $userModel = $this->services->get('Application\Database\User\UserModel');
+
         // if we have an updated logo
-        if (array_key_exists('logo', $data)) {
-            $data->logo = '//' . str_replace('api', 'static', $_SERVER['SERVER_NAME']) .
-                '/user/logo/' . $userId . '.png';
+        if (!array_key_exists('logo', $data)) {
+            $data->logo = 'http://lorempixel.com/180/180/';
         }
 
-        $user = $this->userModel->update($userId, $data);
+        $user = $userModel->update($userId, $data);
         if (!$user) {
             return null;
         }

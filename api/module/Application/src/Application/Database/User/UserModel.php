@@ -9,27 +9,22 @@
 
 namespace Application\Database\User;
 
+use Application\Database\AbstractModel;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class UserModel
+class UserModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
-    }
-
     public function fetch($userId)
     {
-        $rowset = $this->tableGateway->select(array('user_id' => $userId));
-        $user = $rowset->current();
+        $resultSet = $this->tableGateway->select(array('user_id' => $userId));
+        $user = $resultSet->current();
         if (!$user) {
             return null;
         }
@@ -37,7 +32,31 @@ class UserModel
         return $user;
     }
 
-    public function fetchByChannel($channelId)
+    public function selectFollowersByChannel($channelId)
+    {
+        $where = new Where();
+        $where->equalTo('follow.channel_id', $channelId);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('follow', 'follow.user_id = user.user_id', array(), 'inner');
+        $select->where($where);
+
+        return $select;
+    }
+
+    public function selectBlocksByUser($userId)
+    {
+        $where = new Where();
+        $where->equalTo('block.user_id', $userId);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('block', 'block.blocked_user_id = user.user_id', array(), 'inner');
+        $select->where($where);
+
+        return $select;
+    }
+
+    public function selectByChannel($channelId)
     {
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);
@@ -46,18 +65,38 @@ class UserModel
         $select->join('channel', 'channel.channel_id = user.channel_id', array(), 'inner');
         $select->where($where);
 
-        $rowset = $this->tableGateway->selectWith($select);
-        $user = $rowset->current();
-        if (!$user) {
-            return null;
-        }
-
-        return $user;
+        return $select;
     }
 
-    public function update($id, $data)
+    public function fetchByChannel($channelId)
+    {
+        return $this->selectOne(
+            $this->selectByChannel($channelId)
+        );
+    }
+
+    public function selectByTeam($teamId)
+    {
+        $where = new Where();
+        $where->equalTo('member.team_id', $teamId);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->join('member', 'member.user_id = user.user_id', array(), 'inner');
+        $select->where($where);
+
+        return $select;
+    }
+
+    public function fetchByTeam($teamId)
+    {
+        return $this->selectAll(
+            $this->selectByTeam($teamId)
+        );
+    }
+
+    public function update($userId, $data)
     {
         // todo
-        return;
+        return [$userId, $data];
     }
 }

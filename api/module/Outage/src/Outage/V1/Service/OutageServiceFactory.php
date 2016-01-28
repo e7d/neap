@@ -13,9 +13,6 @@ class OutageServiceFactory
 {
     public function __invoke($services)
     {
-        return new OutageService(
-            $services->get('Application\Database\Outage\OutageModel'),
-            $services->get('Application\Hydrator\Outage\OutageHydrator')
-        );
+        return new OutageService($services);
     }
 }

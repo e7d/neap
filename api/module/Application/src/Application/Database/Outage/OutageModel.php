@@ -9,31 +9,44 @@
 
 namespace Application\Database\Outage;
 
+use Application\Database\AbstractModel;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class OutageModel
+class OutageModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
-    }
-
     public function fetch($outageId)
     {
-        $rowset = $this->tableGateway->select(array('outage_id' => $outageId));
-        $outage = $rowset->current();
+        $resultSet = $this->tableGateway->select(array('outage_id' => $outageId));
+        $outage = $resultSet->current();
         if (!$outage) {
             return null;
         }
 
         return $outage;
+    }
+
+    public function selectByIngest($ingestId)
+    {
+        $where = new Where();
+        $where->equalTo('outage.ingest_id', $ingestId);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->where($where);
+
+        return $select;
+    }
+
+    public function fetchByIngest($ingestId)
+    {
+        return $this->selectOne(
+            $this->selectByIngest($ingestId)
+        );
     }
 }

@@ -13,11 +13,6 @@ class IngestServiceFactory
 {
     public function __invoke($services)
     {
-        return new IngestService(
-            $services->get('Application\Database\Ingest\IngestModel'),
-            $services->get('Application\Hydrator\Ingest\IngestHydrator'),
-            $services->get('Application\Database\Outage\OutageModel'),
-            $services->get('Application\Hydrator\Outage\OutageHydrator')
-        );
+        return new IngestService($services);
     }
 }

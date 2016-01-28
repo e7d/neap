@@ -39,4 +39,13 @@ class BlockModelTest extends AbstractControllerTestCase
         $tableGateway = $blockModel->getTableGateway();
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
+
+    public function testGetSqlSelect()
+    {
+        $blockModel = $this->serviceManager->get('Application\Database\Block\BlockModel');
+        $select = $blockModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "block".* FROM "block"', $select->getSqlString());
+    }
 }

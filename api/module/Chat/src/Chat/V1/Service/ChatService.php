@@ -9,48 +9,43 @@
 
 namespace Chat\V1\Service;
 
-use Application\Database\Chat\Chat;
-use Application\Database\Follow\Follow;
-use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
-
 class ChatService
 {
-    protected $chatModel;
-    protected $chatHydrator;
+    private $services;
 
-    public function __construct($chatModel, $chatHydrator)
+    public function __construct($services)
     {
-        $this->chatModel = $chatModel;
-        $this->chatHydrator = $chatHydrator;
+        $this->services = $services;
     }
 
     public function fetch($chatId)
     {
-        $chat = $this->chatModel->fetch($chatId);
+        $chatModel = $this->services->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->services->get('Application\Hydrator\Chat\ChatHydrator');
+
+        $chat = $chatModel->fetch($chatId);
         if (!$chat) {
             return null;
         }
 
-        $this->chatHydrator->setParam('linkChannel');
-        $this->chatHydrator->setParam('linkUser');
+        $chatHydrator->setParam('linkChannel', true);
+        $chatHydrator->setParam('linkUser', true);
 
-        return $this->chatHydrator->buildEntity($chat);
+        return $chatHydrator->buildEntity($chat);
     }
 
     public function fetchByChannel($channelId)
     {
-        $chat = $this->chatModel->fetchByChannel($channelId);
+        $chatModel = $this->services->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->services->get('Application\Hydrator\Chat\ChatHydrator');
+
+        $chat = $chatModel->fetchByChannel($channelId);
         if (!$chat) {
             return null;
         }
 
-        $this->chatHydrator->setParam('embedChannel');
+        $chatHydrator->setParam('embedChannel', true);
 
-        return $this->chatHydrator->buildEntity($chat);
+        return $chatHydrator->buildEntity($chat);
     }
 }

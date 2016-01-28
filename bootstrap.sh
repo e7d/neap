@@ -55,13 +55,13 @@ try
 	echox "${text_cyan}Info:${text_reset} NAT: `/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`"
 	echox "${text_cyan}Info:${text_reset} Bridge: `/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`"
 
+	echox "${text_yellow}Warning:${text_reset} In order to access Neap services over SSL without issue, you need to install resources/ssl/certificates/neap.dev.p12 among the \"Trusted Root Certification Authorities\" of your system"
+
 	NOW=$(date +%s)
 	DIFF=$(($NOW - $BEGIN))
 	MINS=$(($DIFF / 60))
 	SECS=$(($DIFF % 60))
 	echox "${text_cyan}Info:${text_reset} Bootstrap lasted $MINS mins and $SECS secs"
-
-	echox "${text_yellow}Warning:${text_reset} In order to access Neap services over SSL without issue, you need to install resources/ssl/certificates/neap.dev.p12 among the \"Trusted Root Certification Authorities\" of your system"
 )
 catch || {
 	case $ex in

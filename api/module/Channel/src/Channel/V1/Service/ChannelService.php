@@ -11,50 +11,45 @@ namespace Channel\V1\Service;
 
 use Application\Database\Channel\Channel;
 use Application\Database\User\User;
+use Application\Database\Panel\Panel;
 use Application\Database\Video\Video;
 use Channel\V1\Rest\Channel\ChannelCollection;
 use Channel\V1\Rest\Follow\FollowCollection;
+use Channel\V1\Rest\Panel\PanelCollection;
 use Channel\V1\Rest\Video\VideoCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
 use Zend\Paginator\Adapter\DbSelect;
 
 class ChannelService
 {
-    protected $channelModel;
-    protected $channelHydrator;
-    protected $userModel;
-    protected $userHydrator;
-    protected $videoModel;
-    protected $videoHydrator;
+    private $services;
 
-    public function __construct($channelModel, $channelHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
+    public function __construct($services)
     {
-        $this->channelModel = $channelModel;
-        $this->channelHydrator = $channelHydrator;
-        $this->userModel = $userModel;
-        $this->userHydrator = $userHydrator;
-        $this->videoModel = $videoModel;
-        $this->videoHydrator = $videoHydrator;
+        $this->services = $services;
     }
 
     public function fetchAll($params = [])
     {
-        $select = new Select('channel');
+        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');
 
-        $this->channelHydrator->setParam('linkUser');
-        $this->channelHydrator->setParam('linkLiveStream');
-        $this->channelHydrator->setParam('linkChat');
+        $select = $channelModel->getSqlSelect();
+
+        $channelHydrator->setParam('linkUser', true);
+        $channelHydrator->setParam('linkLiveStream', true);
+        $channelHydrator->setParam('linkPanels', true);
+        $channelHydrator->setParam('linkVideos', true);
+        $channelHydrator->setParam('linkChat', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->channelHydrator,
+            $channelHydrator,
             new Channel()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->channelModel->getTableGateway()->getAdapter(),
+            $channelModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -64,66 +59,77 @@ class ChannelService
 
     public function fetch($channelId)
     {
-        $channel = $this->channelModel->fetch($channelId);
+        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');
+
+        $channel = $channelModel->fetch($channelId);
         if (!$channel) {
             return null;
         }
 
-        $this->channelHydrator->setParam('embedUser');
-        $this->channelHydrator->setParam('embedLiveStream');
-        $this->channelHydrator->setParam('linkVideos');
-        $this->channelHydrator->setParam('linkChat');
+        $channelHydrator->setParam('embedUser', true);
+        $channelHydrator->setParam('embedLiveStream', true);
+        $channelHydrator->setParam('linkPanels', true);
+        $channelHydrator->setParam('linkVideos', true);
+        $channelHydrator->setParam('linkChat', true);
 
-        return $this->channelHydrator->buildEntity($channel);
+        return $channelHydrator->buildEntity($channel);
     }
 
     public function update($channelId, $data)
     {
-        $channel = $this->channelModel->update($channelId, $data);
+        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');
 
-        return $this->channelHydrator->buildEntity($channel);
+        $channel = $channelModel->update($channelId, $data);
+
+        return $channelHydrator->buildEntity($channel);
     }
 
     public function fetchByStreamKey($streamKey)
     {
-        return $this->channelModel->fetchByStreamKey($streamKey);
+        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
+
+        return $channelModel->fetchByStreamKey($streamKey);
     }
 
     public function fetchByUser($userId, $params)
     {
-        $channel = $this->channelModel->fetchByUser($userId);
+        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');
+
+        $channel = $channelModel->fetchByUser($userId);
         if (!$channel) {
             return null;
         }
 
         if (array_key_exists('stream_key', $params)) {
-            $this->channelHydrator->setParam('keepStreamKey');
+            $channelHydrator->setParam('keepStreamKey');
         }
-        $this->channelHydrator->setParam('embedUser');
-        $this->channelHydrator->setParam('embedLiveStream');
-        $this->channelHydrator->setParam('linkVideos');
-        $this->channelHydrator->setParam('linkChat');
+        $channelHydrator->setParam('embedUser', true);
+        $channelHydrator->setParam('embedLiveStream', true);
+        $channelHydrator->setParam('linkPanels', true);
+        $channelHydrator->setParam('linkVideos', true);
+        $channelHydrator->setParam('linkChat', true);
 
-        return $this->channelHydrator->buildEntity($channel);
+        return $channelHydrator->buildEntity($channel);
     }
 
     public function fetchFollowers($params)
     {
-        $where = new Where();
-        $where->equalTo('follow.channel_id', $params['channel_id']);
+        $userModel = $this->services->get('Application\Database\User\UserModel');
+        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
 
-        $select = new Select('user');
-        $select->join('follow', 'follow.user_id = user.user_id', array(), 'inner');
-        $select->where($where);
+        $select = $userModel->selectFollowersByChannel($params['channel_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->userHydrator,
+            $userHydrator,
             new User()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->getTableGateway()->getAdapter(),
+            $userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -131,28 +137,47 @@ class ChannelService
         return $collection;
     }
 
-    public function fetchVideos($params)
+    public function fetchPanels($params)
     {
-        $where = new Where();
-        $where->equalTo('channel.channel_id', $params['channel_id']);
+        $panelModel = $this->services->get('Application\Database\Panel\PanelModel');
+        $panelHydrator = $this->services->get('Application\Hydrator\Panel\PanelHydrator');
 
-        $select = new Select('video');
-        $select->join('stream', 'stream.stream_id = video.stream_id', array(), 'inner');
-        $select->join('channel', 'channel.channel_id = stream.channel_id', array(), 'inner');
-        $select->where($where);
-
-        $this->videoHydrator->setParam('linkStream');
-        $this->videoHydrator->setParam('linkChannel');
-        $this->videoHydrator->setParam('linkUser');
+        $select = $panelModel->selectByChannel($params['channel_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->videoHydrator,
+            $panelHydrator,
+            new Panel()
+        );
+
+        $paginatorAdapter = new DbSelect(
+            $select,
+            $panelModel->getTableGateway()->getAdapter(),
+            $hydratingResultSet
+        );
+
+        $collection = new PanelCollection($paginatorAdapter);
+        return $collection;
+    }
+
+    public function fetchVideos($params)
+    {
+        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->services->get('Application\Hydrator\Video\VideoHydrator');
+
+        $select = $videoModel->selectByChannel($params['channel_id']);
+
+        $videoHydrator->setParam('linkStream', true);
+        $videoHydrator->setParam('linkChannel', true);
+        $videoHydrator->setParam('linkUser', true);
+
+        $hydratingResultSet = new HydratingResultSet(
+            $videoHydrator,
             new Video()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->videoModel->getTableGateway()->getAdapter(),
+            $videoModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -162,7 +187,9 @@ class ChannelService
 
     public function isOwner($channelId, $userId)
     {
-        $channel = $this->channelModel->fetch($channelId);
+        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
+
+        $channel = $channelModel->fetch($channelId);
 
         return $channel->user_id === $userId;
     }

@@ -20,37 +20,31 @@ use Zend\Paginator\Paginator;
 
 class TopicService
 {
-    protected $topicModel;
-    protected $topicHydrator;
+    private $services;
 
-    public function __construct($topicModel, $topicHydrator)
+    public function __construct($services)
     {
-        $this->topicModel = $topicModel;
-        $this->topicHydrator = $topicHydrator;
+        $this->services = $services;
     }
 
     public function fetchAll($params = [])
     {
-        $select = new Select('topic');
-        $select->columns(array(
-            '*',
-            'streams' => new Expression('COUNT(stream.stream_id)'),
-            'viewers' => new Expression('SUM(stream.viewers)'),
-        ));
-        $select->join('stream', 'stream.topic_id = topic.topic_id', array(), 'inner');
-        $select->group('topic.topic_id');
+        $topicModel = $this->services->get('Application\Database\Topic\TopicModel');
+        $topicHydrator = $this->services->get('Application\Hydrator\Topic\TopicHydrator');
+
+        $select = $topicModel->selectWithStats();
         if (array_key_exists('top', $params)) {
             $select->order('viewers DESC');
         }
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->topicHydrator,
+            $topicHydrator,
             new Topic()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->topicModel->getTableGateway()->getAdapter(),
+            $topicModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -60,11 +54,14 @@ class TopicService
 
     public function fetch($topicId)
     {
-        $topic = $this->topicModel->fetch($topicId);
+        $topicModel = $this->services->get('Application\Database\Topic\TopicModel');
+        $topicHydrator = $this->services->get('Application\Hydrator\Topic\TopicHydrator');
+
+        $topic = $topicModel->fetch($topicId);
         if (!$topic) {
             return null;
         }
 
-        return $this->topicHydrator->buildEntity($topic);
+        return $topicHydrator->buildEntity($topic);
     }
 }

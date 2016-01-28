@@ -40,6 +40,15 @@ class OutageModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $outageModel = $this->serviceManager->get('Application\Database\Outage\OutageModel');
+        $select = $outageModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "outage".* FROM "outage"', $select->getSqlString());
+    }
+
     public function testFetch()
     {
         $outageModel = $this->serviceManager->get('Application\Database\Outage\OutageModel');

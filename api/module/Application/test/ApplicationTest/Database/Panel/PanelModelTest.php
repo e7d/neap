@@ -39,4 +39,13 @@ class PanelModelTest extends AbstractControllerTestCase
         $tableGateway = $panelModel->getTableGateway();
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
+
+    public function testGetSqlSelect()
+    {
+        $panelModel = $this->serviceManager->get('Application\Database\Panel\PanelModel');
+        $select = $panelModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "panel".* FROM "panel"', $select->getSqlString());
+    }
 }

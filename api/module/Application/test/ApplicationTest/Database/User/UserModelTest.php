@@ -40,6 +40,15 @@ class UserModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $select = $userModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "user".* FROM "user"', $select->getSqlString());
+    }
+
     public function testFetch()
     {
         $userModel = $this->serviceManager->get('Application\Database\User\UserModel');

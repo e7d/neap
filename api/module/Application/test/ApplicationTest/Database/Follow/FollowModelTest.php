@@ -40,6 +40,15 @@ class FollowModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $followModel = $this->serviceManager->get('Application\Database\Follow\FollowModel');
+        $select = $followModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "follow".* FROM "follow"', $select->getSqlString());
+    }
+
     public function testFetchByUserId()
     {
         $followModel = $this->serviceManager->get('Application\Database\Follow\FollowModel');

@@ -42,6 +42,7 @@ return array(
             ),
             'collection_query_whitelist' => array(
                 0 => 'limit',
+                1 => 'top',
             ),
             'page_size' => '10',
             'page_size_param' => 'limit',

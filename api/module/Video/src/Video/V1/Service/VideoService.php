@@ -18,33 +18,32 @@ use Zend\Paginator\Paginator;
 
 class VideoService
 {
-    protected $videoModel;
-    protected $videoHydrator;
-    protected $userModel;
+    private $services;
 
-    public function __construct($videoModel, $videoHydrator, $userModel)
+    public function __construct($services)
     {
-        $this->videoModel = $videoModel;
-        $this->videoHydrator = $videoHydrator;
-        $this->userModel = $userModel;
+        $this->services = $services;
     }
 
     public function fetchAll($params = [])
     {
-        $select = new Select('video');
+        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->services->get('Application\Hydrator\Video\VideoHydrator');
 
-        $this->videoHydrator->setParam('linkStream');
-        $this->videoHydrator->setParam('linkChannel');
-        $this->videoHydrator->setParam('linkUser');
+        $select = $videoModel->getSqlSelect();
+
+        $videoHydrator->setParam('linkStream', true);
+        $videoHydrator->setParam('linkChannel', true);
+        $videoHydrator->setParam('linkUser', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->videoHydrator,
+            $videoHydrator,
             new Video()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->videoModel->getTableGateway()->getAdapter(),
+            $videoModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -54,25 +53,32 @@ class VideoService
 
     public function fetch($videoId)
     {
-        $video = $this->videoModel->fetch($videoId);
+        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->services->get('Application\Hydrator\Video\VideoHydrator');
+
+        $video = $videoModel->fetch($videoId);
         if (!$video) {
             return null;
         }
 
-        $this->videoHydrator->setParam('linkStream');
-        $this->videoHydrator->setParam('linkChannel');
-        $this->videoHydrator->setParam('linkUser');
+        $videoHydrator->setParam('linkStream', true);
+        $videoHydrator->setParam('linkChannel', true);
+        $videoHydrator->setParam('linkUser', true);
 
-        return $this->videoHydrator->buildEntity($video);
+        return $videoHydrator->buildEntity($video);
     }
 
     public function fetchByChannel($channelId)
     {
-        return $this->videoModel->fetchByChannel($channelId);
+        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
+
+        return $videoModel->fetchByChannel($channelId);
     }
 
     public function fetchByUser($userId)
     {
-        return $this->videoModel->fetchByUser($userId);
+        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
+
+        return $videoModel->fetchByUser($userId);
     }
 }

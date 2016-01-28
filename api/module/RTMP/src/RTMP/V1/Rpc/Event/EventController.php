@@ -67,7 +67,7 @@ class EventController extends LocalhostController
                                 );
                             }
 
-                            $stream = $this->streamModel->fetchByChannel($channel->channel_id);
+                            $stream = $this->streamModel->fetchByChannel($channel->channel_id, $live = true);
 
                             $now = \DateTime::createFromFormat('U.u', microtime(true));
                             $this->streamModel->update(

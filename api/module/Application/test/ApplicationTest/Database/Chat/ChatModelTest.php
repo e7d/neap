@@ -40,6 +40,15 @@ class ChatModelTest extends AbstractControllerTestCase
         $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $tableGateway);
     }
 
+    public function testGetSqlSelect()
+    {
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+        $select = $chatModel->getSqlSelect();
+
+        $this->assertInstanceOf('Zend\Db\Sql\Select', $select);
+        $this->assertEquals('SELECT "chat".* FROM "chat"', $select->getSqlString());
+    }
+
     public function testFetch()
     {
         $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');

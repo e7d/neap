@@ -13,7 +13,6 @@ use Application\Hydrator\Hydrator;
 use Application\Database\Chat\ChatModel;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\User\UserModel;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
 
 class ChatHydrator extends Hydrator
@@ -32,76 +31,20 @@ class ChatHydrator extends Hydrator
 
     public function buildEntity($chat)
     {
-        $chat = $this->chatModel->fetch($chat->chat_id);
+        $this->object = $chat;
+
         $channel = $this->channelModel->fetch($chat->channel_id);
         $user = $this->userModel->fetch($channel->user_id);
 
-        if ($this->getParam('embedChannel')) {
-            $channelEntity = new Entity($channel, $channel->channel_id);
-            $channelEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'self',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->channel_id,
-                    ),
-                ),
-            )));
-            $chat->channel = $channelEntity;
-            unset($chat->channel_id);
-        }
+        $this->addEmbed('embedChannel', $channel);
+        $this->addEmbed('embedUser', $user);
 
-        if ($this->getParam('embedUser')) {
-            $userEntity = new Entity($user, $user->user_id);
-            $userEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'self',
-                'route' => array(
-                    'name' => 'user.rest.user',
-                    'params' => array(
-                        'user_id' => $user->user_id,
-                    ),
-                ),
-            )));
-            $chat->user = $userEntity;
-        }
+        $this->entity = new Entity($this->extract($chat), $chat->chat_id);
 
-        $chatEntity = new Entity($this->extract($chat), $chat->chat_id);
+        $this->addSelfLink();
+        $this->addLink('linkChannel', $channel);
+        $this->addLink('linkUser', $user);
 
-        $chatEntity->getLinks()->add($this->link->factory(array(
-            'rel' => 'self',
-            'route' => array(
-                'name' => 'chat.rest.chat',
-                'params' => array(
-                    'chat_id' => $chat->chat_id,
-                ),
-            ),
-        )));
-
-        if ($this->getParam('linkChannel')) {
-            $chatEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'channel',
-                'route' => array(
-                    'name' => 'channel.rest.channel',
-                    'params' => array(
-                        'channel_id' => $channel->channel_id,
-                    ),
-                ),
-            )));
-            unset($chatEntity->entity['channel_id']);
-        }
-
-        if ($this->getParam('linkUser')) {
-            $chatEntity->getLinks()->add($this->link->factory(array(
-                'rel' => 'user',
-                'route' => array(
-                    'name' => 'user.rest.user',
-                    'params' => array(
-                        'user_id' => $user->user_id,
-                    ),
-                ),
-            )));
-        }
-
-        return $chatEntity;
+        return $this->entity;
     }
 }

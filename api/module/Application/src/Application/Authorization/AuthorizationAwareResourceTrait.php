@@ -28,15 +28,14 @@ trait AuthorizationAwareResourceTrait
         }
 
         if (!method_exists($this->service, 'isOwner')) {
-            return new ApiProblem(500, 'This resource service does not expose a owner validation method');
-        }
-
-        $entity = $this->service->fetch($entityId);
-        if (!$entity) {
-            return new ApiProblem(404, 'The entity does not exists');
+            return new ApiProblem(500, 'This resource service does not expose an owner validation method');
         }
 
         $identity = $this->identityService->getIdentity();
+        if (is_null($identity)) {
+            return new ApiProblem(401, 'This resource service requires a logged in user');
+        }
+
         if (!$this->service->isOwner($entityId, $identity->user_id)) {
             return new ApiProblem(403, 'The entity is not your property');
         }

@@ -190,6 +190,9 @@ class ChannelService
         $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
 
         $channel = $channelModel->fetch($channelId);
+        if (is_null($channel)) {
+            return false;
+        }
 
         return $channel->user_id === $userId;
     }

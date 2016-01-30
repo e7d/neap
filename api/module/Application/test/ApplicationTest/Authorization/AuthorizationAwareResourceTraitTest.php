@@ -17,7 +17,6 @@ class AuthorizationAwareResourceTraitTest extends AbstractControllerTestCase
     use AuthorizationAwareResourceTrait;
 
     private $identityService;
-    private $service;
     private $serviceManager;
 
     public function setUp()

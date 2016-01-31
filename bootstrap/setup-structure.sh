@@ -16,6 +16,9 @@ try
 	echo "Create database folder"
 	mkdir -p /var/www/neap/db
 
+	echo "Download latest Adminer"
+	wget -q https://www.adminer.org/latest-en.php -O /var/www/neap/db/index.php
+
 	echo "Create RTMP folders"
 	mkdir -p /data/rtmp/dash
 	mkdir -p /data/rtmp/hls
@@ -28,7 +31,7 @@ try
 	chmod -cR 700 /data/rtmp
 	chown -cR www-data.root /data/rtmp
 
-	echo "Link API folder"
+	echo "Link static folder"
 	ln -fs /vagrant/static/ /var/www/neap/
 
 	echo "Create static folders"
@@ -50,31 +53,6 @@ try
 
 	echo "Fix Neap folders permissions"
 	chown -cR www-data:www-data /var/www/neap
-
-	echo "Copy nginx configuration files"
-	cp -R /vagrant/resources/nginx/* /etc/nginx
-
-	echo "Enable nginx Neap sites"
-	ln -fs /etc/nginx/sites-available/neap-api.conf /etc/nginx/sites-enabled/neap-api.conf
-	ln -fs /etc/nginx/sites-available/neap-db.conf /etc/nginx/sites-enabled/neap-db.conf
-	ln -fs /etc/nginx/sites-available/neap-rtmp.conf /etc/nginx/sites-enabled/neap-rtmp.conf
-	ln -fs /etc/nginx/sites-available/neap-socket.conf /etc/nginx/sites-enabled/neap-socket.conf
-	ln -fs /etc/nginx/sites-available/neap-static.conf /etc/nginx/sites-enabled/neap-static.conf
-	ln -fs /etc/nginx/sites-available/neap-web.conf /etc/nginx/sites-enabled/neap-web.conf
-
-	echo "Download latest Adminer"
-	wget -q https://www.adminer.org/latest-en.php -O /var/www/neap/db/index.php
-
-	echo "Create ffmpeg operations log folder"
-	mkdir -p /var/log/ffmpeg
-
-	echo "Fix log files permissions"
-	chown -cR www-data.root /var/log/nginx
-	chown -cR www-data.root /var/log/ffmpeg
-
-	echo "Restart web related services"
-	service php7.0-fpm restart
-	service nginx restart
 )
 catch || {
 	case $ex_code in

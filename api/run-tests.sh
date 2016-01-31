@@ -35,7 +35,7 @@ case $arg in
 	-u|--composer-update)
 		COMPOSERUPDATE=YES
 	;;
-	-v=*|--code-coverage=*)
+	-v=*|--coverage=*)
 		CODECOVERAGE="${arg#*=}"
 		shift
 	;;
@@ -133,7 +133,7 @@ try
 		./vendor/bin/coveralls -v -x ./build/logs/coverage.xml
 	fi
 
-	if [[ "$COVERALLS" == "SCRUTINIZER" ]]; then
+	if [[ "$SCRUTINIZER" == "YES" ]]; then
 		echox "${text_cyan}Send clover log to Scrutinizer"
 		./vendor/bin/ocular code-coverage:upload --format=php-clover ./build/logs/coverage.xml
 	fi

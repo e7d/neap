@@ -11,6 +11,7 @@ try
 	mkdir -p /var/www/neap
 
 	echo "Link API folder"
+	rm -fr /var/www/neap/api
 	ln -fs /vagrant/api/ /var/www/neap/
 
 	echo "Create database folder"
@@ -25,6 +26,7 @@ try
 	mkdir -p /data/rtmp/rec
 
 	echo "Link RTMP folder"
+	rm -fr /var/www/neap/rtmp
 	ln -fs /data/rtmp/ /var/www/neap/
 
 	echo "Fix RTMP folders permissions"
@@ -32,6 +34,7 @@ try
 	chown -cR www-data.root /data/rtmp
 
 	echo "Link static folder"
+	rm -fr /var/www/neap/static
 	ln -fs /vagrant/static/ /var/www/neap/
 
 	echo "Create static folders"
@@ -49,6 +52,7 @@ try
 	mkdir -p /var/www/neap/static/video/preview
 
 	echo "Link web folder"
+	rm -fr /var/www/neap/web
 	ln -fs /vagrant/web/ /var/www/neap/
 
 	echo "Fix Neap folders permissions"

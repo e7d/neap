@@ -7,21 +7,23 @@ try
 (
 	throwErrors
 
-	echo "Install dependencies"
-	cd /vagrant/api/
-	composer install --no-interaction --prefer-source
+	cd /var/www/neap/api/
+
+	echo "Install composer dependencies"
+	composer self-update
+	composer install --no-interaction --ignore-platform-reqs --prefer-source
 
 	echo "Copy Neap configuration files"
-	cp /vagrant/api/config/development.config.php.dist /vagrant/api/config/development.config.php
-	cp /vagrant/api/config/autoload/local.php.dist /vagrant/api/config/autoload/local.php
-	cp /vagrant/api/config/autoload/oauth2.local.php.dist /vagrant/api/config/autoload/oauth2.local.php
+	cp /var/www/neap/api/config/development.config.php.dist /var/www/neap/api/config/development.config.php
+	cp /var/www/neap/api/config/autoload/local.php.dist /var/www/neap/api/config/autoload/local.php
+	cp /var/www/neap/api/config/autoload/oauth2.local.php.dist /var/www/neap/api/config/autoload/oauth2.local.php
 
 	echo "Remove cache files"
-	rm -rf /vagrant/api/data/cache/*.cache.php
+	rm -rf /var/www/neap/api/data/cache/*.cache.php
 
 	echo "Enable development mode"
 	sleep 1s
-	php /vagrant/api/public/index.php development enable
+	php /var/www/neap/api/public/index.php development enable
 )
 catch || {
 	case $ex_code in

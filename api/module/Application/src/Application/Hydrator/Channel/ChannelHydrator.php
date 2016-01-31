@@ -42,7 +42,7 @@ class ChannelHydrator extends Hydrator
 
         $user = $this->userModel->fetch($channel->user_id);
         $chat = $this->chatModel->fetch($channel->chat_id);
-        $liveStream = $this->streamModel->fetchByChannel($channel->channel_id, $live = true);
+        $liveStream = $this->streamModel->fetchByChannel($channel->channel_id, true);
 
         if (!$this->getParam('keepStreamKey')) {
             unset($channel->stream_key);

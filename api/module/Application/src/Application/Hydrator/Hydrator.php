@@ -74,6 +74,9 @@ abstract class Hydrator implements HydratorInterface
         if (!is_null($param) && !$this->hasParam($param)) {
             return;
         }
+        if (is_null($embed)) {
+            return;
+        }
 
         $this->extractObjectMeta($embed);
 
@@ -104,6 +107,9 @@ abstract class Hydrator implements HydratorInterface
     public function addLink($param, $embed, $linkRel = null, $linkRouteName = null)
     {
         if (!is_null($param) && !$this->hasParam($param)) {
+            return;
+        }
+        if (is_null($embed)) {
             return;
         }
 

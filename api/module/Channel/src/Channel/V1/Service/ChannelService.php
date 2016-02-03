@@ -104,7 +104,7 @@ class ChannelService
         }
 
         if (array_key_exists('stream_key', $params)) {
-            $channelHydrator->setParam('keepStreamKey');
+            $channelHydrator->setParam('keepStreamKey', true);
         }
         $channelHydrator->setParam('embedUser', true);
         $channelHydrator->setParam('embedLiveStream', true);

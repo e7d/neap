@@ -11,12 +11,10 @@ try
 	cp -R /vagrant/resources/nginx/* /etc/nginx
 
 	echo "Enable nginx Neap sites"
-	ln -fs /etc/nginx/sites-available/neap-api.conf /etc/nginx/sites-enabled/neap-api.conf
-	ln -fs /etc/nginx/sites-available/neap-db.conf /etc/nginx/sites-enabled/neap-db.conf
-	ln -fs /etc/nginx/sites-available/neap-rtmp.conf /etc/nginx/sites-enabled/neap-rtmp.conf
-	ln -fs /etc/nginx/sites-available/neap-socket.conf /etc/nginx/sites-enabled/neap-socket.conf
-	ln -fs /etc/nginx/sites-available/neap-static.conf /etc/nginx/sites-enabled/neap-static.conf
-	ln -fs /etc/nginx/sites-available/neap-web.conf /etc/nginx/sites-enabled/neap-web.conf
+	for f in /etc/nginx/sites-available/*.conf; do
+		f=${f##*/}
+		ln -fs /etc/nginx/sites-available/$f /etc/nginx/sites-enabled/$f
+	done
 
 	echo "Create ffmpeg operations log folder"
 	mkdir -p /var/log/ffmpeg

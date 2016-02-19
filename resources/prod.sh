@@ -9,7 +9,8 @@ try
 
 	echo "Copy API folder"
 	rm -fr /var/www/neap/api
-	rsync -ah --info=progress2 /vagrant/api/ /var/www/neap/api/
+	rsync -rltgoDh --info=progress2 /vagrant/api/ /var/www/neap/api/
+	# cp -ur /vagrant/api/ /var/www/neap/api/
 
 	echo "Setup API"
 	/vagrant/bootstrap/setup-api.sh
@@ -19,11 +20,13 @@ try
 
 	echo "Copy static folder"
 	rm -fr /var/www/neap/static
-	rsync -ah --info=progress2 /vagrant/static/ /var/www/neap/static/
+	rsync -rltgoDh --info=progress2 /vagrant/static/ /var/www/neap/static/
+	# cp -ur /vagrant/static/ /var/www/neap/static/
 
 	echo "Copy web folder"
 	rm -fr /var/www/neap/web
-	rsync -ah --info=progress2 /vagrant/web/ /var/www/neap/web/
+	rsync -rltgoDh --info=progress2 /vagrant/web/ /var/www/neap/web/
+	# cp -ur /vagrant/web/ /var/www/neap/web/
 
 	echo "Setup Web"
 	/vagrant/bootstrap/setup-web.sh

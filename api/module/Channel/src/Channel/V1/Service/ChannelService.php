@@ -86,14 +86,7 @@ class ChannelService
         return $channelHydrator->buildEntity($channel);
     }
 
-    public function fetchByStreamKey($streamKey)
-    {
-        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
-
-        return $channelModel->fetchByStreamKey($streamKey);
-    }
-
-    public function fetchByUser($userId, $params)
+    public function fetchByUser($userId, $params = array())
     {
         $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
         $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');

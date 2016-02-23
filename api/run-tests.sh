@@ -39,15 +39,15 @@ case $arg in
 		CODECOVERAGE="${arg#*=}"
 		shift
 	;;
-	--coverage-clover)
+	-cc|--coverage-clover)
 		CODECOVERAGE="xml"
 		shift
 	;;
-	--coverage-html)
+	-ch|--coverage-html)
 		CODECOVERAGE="html"
 		shift
 	;;
-	--coverage-tap)
+	-ct|--coverage-tap)
 		CODECOVERAGE="txt"
 		shift
 	;;
@@ -64,19 +64,19 @@ if [[ "$HELP" == "YES" ]]; then
 	echo "  -c, --copy-configuration    copy last API configuration before tests"
 	echo "  -f, --filter=FILTER         use a valid PHPUnit filter"
 	echo "  -l, --coveralls             upload code coverage report to Coveralls"
-	echo "                                requires -x"
+	echo "                                requires -v=xml"
 	echo "  -q, --code-quality          generate code quality report"
 	echo "  -s, --scrutinizer           upload code quality and code coverage reports to Scrutinizer"
-	echo "                                requires -q -x"
+	echo "                                requires -q -v=xml"
 	echo "  -t, --travis                shortcut for Travis, using: -u -c -v=xml -q -l -s"
 	echo "  -u, --composer-update       update Composer dependencies before tests"
 	echo "  -v, --coverage=TYPE         generate code coverage report:"
 	echo "                                TYPE=html for HTML output"
 	echo "                                TYPE=txt for TAP (text) output"
 	echo "                                TYPE=xml for Clover (XML) output"
-	echo "      --coverage-clover       equivalent to --code-coverage=xml"
-	echo "      --coverage-html         equivalent to --code-coverage=html"
-	echo "      --coverage-tap          equivalent to --code-coverage=txt"
+	echo "  -cc, --coverage-clover      equivalent to --code-coverage=xml"
+	echo "  -ch, --coverage-html        equivalent to --code-coverage=html"
+	echo "  -ct, --coverage-tap         equivalent to --code-coverage=txt"
 	echo
 	exit 0
 fi

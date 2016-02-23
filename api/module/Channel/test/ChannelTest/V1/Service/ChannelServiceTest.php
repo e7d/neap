@@ -58,6 +58,21 @@ class ChannelServiceTest extends AbstractControllerTestCase
         $this->assertEquals($channelId, $channelEntity->entity['channel_id']);
     }
 
+    public function testUpdate()
+    {
+        $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
+
+        $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
+        $data = array(
+            'topic' => 'Test'
+        );
+        $channelEntity = $channelService->update($channelId, $data);
+
+        $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
+        $this->assertEquals($channelId, $channelEntity->entity['channel_id']);
+        $this->assertEquals($data['topic'], $channelEntity->entity['topic']);
+    }
+
     public function testFetchInvalidChannel()
     {
         $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');

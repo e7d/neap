@@ -57,6 +57,7 @@ class ChannelResource extends AbstractResourceListener
      */
     public function update($channelId, $data)
     {
+        $this->service = $this->channelService;
         $userIsOwner = $this->userIsOwner($channelId);
         if ($userIsOwner instanceof ApiProblem) {
             return $userIsOwner;

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c52629f2ef116460c92f2728c3024721",
-    "content-hash": "1d2bba944d1d2f04da983e640faf8091",
+    "hash": "5b03fe1092a39cac35fdd3d9240c2d7f",
+    "content-hash": "8a5294c5a0e28af3a3e78f68f5bf4970",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -2807,29 +2807,28 @@
         },
         {
             "name": "zendframework/zend-db",
-            "version": "2.6.2",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-db.git",
-                "reference": "8bda58293d6baa3e1d8316300fce0fed55df8ea0"
+                "reference": "f29efb4e2925ddbbb45e33fd0baf9d1dd98046e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-db/zipball/8bda58293d6baa3e1d8316300fce0fed55df8ea0",
-                "reference": "8bda58293d6baa3e1d8316300fce0fed55df8ea0",
+                "url": "https://api.github.com/repos/zendframework/zend-db/zipball/f29efb4e2925ddbbb45e33fd0baf9d1dd98046e7",
+                "reference": "f29efb4e2925ddbbb45e33fd0baf9d1dd98046e7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5",
-                "zendframework/zend-stdlib": "~2.7"
+                "php": "^5.5 || ^7.0",
+                "zendframework/zend-stdlib": "^2.7 || ^3.0"
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "1.7.*",
                 "phpunit/phpunit": "~4.0",
-                "zendframework/zend-eventmanager": "~2.5",
-                "zendframework/zend-hydrator": "~1.0",
-                "zendframework/zend-mvc": "~2.5",
-                "zendframework/zend-servicemanager": "~2.5"
+                "zendframework/zend-eventmanager": "^2.6.2 || ^3.0",
+                "zendframework/zend-hydrator": "^1.1 || ^2.1",
+                "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3"
             },
             "suggest": {
                 "zendframework/zend-eventmanager": "Zend\\EventManager component",
@@ -2839,8 +2838,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev",
-                    "dev-develop": "2.7-dev"
+                    "dev-master": "2.7-dev",
+                    "dev-develop": "2.8-dev"
                 }
             },
             "autoload": {
@@ -2857,7 +2856,7 @@
                 "db",
                 "zf2"
             ],
-            "time": "2015-12-09 21:17:32"
+            "time": "2016-02-22 18:17:31"
         },
         {
             "name": "zendframework/zend-debug",
@@ -4025,16 +4024,16 @@
         },
         {
             "name": "zendframework/zend-mvc",
-            "version": "2.6.1",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-mvc.git",
-                "reference": "9e103a9250dcad753d29bf22cafdaaec3483e22e"
+                "reference": "9babf3f501f7db532f3293ec39593237f297a7d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-mvc/zipball/9e103a9250dcad753d29bf22cafdaaec3483e22e",
-                "reference": "9e103a9250dcad753d29bf22cafdaaec3483e22e",
+                "url": "https://api.github.com/repos/zendframework/zend-mvc/zipball/9babf3f501f7db532f3293ec39593237f297a7d0",
+                "reference": "9babf3f501f7db532f3293ec39593237f297a7d0",
                 "shasum": ""
             },
             "require": {
@@ -4108,7 +4107,7 @@
                 "mvc",
                 "zf2"
             ],
-            "time": "2016-02-16 19:56:35"
+            "time": "2016-02-22 18:29:58"
         },
         {
             "name": "zendframework/zend-navigation",
@@ -5026,16 +5025,16 @@
         },
         {
             "name": "zendframework/zend-view",
-            "version": "2.6.2",
+            "version": "2.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-view.git",
-                "reference": "5ada030ae7d7364bd952ace1cafc0212275d9459"
+                "reference": "2e635526eb4486dbe6a362b5670fa0464d22af67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-view/zipball/5ada030ae7d7364bd952ace1cafc0212275d9459",
-                "reference": "5ada030ae7d7364bd952ace1cafc0212275d9459",
+                "url": "https://api.github.com/repos/zendframework/zend-view/zipball/2e635526eb4486dbe6a362b5670fa0464d22af67",
+                "reference": "2e635526eb4486dbe6a362b5670fa0464d22af67",
                 "shasum": ""
             },
             "require": {
@@ -5058,6 +5057,7 @@
                 "zendframework/zend-i18n": "^2.6",
                 "zendframework/zend-json": "^2.6.1",
                 "zendframework/zend-log": "^2.7",
+                "zendframework/zend-modulemanager": "^2.5",
                 "zendframework/zend-mvc": "^2.6.1",
                 "zendframework/zend-navigation": "^2.5",
                 "zendframework/zend-paginator": "^2.5",
@@ -5104,7 +5104,7 @@
                 "view",
                 "zf2"
             ],
-            "time": "2016-02-18 16:44:16"
+            "time": "2016-02-22 18:24:35"
         },
         {
             "name": "zendframework/zend-xmlrpc",

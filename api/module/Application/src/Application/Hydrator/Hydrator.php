@@ -37,6 +37,11 @@ abstract class Hydrator extends AbstractHydrator
         return $object;
     }
 
+    public function extractArray($object)
+    {
+        return get_object_vars($object);
+    }
+
     public function buildEntity($object)
     {
         $entity = new Entity($object);
@@ -78,7 +83,7 @@ abstract class Hydrator extends AbstractHydrator
             return;
         }
 
-        $this->extractObjectMeta($embed);
+        $this->extractMeta($embed);
 
         if (is_null($linkRouteName)) {
             $linkRouteName = $embed->className . '.rest.' . $embed->className;
@@ -113,7 +118,7 @@ abstract class Hydrator extends AbstractHydrator
             return;
         }
 
-        $this->extractObjectMeta($embed);
+        $this->extractMeta($embed);
 
         if (is_null($linkRel)) {
             $linkRel = $embed->className;
@@ -132,7 +137,7 @@ abstract class Hydrator extends AbstractHydrator
         )));
     }
 
-    private function extractObjectMeta(&$object)
+    private function extractMeta(&$object)
     {
         $objectReflection = new \ReflectionClass($object);
         $object->className =

@@ -55,7 +55,7 @@ class ChannelServiceTest extends AbstractControllerTestCase
         $channelEntity = $channelService->fetch($channelId);
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
-        $this->assertEquals($channelId, $channelEntity->entity['channel_id']);
+        $this->assertEquals($channelId, $channelEntity->entity->channel_id);
     }
 
     public function testUpdate()
@@ -69,8 +69,8 @@ class ChannelServiceTest extends AbstractControllerTestCase
         $channelEntity = $channelService->update($channelId, $data);
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
-        $this->assertEquals($channelId, $channelEntity->entity['channel_id']);
-        $this->assertEquals($data['topic'], $channelEntity->entity['topic']);
+        $this->assertEquals($channelId, $channelEntity->entity->channel_id);
+        $this->assertEquals($data['topic'], $channelEntity->entity->topic);
     }
 
     public function testFetchInvalidChannel()
@@ -91,8 +91,8 @@ class ChannelServiceTest extends AbstractControllerTestCase
         $channelEntity = $channelService->fetchByUser($userId);
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
-        $this->assertEquals($channelId, $channelEntity->entity['channel_id']);
-        $this->assertFalse(array_key_exists('stream_key', $channelEntity->entity));
+        $this->assertEquals($channelId, $channelEntity->entity->channel_id);
+        $this->assertFalse(isset($channelEntity->entity->stream_key));
     }
 
     public function testFetchByUserWithStreamKey()
@@ -106,8 +106,8 @@ class ChannelServiceTest extends AbstractControllerTestCase
         ));
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
-        $this->assertEquals($channelId, $channelEntity->entity['channel_id']);
-        $this->assertTrue(array_key_exists('stream_key', $channelEntity->entity));
+        $this->assertEquals($channelId, $channelEntity->entity->channel_id);
+        $this->assertTrue(isset($channelEntity->entity->stream_key));
     }
 
     public function testFetchByInvalidUser()

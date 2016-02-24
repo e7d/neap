@@ -55,7 +55,7 @@ class ChatHydratorTest extends AbstractControllerTestCase
         $chatHydrator->setParam('embedChannel', true);
         $chatEntity = $chatHydrator->buildEntity($chat);
 
-        $this->assertInstanceOf('ZF\Hal\Entity', $chatEntity->entity['channel']);
+        $this->assertInstanceOf('ZF\Hal\Entity', $chatEntity->entity->channel);
     }
 
     public function testBuildEntityWithEmbedUser()
@@ -68,7 +68,7 @@ class ChatHydratorTest extends AbstractControllerTestCase
         $chatHydrator->setParam('embedUser', true);
         $chatEntity = $chatHydrator->buildEntity($chat);
 
-        $this->assertInstanceOf('ZF\Hal\Entity', $chatEntity->entity['user']);
+        $this->assertInstanceOf('ZF\Hal\Entity', $chatEntity->entity->user);
     }
 
     public function testBuildEntityWithLinkChannel()

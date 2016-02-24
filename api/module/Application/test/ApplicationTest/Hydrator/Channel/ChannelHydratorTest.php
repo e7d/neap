@@ -43,7 +43,7 @@ class ChannelHydratorTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
         $this->assertInstanceOf('ZF\Hal\Link\Link', $channelEntity->getLinks()->get('self'));
-        $this->assertFalse(array_key_exists('stream_key', $channelEntity->entity));
+        $this->assertFalse(isset($channelEntity->entity->stream_key));
     }
 
     public function testBuildEntityWithKeepStreamKey()
@@ -56,7 +56,7 @@ class ChannelHydratorTest extends AbstractControllerTestCase
         $channelHydrator->setParam('keepStreamKey', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
-        $this->assertTrue(array_key_exists('stream_key', $channelEntity->entity));
+        $this->assertTrue(isset($channelEntity->entity->stream_key));
     }
 
     public function testBuildEntityWithEmbedUser()
@@ -69,7 +69,7 @@ class ChannelHydratorTest extends AbstractControllerTestCase
         $channelHydrator->setParam('embedUser', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
-        $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity->entity['user']);
+        $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity->entity->user);
     }
 
     public function testBuildEntityWithEmbedLiveStream()
@@ -82,7 +82,7 @@ class ChannelHydratorTest extends AbstractControllerTestCase
         $channelHydrator->setParam('embedLiveStream', true);
         $channelEntity = $channelHydrator->buildEntity($channel);
 
-        $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity->entity['stream']);
+        $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity->entity->stream);
     }
 
     public function testBuildEntityWithLinkUser()

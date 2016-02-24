@@ -11,9 +11,9 @@ namespace Application\Hydrator;
 
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
-use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Stdlib\Hydrator\AbstractHydrator;
 
-abstract class Hydrator implements HydratorInterface
+abstract class Hydrator extends AbstractHydrator
 {
     protected $entity;
     protected $link;
@@ -34,7 +34,7 @@ abstract class Hydrator implements HydratorInterface
 
     public function extract($object)
     {
-        return get_object_vars($object);
+        return $object;
     }
 
     public function buildEntity($object)

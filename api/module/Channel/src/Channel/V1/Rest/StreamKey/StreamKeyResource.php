@@ -37,7 +37,7 @@ class StreamKeyResource extends AbstractResourceListener
         }
 
         $identity = $this->identityService->getIdentity();
-        if (!$this->channelService->isOwner($channelId, $identity->entity['user_id'])) {
+        if (!$this->channelService->isOwner($channelId, $identity->entity->user_id)) {
             return new ApiProblem(403, 'The channel is not your property.');
         }
 

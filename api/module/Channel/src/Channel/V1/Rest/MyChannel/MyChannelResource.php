@@ -28,6 +28,6 @@ class MyChannelResource extends AbstractResourceListener
         );
         $user = $this->identityService->getIdentity();
 
-        return $this->channelService->fetchByUser($user->entity['user_id'], array_merge($data, (array) $params));
+        return $this->channelService->fetchByUser($user->user_id, array_merge($data, (array) $params));
     }
 }

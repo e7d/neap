@@ -40,7 +40,7 @@ class ChannelResourceTest extends AbstractControllerTestCase
         $channelEntity = $channelResource->fetch($channelId);
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
-        $this->assertEquals($channelId, $channelEntity->entity['channel_id']);
+        $this->assertEquals($channelId, $channelEntity->entity->channel_id);
     }
 
     public function testFetchAll()
@@ -74,8 +74,8 @@ class ChannelResourceTest extends AbstractControllerTestCase
         $channelEntity = $channelResource->update($channelId, $data);
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
-        $this->assertEquals($channelId, $channelEntity->entity['channel_id']);
-        $this->assertEquals($data['topic'], $channelEntity->entity['topic']);
+        $this->assertEquals($channelId, $channelEntity->entity->channel_id);
+        $this->assertEquals($data['topic'], $channelEntity->entity->topic);
     }
 
     public function testUpdateWithInvalidUser()

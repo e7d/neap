@@ -32,6 +32,6 @@ class MyUserResource extends AbstractResourceListener
     public function fetchAll($params = [])
     {
         $user = $this->identityService->getIdentity();
-        return $this->userService->fetch($user->entity['user_id']);
+        return $this->userService->fetch($user->user_id);
     }
 }

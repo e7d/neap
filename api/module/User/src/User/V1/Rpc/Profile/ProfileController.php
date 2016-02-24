@@ -4,7 +4,7 @@ namespace User\V1\Rpc\Profile;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use ZF\ApiProblem\ApiProblem;
-use ZF\ContentNegotiation\ViewModel;
+use ZF\Hal\View\HalJsonModel;
 
 class ProfileController extends AbstractActionController
 {
@@ -14,11 +14,13 @@ class ProfileController extends AbstractActionController
 
         switch ($method) {
             case 'GET':
-                $profile = $this->getServiceLocator()
-                    ->get('Application\Authorization\IdentityService')
-                    ->getIdentity();
+                $serviceLocator = $this->getServiceLocator();
 
-                return new ViewModel((array) $profile->entity);
+                $identityService = $serviceLocator
+                    ->get('Application\Authorization\IdentityService');
+                $user = $identityService->getIdentity();
+
+                return new HalJsonModel(get_object_vars($user));
                 break;
 
             case 'DELETE':

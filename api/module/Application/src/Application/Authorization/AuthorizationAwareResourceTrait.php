@@ -31,12 +31,12 @@ trait AuthorizationAwareResourceTrait
             return new ApiProblem(500, 'This resource service does not expose an owner validation method');
         }
 
-        $identity = $this->identityService->getIdentity();
-        if (is_null($identity)) {
+        $user = $this->identityService->getIdentity();
+        if (is_null($user)) {
             return new ApiProblem(401, 'This resource service requires a logged in user');
         }
 
-        if (!$this->service->isOwner($entityId, $identity->user_id)) {
+        if (!$this->service->isOwner($entityId, $user->user_id)) {
             return new ApiProblem(403, 'The entity is not your property');
         }
 

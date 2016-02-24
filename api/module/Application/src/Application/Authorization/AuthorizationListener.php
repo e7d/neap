@@ -31,12 +31,12 @@ class AuthorizationListener
         $identity = $mvcAuthEvent->getIdentity()->getAuthenticationIdentity();
 
         if (!is_null($identity)) {
-            $identity = $this->services
-                ->get('User\V1\Service\UserService')
+            $user = $this->services
+                ->get('Application\Database\User\UserModel')
                 ->fetch($identity['user_id']);
             $this->services
                 ->get('Application\Authorization\IdentityService')
-                ->setIdentity($identity);
+                ->setIdentity($user);
         }
     }
 }

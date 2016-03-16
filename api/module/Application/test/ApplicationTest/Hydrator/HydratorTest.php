@@ -57,6 +57,35 @@ class HydratorTest extends AbstractControllerTestCase
         $this->assertEquals($streamId, $result->entity->stream_id);
     }
 
+    public function testExtract()
+    {
+        $hydratorStub = $this->getMockForAbstractClass('Application\Hydrator\Hydrator');
+
+        $object = new \stdClass();
+        $object->test = 'test';
+
+        $extract = $hydratorStub->extract($object);
+
+        $this->assertEquals($object, $extract);
+    }
+
+    public function testExtractArray()
+    {
+        $hydratorStub = $this->getMockForAbstractClass('Application\Hydrator\Hydrator');
+
+        $object = new \stdClass();
+        $object->test = 'test';
+
+        $extract = $hydratorStub->extractArray($object);
+
+        $this->assertEquals(
+            array(
+                'test' => 'test'
+            ),
+            $extract
+        );
+    }
+
     public function testGetAndSetParam()
     {
         $hydratorStub = $this->getMockForAbstractClass('Application\Hydrator\Hydrator');

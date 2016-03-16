@@ -7,8 +7,7 @@ DIR=$(dirname `which $0`)
 
 cd ${DIR}
 
-for arg in "$@"
-do
+for arg in "$@"; do
 case $arg in
 	-c|--copy-configuration)
 		COPYCONFIGURATION=YES
@@ -25,6 +24,9 @@ case $arg in
 	;;
 	-q|--code-quality)
 		CODEQUALITY=YES
+	;;
+	-r|--reset-db)
+		DATABASE=YES
 	;;
 	-s|--scrutinizer)
 		SCRUTINIZER=YES
@@ -66,6 +68,7 @@ if [[ "$HELP" == "YES" ]]; then
 	echo "  -l, --coveralls             upload code coverage report to Coveralls"
 	echo "                                requires -v=xml"
 	echo "  -q, --code-quality          generate code quality report"
+	echo "  -r, --reset-db              reset database data"
 	echo "  -s, --scrutinizer           upload code quality and code coverage reports to Scrutinizer"
 	echo "                                requires -q -v=xml"
 	echo "  -t, --travis                shortcut for Travis, using: -u -c -v=xml -q -l -s"
@@ -94,6 +97,17 @@ fi
 try
 (
 	throwErrors
+
+	if [[ "$DATABASE" == "YES" ]]; then
+		echox "${text_cyan}Reset and populate API database"
+		sudo -u "postgres" psql --quiet "postgres" -f /vagrant/resources/database/init.sql;
+		sudo -u "postgres" psql --quiet "neap" -f /vagrant/resources/database/structure.sql;
+		sudo -u "postgres" psql --quiet "neap" -f /vagrant/resources/database/oauth2.sql;
+		sudo -u "postgres" psql --quiet "neap" -f /vagrant/resources/database/data.sql;
+
+		echox "${text_cyan}Import fixtures"
+		sudo -u "postgres" psql --quiet "neap" -f /vagrant/resources/database/fixtures.sql;
+	fi
 
 	if [[ "$COMPOSERUPDATE" == "YES" ]]; then
 		echox "${text_cyan}Update composer"

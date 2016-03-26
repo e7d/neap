@@ -83,25 +83,25 @@ abstract class Hydrator extends AbstractHydrator
             return;
         }
 
-        $this->extractMeta($embed);
+        list($embedClassName, $embedPrimaryKey) = $this->extractMeta($embed);
 
         if (is_null($linkRouteName)) {
-            $linkRouteName = $embed->className . '.rest.' . $embed->className;
+            $linkRouteName = $embedClassName . '.rest.' . $embedClassName;
         }
         $linkSpec = array(
             'rel' => 'self',
             'route' => array(
                 'name' => $linkRouteName,
                 'params' => array(
-                    $embed->primaryKey => $embed->{$embed->primaryKey},
+                    $embedPrimaryKey => $embed->{$embedPrimaryKey},
                 ),
             ),
         );
 
-        $entity = new Entity($embed, $embed->{$embed->primaryKey});
+        $entity = new Entity($embed, $embed->{$embedPrimaryKey});
 
         $entity->getLinks()->add($this->link->factory($linkSpec));
-        $this->object->{$embed->className} = $entity;
+        $this->object->{$embedClassName} = $entity;
     }
 
     public function addSelfLink()
@@ -118,30 +118,31 @@ abstract class Hydrator extends AbstractHydrator
             return;
         }
 
-        $this->extractMeta($embed);
+        list($embedClassName, $embedPrimaryKey) = $this->extractMeta($embed);
 
         if (is_null($linkRel)) {
-            $linkRel = $embed->className;
+            $linkRel = $embedClassName;
         }
         if (is_null($linkRouteName)) {
-            $linkRouteName = $embed->className . '.rest.' . $embed->className;
+            $linkRouteName = $embedClassName . '.rest.' . $embedClassName;
         }
         $this->entity->getLinks()->add($this->link->factory(array(
             'rel' => $linkRel,
             'route' => array(
                 'name' => $linkRouteName,
                 'params' => array(
-                    $embed->primaryKey => $embed->{$embed->primaryKey},
+                    $embedPrimaryKey => $embed->{$embedPrimaryKey},
                 ),
             ),
         )));
     }
 
-    private function extractMeta(&$object)
+    private function extractMeta($object)
     {
         $objectReflection = new \ReflectionClass($object);
-        $object->className =
-        strtolower($objectReflection->getShortName());
-        $object->primaryKey = $objectReflection->getProperties()[0]->name;
+        $className = strtolower($objectReflection->getShortName());
+        $primaryKey = $objectReflection->getProperties()[0]->name;
+
+        return array($className, $primaryKey);
     }
 }

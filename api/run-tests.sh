@@ -111,7 +111,7 @@ try
 
 	if [[ "$COMPOSERUPDATE" == "YES" ]]; then
 		echox "${text_cyan}Update composer"
-		composer self-update
+		sudo composer self-update
 		composer install --no-interaction --ignore-platform-reqs --prefer-source
 	fi
 

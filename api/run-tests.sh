@@ -100,18 +100,18 @@ try
 
 	if [[ "$DATABASE" == "YES" ]]; then
 		echox "${text_cyan}Reset and populate API database"
-		sudo -u "postgres" psql --quiet "postgres" -f /vagrant/resources/database/init.sql;
-		sudo -u "postgres" psql --quiet "neap" -f /vagrant/resources/database/structure.sql;
-		sudo -u "postgres" psql --quiet "neap" -f /vagrant/resources/database/oauth2.sql;
-		sudo -u "postgres" psql --quiet "neap" -f /vagrant/resources/database/data.sql;
+		psql --quiet "postgres" -U postgres -f resources/database/init.sql
+		psql --quiet "neap" -U postgres -f resources/database/structure.sql
+		psql --quiet "neap" -U postgres -f resources/database/oauth2.sql
+		psql --quiet "neap" -U postgres -f resources/database/data.sql
 
 		echox "${text_cyan}Import fixtures"
-		sudo -u "postgres" psql --quiet "neap" -f /vagrant/resources/database/fixtures.sql;
+		psql --quiet "neap" -U postgres -f resources/database/fixtures.sql
 	fi
 
 	if [[ "$COMPOSERUPDATE" == "YES" ]]; then
 		echox "${text_cyan}Update composer"
-		sudo composer self-update
+		composer self-update
 		composer install --no-interaction --ignore-platform-reqs --prefer-source
 	fi
 

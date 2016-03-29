@@ -167,7 +167,7 @@ return array(
             'listener' => 'User\\V1\\Rest\\Block\\BlockResource',
             'route_name' => 'user.rest.block',
             'route_identifier_name' => 'target_user_id',
-            'collection_name' => 'blocked_users',
+            'collection_name' => 'users',
             'entity_http_methods' => array(
                 0 => 'PUT',
                 1 => 'DELETE',
@@ -207,7 +207,7 @@ return array(
             'listener' => 'User\\V1\\Rest\\Favorite\\FavoriteResource',
             'route_name' => 'user.rest.favorite',
             'route_identifier_name' => 'channel_id',
-            'collection_name' => 'favorites',
+            'collection_name' => 'channels',
             'entity_http_methods' => array(
                 0 => 'PUT',
                 1 => 'DELETE',

@@ -96,8 +96,7 @@ class UserService
             $hydratingResultSet
         );
 
-        $collection = new BlockCollection($paginatorAdapter);
-        return $collection;
+        return new BlockCollection($paginatorAdapter);
     }
 
     public function fetchByChannel($channelId)
@@ -133,8 +132,7 @@ class UserService
             $hydratingResultSet
         );
 
-        $collection = new FavoriteCollection($paginatorAdapter);
-        return $collection;
+        return new FavoriteCollection($paginatorAdapter);
     }
 
     public function fetchFollows($params)
@@ -155,8 +153,7 @@ class UserService
             $hydratingResultSet
         );
 
-        $collection = new FollowCollection($paginatorAdapter);
-        return $collection;
+        return new FollowCollection($paginatorAdapter);
     }
 
     public function fetchMods($params)
@@ -177,8 +174,7 @@ class UserService
             $hydratingResultSet
         );
 
-        $collection = new ModCollection($paginatorAdapter);
-        return $collection;
+        return new ModCollection($paginatorAdapter);
     }
 
     public function fetchTeams($params)
@@ -199,8 +195,7 @@ class UserService
             $hydratingResultSet
         );
 
-        $collection = new TeamCollection($paginatorAdapter);
-        return $collection;
+        return new TeamCollection($paginatorAdapter);
     }
 
     public function patch($userId, $data)

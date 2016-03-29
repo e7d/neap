@@ -11,7 +11,7 @@ namespace Search\V1\Rest\Channel;
 
 class ChannelResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new ChannelResource();
     }

@@ -18,17 +18,17 @@ use Zend\Paginator\Adapter\DbSelect;
 
 class IngestService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetchAll($params = [])
     {
-        $ingestModel = $this->services->get('Application\Database\Ingest\IngestModel');
-        $ingestHydrator = $this->services->get('Application\Hydrator\Ingest\IngestHydrator');
+        $ingestModel = $this->serviceManager->get('Application\Database\Ingest\IngestModel');
+        $ingestHydrator = $this->serviceManager->get('Application\Hydrator\Ingest\IngestHydrator');
 
         $select = $ingestModel->getSqlSelect();
 
@@ -51,8 +51,8 @@ class IngestService
 
     public function fetch($ingestId)
     {
-        $ingestModel = $this->services->get('Application\Database\Ingest\IngestModel');
-        $ingestHydrator = $this->services->get('Application\Hydrator\Ingest\IngestHydrator');
+        $ingestModel = $this->serviceManager->get('Application\Database\Ingest\IngestModel');
+        $ingestHydrator = $this->serviceManager->get('Application\Hydrator\Ingest\IngestHydrator');
 
         $ingest = $ingestModel->fetch($ingestId);
         if (!$ingest) {
@@ -66,8 +66,8 @@ class IngestService
 
     public function fetchOutages($params)
     {
-        $outageModel = $this->services->get('Application\Database\Outage\OutageModel');
-        $outageHydrator = $this->services->get('Application\Hydrator\Outage\OutageHydrator');
+        $outageModel = $this->serviceManager->get('Application\Database\Outage\OutageModel');
+        $outageHydrator = $this->serviceManager->get('Application\Hydrator\Outage\OutageHydrator');
 
         $select = $outageModel->selectByIngest($params['ingest_id']);
 

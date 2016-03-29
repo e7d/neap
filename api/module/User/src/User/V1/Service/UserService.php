@@ -27,17 +27,17 @@ use Zend\Paginator\Adapter\DbSelect;
 
 class UserService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetch($userId)
     {
-        $userModel = $this->services->get('Application\Database\User\UserModel');
-        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
         $user = $userModel->fetch($userId);
         if (!$user) {
@@ -56,8 +56,8 @@ class UserService
 
     public function fetchAll($params = [])
     {
-        $userModel = $this->services->get('Application\Database\User\UserModel');
-        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
         $select = $userModel->getSqlSelect();
 
@@ -80,8 +80,8 @@ class UserService
 
     public function fetchBlockedUsers($params)
     {
-        $userModel = $this->services->get('Application\Database\User\UserModel');
-        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
         $select = $userModel->selectBlocksByUser($params['user_id']);
 
@@ -101,8 +101,8 @@ class UserService
 
     public function fetchByChannel($channelId)
     {
-        $userModel = $this->services->get('Application\Database\User\UserModel');
-        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
         $user = $userModel->fetchByChannel($channelId);
         if (!$user) {
@@ -116,8 +116,8 @@ class UserService
 
     public function fetchFavorites($params)
     {
-        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
-        $videoHydrator = $this->services->get('Application\Hydrator\Video\VideoHydrator');
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->serviceManager->get('Application\Hydrator\Video\VideoHydrator');
 
         $select = $videoModel->selectFavoritesByUser($params['user_id']);
 
@@ -137,8 +137,8 @@ class UserService
 
     public function fetchFollows($params)
     {
-        $channelModel = $this->services->get('Application\Database\CHannel\CHannelModel');
-        $channelHydrator = $this->services->get('Application\Hydrator\CHannel\CHannelHydrator');
+        $channelModel = $this->serviceManager->get('Application\Database\CHannel\CHannelModel');
+        $channelHydrator = $this->serviceManager->get('Application\Hydrator\CHannel\CHannelHydrator');
 
         $select = $channelModel->selectFollowsByUser($params['user_id']);
 
@@ -158,8 +158,8 @@ class UserService
 
     public function fetchMods($params)
     {
-        $chatModel = $this->services->get('Application\Database\Chat\ChatModel');
-        $chatHydrator = $this->services->get('Application\Hydrator\Chat\ChatHydrator');
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->serviceManager->get('Application\Hydrator\Chat\ChatHydrator');
 
         $select = $chatModel->selectModsByUser($params['user_id']);
 
@@ -179,8 +179,8 @@ class UserService
 
     public function fetchTeams($params)
     {
-        $teamModel = $this->services->get('Application\Database\Team\TeamModel');
-        $teamHydrator = $this->services->get('Application\Hydrator\Team\TeamHydrator');
+        $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');
+        $teamHydrator = $this->serviceManager->get('Application\Hydrator\Team\TeamHydrator');
 
         $select = $teamModel->selectByUser($params['user_id']);
 
@@ -200,7 +200,7 @@ class UserService
 
     public function patch($userId, $data)
     {
-        $userModel = $this->services->get('Application\Database\User\UserModel');
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
 
         // if we have an updated logo
         if (array_key_exists('logo', $data)) {

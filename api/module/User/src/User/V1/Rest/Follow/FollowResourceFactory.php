@@ -11,11 +11,11 @@ namespace User\V1\Rest\Follow;
 
 class FollowResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new FollowResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('User\V1\Service\UserService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('User\V1\Service\UserService')
         );
     }
 }

@@ -11,10 +11,10 @@ namespace Application\Database\Team;
 
 class TeamModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new TeamModel(
-            $services->get('Application\Database\Team\TeamTableGateway')
+            $serviceManager->get('Application\Database\Team\TeamTableGateway')
         );
     }
 }

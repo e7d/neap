@@ -11,7 +11,7 @@ namespace Search\V1\Rest\Stream;
 
 class StreamResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new StreamResource();
     }

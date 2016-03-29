@@ -11,8 +11,8 @@ namespace Video\V1\Service;
 
 class VideoServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new VideoService($services);
+        return new VideoService($serviceManager);
     }
 }

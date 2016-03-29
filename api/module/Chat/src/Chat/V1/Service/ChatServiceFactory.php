@@ -11,8 +11,8 @@ namespace Chat\V1\Service;
 
 class ChatServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new ChatService($services);
+        return new ChatService($serviceManager);
     }
 }

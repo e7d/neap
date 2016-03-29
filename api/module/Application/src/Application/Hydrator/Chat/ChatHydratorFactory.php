@@ -11,12 +11,12 @@ namespace Application\Hydrator\Chat;
 
 class ChatHydratorFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new ChatHydrator(
-            $services->get('Application\Database\Chat\ChatModel'),
-            $services->get('Application\Database\Channel\ChannelModel'),
-            $services->get('Application\Database\User\UserModel')
+            $serviceManager->get('Application\Database\Chat\ChatModel'),
+            $serviceManager->get('Application\Database\Channel\ChannelModel'),
+            $serviceManager->get('Application\Database\User\UserModel')
         );
     }
 }

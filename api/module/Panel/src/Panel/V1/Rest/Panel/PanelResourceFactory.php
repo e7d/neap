@@ -11,7 +11,7 @@ namespace Panel\V1\Rest\Panel;
 
 class PanelResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new PanelResource();
     }

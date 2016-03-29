@@ -11,7 +11,7 @@ namespace Search\V1\Rest\Topic;
 
 class TopicResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new TopicResource();
     }

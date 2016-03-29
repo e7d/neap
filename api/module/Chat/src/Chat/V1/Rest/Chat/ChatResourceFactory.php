@@ -11,11 +11,11 @@ namespace Chat\V1\Rest\Chat;
 
 class ChatResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new ChatResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('Chat\V1\Service\ChatService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('Chat\V1\Service\ChatService')
         );
     }
 }

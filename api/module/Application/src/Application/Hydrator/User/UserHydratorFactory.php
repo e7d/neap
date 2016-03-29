@@ -11,11 +11,11 @@ namespace Application\Hydrator\User;
 
 class UserHydratorFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new UserHydrator(
-            $services->get('Application\Database\User\UserModel'),
-            $services->get('Application\Database\Channel\ChannelModel')
+            $serviceManager->get('Application\Database\User\UserModel'),
+            $serviceManager->get('Application\Database\Channel\ChannelModel')
         );
     }
 }

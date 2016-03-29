@@ -11,10 +11,10 @@ namespace Application\Hydrator\Outage;
 
 class OutageHydratorFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new OutageHydrator(
-            $services->get('Application\Database\Ingest\IngestModel')
+            $serviceManager->get('Application\Database\Ingest\IngestModel')
         );
     }
 }

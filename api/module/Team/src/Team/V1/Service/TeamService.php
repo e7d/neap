@@ -19,17 +19,17 @@ use Zend\Paginator\Paginator;
 
 class TeamService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetchAll($params = [])
     {
-        $teamModel = $this->services->get('Application\Database\Team\TeamModel');
-        $teamHydrator = $this->services->get('Application\Hydrator\Team\TeamHydrator');
+        $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');
+        $teamHydrator = $this->serviceManager->get('Application\Hydrator\Team\TeamHydrator');
 
         $select = $teamModel->getSqlSelect();
 
@@ -52,8 +52,8 @@ class TeamService
 
     public function fetch($teamId)
     {
-        $teamModel = $this->services->get('Application\Database\Team\TeamModel');
-        $teamHydrator = $this->services->get('Application\Hydrator\Team\TeamHydrator');
+        $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');
+        $teamHydrator = $this->serviceManager->get('Application\Hydrator\Team\TeamHydrator');
 
         $team = $teamModel->fetch($teamId);
         if (!$team) {
@@ -67,8 +67,8 @@ class TeamService
 
     public function fetchUsers($params)
     {
-        $userModel = $this->services->get('Application\Database\User\UserModel');
-        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
         $select = $userModel->selectByTeam($params['team_id']);
 

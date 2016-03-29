@@ -11,10 +11,10 @@ namespace Application\Database;
 
 class DatabaseServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new DatabaseService(
-            $services->get('Config')['db']['adapters']['neap']
+            $serviceManager->get('Config')['db']['adapters']['neap']
         );
     }
 }

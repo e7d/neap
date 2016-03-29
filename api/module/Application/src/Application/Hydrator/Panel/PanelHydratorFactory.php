@@ -11,10 +11,10 @@ namespace Application\Hydrator\Panel;
 
 class PanelHydratorFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new PanelHydrator(
-            $services->get('Application\Database\Channel\ChannelModel')
+            $serviceManager->get('Application\Database\Channel\ChannelModel')
         );
     }
 }

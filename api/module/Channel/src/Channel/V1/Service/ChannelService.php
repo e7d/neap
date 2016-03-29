@@ -22,17 +22,17 @@ use Zend\Paginator\Adapter\DbSelect;
 
 class ChannelService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetchAll($params = [])
     {
-        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
-        $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->serviceManager->get('Application\Hydrator\Channel\ChannelHydrator');
 
         $select = $channelModel->getSqlSelect();
 
@@ -59,8 +59,8 @@ class ChannelService
 
     public function fetch($channelId)
     {
-        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
-        $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->serviceManager->get('Application\Hydrator\Channel\ChannelHydrator');
 
         $channel = $channelModel->fetch($channelId);
         if (!$channel) {
@@ -78,8 +78,8 @@ class ChannelService
 
     public function update($channelId, $data)
     {
-        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
-        $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->serviceManager->get('Application\Hydrator\Channel\ChannelHydrator');
 
         $channel = $channelModel->update($channelId, $data);
 
@@ -88,8 +88,8 @@ class ChannelService
 
     public function fetchByUser($userId, $params = array())
     {
-        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
-        $channelHydrator = $this->services->get('Application\Hydrator\Channel\ChannelHydrator');
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->serviceManager->get('Application\Hydrator\Channel\ChannelHydrator');
 
         $channel = $channelModel->fetchByUser($userId);
         if (!$channel) {
@@ -110,8 +110,8 @@ class ChannelService
 
     public function fetchFollowers($params)
     {
-        $userModel = $this->services->get('Application\Database\User\UserModel');
-        $userHydrator = $this->services->get('Application\Hydrator\User\UserHydrator');
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
         $select = $userModel->selectFollowersByChannel($params['channel_id']);
 
@@ -132,8 +132,8 @@ class ChannelService
 
     public function fetchPanels($params)
     {
-        $panelModel = $this->services->get('Application\Database\Panel\PanelModel');
-        $panelHydrator = $this->services->get('Application\Hydrator\Panel\PanelHydrator');
+        $panelModel = $this->serviceManager->get('Application\Database\Panel\PanelModel');
+        $panelHydrator = $this->serviceManager->get('Application\Hydrator\Panel\PanelHydrator');
 
         $select = $panelModel->selectByChannel($params['channel_id']);
 
@@ -154,8 +154,8 @@ class ChannelService
 
     public function fetchVideos($params)
     {
-        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
-        $videoHydrator = $this->services->get('Application\Hydrator\Video\VideoHydrator');
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->serviceManager->get('Application\Hydrator\Video\VideoHydrator');
 
         $select = $videoModel->selectByChannel($params['channel_id']);
 
@@ -180,7 +180,7 @@ class ChannelService
 
     public function isOwner($channelId, $userId)
     {
-        $channelModel = $this->services->get('Application\Database\Channel\ChannelModel');
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
 
         $channel = $channelModel->fetch($channelId);
         if (is_null($channel)) {

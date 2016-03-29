@@ -11,10 +11,10 @@ namespace Application\Hydrator\Team;
 
 class TeamHydratorFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new TeamHydrator(
-            $services->get('Application\Database\User\UserModel')
+            $serviceManager->get('Application\Database\User\UserModel')
         );
     }
 }

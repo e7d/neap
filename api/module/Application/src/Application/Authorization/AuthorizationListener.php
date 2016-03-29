@@ -13,11 +13,11 @@ use ZF\MvcAuth\MvcAuthEvent;
 
 class AuthorizationListener
 {
-    protected $services;
+    protected $serviceManager;
 
-    public function setServiceManager($services)
+    public function setServiceManager($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     /**
@@ -31,10 +31,10 @@ class AuthorizationListener
         $identity = $mvcAuthEvent->getIdentity()->getAuthenticationIdentity();
 
         if (!is_null($identity)) {
-            $user = $this->services
+            $user = $this->serviceManager
                 ->get('Application\Database\User\UserModel')
                 ->fetch($identity['user_id']);
-            $this->services
+            $this->serviceManager
                 ->get('Application\Authorization\IdentityService')
                 ->setIdentity($user);
         }

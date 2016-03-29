@@ -11,11 +11,11 @@ namespace User\V1\Rest\Mod;
 
 class ModResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new ModResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('User\V1\Service\UserService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('User\V1\Service\UserService')
         );
     }
 }

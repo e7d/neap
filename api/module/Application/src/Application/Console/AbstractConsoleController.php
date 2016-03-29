@@ -16,7 +16,7 @@ use Zend\Mvc\Controller\AbstractConsoleController as ZendAbstractConsoleControll
 class AbstractConsoleController extends ZendAbstractConsoleController implements ServiceLocatorAwareInterface
 {
     private $config;
-    private $services;
+    private $serviceManager;
 
     /**
      * @param string $key
@@ -32,14 +32,14 @@ class AbstractConsoleController extends ZendAbstractConsoleController implements
 
     public function getServiceLocator()
     {
-        return $this->services;
+        return $this->serviceManager;
     }
 
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    public function setServiceLocator(ServiceLocatorInterface $serviceManager)
     {
-        if ($serviceLocator instanceof \Zend\Mvc\Controller\ControllerManager) {
-            $this->services = $serviceLocator;
-            $this->config = $serviceLocator->getServiceLocator()->get('config');
+        if ($serviceManager instanceof \Zend\Mvc\Controller\ControllerManager) {
+            $this->serviceManager = $serviceManager;
+            $this->config = $serviceManager->getServiceLocator()->get('config');
         }
         return $this;
     }

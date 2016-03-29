@@ -11,11 +11,11 @@ namespace Channel\V1\Rest\StreamKey;
 
 class StreamKeyResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new StreamKeyResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('Channel\V1\Service\ChannelService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('Channel\V1\Service\ChannelService')
         );
     }
 }

@@ -11,8 +11,8 @@ namespace Ingest\V1\Service;
 
 class IngestServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new IngestService($services);
+        return new IngestService($serviceManager);
     }
 }

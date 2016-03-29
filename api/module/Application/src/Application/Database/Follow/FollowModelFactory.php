@@ -11,10 +11,10 @@ namespace Application\Database\Follow;
 
 class FollowModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new FollowModel(
-            $services->get('Application\Database\Follow\FollowTableGateway')
+            $serviceManager->get('Application\Database\Follow\FollowTableGateway')
         );
     }
 }

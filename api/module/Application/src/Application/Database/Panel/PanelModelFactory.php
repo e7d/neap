@@ -11,10 +11,10 @@ namespace Application\Database\Panel;
 
 class PanelModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new PanelModel(
-            $services->get('Application\Database\Panel\PanelTableGateway')
+            $serviceManager->get('Application\Database\Panel\PanelTableGateway')
         );
     }
 }

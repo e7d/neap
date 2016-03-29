@@ -20,17 +20,17 @@ use Zend\Paginator\Paginator;
 
 class TopicService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetchAll($params = [])
     {
-        $topicModel = $this->services->get('Application\Database\Topic\TopicModel');
-        $topicHydrator = $this->services->get('Application\Hydrator\Topic\TopicHydrator');
+        $topicModel = $this->serviceManager->get('Application\Database\Topic\TopicModel');
+        $topicHydrator = $this->serviceManager->get('Application\Hydrator\Topic\TopicHydrator');
 
         $select = $topicModel->selectWithStats();
         if (array_key_exists('top', $params)) {
@@ -54,8 +54,8 @@ class TopicService
 
     public function fetch($topicId)
     {
-        $topicModel = $this->services->get('Application\Database\Topic\TopicModel');
-        $topicHydrator = $this->services->get('Application\Hydrator\Topic\TopicHydrator');
+        $topicModel = $this->serviceManager->get('Application\Database\Topic\TopicModel');
+        $topicHydrator = $this->serviceManager->get('Application\Hydrator\Topic\TopicHydrator');
 
         $topic = $topicModel->fetch($topicId);
         if (!$topic) {

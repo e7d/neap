@@ -11,10 +11,10 @@ namespace Application\Database\Mod;
 
 class ModModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new ModModel(
-            $services->get('Application\Database\Mod\ModTableGateway')
+            $serviceManager->get('Application\Database\Mod\ModTableGateway')
         );
     }
 }

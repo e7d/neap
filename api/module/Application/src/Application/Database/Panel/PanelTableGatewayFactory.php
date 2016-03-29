@@ -15,9 +15,9 @@ use Zend\Db\TableGateway\TableGateway;
 
 class PanelTableGatewayFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        $adapter = $services->get('Application\Database\DatabaseService')->getAdapter();
+        $adapter = $serviceManager->get('Application\Database\DatabaseService')->getAdapter();
         $resultSet = new ResultSet();
         $resultSet->setArrayObjectPrototype(new Panel());
         return new TableGateway('panel', $adapter, null, $resultSet);

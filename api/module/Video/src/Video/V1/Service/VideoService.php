@@ -18,17 +18,17 @@ use Zend\Paginator\Paginator;
 
 class VideoService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetchAll($params = [])
     {
-        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
-        $videoHydrator = $this->services->get('Application\Hydrator\Video\VideoHydrator');
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->serviceManager->get('Application\Hydrator\Video\VideoHydrator');
 
         $select = $videoModel->getSqlSelect();
 
@@ -53,8 +53,8 @@ class VideoService
 
     public function fetch($videoId)
     {
-        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
-        $videoHydrator = $this->services->get('Application\Hydrator\Video\VideoHydrator');
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->serviceManager->get('Application\Hydrator\Video\VideoHydrator');
 
         $video = $videoModel->fetch($videoId);
         if (!$video) {
@@ -70,14 +70,14 @@ class VideoService
 
     public function fetchByChannel($channelId)
     {
-        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
 
         return $videoModel->fetchByChannel($channelId);
     }
 
     public function fetchByUser($userId)
     {
-        $videoModel = $this->services->get('Application\Database\Video\VideoModel');
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
 
         return $videoModel->fetchByUser($userId);
     }

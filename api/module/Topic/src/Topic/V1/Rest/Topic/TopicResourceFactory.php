@@ -11,11 +11,11 @@ namespace Topic\V1\Rest\Topic;
 
 class TopicResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new TopicResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('Topic\V1\Service\TopicService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('Topic\V1\Service\TopicService')
         );
     }
 }

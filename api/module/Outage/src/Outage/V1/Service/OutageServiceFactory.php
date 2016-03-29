@@ -11,8 +11,8 @@ namespace Outage\V1\Service;
 
 class OutageServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new OutageService($services);
+        return new OutageService($serviceManager);
     }
 }

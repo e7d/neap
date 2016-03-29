@@ -11,10 +11,10 @@ namespace Application\Database\User;
 
 class UserModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new UserModel(
-            $services->get('Application\Database\User\UserTableGateway')
+            $serviceManager->get('Application\Database\User\UserTableGateway')
         );
     }
 }

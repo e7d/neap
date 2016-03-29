@@ -11,12 +11,12 @@ namespace Application\Hydrator\Video;
 
 class VideoHydratorFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new VideoHydrator(
-            $services->get('Application\Database\Stream\StreamModel'),
-            $services->get('Application\Database\Channel\ChannelModel'),
-            $services->get('Application\Database\User\UserModel')
+            $serviceManager->get('Application\Database\Stream\StreamModel'),
+            $serviceManager->get('Application\Database\Channel\ChannelModel'),
+            $serviceManager->get('Application\Database\User\UserModel')
         );
     }
 }

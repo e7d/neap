@@ -15,9 +15,9 @@ use Zend\Db\TableGateway\TableGateway;
 
 class OutageTableGatewayFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        $adapter = $services->get('Application\Database\DatabaseService')->getAdapter();
+        $adapter = $serviceManager->get('Application\Database\DatabaseService')->getAdapter();
         $resultSet = new ResultSet();
         $resultSet->setArrayObjectPrototype(new Outage());
         return new TableGateway('outage', $adapter, null, $resultSet);

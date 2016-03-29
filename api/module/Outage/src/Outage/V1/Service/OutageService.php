@@ -16,17 +16,17 @@ use Zend\Paginator\Adapter\DbSelect;
 
 class OutageService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetchAll($params = [])
     {
-        $outageModel = $this->services->get('Application\Database\Outage\OutageModel');
-        $outageHydrator = $this->services->get('Application\Hydrator\Outage\OutageHydrator');
+        $outageModel = $this->serviceManager->get('Application\Database\Outage\OutageModel');
+        $outageHydrator = $this->serviceManager->get('Application\Hydrator\Outage\OutageHydrator');
 
         $select = $outageModel->getSqlSelect();
 
@@ -49,8 +49,8 @@ class OutageService
 
     public function fetch($outageId)
     {
-        $outageModel = $this->services->get('Application\Database\Outage\OutageModel');
-        $outageHydrator = $this->services->get('Application\Hydrator\Outage\OutageHydrator');
+        $outageModel = $this->serviceManager->get('Application\Database\Outage\OutageModel');
+        $outageHydrator = $this->serviceManager->get('Application\Hydrator\Outage\OutageHydrator');
 
         $outage = $outageModel->fetch($outageId);
         if (!$outage) {

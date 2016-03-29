@@ -11,8 +11,8 @@ namespace Channel\V1\Service;
 
 class ChannelServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new ChannelService($services);
+        return new ChannelService($serviceManager);
     }
 }

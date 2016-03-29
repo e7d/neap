@@ -11,8 +11,8 @@ namespace User\V1\Service;
 
 class UserServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new UserService($services);
+        return new UserService($serviceManager);
     }
 }

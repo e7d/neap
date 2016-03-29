@@ -13,10 +13,10 @@ class TranslateControllerFactory
 {
     public function __invoke($controllers)
     {
-        $services = $controllers->getServiceLocator();
+        $serviceManager = $controllers->getServiceLocator();
 
         return new TranslateController(
-            $services->get('Application\Database\Stream\StreamModel')
+            $serviceManager->get('Application\Database\Stream\StreamModel')
         );
     }
 }

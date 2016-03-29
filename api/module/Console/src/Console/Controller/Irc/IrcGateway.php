@@ -99,7 +99,7 @@ class IrcGateway extends AbstractConsoleController
         }
 
         // Get operator privileges
-        // Also, try to identify with services
+        // Also, try to identify with serviceManager
         if (preg_match(sprintf('/:%s MODE %s :\+iwx/', $this->config['irc']['nick'], $this->config['irc']['nick']), $data)) {
             $this->send(sprintf('OPER %s %s', $this->config['irc']['nick'], $this->config['irc']['oper_phrase']));
             $this->send(sprintf('PRIVMSG NickServ IDENTIFY %s', $this->config['irc']['password']));
@@ -110,7 +110,7 @@ class IrcGateway extends AbstractConsoleController
             $this->ready = true;
         }
 
-        // Register with services, if not done yet
+        // Register with serviceManager, if not done yet
         if (preg_match("/Nick .* isn't registered/i", $data)) {
             $this->send(sprintf('PRIVMSG NickServ REGISTER %s', $this->config['irc']['password']));
         }

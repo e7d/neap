@@ -11,10 +11,10 @@ namespace Application\Database\Outage;
 
 class OutageModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new OutageModel(
-            $services->get('Application\Database\Outage\OutageTableGateway')
+            $serviceManager->get('Application\Database\Outage\OutageTableGateway')
         );
     }
 }

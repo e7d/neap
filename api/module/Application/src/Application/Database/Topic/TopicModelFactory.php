@@ -11,10 +11,10 @@ namespace Application\Database\Topic;
 
 class TopicModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new TopicModel(
-            $services->get('Application\Database\Topic\TopicTableGateway')
+            $serviceManager->get('Application\Database\Topic\TopicTableGateway')
         );
     }
 }

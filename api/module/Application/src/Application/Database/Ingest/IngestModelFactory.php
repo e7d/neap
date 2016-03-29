@@ -11,10 +11,10 @@ namespace Application\Database\Ingest;
 
 class IngestModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new IngestModel(
-            $services->get('Application\Database\Ingest\IngestTableGateway')
+            $serviceManager->get('Application\Database\Ingest\IngestTableGateway')
         );
     }
 }

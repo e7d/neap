@@ -11,10 +11,10 @@ namespace Application\Database\Stream;
 
 class StreamModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new StreamModel(
-            $services->get('Application\Database\Stream\StreamTableGateway')
+            $serviceManager->get('Application\Database\Stream\StreamTableGateway')
         );
     }
 }

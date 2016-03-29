@@ -14,10 +14,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AuthorizationListenerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $services)
+    public function createService(ServiceLocatorInterface $serviceManager)
     {
         $authorizationListener = new AuthorizationListener();
-        $authorizationListener->setServiceManager($services);
+        $authorizationListener->setServiceManager($serviceManager);
 
         return $authorizationListener;
     }

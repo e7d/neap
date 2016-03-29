@@ -11,11 +11,11 @@ namespace Team\V1\Rest\Team;
 
 class TeamResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new TeamResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('Team\V1\Service\TeamService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('Team\V1\Service\TeamService')
         );
     }
 }

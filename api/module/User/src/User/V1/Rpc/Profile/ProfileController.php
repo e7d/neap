@@ -14,10 +14,9 @@ class ProfileController extends AbstractActionController
 
         switch ($method) {
             case 'GET':
-                $serviceLocator = $this->getServiceLocator();
+                $serviceManager = $this->getServiceLocator();
 
-                $identityService = $serviceLocator
-                    ->get('Application\Authorization\IdentityService');
+                $identityService = $serviceManager->get('Application\Authorization\IdentityService');
                 $user = $identityService->getIdentity();
 
                 return new HalJsonModel(get_object_vars($user));

@@ -11,8 +11,8 @@ namespace Topic\V1\Service;
 
 class TopicServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new TopicService($services);
+        return new TopicService($serviceManager);
     }
 }

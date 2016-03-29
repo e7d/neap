@@ -11,7 +11,7 @@ namespace Root\V1\Rest\Root;
 
 class RootResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new RootResource();
     }

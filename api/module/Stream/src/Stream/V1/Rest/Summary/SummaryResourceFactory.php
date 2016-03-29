@@ -3,11 +3,11 @@ namespace Stream\V1\Rest\Summary;
 
 class SummaryResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new SummaryResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('Stream\V1\Service\StreamService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('Stream\V1\Service\StreamService')
         );
     }
 }

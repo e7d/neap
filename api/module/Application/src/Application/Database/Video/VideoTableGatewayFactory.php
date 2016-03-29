@@ -15,9 +15,9 @@ use Zend\Db\TableGateway\TableGateway;
 
 class VideoTableGatewayFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        $adapter = $services->get('Application\Database\DatabaseService')->getAdapter();
+        $adapter = $serviceManager->get('Application\Database\DatabaseService')->getAdapter();
         $resultSet = new ResultSet();
         $resultSet->setArrayObjectPrototype(new Video());
         return new TableGateway('video', $adapter, null, $resultSet);

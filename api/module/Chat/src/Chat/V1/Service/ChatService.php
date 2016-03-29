@@ -11,17 +11,17 @@ namespace Chat\V1\Service;
 
 class ChatService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetch($chatId)
     {
-        $chatModel = $this->services->get('Application\Database\Chat\ChatModel');
-        $chatHydrator = $this->services->get('Application\Hydrator\Chat\ChatHydrator');
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->serviceManager->get('Application\Hydrator\Chat\ChatHydrator');
 
         $chat = $chatModel->fetch($chatId);
         if (!$chat) {
@@ -36,8 +36,8 @@ class ChatService
 
     public function fetchByChannel($channelId)
     {
-        $chatModel = $this->services->get('Application\Database\Chat\ChatModel');
-        $chatHydrator = $this->services->get('Application\Hydrator\Chat\ChatHydrator');
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->serviceManager->get('Application\Hydrator\Chat\ChatHydrator');
 
         $chat = $chatModel->fetchByChannel($channelId);
         if (!$chat) {

@@ -11,7 +11,7 @@ namespace Search\V1\Rest\Search;
 
 class SearchResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new SearchResource();
     }

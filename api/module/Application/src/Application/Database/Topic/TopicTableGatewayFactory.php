@@ -15,9 +15,9 @@ use Zend\Db\TableGateway\TableGateway;
 
 class TopicTableGatewayFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        $adapter = $services->get('Application\Database\DatabaseService')->getAdapter();
+        $adapter = $serviceManager->get('Application\Database\DatabaseService')->getAdapter();
         $resultSet = new ResultSet();
         $resultSet->setArrayObjectPrototype(new Topic());
         return new TableGateway('topic', $adapter, null, $resultSet);

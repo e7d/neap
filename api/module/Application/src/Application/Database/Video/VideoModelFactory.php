@@ -11,10 +11,10 @@ namespace Application\Database\Video;
 
 class VideoModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new VideoModel(
-            $services->get('Application\Database\Video\VideoTableGateway')
+            $serviceManager->get('Application\Database\Video\VideoTableGateway')
         );
     }
 }

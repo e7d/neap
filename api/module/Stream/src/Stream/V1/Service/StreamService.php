@@ -17,17 +17,17 @@ use Zend\Paginator\Paginator;
 
 class StreamService
 {
-    private $services;
+    private $serviceManager;
 
-    public function __construct($services)
+    public function __construct($serviceManager)
     {
-        $this->services = $services;
+        $this->serviceManager = $serviceManager;
     }
 
     public function fetchAll($params = [])
     {
-        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
-        $streamHydrator = $this->services->get('Application\Hydrator\Stream\StreamHydrator');
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+        $streamHydrator = $this->serviceManager->get('Application\Hydrator\Stream\StreamHydrator');
 
         $live = !array_key_exists('all', $params);
 
@@ -53,8 +53,8 @@ class StreamService
 
     public function fetch($streamId)
     {
-        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
-        $streamHydrator = $this->services->get('Application\Hydrator\Stream\StreamHydrator');
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+        $streamHydrator = $this->serviceManager->get('Application\Hydrator\Stream\StreamHydrator');
 
         $stream = $streamModel->fetch($streamId);
         if (!$stream) {
@@ -69,8 +69,8 @@ class StreamService
 
     public function fetchByChannel($channelId, $live = null)
     {
-        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
-        $streamHydrator = $this->services->get('Application\Hydrator\Stream\StreamHydrator');
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+        $streamHydrator = $this->serviceManager->get('Application\Hydrator\Stream\StreamHydrator');
 
         $stream = $streamModel->fetchByChannel($channelId, $live);
         if (!$stream) {
@@ -85,8 +85,8 @@ class StreamService
 
     public function fetchByUser($userId, $live = null)
     {
-        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
-        $streamHydrator = $this->services->get('Application\Hydrator\Stream\StreamHydrator');
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
+        $streamHydrator = $this->serviceManager->get('Application\Hydrator\Stream\StreamHydrator');
 
         $stream = $streamModel->fetchByUser($userId, $live);
         if (!$stream) {
@@ -101,7 +101,7 @@ class StreamService
 
     public function fetchStats($params)
     {
-        $streamModel = $this->services->get('Application\Database\Stream\StreamModel');
+        $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
 
         $live = !array_key_exists('all', $params);
 

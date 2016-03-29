@@ -11,11 +11,11 @@ namespace User\V1\Rest\Favorite;
 
 class FavoriteResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new FavoriteResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('User\V1\Service\UserService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('User\V1\Service\UserService')
         );
     }
 }

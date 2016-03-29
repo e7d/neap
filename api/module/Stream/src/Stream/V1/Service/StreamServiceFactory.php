@@ -11,8 +11,8 @@ namespace Stream\V1\Service;
 
 class StreamServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new StreamService($services);
+        return new StreamService($serviceManager);
     }
 }

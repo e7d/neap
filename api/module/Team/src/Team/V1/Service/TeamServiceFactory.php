@@ -11,8 +11,8 @@ namespace Team\V1\Service;
 
 class TeamServiceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
-        return new TeamService($services);
+        return new TeamService($serviceManager);
     }
 }

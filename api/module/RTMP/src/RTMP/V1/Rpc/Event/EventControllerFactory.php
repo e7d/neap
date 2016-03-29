@@ -13,12 +13,12 @@ class EventControllerFactory
 {
     public function __invoke($controllers)
     {
-        $services = $controllers->getServiceLocator();
+        $serviceManager = $controllers->getServiceLocator();
 
         return new EventController(
-            $services->get('Application\Database\Channel\ChannelModel'),
-            $services->get('Application\Database\Ingest\IngestModel'),
-            $services->get('Application\Database\Stream\StreamModel')
+            $serviceManager->get('Application\Database\Channel\ChannelModel'),
+            $serviceManager->get('Application\Database\Ingest\IngestModel'),
+            $serviceManager->get('Application\Database\Stream\StreamModel')
         );
     }
 }

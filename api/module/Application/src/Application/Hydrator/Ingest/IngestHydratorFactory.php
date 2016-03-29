@@ -11,7 +11,7 @@ namespace Application\Hydrator\Ingest;
 
 class IngestHydratorFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new IngestHydrator();
     }

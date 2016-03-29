@@ -11,10 +11,10 @@ namespace Application\Database\Chat;
 
 class ChatModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new ChatModel(
-            $services->get('Application\Database\Chat\ChatTableGateway')
+            $serviceManager->get('Application\Database\Chat\ChatTableGateway')
         );
     }
 }

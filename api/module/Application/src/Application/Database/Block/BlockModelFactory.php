@@ -11,10 +11,10 @@ namespace Application\Database\Block;
 
 class BlockModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new BlockModel(
-            $services->get('Application\Database\Block\BlockTableGateway')
+            $serviceManager->get('Application\Database\Block\BlockTableGateway')
         );
     }
 }

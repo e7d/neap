@@ -11,10 +11,10 @@ namespace Application\Database\Channel;
 
 class ChannelModelFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new ChannelModel(
-            $services->get('Application\Database\Channel\ChannelTableGateway')
+            $serviceManager->get('Application\Database\Channel\ChannelTableGateway')
         );
     }
 }

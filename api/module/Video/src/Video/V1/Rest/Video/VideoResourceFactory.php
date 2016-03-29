@@ -11,11 +11,11 @@ namespace Video\V1\Rest\Video;
 
 class VideoResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new VideoResource(
-            $services->get('Application\Authorization\IdentityService'),
-            $services->get('Video\V1\Service\VideoService')
+            $serviceManager->get('Application\Authorization\IdentityService'),
+            $serviceManager->get('Video\V1\Service\VideoService')
         );
     }
 }

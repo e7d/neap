@@ -203,20 +203,24 @@ class UserService
         return $collection;
     }
 
-    public function update($userId, $data)
+    public function patch($userId, $data)
     {
         $userModel = $this->services->get('Application\Database\User\UserModel');
 
         // if we have an updated logo
-        if (!array_key_exists('logo', $data)) {
-            $data->logo = 'http://lorempixel.com/180/180/';
+        if (array_key_exists('logo', $data)) {
+            // TODO: process update image
         }
 
-        $user = $userModel->update($userId, $data);
-        if (!$user) {
-            return null;
+        if (!$userModel->update($userId, $data)) {
+            // TODO: error handling
+            throw new \Exception();
         }
+    }
 
-        return $user;
+    public function update($userId, $data)
+    {
+        $this->patch($userId, $data);
+        return $this->fetch($userId);
     }
 }

@@ -54,6 +54,18 @@ class UserResource extends AbstractResourceListener
      */
     public function patch($userId, $data)
     {
+        return $this->userService->patch($userId, $data);
+    }
+
+    /**
+     * Update a resource
+     *
+     * @param  mixed $userId
+     * @param  mixed $data
+     * @return ApiProblem|mixed
+     */
+    public function update($userId, $data)
+    {
         return $this->userService->update($userId, $data);
     }
 }

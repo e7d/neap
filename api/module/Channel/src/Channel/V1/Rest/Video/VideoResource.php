@@ -10,17 +10,14 @@
 namespace Channel\V1\Rest\Video;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class VideoResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $channelService;
-
     public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
-        $this->channelService = $channelService;
+        $this->service = $channelService;
     }
 
     /**
@@ -35,6 +32,6 @@ class VideoResource extends AbstractResourceListener
             'channel_id' => $this->getEvent()->getRouteParam('channel_id')
         );
 
-        return $this->channelService->fetchVideos(array_merge($data, (array) $params));
+        return $this->service->fetchVideos(array_merge($data, (array) $params));
     }
 }

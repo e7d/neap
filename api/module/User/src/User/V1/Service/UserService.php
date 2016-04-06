@@ -207,15 +207,20 @@ class UserService
             // TODO: process update image
         }
 
-        if (!$userModel->update($userId, $data)) {
-            // TODO: error handling
-            throw new \Exception();
-        }
+        $userModel->update($userId, (array) $data);
+        return $userModel->fetch($userId);
     }
 
     public function update($userId, $data)
     {
-        $this->patch($userId, $data);
-        return $this->fetch($userId);
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+
+        $userModel->update($userId, (array) $data);
+        return $userModel->fetch($userId);
+    }
+
+    public function isOwner($userId, $identityUserId)
+    {
+        return $user_id === $identityUserId;
     }
 }

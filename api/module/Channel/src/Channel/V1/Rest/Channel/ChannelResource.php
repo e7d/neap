@@ -9,21 +9,15 @@
 
 namespace Channel\V1\Rest\Channel;
 
-use Application\Authorization\AuthorizationAwareResourceTrait;
+use Application\Rest\AbstractResourceListener;
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
 
 class ChannelResource extends AbstractResourceListener
 {
-    use AuthorizationAwareResourceTrait;
-
-    private $identityService;
-    private $channelService;
-
     public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
-        $this->channelService = $channelService;
+        $this->service = $channelService;
     }
 
     /**
@@ -34,7 +28,7 @@ class ChannelResource extends AbstractResourceListener
      */
     public function fetch($channelId)
     {
-        return $this->channelService->fetch($channelId);
+        return $this->service->fetch($channelId);
     }
 
     /**
@@ -45,7 +39,24 @@ class ChannelResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->channelService->fetchAll($params);
+        return $this->service->fetchAll($params);
+    }
+
+    /**
+     * Patch (partial in-place update) a resource
+     *
+     * @param  mixed $channelId
+     * @param  mixed $data
+     * @return ApiProblem|mixed
+     */
+    public function patch($channelId, $data)
+    {
+        $userIsOwner = $this->userIsOwner($channelId);
+        if ($userIsOwner instanceof ApiProblem) {
+            return $userIsOwner;
+        }
+
+        return $this->service->update($channelId, (array) $data);
     }
 
     /**
@@ -57,12 +68,11 @@ class ChannelResource extends AbstractResourceListener
      */
     public function update($channelId, $data)
     {
-        $this->service = $this->channelService;
         $userIsOwner = $this->userIsOwner($channelId);
         if ($userIsOwner instanceof ApiProblem) {
             return $userIsOwner;
         }
 
-        return $this->channelService->update($channelId, (array) $data);
+        return $this->service->update($channelId, $data);
     }
 }

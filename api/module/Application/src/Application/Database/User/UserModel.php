@@ -94,11 +94,11 @@ class UserModel extends AbstractModel
         );
     }
 
-    public function update($userId, $data)
+    public function update($userId, array $data)
     {
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
 
-        return $this->tableGateway->update((array) $data, $where);
+        return $this->tableGateway->update($data, $where);
     }
 }

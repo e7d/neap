@@ -10,7 +10,7 @@
 namespace Search\V1\Rest\Stream;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class StreamResource extends AbstractResourceListener
 {

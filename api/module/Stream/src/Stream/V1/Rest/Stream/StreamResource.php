@@ -10,17 +10,14 @@
 namespace Stream\V1\Rest\Stream;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class StreamResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $streamService;
-
     public function __construct($identityService, $streamService)
     {
         $this->identityService = $identityService;
-        $this->streamService = $streamService;
+        $this->service = $streamService;
     }
 
     /**
@@ -31,7 +28,7 @@ class StreamResource extends AbstractResourceListener
      */
     public function fetch($streamId)
     {
-        return $this->streamService->fetch($streamId);
+        return $this->service->fetch($streamId);
     }
 
     /**
@@ -42,6 +39,6 @@ class StreamResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->streamService->fetchAll($params);
+        return $this->service->fetchAll($params);
     }
 }

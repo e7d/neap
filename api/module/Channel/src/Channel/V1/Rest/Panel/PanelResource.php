@@ -10,17 +10,14 @@
 namespace Channel\V1\Rest\Panel;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class PanelResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $channelService;
-
     public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
-        $this->channelService = $channelService;
+        $this->service = $channelService;
     }
 
     /**
@@ -35,6 +32,6 @@ class PanelResource extends AbstractResourceListener
             'channel_id' => $this->getEvent()->getRouteParam('channel_id')
         );
 
-        return $this->channelService->fetchPanels(array_merge($data, (array) $params));
+        return $this->service->fetchPanels(array_merge($data, (array) $params));
     }
 }

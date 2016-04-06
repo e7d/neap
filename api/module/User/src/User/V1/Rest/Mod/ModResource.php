@@ -10,17 +10,14 @@
 namespace User\V1\Rest\Mod;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class ModResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $userService;
-
     public function __construct($identityService, $userService)
     {
         $this->identityService = $identityService;
-        $this->userService = $userService;
+        $this->service = $userService;
     }
 
     /**
@@ -35,6 +32,6 @@ class ModResource extends AbstractResourceListener
             'user_id' => $this->getEvent()->getRouteParam('user_id')
         );
 
-        return $this->userService->fetchMods(array_merge($data, (array) $params));
+        return $this->service->fetchMods(array_merge($data, (array) $params));
     }
 }

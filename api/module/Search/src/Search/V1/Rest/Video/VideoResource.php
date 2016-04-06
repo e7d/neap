@@ -10,7 +10,7 @@
 namespace Search\V1\Rest\Video;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class VideoResource extends AbstractResourceListener
 {

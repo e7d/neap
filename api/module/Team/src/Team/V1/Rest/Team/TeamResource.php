@@ -10,17 +10,14 @@
 namespace Team\V1\Rest\Team;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class TeamResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $teamService;
-
     public function __construct($identityService, $teamService)
     {
         $this->identityService = $identityService;
-        $this->teamService = $teamService;
+        $this->service = $teamService;
     }
 
     /**
@@ -31,7 +28,7 @@ class TeamResource extends AbstractResourceListener
      */
     public function fetch($teamId)
     {
-        return $this->teamService->fetch($teamId);
+        return $this->service->fetch($teamId);
     }
 
     /**
@@ -42,6 +39,6 @@ class TeamResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->teamService->fetchAll($params);
+        return $this->service->fetchAll($params);
     }
 }

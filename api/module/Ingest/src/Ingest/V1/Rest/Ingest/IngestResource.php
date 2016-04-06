@@ -10,17 +10,14 @@
 namespace Ingest\V1\Rest\Ingest;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class IngestResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $ingestService;
-
     public function __construct($identityService, $ingestService)
     {
         $this->identityService = $identityService;
-        $this->ingestService = $ingestService;
+        $this->service = $ingestService;
     }
 
     /**
@@ -31,7 +28,7 @@ class IngestResource extends AbstractResourceListener
      */
     public function fetch($ingestId)
     {
-        return $this->ingestService->fetch($ingestId);
+        return $this->service->fetch($ingestId);
     }
 
     /**

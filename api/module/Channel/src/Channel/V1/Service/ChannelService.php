@@ -76,16 +76,6 @@ class ChannelService
         return $channelHydrator->buildEntity($channel);
     }
 
-    public function update($channelId, $data)
-    {
-        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
-        $channelHydrator = $this->serviceManager->get('Application\Hydrator\Channel\ChannelHydrator');
-
-        $channel = $channelModel->update($channelId, $data);
-
-        return $channelHydrator->buildEntity($channel);
-    }
-
     public function fetchByUser($userId, $params = array())
     {
         $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
@@ -178,7 +168,15 @@ class ChannelService
         return $collection;
     }
 
-    public function isOwner($channelId, $userId)
+    public function update($channelId, $data)
+    {
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+
+        $channelModel->update($channelId, $data);
+        return $channelModel->fetch($channelId);
+    }
+
+    public function isOwner($channelId, $identityUserId)
     {
         $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
 
@@ -187,6 +185,6 @@ class ChannelService
             return false;
         }
 
-        return $channel->user_id === $userId;
+        return $channel->user_id === $identityUserId;
     }
 }

@@ -10,17 +10,14 @@
 namespace User\V1\Rest\MyUser;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class MyUserResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $userService;
-
     public function __construct($identityService, $userService)
     {
         $this->identityService = $identityService;
-        $this->userService = $userService;
+        $this->service = $userService;
     }
 
     /**
@@ -32,6 +29,6 @@ class MyUserResource extends AbstractResourceListener
     public function fetchAll($params = [])
     {
         $user = $this->identityService->getIdentity();
-        return $this->userService->fetch($user->user_id);
+        return $this->service->fetch($user->user_id);
     }
 }

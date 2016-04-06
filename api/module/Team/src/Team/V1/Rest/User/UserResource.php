@@ -10,19 +10,16 @@
 namespace Team\V1\Rest\User;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class UserResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $teamService;
-
     public function __construct($identityService, $teamService)
     {
         $this->identityService = $identityService;
-        $this->teamService = $teamService;
+        $this->service = $teamService;
     }
-    
+
     /**
      * Fetch all or a subset of resources
      *
@@ -35,6 +32,6 @@ class UserResource extends AbstractResourceListener
             'team_id' => $this->getEvent()->getRouteParam('team_id')
         );
 
-        return $this->teamService->fetchUsers(array_merge($data, (array) $params));
+        return $this->service->fetchUsers(array_merge($data, (array) $params));
     }
 }

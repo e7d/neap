@@ -10,17 +10,14 @@
 namespace Topic\V1\Rest\Topic;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class TopicResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $topicService;
-
     public function __construct($identityService, $topicService)
     {
         $this->identityService = $identityService;
-        $this->topicService = $topicService;
+        $this->service = $topicService;
     }
 
     /**
@@ -31,7 +28,7 @@ class TopicResource extends AbstractResourceListener
      */
     public function fetch($topicId)
     {
-        return $this->topicService->fetch($topicId);
+        return $this->service->fetch($topicId);
     }
 
     /**
@@ -42,6 +39,6 @@ class TopicResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->topicService->fetchAll((array) $params);
+        return $this->service->fetchAll((array) $params);
     }
 }

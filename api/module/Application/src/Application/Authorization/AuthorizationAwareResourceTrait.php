@@ -13,8 +13,6 @@ use ZF\ApiProblem\ApiProblem;
 
 trait AuthorizationAwareResourceTrait
 {
-    private $service;
-
     /**
      * Checks user's rights on requested resource
      *

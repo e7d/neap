@@ -10,17 +10,14 @@
 namespace Channel\V1\Rest\StreamKey;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class StreamKeyResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $channelService;
-
     public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
-        $this->channelService = $channelService;
+        $this->service = $channelService;
     }
 
     /**
@@ -31,17 +28,17 @@ class StreamKeyResource extends AbstractResourceListener
      */
     public function delete($channelId)
     {
-        $channel = $this->channelService->fetch($channelId);
+        $channel = $this->service->fetch($channelId);
         if (!$channel) {
             return new ApiProblem(404, 'The channel does not exists.');
         }
 
         $identity = $this->identityService->getIdentity();
-        if (!$this->channelService->isOwner($channelId, $identity->user_id)) {
+        if (!$this->service->isOwner($channelId, $identity->user_id)) {
             return new ApiProblem(403, 'The channel is not your property.');
         }
 
-        $channel = $this->channelService->update($channelId, array('stream_key' => ''));
+        $channel = $this->service->update($channelId, array('stream_key' => ''));
 
         return true;
     }

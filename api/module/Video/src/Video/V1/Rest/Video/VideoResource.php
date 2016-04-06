@@ -10,17 +10,14 @@
 namespace Video\V1\Rest\Video;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class VideoResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $videoService;
-
     public function __construct($identityService, $videoService)
     {
         $this->identityService = $identityService;
-        $this->videoService = $videoService;
+        $this->service = $videoService;
     }
 
     /**
@@ -31,7 +28,7 @@ class VideoResource extends AbstractResourceListener
      */
     public function fetch($videoId)
     {
-        return $this->videoService->fetch($videoId);
+        return $this->service->fetch($videoId);
     }
 
     /**
@@ -42,6 +39,6 @@ class VideoResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->videoService->fetchAll($params);
+        return $this->service->fetchAll($params);
     }
 }

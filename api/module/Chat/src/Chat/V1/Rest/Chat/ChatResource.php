@@ -10,17 +10,14 @@
 namespace Chat\V1\Rest\Chat;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class ChatResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $chatService;
-
     public function __construct($identityService, $chatService)
     {
         $this->identityService = $identityService;
-        $this->chatService = $chatService;
+        $this->service = $chatService;
     }
 
     /**
@@ -31,6 +28,6 @@ class ChatResource extends AbstractResourceListener
      */
     public function fetch($chatId)
     {
-        return $this->chatService->fetch($chatId);
+        return $this->service->fetch($chatId);
     }
 }

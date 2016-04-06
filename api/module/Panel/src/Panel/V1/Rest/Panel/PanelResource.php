@@ -10,7 +10,7 @@
 namespace Panel\V1\Rest\Panel;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class PanelResource extends AbstractResourceListener
 {

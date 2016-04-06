@@ -2,17 +2,14 @@
 namespace Outage\V1\Rest\Outage;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class OutageResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $outageService;
-
     public function __construct($identityService, $outageService)
     {
         $this->identityService = $identityService;
-        $this->outageService = $outageService;
+        $this->service = $outageService;
     }
 
     /**
@@ -23,7 +20,7 @@ class OutageResource extends AbstractResourceListener
      */
     public function fetch($outageId)
     {
-        return $this->outageService->fetch($outageId);
+        return $this->service->fetch($outageId);
     }
 
     /**
@@ -34,6 +31,6 @@ class OutageResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->outageService->fetchAll($params);
+        return $this->service->fetchAll($params);
     }
 }

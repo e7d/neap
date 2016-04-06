@@ -12,7 +12,7 @@ namespace Root\V1\Rest\Root;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class RootResource extends AbstractResourceListener
 {

@@ -9,18 +9,15 @@
 
 namespace User\V1\Rest\User;
 
+use Application\Rest\AbstractResourceListener;
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
 
 class UserResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $userService;
-
     public function __construct($identityService, $userService)
     {
         $this->identityService = $identityService;
-        $this->userService = $userService;
+        $this->service = $userService;
     }
 
     /**
@@ -31,7 +28,7 @@ class UserResource extends AbstractResourceListener
      */
     public function fetch($userId)
     {
-        return $this->userService->fetch($userId);
+        return $this->service->fetch($userId);
     }
 
     /**
@@ -42,7 +39,7 @@ class UserResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->userService->fetchAll($params);
+        return $this->service->fetchAll($params);
     }
 
     /**
@@ -54,7 +51,12 @@ class UserResource extends AbstractResourceListener
      */
     public function patch($userId, $data)
     {
-        return $this->userService->patch($userId, $data);
+        $userIsOwner = $this->userIsOwner($userId);
+        if ($userIsOwner instanceof ApiProblem) {
+            return $userIsOwner;
+        }
+
+        return $this->service->update($userId, $data);
     }
 
     /**
@@ -66,6 +68,11 @@ class UserResource extends AbstractResourceListener
      */
     public function update($userId, $data)
     {
-        return $this->userService->update($userId, $data);
+        $userIsOwner = $this->userIsOwner($userId);
+        if ($userIsOwner instanceof ApiProblem) {
+            return $userIsOwner;
+        }
+
+        return $this->service->update($userId, $data);
     }
 }

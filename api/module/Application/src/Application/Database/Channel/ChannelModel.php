@@ -88,13 +88,11 @@ class ChannelModel extends AbstractModel
         );
     }
 
-    public function update($channelId, $data)
+    public function update($channelId, array $data)
     {
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);
 
-        $this->tableGateway->update($data, $where);
-
-        return $this->fetch($channelId);
+        return $this->tableGateway->update($data, $where);
     }
 }

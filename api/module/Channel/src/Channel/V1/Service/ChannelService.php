@@ -171,9 +171,15 @@ class ChannelService
     public function update($channelId, $data)
     {
         $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->serviceManager->get('Application\Hydrator\Channel\ChannelHydrator');
 
-        $channelModel->update($channelId, $data);
-        return $channelModel->fetch($channelId);
+        $channelModel->update($channelId, (array) $data);
+
+        $channel = $channelModel->fetch($channelId);
+        if (!$channel) {
+            return null;
+        }
+        return $channelHydrator->buildEntity($channel);
     }
 
     public function isOwner($channelId, $identityUserId)

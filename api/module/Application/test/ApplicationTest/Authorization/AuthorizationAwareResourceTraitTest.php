@@ -16,8 +16,9 @@ class AuthorizationAwareResourceTraitTest extends AbstractControllerTestCase
 {
     use AuthorizationAwareResourceTrait;
 
-    private $identityService;
     private $serviceManager;
+    private $identityService;
+    private $service;
 
     public function setUp()
     {
@@ -32,9 +33,6 @@ class AuthorizationAwareResourceTraitTest extends AbstractControllerTestCase
     public function testTraitIsLoaded()
     {
         $this->assertContains('userIsOwner', get_class_methods($this));
-
-        $result = $this->userIsOwner('b92bbb76-e0ac-422e-a071-ec8cc1e2ff1a');
-        $this->assertInstanceOf('ZF\ApiProblem\ApiProblem', $result);
     }
 
     public function testUserIsOwner()

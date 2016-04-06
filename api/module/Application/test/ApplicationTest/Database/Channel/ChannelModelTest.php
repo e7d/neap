@@ -117,13 +117,11 @@ class ChannelModelTest extends AbstractControllerTestCase
         );
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id
-        $channel = $channelModel->update($channelId, $data);
-        $this->assertInstanceOf('Application\Database\Channel\Channel', $channel);
-        $this->assertEquals($channelId, $channel->channel_id);
-        $this->assertEquals($data['logo'], $channel->logo);
+        $updatedRows = $channelModel->update($channelId, $data);
+        $this->assertEquals(1, $updatedRows);
 
         $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id
-        $channel = $channelModel->update($channelId, $data);
-        $this->assertNull($channel);
+        $updatedRows = $channelModel->update($channelId, $data);
+        $this->assertEquals(0, $updatedRows);
     }
 }

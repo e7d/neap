@@ -34,7 +34,7 @@ class AbstractResourceListener extends ZfAbstractResourceListener
         try {
             return parent::dispatch($event);
         } catch (\Exception $e) {
-            return new ApiProblem(500, $e);
+            return new ApiProblem($e->getCode(), $e);
         }
     }
 }

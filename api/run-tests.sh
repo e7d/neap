@@ -77,9 +77,9 @@ if [[ "$HELP" == "YES" ]]; then
 	echo "                                TYPE=html for HTML output"
 	echo "                                TYPE=txt for TAP (text) output"
 	echo "                                TYPE=xml for Clover (XML) output"
-	echo "  -cc, --coverage-clover      equivalent to --code-coverage=xml"
-	echo "  -ch, --coverage-html        equivalent to --code-coverage=html"
-	echo "  -ct, --coverage-tap         equivalent to --code-coverage=txt"
+	echo "  -cc, --coverage-clover      equivalent to --coverage=xml"
+	echo "  -ch, --coverage-html        equivalent to --coverage=html"
+	echo "  -ct, --coverage-tap         equivalent to --coverage=txt"
 	echo
 	exit 0
 fi

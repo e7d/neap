@@ -7,6 +7,9 @@ try
 (
 	throwErrors
 
+	echo "Disable OPcache"
+	sed -i 's/;\?opcache.enable=.\+/opcache.enable=0/g' /etc/php/7.0/fpm/php.ini
+
 	echo "Link API folder"
 	rm -fr /var/www/neap/api
 	ln -fs /vagrant/api/ /var/www/neap/
@@ -30,9 +33,6 @@ try
 
 	echo "Fix Neap folders permissions"
 	chown -R www-data:www-data /var/www/neap
-
-	echo "Disable OPcache"
-	sed -i '/opcache.enable=./c\opcache.enable=0' /etc/php/7.0/fpm/php.ini
 
 	echo "Restart PHP and nginx"
 	service php7.0-fpm restart

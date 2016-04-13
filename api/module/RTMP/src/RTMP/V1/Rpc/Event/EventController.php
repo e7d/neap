@@ -84,7 +84,7 @@ class EventController extends LocalhostController
             return new ViewModel(array());
         } catch (\DomainException $e) {
             return new ApiProblemResponse(
-                new ApiProblem(403, 'This route must be invoked from the local host')
+                new ApiProblem(403, 'This route can only be invoked from the local host')
             );
         } catch (\Exception $e) {
             return new ApiProblemResponse(

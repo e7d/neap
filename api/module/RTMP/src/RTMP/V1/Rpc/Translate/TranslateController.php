@@ -14,11 +14,11 @@ use ZF\ContentNegotiation\ViewModel;
 
 class TranslateController extends LocalhostController
 {
-    private $streamModel;
+    private $channelModel;
 
-    public function __construct($streamModel)
+    public function __construct($channelModel)
     {
-        $this->streamModel = $streamModel;
+        $this->channelModel = $channelModel;
     }
 
     public function translateAction()
@@ -27,15 +27,16 @@ class TranslateController extends LocalhostController
 
         $streamKey = $this->getEvent()->getRequest()->getQuery('stream_key');
         if (is_null($streamKey)) {
-            return new ViewModel(array());
+            die;
         }
 
-        $live = true; // we need a live stream
-        $stream = $this->streamModel->fetchByStreamKey($streamKey, $live);
-        if (is_null($stream)) {
-            return new ViewModel(array());
+        $channel = $this->channelModel->fetchByStreamKey($streamKey);
+
+        if (is_null($channel)) {
+            die;
         }
 
-        return new ViewModel(array("stream_id" => $stream->stream_id));
+        echo $channel->channel_id;
+        die;
     }
 }

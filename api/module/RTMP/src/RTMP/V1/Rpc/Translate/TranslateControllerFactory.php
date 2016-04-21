@@ -16,7 +16,7 @@ class TranslateControllerFactory
         $serviceManager = $controllers->getServiceLocator();
 
         return new TranslateController(
-            $serviceManager->get('Application\Database\Stream\StreamModel')
+            $serviceManager->get('Application\Database\Channel\ChannelModel')
         );
     }
 }

@@ -32,6 +32,24 @@ class ChatModel extends AbstractModel
         return $chat;
     }
 
+    public function selectByChannel($channelId)
+    {
+        $where = new Where();
+        $where->equalTo('chat.channel_id', $channelId);
+
+        $select = $this->tableGateway->getSql()->select();
+        $select->where($where);
+
+        return $select;
+    }
+
+    public function fetchByChannel($channelId)
+    {
+        return $this->selectOne(
+            $this->selectByChannel($channelId)
+        );
+    }
+
     public function selectModsByUser($userId)
     {
         $where = new Where();

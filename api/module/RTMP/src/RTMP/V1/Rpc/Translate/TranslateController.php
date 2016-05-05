@@ -27,16 +27,16 @@ class TranslateController extends LocalhostController
 
         $streamKey = $this->getEvent()->getRequest()->getQuery('stream_key');
         if (is_null($streamKey)) {
-            die;
+            return new ViewModel();
         }
 
         $channel = $this->channelModel->fetchByStreamKey($streamKey);
-
         if (is_null($channel)) {
-            die;
+            return new ViewModel();
         }
 
-        echo $channel->channel_id;
-        die;
+        return new ViewModel(array(
+            'channel' => $channel->channel_id
+        ));
     }
 }

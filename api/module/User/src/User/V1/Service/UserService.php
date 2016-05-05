@@ -18,7 +18,7 @@ use User\V1\Rest\Block\BlockCollection;
 use User\V1\Rest\Favorite\FavoriteCollection;
 use User\V1\Rest\Follow\FollowCollection;
 use User\V1\Rest\Mod\ModCollection;
-use Team\V1\Rest\Team\TeamCollection;
+use User\V1\Rest\Team\TeamCollection;
 use User\V1\Rest\User\UserCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
@@ -76,6 +76,25 @@ class UserService
 
         $collection = new UserCollection($paginatorAdapter);
         return $collection;
+    }
+
+    public function update($userId, $data)
+    {
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
+
+        // if we have an updated logo
+        if (array_key_exists('logo', $data)) {
+            // TODO: process update image
+        }
+
+        $userModel->update($userId, (array) $data);
+
+        $user = $userModel->fetch($userId);
+        if (!$user) {
+            return null;
+        }
+        return $userHydrator->buildEntity($user);
     }
 
     public function fetchBlockedUsers($params)
@@ -198,29 +217,8 @@ class UserService
         return new TeamCollection($paginatorAdapter);
     }
 
-    public function patch($userId, $data)
-    {
-        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
-
-        // if we have an updated logo
-        if (array_key_exists('logo', $data)) {
-            // TODO: process update image
-        }
-
-        $userModel->update($userId, (array) $data);
-        return $userModel->fetch($userId);
-    }
-
-    public function update($userId, $data)
-    {
-        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
-
-        $userModel->update($userId, (array) $data);
-        return $userModel->fetch($userId);
-    }
-
     public function isOwner($userId, $identityUserId)
     {
-        return $user_id === $identityUserId;
+        return $userId === $identityUserId;
     }
 }

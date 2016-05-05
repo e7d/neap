@@ -70,7 +70,7 @@ class TeamModelTest extends AbstractControllerTestCase
         $userId = 'bdda6afe-3e48-41a8-9131-e12ac1bf9dd0'; // Kellan user id
         $teams = $teamModel->fetchByUser($userId);
         $this->assertInstanceOf('Zend\Db\ResultSet\ResultSet', $teams);
-        $this->assertEquals(5, $teams->count());
+        $this->assertTrue(0 < $teams->count());
 
         $userId = '00000000-0000-0000-0000-000000000000'; // Invalid user id
         $teams = $teamModel->fetchByUser($userId);

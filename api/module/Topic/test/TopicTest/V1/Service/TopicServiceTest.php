@@ -31,4 +31,47 @@ class TopicServiceTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Topic\V1\Service\TopicService', $topicService);
     }
+
+    public function testFetchAll()
+    {
+        $topicService = $this->serviceManager->get('Topic\V1\Service\TopicService');
+
+        $topicCollection = $topicService->fetchAll();
+
+        $this->assertInstanceOf('Topic\V1\Rest\Topic\TopicCollection', $topicCollection);
+        $this->assertTrue(0 < $topicCollection->getTotalItemCount());
+
+        $topicEntity = $topicCollection->getCurrentItems()->current();
+
+        $this->assertInstanceOf('ZF\Hal\Entity', $topicEntity);
+
+        $params = array(
+            'top' =>true
+        );
+        $topicCollection = $topicService->fetchAll($params);
+
+        $this->assertInstanceOf('Topic\V1\Rest\Topic\TopicCollection', $topicCollection);
+        $this->assertTrue(0 < $topicCollection->getTotalItemCount());
+    }
+
+    public function testFetch()
+    {
+        $topicService = $this->serviceManager->get('Topic\V1\Service\TopicService');
+
+        $topicId = '0a686e36-f1a5-4829-8fc3-3f885dc1ec28'; // Video games topic id
+        $topicEntity = $topicService->fetch($topicId);
+
+        $this->assertInstanceOf('ZF\Hal\Entity', $topicEntity);
+        $this->assertEquals($topicId, $topicEntity->entity->topic_id);
+    }
+
+    public function testFetchInvalidTopic()
+    {
+        $topicService = $this->serviceManager->get('Topic\V1\Service\TopicService');
+
+        $topicId = '00000000-0000-0000-0000-000000000000'; // Invalid topic id
+        $topicEntity = $topicService->fetch($topicId);
+
+        $this->assertNull($topicEntity);
+    }
 }

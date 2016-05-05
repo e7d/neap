@@ -67,18 +67,4 @@ class VideoService
 
         return $videoHydrator->buildEntity($video);
     }
-
-    public function fetchByChannel($channelId)
-    {
-        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
-
-        return $videoModel->fetchByChannel($channelId);
-    }
-
-    public function fetchByUser($userId)
-    {
-        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
-
-        return $videoModel->fetchByUser($userId);
-    }
 }

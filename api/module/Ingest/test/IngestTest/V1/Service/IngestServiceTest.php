@@ -31,4 +31,51 @@ class IngestServiceTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('Ingest\V1\Service\IngestService', $ingestService);
     }
+
+    public function testFetchAll()
+    {
+        $ingestService = $this->serviceManager->get('Ingest\V1\Service\IngestService');
+
+        $ingestCollection = $ingestService->fetchAll();
+
+        $this->assertInstanceOf('Ingest\V1\Rest\Ingest\IngestCollection', $ingestCollection);
+        $this->assertTrue(0 < $ingestCollection->getTotalItemCount());
+
+        $ingestEntity = $ingestCollection->getCurrentItems()->current();
+
+        $this->assertInstanceOf('ZF\Hal\Entity', $ingestEntity);
+    }
+
+    public function testFetch()
+    {
+        $ingestService = $this->serviceManager->get('Ingest\V1\Service\IngestService');
+
+        $ingestId = 'c3aae4dc-dd8d-4e81-a151-7ba30cec1b4a'; // neap ingest id
+        $ingestEntity = $ingestService->fetch($ingestId);
+
+        $this->assertInstanceOf('ZF\Hal\Entity', $ingestEntity);
+        $this->assertEquals($ingestId, $ingestEntity->entity->ingest_id);
+    }
+
+    public function testFetchInvalidIngest()
+    {
+        $ingestService = $this->serviceManager->get('Ingest\V1\Service\IngestService');
+
+        $ingestId = '00000000-0000-0000-0000-000000000000'; // Invalid ingest id
+        $ingestEntity = $ingestService->fetch($ingestId);
+
+        $this->assertNull($ingestEntity);
+    }
+
+    public function testFetchOutages()
+    {
+        $ingestService = $this->serviceManager->get('Ingest\V1\Service\IngestService');
+
+        $ingestId = 'c3aae4dc-dd8d-4e81-a151-7ba30cec1b4a'; // neap ingest id
+        $followCollection = $ingestService->fetchOutages(array(
+            'ingest_id' => $ingestId
+        ));
+
+        $this->assertInstanceOf('Ingest\V1\Rest\Outage\OutageCollection', $followCollection);
+    }
 }

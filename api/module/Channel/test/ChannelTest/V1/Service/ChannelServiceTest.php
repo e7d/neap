@@ -36,13 +36,12 @@ class ChannelServiceTest extends AbstractControllerTestCase
     {
         $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
 
-        $channelsCollection = $channelService->fetchAll();
+        $channelCollection = $channelService->fetchAll();
 
-        $this->assertInstanceOf('Channel\V1\Rest\Channel\ChannelCollection', $channelsCollection);
-        $this->assertCount(10, $channelsCollection->getCurrentItems());
-        $this->assertEquals(1312, $channelsCollection->getTotalItemCount());
+        $this->assertInstanceOf('Channel\V1\Rest\Channel\ChannelCollection', $channelCollection);
+        $this->assertTrue(0 < $channelCollection->getTotalItemCount());
 
-        $channelEntity = $channelsCollection->getCurrentItems()->current();
+        $channelEntity = $channelCollection->getCurrentItems()->current();
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
     }
@@ -56,6 +55,16 @@ class ChannelServiceTest extends AbstractControllerTestCase
 
         $this->assertInstanceOf('ZF\Hal\Entity', $channelEntity);
         $this->assertEquals($channelId, $channelEntity->entity->channel_id);
+    }
+
+    public function testFetchInvalidChannel()
+    {
+        $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
+
+        $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id
+        $channelEntity = $channelService->fetch($channelId);
+
+        $this->assertNull($channelEntity);
     }
 
     public function testUpdate()
@@ -73,12 +82,16 @@ class ChannelServiceTest extends AbstractControllerTestCase
         $this->assertEquals($data['topic'], $channelEntity->entity->topic);
     }
 
-    public function testFetchInvalidChannel()
+    public function testUpdateInvalidChannel()
     {
         $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
 
         $channelId = '00000000-0000-0000-0000-000000000000'; // Invalid channel id
-        $channelEntity = $channelService->fetch($channelId);
+        $data = array(
+            'topic' => 'Test'
+        );
+        $channelEntity = $channelService->update($channelId, $data);
+
         $this->assertNull($channelEntity);
     }
 
@@ -125,11 +138,11 @@ class ChannelServiceTest extends AbstractControllerTestCase
         $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55f'; // Jax channel id
-        $followCollection = $channelService->fetchFollowers(array(
+        $followerCollection = $channelService->fetchFollowers(array(
             'channel_id' => $channelId
         ));
 
-        $this->assertInstanceOf('Channel\V1\Rest\Follow\FollowCollection', $followCollection);
+        $this->assertInstanceOf('Channel\V1\Rest\Follow\FollowCollection', $followerCollection);
     }
 
     public function testFetchPanels()
@@ -137,11 +150,11 @@ class ChannelServiceTest extends AbstractControllerTestCase
         $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55f'; // Jax channel id
-        $followCollection = $channelService->fetchPanels(array(
+        $panelCollection = $channelService->fetchPanels(array(
             'channel_id' => $channelId
         ));
 
-        $this->assertInstanceOf('Channel\V1\Rest\Panel\PanelCollection', $followCollection);
+        $this->assertInstanceOf('Channel\V1\Rest\Panel\PanelCollection', $panelCollection);
     }
 
     public function testFetchVideos()
@@ -149,11 +162,11 @@ class ChannelServiceTest extends AbstractControllerTestCase
         $channelService = $this->serviceManager->get('Channel\V1\Service\ChannelService');
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55f'; // Jax channel id
-        $followCollection = $channelService->fetchVideos(array(
+        $videoCollection = $channelService->fetchVideos(array(
             'channel_id' => $channelId
         ));
 
-        $this->assertInstanceOf('Channel\V1\Rest\Video\VideoCollection', $followCollection);
+        $this->assertInstanceOf('Channel\V1\Rest\Video\VideoCollection', $videoCollection);
     }
 
     public function testIsOwner()

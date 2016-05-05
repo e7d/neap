@@ -27,8 +27,8 @@ class FollowResourceTest extends AbstractControllerTestCase
 
     public function testClassType()
     {
-        $channelResource = $this->serviceManager->get('Channel\V1\Rest\Follow\FollowResource');
+        $followResource = $this->serviceManager->get('Channel\V1\Rest\Follow\FollowResource');
 
-        $this->assertInstanceOf('Channel\V1\Rest\Follow\FollowResource', $channelResource);
+        $this->assertInstanceOf('Channel\V1\Rest\Follow\FollowResource', $followResource);
     }
 }

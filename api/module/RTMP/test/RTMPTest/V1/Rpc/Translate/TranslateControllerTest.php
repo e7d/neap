@@ -33,7 +33,7 @@ class TranslateControllerTest extends AbstractHttpControllerTestCase
         $headers = $request->getHeaders();
         $headers->addHeaderLine('Accept', 'application/json');
 
-        $this->dispatch('/rtmp/translate');
+        $this->dispatch('/rtmp/translate?stream_key=live_2cf2c9e2_e2087e7fffee8c2eee095c6d');
         $this->assertResponseStatusCode(200);
 
         $this->assertModuleName('rtmp');

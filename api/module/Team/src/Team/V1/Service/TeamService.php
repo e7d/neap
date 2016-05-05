@@ -12,7 +12,7 @@ namespace Team\V1\Service;
 use Application\Database\Team\Team;
 use Application\Database\User\User;
 use Team\V1\Rest\Team\TeamCollection;
-use User\V1\Rest\User\UserCollection;
+use Team\V1\Rest\User\UserCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;

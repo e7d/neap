@@ -67,12 +67,12 @@ class StreamService
         return $streamHydrator->buildEntity($stream);
     }
 
-    public function fetchByChannel($channelId, $live = null)
+    public function fetchByChannel($channelId)
     {
         $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
         $streamHydrator = $this->serviceManager->get('Application\Hydrator\Stream\StreamHydrator');
 
-        $stream = $streamModel->fetchByChannel($channelId, $live);
+        $stream = $streamModel->fetchByChannel($channelId, $live = true);
         if (!$stream) {
             return null;
         }
@@ -88,7 +88,7 @@ class StreamService
         $streamModel = $this->serviceManager->get('Application\Database\Stream\StreamModel');
         $streamHydrator = $this->serviceManager->get('Application\Hydrator\Stream\StreamHydrator');
 
-        $stream = $streamModel->fetchByUser($userId, $live);
+        $stream = $streamModel->fetchByUser($userId, $live = true);
         if (!$stream) {
             return null;
         }

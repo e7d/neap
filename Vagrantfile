@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
         # General configuration
         node.vm.hostname = "neap.dev"
         node.vm.box = "e7d/neap-box"
-        node.vm.box_version = ">= 1.2.0"
+        node.vm.box_version = ">= 1.2.6"
         node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "irc.neap.dev", "mail.neap.dev", "rtmp.neap.dev", "socket.neap.dev", "static.neap.dev", "www.neap.dev"]
 
         # Network configuration

@@ -23,6 +23,7 @@ try
 	echo "Create RTMP folders"
 	mkdir -p /data/rtmp/dash
 	mkdir -p /data/rtmp/hls
+	mkdir -p /data/rtmp/keys
 	mkdir -p /data/rtmp/rec
 
 	echo "Link RTMP folder"
@@ -30,7 +31,7 @@ try
 	ln -fs /data/rtmp/ /var/www/neap/
 
 	echo "Fix RTMP folders permissions"
-	chmod -cR 700 /data/rtmp
+	chmod -cR u+rw /data/rtmp
 	chown -cR www-data.root /data/rtmp
 
 	echo "Link static folder"

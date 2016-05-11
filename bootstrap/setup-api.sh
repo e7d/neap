@@ -1,30 +1,35 @@
 #!/bin/bash
 
+. /vagrant/resources/colors.sh
+. /vagrant/resources/trycatch.sh
+
 try
 (
-    throwErrors
+	throwErrors
 
-    echo "Install dependencies"
-    cd ${DIR}/api/
-    composer install --no-interaction --prefer-source
+	cd /var/www/neap/api/
 
-    echo "Copy Neap configuration files"
-    cp ${DIR}/api/config/development.config.php.dist ${DIR}/api/config/development.config.php
-    cp ${DIR}/api/config/autoload/local.php.dist ${DIR}/api/config/autoload/local.php
-    cp ${DIR}/api/config/autoload/oauth2.local.php.dist ${DIR}/api/config/autoload/oauth2.local.php
+	echo "Install composer dependencies"
+	composer self-update
+	composer install --no-interaction --ignore-platform-reqs --prefer-source
 
-    echo "Remove cache files"
-    rm -rf ${DIR}/api/data/cache/*.cache.php
+	echo "Copy Neap configuration files"
+	cp /var/www/neap/api/config/development.config.php.dist /var/www/neap/api/config/development.config.php
+	cp /var/www/neap/api/config/autoload/local.php.dist /var/www/neap/api/config/autoload/local.php
+	cp /var/www/neap/api/config/autoload/oauth2.local.php.dist /var/www/neap/api/config/autoload/oauth2.local.php
 
-    echo "Enable development mode"
-    sleep 1s
-    php ${DIR}/api/public/index.php development enable
+	echo "Remove cache files"
+	rm -rf /var/www/neap/api/data/cache/*.cache.php
+
+	echo "Enable development mode"
+	sleep 1s
+	php /var/www/neap/api/public/index.php development enable
 )
 catch || {
-    case $ex_code in
-        *)
-            echox "${text_red}Error:${text_reset} An unexpected exception was thrown"
-            throw $ex_code
-        ;;
-    esac
+	case $ex_code in
+		*)
+			echox "${text_red}Error:${text_reset} An unexpected exception was thrown"
+			throw $ex_code
+		;;
+	esac
 }

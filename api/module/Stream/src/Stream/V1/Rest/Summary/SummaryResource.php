@@ -3,17 +3,14 @@ namespace Stream\V1\Rest\Summary;
 
 use Zend\Stdlib\Hydrator\ObjectProperty;
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class SummaryResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $streamService;
-
-    function __construct($identityService, $streamService)
+    public function __construct($identityService, $streamService)
     {
         $this->identityService = $identityService;
-        $this->streamService = $streamService;
+        $this->service = $streamService;
     }
 
     /**
@@ -22,13 +19,13 @@ class SummaryResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $data = array(
             'live' => is_null($this->getEvent()->getQueryParam('all'))
         );
 
-        $stats = $this->streamService->fetchStats(array_merge($data, (array) $params));
+        $stats = $this->service->fetchStats(array_merge($data, (array) $params));
 
         $entity = new ObjectProperty();
         $entity->hydrate($stats, $entity);

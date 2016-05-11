@@ -3,41 +3,38 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Application\Authorization;
 
 use ZF\ApiProblem\ApiProblem;
 
-trait AuthorizationAwareResourceTrait {
-    private $service;
-
+trait AuthorizationAwareResourceTrait
+{
     /**
      * Checks user's rights on requested resource
      *
-     * @param  mixed $id
+     * @param  mixed $entityId
      * @return ApiProblem|true
      */
-    public function userIsOwner($id)
+    public function userIsOwner($entityId)
     {
         if (!$this->service) {
             return new ApiProblem(500, 'This resource does not expose a valid service');
         }
 
-        $entity = $this->service->fetch($id);
-        if (!$entity) {
-            return new ApiProblem(404, 'The entity does not exists');
+        if (!method_exists($this->service, 'isOwner')) {
+            return new ApiProblem(500, 'This resource service does not expose an owner validation method');
         }
 
-        if (!method_exists($this->service, 'isOwner'))
-        {
-            return new ApiProblem(500, 'This resource service does not expose a owner validation method');
+        $user = $this->identityService->getIdentity();
+        if (is_null($user)) {
+            return new ApiProblem(401, 'This resource service requires a logged in user');
         }
 
-        $identity = $this->identityService->getIdentity();
-        if (!$this->service->isOwner($id, $identity->id)) {
+        if (!$this->service->isOwner($entityId, $user->user_id)) {
             return new ApiProblem(403, 'The entity is not your property');
         }
 

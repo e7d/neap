@@ -3,8 +3,8 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace User\V1\Service;
@@ -18,73 +18,59 @@ use User\V1\Rest\Block\BlockCollection;
 use User\V1\Rest\Favorite\FavoriteCollection;
 use User\V1\Rest\Follow\FollowCollection;
 use User\V1\Rest\Mod\ModCollection;
-use Team\V1\Rest\Team\TeamCollection;
+use User\V1\Rest\Team\TeamCollection;
 use User\V1\Rest\User\UserCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
-use Zend\Db\TableGateway\TableGateway;
 use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
 
 class UserService
 {
-    protected $channelModel;
-    protected $channelHydrator;
-    protected $chatModel;
-    protected $chatHydrator;
-    protected $teamModel;
-    protected $teamHydrator;
-    protected $userModel;
-    protected $userHydrator;
-    protected $videoModel;
-    protected $videoHydrator;
+    private $serviceManager;
 
-    public function __construct($channelModel, $channelHydrator, $chatModel, $chatHydrator, $teamModel, $teamHydrator, $userModel, $userHydrator, $videoModel, $videoHydrator)
+    public function __construct($serviceManager)
     {
-        $this->channelModel = $channelModel;
-        $this->channelHydrator = $channelHydrator;
-        $this->chatModel = $chatModel;
-        $this->chatHydrator = $chatHydrator;
-        $this->teamModel = $teamModel;
-        $this->teamHydrator = $teamHydrator;
-        $this->userModel = $userModel;
-        $this->userHydrator = $userHydrator;
-        $this->videoModel = $videoModel;
-        $this->videoHydrator = $videoHydrator;
+        $this->serviceManager = $serviceManager;
     }
 
-    public function fetch($id)
+    public function fetch($userId)
     {
-        $user = $this->userModel->fetch($id);
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
+
+        $user = $userModel->fetch($userId);
         if (!$user) {
             return null;
         }
 
-        $this->userHydrator->setParam('embedChannel');
-        $this->userHydrator->setParam('linkBlock');
-        $this->userHydrator->setParam('linkFavorite');
-        $this->userHydrator->setParam('linkFollow');
-        $this->userHydrator->setParam('linkMod');
-        $this->userHydrator->setParam('linkTeams');
+        $userHydrator->setParam('embedChannel', true);
+        $userHydrator->setParam('linkBlock', true);
+        $userHydrator->setParam('linkFavorite', true);
+        $userHydrator->setParam('linkFollow', true);
+        $userHydrator->setParam('linkMod', true);
+        $userHydrator->setParam('linkTeams', true);
 
-        return $this->userHydrator->buildEntity($user);
+        return $userHydrator->buildEntity($user);
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
-        $select = new Select('user');
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
-        $this->userHydrator->setParam('linkChannel');
+        $select = $userModel->getSqlSelect();
+
+        $userHydrator->setParam('linkChannel', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->userHydrator,
+            $userHydrator,
             new User()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->getTableGateway()->getAdapter(),
+            $userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -92,150 +78,147 @@ class UserService
         return $collection;
     }
 
+    public function update($userId, $data)
+    {
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
+
+        // if we have an updated logo
+        if (array_key_exists('logo', $data)) {
+            // TODO: process update image
+        }
+
+        $userModel->update($userId, (array) $data);
+
+        $user = $userModel->fetch($userId);
+        if (!$user) {
+            return null;
+        }
+        return $userHydrator->buildEntity($user);
+    }
+
     public function fetchBlockedUsers($params)
     {
-        $where = new Where();
-        $where->equalTo('block.user_id', $params['user_id']);
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
-        $select = new Select('user');
-        $select->join('block', 'block.blocked_user_id = user.user_id', array(), 'inner');
-        $select->where($where);
+        $select = $userModel->selectBlocksByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->userHydrator,
+            $userHydrator,
             new User()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->getTableGateway()->getAdapter(),
+            $userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
-        $collection = new BlockCollection($paginatorAdapter);
-        return $collection;
+        return new BlockCollection($paginatorAdapter);
     }
 
     public function fetchByChannel($channelId)
     {
-        $user = $this->userModel->fetchByChannel($channelId);
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
+
+        $user = $userModel->fetchByChannel($channelId);
         if (!$user) {
             return null;
         }
 
-        $this->userHydrator->setParam('embedChannel');
+        $userHydrator->setParam('embedChannel', true);
 
-        return $this->userHydrator->buildEntity($user);
+        return $userHydrator->buildEntity($user);
     }
 
     public function fetchFavorites($params)
     {
-        $where = new Where();
-        $where->equalTo('favorite.user_id', $params['user_id']);
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->serviceManager->get('Application\Hydrator\Video\VideoHydrator');
 
-        $select = new Select('video');
-        $select->join('favorite', 'favorite.video_id = video.video_id', array(), 'inner');
-        $select->where($where);
+        $select = $videoModel->selectFavoritesByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->videoHydrator,
+            $videoHydrator,
             new Video()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->videoModel->getTableGateway()->getAdapter(),
+            $videoModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
-        $collection = new FavoriteCollection($paginatorAdapter);
-        return $collection;
+        return new FavoriteCollection($paginatorAdapter);
     }
 
     public function fetchFollows($params)
     {
-        $where = new Where();
-        $where->equalTo('follow.user_id', $params['user_id']);
+        $channelModel = $this->serviceManager->get('Application\Database\CHannel\CHannelModel');
+        $channelHydrator = $this->serviceManager->get('Application\Hydrator\CHannel\CHannelHydrator');
 
-        $select = new Select('channel');
-        $select->join('follow', 'follow.channel_id = channel.channel_id', array(), 'inner');
-        $select->where($where);
+        $select = $channelModel->selectFollowsByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->channelHydrator,
+            $channelHydrator,
             new Channel()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->channelModel->getTableGateway()->getAdapter(),
+            $channelModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
-        $collection = new FollowCollection($paginatorAdapter);
-        return $collection;
+        return new FollowCollection($paginatorAdapter);
     }
 
     public function fetchMods($params)
     {
-        $where = new Where();
-        $where->equalTo('mod.user_id', $params['user_id']);
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->serviceManager->get('Application\Hydrator\Chat\ChatHydrator');
 
-        $select = new Select('chat');
-        $select->join('mod', 'mod.chat_id = chat.chat_id', array(), 'inner');
-        $select->where($where);
+        $select = $chatModel->selectModsByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->chatHydrator,
+            $chatHydrator,
             new Chat()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->chatModel->getTableGateway()->getAdapter(),
+            $chatModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
-        $collection = new ModCollection($paginatorAdapter);
-        return $collection;
+        return new ModCollection($paginatorAdapter);
     }
 
     public function fetchTeams($params)
     {
-        $where = new Where();
-        $where->equalTo('member.user_id', $params['user_id']);
+        $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');
+        $teamHydrator = $this->serviceManager->get('Application\Hydrator\Team\TeamHydrator');
 
-        $select = new Select('team');
-        $select->join('member', 'member.team_id = team.team_id', array(), 'inner');
-        $select->where($where);
+        $select = $teamModel->selectByUser($params['user_id']);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->teamHydrator,
+            $teamHydrator,
             new Team()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->teamModel->getTableGateway()->getAdapter(),
+            $teamModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
-        $collection = new TeamCollection($paginatorAdapter);
-        return $collection;
+        return new TeamCollection($paginatorAdapter);
     }
 
-    public function update($id, $data)
+    public function isOwner($userId, $identityUserId)
     {
-        // if we have an updated logo
-        if (array_key_exists('logo', $data)) {
-            $data->logo = '//'.str_replace('api', 'static', $_SERVER['SERVER_NAME']).'/user/logo/'.$id.'.png';
-        }
-
-        $user = $this->userModel->update($id, $data);
-        if (!$user) {
-            return null;
-        }
-
-        return $user;
+        return $userId === $identityUserId;
     }
 }

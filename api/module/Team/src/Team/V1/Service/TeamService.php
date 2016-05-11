@@ -3,8 +3,8 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Team\V1\Service;
@@ -12,42 +12,37 @@ namespace Team\V1\Service;
 use Application\Database\Team\Team;
 use Application\Database\User\User;
 use Team\V1\Rest\Team\TeamCollection;
-use User\V1\Rest\User\UserCollection;
+use Team\V1\Rest\User\UserCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Where;
 use Zend\Paginator\Adapter\DbSelect;
 use Zend\Paginator\Paginator;
 
 class TeamService
 {
-    protected $teamModel;
-    protected $teamHydrator;
-    protected $userModel;
-    protected $userHydrator;
+    private $serviceManager;
 
-    public function __construct($teamModel, $teamHydrator, $userModel, $userHydrator)
+    public function __construct($serviceManager)
     {
-        $this->teamModel = $teamModel;
-        $this->teamHydrator = $teamHydrator;
-        $this->userModel = $userModel;
-        $this->userHydrator = $userHydrator;
+        $this->serviceManager = $serviceManager;
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
-        $select = new Select('team');
+        $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');
+        $teamHydrator = $this->serviceManager->get('Application\Hydrator\Team\TeamHydrator');
 
-        $this->teamHydrator->setParam('linkUsers');
+        $select = $teamModel->getSqlSelect();
+
+        $teamHydrator->setParam('linkUsers', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->teamHydrator,
+            $teamHydrator,
             new Team()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->teamModel->getTableGateway()->getAdapter(),
+            $teamModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -55,37 +50,38 @@ class TeamService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($teamId)
     {
-        $team = $this->teamModel->fetch($id);
+        $teamModel = $this->serviceManager->get('Application\Database\Team\TeamModel');
+        $teamHydrator = $this->serviceManager->get('Application\Hydrator\Team\TeamHydrator');
+
+        $team = $teamModel->fetch($teamId);
         if (!$team) {
             return null;
         }
 
-        $this->teamHydrator->setParam('linkUsers');
+        $teamHydrator->setParam('linkUsers', true);
 
-        return $this->teamHydrator->buildEntity($team);
+        return $teamHydrator->buildEntity($team);
     }
 
     public function fetchUsers($params)
     {
-        $where = new Where();
-        $where->equalTo('member.team_id', $params['team_id']);
+        $userModel = $this->serviceManager->get('Application\Database\User\UserModel');
+        $userHydrator = $this->serviceManager->get('Application\Hydrator\User\UserHydrator');
 
-        $select = new Select('user');
-        $select->join('member', 'member.user_id = user.user_id', array(), 'inner');
-        $select->where($where);
+        $select = $userModel->selectByTeam($params['team_id']);
 
-        $this->userHydrator->setParam('linkChannel');
+        $userHydrator->setParam('linkChannel', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->userHydrator,
+            $userHydrator,
             new User()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->userModel->getTableGateway()->getAdapter(),
+            $userModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 

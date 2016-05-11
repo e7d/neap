@@ -3,37 +3,31 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Application\Database\Topic;
 
+use Application\Database\AbstractModel;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
-class TopicModel
+class TopicModel extends AbstractModel
 {
-    private $tableGateway;
-
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function getTableGateway()
-    {
-        return $this->tableGateway;
-    }
-
-    public function fetch($id)
+    public function select($topicId)
     {
         $where = new Where();
-        $where->equalTo('topic.topic_id', $id);
+        $where->equalTo('topic.topic_id', $topicId);
 
-        $select = new Select('topic');
+        $select = $this->tableGateway->getSql()->select();
         $select->columns(array(
             '*',
             'streams' => new Expression('COUNT(stream.stream_id)'),
@@ -43,12 +37,34 @@ class TopicModel
         $select->where($where);
         $select->group('topic.topic_id');
 
-        $rowset = $this->tableGateway->selectWith($select);
-        $topic = $rowset->current();
-        if (!$topic) {
-            return null;
-        }
+        return $select;
+    }
 
-        return $topic;
+    public function fetch($topicId)
+    {
+        return $this->selectOne(
+            $this->select($topicId)
+        );
+    }
+
+    public function selectWithStats()
+    {
+        $select = $this->tableGateway->getSql()->select();
+        $select->columns(array(
+            '*',
+            'streams' => new Expression('COUNT(stream.stream_id)'),
+            'viewers' => new Expression('SUM(stream.viewers)'),
+        ));
+        $select->join('stream', 'stream.topic_id = topic.topic_id', array(), 'inner');
+        $select->group('topic.topic_id');
+
+        return $select;
+    }
+
+    public function fetchWithStats()
+    {
+        return $this->selectAll(
+            $this->selectWithStats()
+        );
     }
 }

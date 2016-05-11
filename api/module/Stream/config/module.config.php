@@ -173,7 +173,7 @@ return array(
                 'required' => true,
                 'validators' => array(
                     0 => array(
-                        'name' => 'Application\\Validator\\UuidV4',
+                        'name' => 'Application\\Validator\\UuidV4Validator',
                         'options' => array(),
                     ),
                 ),
@@ -192,7 +192,7 @@ return array(
                 'required' => false,
                 'validators' => array(
                     0 => array(
-                        'name' => 'Application\\Validator\\UuidV4',
+                        'name' => 'Application\\Validator\\UuidV4Validator',
                         'options' => array(),
                     ),
                 ),
@@ -210,6 +210,6 @@ return array(
         ),
     ),
     'validator_metadata' => array(
-        'Application\\Validator\\UuidV4' => array(),
+        'Application\\Validator\\UuidV4Validator' => array(),
     ),
 );

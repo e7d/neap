@@ -3,35 +3,32 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Topic\V1\Rest\Topic;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class TopicResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $topicService;
-
-    function __construct($identityService, $topicService)
+    public function __construct($identityService, $topicService)
     {
         $this->identityService = $identityService;
-        $this->topicService = $topicService;
+        $this->service = $topicService;
     }
 
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $topicId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($topicId)
     {
-        return $this->topicService->fetch($id);
+        return $this->service->fetch($topicId);
     }
 
     /**
@@ -40,12 +37,8 @@ class TopicResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
-        $data = array(
-            'top' => true
-        );
-
-        return $this->topicService->fetchAll(array_merge($data, (array) $params));
+        return $this->service->fetchAll((array) $params);
     }
 }

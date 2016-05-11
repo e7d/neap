@@ -3,39 +3,32 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Channel\V1\Rest\Channel;
 
-use Application\Authorization\AuthorizationAwareResourceTrait;
-
+use Application\Rest\AbstractResourceListener;
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
 
 class ChannelResource extends AbstractResourceListener
 {
-    use AuthorizationAwareResourceTrait;
-
-    private $identityService;
-    private $channelService;
-
-    function __construct($identityService, $channelService)
+    public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;
-        $this->channelService = $channelService;
+        $this->service = $channelService;
     }
 
     /**
      * Fetch a resource
      *
-     * @param  mixed $id
+     * @param  mixed $channelId
      * @return ApiProblem|mixed
      */
-    public function fetch($id)
+    public function fetch($channelId)
     {
-        return $this->channelService->fetch($id);
+        return $this->service->fetch($channelId);
     }
 
     /**
@@ -44,25 +37,42 @@ class ChannelResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
-        return $this->channelService->fetchAll($params);
+        return $this->service->fetchAll($params);
+    }
+
+    /**
+     * Patch (partial in-place update) a resource
+     *
+     * @param  mixed $channelId
+     * @param  mixed $data
+     * @return ApiProblem|mixed
+     */
+    public function patch($channelId, $data)
+    {
+        $userIsOwner = $this->userIsOwner($channelId);
+        if ($userIsOwner instanceof ApiProblem) {
+            return $userIsOwner;
+        }
+
+        return $this->service->update($channelId, (array) $data);
     }
 
     /**
      * Update a resource
      *
-     * @param  mixed $id
+     * @param  mixed $channelId
      * @param  mixed $data
      * @return ApiProblem|mixed
      */
-    public function update($id, $data)
+    public function update($channelId, $data)
     {
-        $userIsOwner = $this->userIsOwner($id);
+        $userIsOwner = $this->userIsOwner($channelId);
         if ($userIsOwner instanceof ApiProblem) {
             return $userIsOwner;
         }
 
-        return $this->channelService->update($id, (array) $data);
+        return $this->service->update($channelId, $data);
     }
 }

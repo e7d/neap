@@ -1,6 +1,8 @@
 # Neap
 
-[![Build Status](https://travis-ci.org/e7d/neap.svg)](https://travis-ci.org/e7d/neap)
+[![Build Status](https://img.shields.io/travis/e7d/neap.svg)](https://travis-ci.org/e7d/neap)
+[![Code Quality](https://img.shields.io/scrutinizer/g/e7d/neap.svg)](https://scrutinizer-ci.com/g/e7d/neap)
+[![Coverage](https://img.shields.io/coveralls/e7d/neap.svg)](https://coveralls.io/github/e7d/neap)
 
 A ready to go streaming server.
 
@@ -62,6 +64,19 @@ For a complete update from scratch, destroying and rebuilding everything:
 
 Neap is using its own "virtual box" to manage its environment, embedding the whole needed software.
 You can consult a detailed list here: [Neap Box software stack](https://github.com/e7d/neap-box#software-stack)
+
+On top of that, Neap adds:
+* [Zend Framework](http://framework.zend.com/) 2 as PHP framework, with:
+    * [Apigility](https://apigility.org/) as API framework
+    * [React](http://reactphp.org/) as I/O library
+    * [Ratchet](http://socketo.me/) as WebSocket library
+* [Angular](https://angular.io/) 2 as JavaScript framework, with:
+    * [Polymer](https://www.polymer-project.org/1.0/) as Web Components library
+    * [React](https://facebook.github.io/react/) as use interfaces library
+    * [lodash](https://lodash.com/) as utility library
+* [Emoji One](http://emojione.com/) as Emoji collection
+* [twemoji](http://twitter.github.io/twemoji/) as alternative Emoji collection
+
 
 ### Next Steps ###
 

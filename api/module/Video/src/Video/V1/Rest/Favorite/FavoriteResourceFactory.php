@@ -3,7 +3,7 @@ namespace Video\V1\Rest\Favorite;
 
 class FavoriteResourceFactory
 {
-    public function __invoke($services)
+    public function __invoke($serviceManager)
     {
         return new FavoriteResource();
     }

@@ -3,51 +3,31 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Application\Hydrator\Ingest;
 
 use Application\Hydrator\Hydrator;
-use Application\Database\Channel\ChannelModel;
-use Application\Database\User\UserModel;
-use Zend\Stdlib\Hydrator\HydratorInterface;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
 class IngestHydrator extends Hydrator
 {
     public function __construct()
     {
+        parent::__construct();
     }
 
     public function buildEntity($ingest)
     {
-        $ingestEntity = new Entity($this->extract($ingest));
+        $this->object = $ingest;
 
-        $ingestEntity->getLinks()->add(Link::factory(array(
-            'rel' => 'self',
-            'route' => array(
-                'name' => 'ingest.rest.ingest',
-                'params' => array(
-                    'ingest_id' => $ingest->id,
-                ),
-            ),
-        )));
+        $this->entity = new Entity($this->extract($ingest));
 
-        if ($this->getParam('linkOutages')) {
-            $ingestEntity->getLinks()->add(Link::factory(array(
-                'rel' => 'outages',
-                'route' => array(
-                    'name' => 'ingest.rest.outage',
-                    'params' => array(
-                        'ingest_id' => $ingest->id,
-                    ),
-                ),
-            )));
-        }
+        $this->addSelfLink();
+        $this->addLink('linkOutages', $ingest, 'outages', 'ingest.rest.outage');
 
-        return $ingestEntity;
+        return $this->entity;
     }
 }

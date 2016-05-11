@@ -5,9 +5,10 @@ return array(
             'Channel\\V1\\Service\\ChannelService' => 'Channel\\V1\\Service\\ChannelServiceFactory',
             'Channel\\V1\\Rest\\Channel\\ChannelResource' => 'Channel\\V1\\Rest\\Channel\\ChannelResourceFactory',
             'Channel\\V1\\Rest\\Follow\\FollowResource' => 'Channel\\V1\\Rest\\Follow\\FollowResourceFactory',
-            'Channel\\V1\\Rest\\Video\\VideoResource' => 'Channel\\V1\\Rest\\Video\\VideoResourceFactory',
-            'Channel\\V1\\Rest\\StreamKey\\StreamKeyResource' => 'Channel\\V1\\Rest\\StreamKey\\StreamKeyResourceFactory',
             'Channel\\V1\\Rest\\MyChannel\\MyChannelResource' => 'Channel\\V1\\Rest\\MyChannel\\MyChannelResourceFactory',
+            'Channel\\V1\\Rest\\Panel\\PanelResource' => 'Channel\\V1\\Rest\\Panel\\PanelResourceFactory',
+            'Channel\\V1\\Rest\\StreamKey\\StreamKeyResource' => 'Channel\\V1\\Rest\\StreamKey\\StreamKeyResourceFactory',
+            'Channel\\V1\\Rest\\Video\\VideoResource' => 'Channel\\V1\\Rest\\Video\\VideoResourceFactory',
         ),
     ),
     'router' => array(
@@ -57,6 +58,15 @@ return array(
                     ),
                 ),
             ),
+            'channel.rest.panel' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/channels/:channel_id/panels[/:panel_id]',
+                    'defaults' => array(
+                        'controller' => 'Channel\\V1\\Rest\\Panel\\Controller',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -66,6 +76,7 @@ return array(
             2 => 'channel.rest.video',
             3 => 'channel.rest.stream-key',
             4 => 'channel.rest.user-channel',
+            5 => 'channel.rest.panel',
         ),
     ),
     'zf-rest' => array(
@@ -162,6 +173,30 @@ return array(
             'collection_class' => 'Channel\\V1\\Rest\\MyChannel\\MyChannelCollection',
             'service_name' => 'MyChannel',
         ),
+        'Channel\\V1\\Rest\\Panel\\Controller' => array(
+            'listener' => 'Channel\\V1\\Rest\\Panel\\PanelResource',
+            'route_name' => 'channel.rest.panel',
+            'route_identifier_name' => 'panel_id',
+            'collection_name' => 'panels',
+            'entity_http_methods' => array(
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ),
+            'collection_http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'collection_query_whitelist' => array(
+                0 => 'limit',
+            ),
+            'page_size' => '100',
+            'page_size_param' => 'limit',
+            'entity_class' => 'Channel\\V1\\Rest\\Panel\\PanelEntity',
+            'collection_class' => 'Channel\\V1\\Rest\\Panel\\PanelCollection',
+            'service_name' => 'Panel',
+        ),
     ),
     'zf-content-negotiation' => array(
         'controllers' => array(
@@ -170,6 +205,7 @@ return array(
             'Channel\\V1\\Rest\\Video\\Controller' => 'HalJson',
             'Channel\\V1\\Rest\\StreamKey\\Controller' => 'HalJson',
             'Channel\\V1\\Rest\\MyChannel\\Controller' => 'HalJson',
+            'Channel\\V1\\Rest\\Panel\\Controller' => 'HalJson',
         ),
         'accept_whitelist' => array(
             'Channel\\V1\\Rest\\Channel\\Controller' => array(
@@ -197,6 +233,11 @@ return array(
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ),
+            'Channel\\V1\\Rest\\Panel\\Controller' => array(
+                0 => 'application/vnd.channel.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ),
         ),
         'content_type_whitelist' => array(
             'Channel\\V1\\Rest\\Channel\\Controller' => array(
@@ -216,6 +257,10 @@ return array(
                 1 => 'application/json',
             ),
             'Channel\\V1\\Rest\\MyChannel\\Controller' => array(
+                0 => 'application/vnd.channel.v1+json',
+                1 => 'application/json',
+            ),
+            'Channel\\V1\\Rest\\Panel\\Controller' => array(
                 0 => 'application/vnd.channel.v1+json',
                 1 => 'application/json',
             ),
@@ -281,6 +326,18 @@ return array(
                 'entity_identifier_name' => 'id',
                 'route_name' => 'channel.rest.user-channel',
                 'route_identifier_name' => 'channel_id',
+                'is_collection' => true,
+            ),
+            'Channel\\V1\\Rest\\Panel\\PanelEntity' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'channel.rest.panel',
+                'route_identifier_name' => 'panel_id',
+                'hydrator' => 'Zend\\Stdlib\\Hydrator\\ObjectProperty',
+            ),
+            'Channel\\V1\\Rest\\Panel\\PanelCollection' => array(
+                'entity_identifier_name' => 'id',
+                'route_name' => 'channel.rest.panel',
+                'route_identifier_name' => 'panel_id',
                 'is_collection' => true,
             ),
         ),
@@ -351,6 +408,22 @@ return array(
                     'DELETE' => false,
                 ),
             ),
+            'Channel\\V1\\Rest\\Panel\\Controller' => array(
+                'collection' => array(
+                    'GET' => false,
+                    'POST' => true,
+                    'PUT' => false,
+                    'PATCH' => false,
+                    'DELETE' => false,
+                ),
+                'entity' => array(
+                    'GET' => false,
+                    'POST' => false,
+                    'PUT' => true,
+                    'PATCH' => true,
+                    'DELETE' => true,
+                ),
+            ),
         ),
     ),
     'controllers' => array(
@@ -368,7 +441,7 @@ return array(
                 'required' => false,
                 'validators' => array(
                     0 => array(
-                        'name' => 'Application\\Validator\\UuidV4',
+                        'name' => 'Application\\Validator\\UuidV4Validator',
                         'options' => array(),
                     ),
                 ),

@@ -1,15 +1,24 @@
 <?php
+/**
+ * Neap (http://neap.io/)
+ *
+ * @link      http://github.com/e7d/neap for the canonical source repository
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
+ */
+
 namespace RTMP\V1\Rpc\Translate;
 
 use Application\Authorization\LocalhostController;
+use ZF\ContentNegotiation\ViewModel;
 
 class TranslateController extends LocalhostController
 {
-    private $streamModel;
+    private $channelModel;
 
-    public function __construct($streamModel)
+    public function __construct($channelModel)
     {
-        $this->streamModel = $streamModel;
+        $this->channelModel = $channelModel;
     }
 
     public function translateAction()
@@ -18,15 +27,16 @@ class TranslateController extends LocalhostController
 
         $streamKey = $this->getEvent()->getRequest()->getQuery('stream_key');
         if (is_null($streamKey)) {
-            exit;
+            return new ViewModel();
         }
 
-        $stream = $this->streamModel->fetchByStreamKey($streamKey);
-        if (is_null($stream)) {
-            exit;
+        $channel = $this->channelModel->fetchByStreamKey($streamKey);
+        if (is_null($channel)) {
+            return new ViewModel();
         }
 
-        print $stream->id;
-        exit;
+        return new ViewModel(array(
+            'channel' => $channel->channel_id
+        ));
     }
 }

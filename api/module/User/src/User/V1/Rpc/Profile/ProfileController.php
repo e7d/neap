@@ -4,7 +4,7 @@ namespace User\V1\Rpc\Profile;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use ZF\ApiProblem\ApiProblem;
-use ZF\ContentNegotiation\ViewModel;
+use ZF\Hal\View\HalJsonModel;
 
 class ProfileController extends AbstractActionController
 {
@@ -14,15 +14,12 @@ class ProfileController extends AbstractActionController
 
         switch ($method) {
             case 'GET':
-                $profile = $this->getServiceLocator()
-                    ->get('Application\Authorization\IdentityService')
-                    ->getIdentity();
+                $serviceManager = $this->getServiceLocator();
 
-                $user = $this->getServiceLocator()
-                    ->get('Application\Database\User\UserModel')
-                    ->fetch($profile->id);
+                $identityService = $serviceManager->get('Application\Authorization\IdentityService');
+                $user = $identityService->getIdentity();
 
-                return new ViewModel((array) $user);
+                return new HalJsonModel(get_object_vars($user));
                 break;
 
             case 'DELETE':
@@ -33,7 +30,7 @@ class ProfileController extends AbstractActionController
                 break;
 
             default:
-                return new ApiProblem(405, 'The '.$method.' method has not been defined');
+                return new ApiProblem(405, 'The ' . $method . ' method has not been defined');
         }
     }
 }

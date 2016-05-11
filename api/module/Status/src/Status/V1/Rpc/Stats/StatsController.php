@@ -3,8 +3,8 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Status\V1\Rpc\Stats;
@@ -16,11 +16,19 @@ class StatsController extends AbstractActionController
 {
     public function statsAction()
     {
-        $statsXmlStr = file_get_contents("http://neap/stats");
-        $statsXml = simplexml_load_string($statsXmlStr);
-        $statsJson = json_encode($statsXml);
-        $stats = json_decode($statsJson, true);
+        try {
+            $statsXmlStr = file_get_contents("http://neap/stats");
+            if (!$statsXmlStr) {
+                return new ViewModel();
+            }
 
-        return new ViewModel($stats);
+            $statsXml = simplexml_load_string($statsXmlStr);
+            $statsJson = json_encode($statsXml);
+            $stats = json_decode($statsJson, true);
+
+            return new ViewModel($stats);
+        } catch (\Exception $e) {
+            return new ViewModel();
+        }
     }
 }

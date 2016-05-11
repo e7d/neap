@@ -3,8 +3,8 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Application\Database\Block;
@@ -19,8 +19,8 @@ class Block extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->user_id = (!empty($data['user_id'])) ? $data['user_id'] : null;
-        $this->blocked_user_id = (!empty($data['blocked_user_id'])) ? $data['blocked_user_id'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
+        $this->user_id = $data['user_id'];
+        $this->blocked_user_id = $data['blocked_user_id'];
+        $this->created_at = $data['created_at'];
     }
 }

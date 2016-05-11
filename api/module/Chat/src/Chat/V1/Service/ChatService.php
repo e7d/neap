@@ -3,54 +3,49 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Chat\V1\Service;
 
-use Application\Database\Chat\Chat;
-use Application\Database\Follow\Follow;
-use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\TableGateway\TableGateway;
-use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
-
 class ChatService
 {
-    protected $chatModel;
-    protected $chatHydrator;
+    private $serviceManager;
 
-    public function __construct($chatModel, $chatHydrator)
+    public function __construct($serviceManager)
     {
-        $this->chatModel = $chatModel;
-        $this->chatHydrator = $chatHydrator;
+        $this->serviceManager = $serviceManager;
     }
 
-    public function fetch($id)
+    public function fetch($chatId)
     {
-        $chat = $this->chatModel->fetch($id);
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->serviceManager->get('Application\Hydrator\Chat\ChatHydrator');
+
+        $chat = $chatModel->fetch($chatId);
         if (!$chat) {
             return null;
         }
 
-        $this->chatHydrator->setParam('linkChannel');
-        $this->chatHydrator->setParam('linkUser');
+        $chatHydrator->setParam('linkChannel', true);
+        $chatHydrator->setParam('linkUser', true);
 
-        return $this->chatHydrator->buildEntity($chat);
+        return $chatHydrator->buildEntity($chat);
     }
 
     public function fetchByChannel($channelId)
     {
-        $chat = $this->chatModel->fetchByChannel($channelId);
+        $chatModel = $this->serviceManager->get('Application\Database\Chat\ChatModel');
+        $chatHydrator = $this->serviceManager->get('Application\Hydrator\Chat\ChatHydrator');
+
+        $chat = $chatModel->fetchByChannel($channelId);
         if (!$chat) {
             return null;
         }
 
-        $this->chatHydrator->setParam('embedChannel');
+        $chatHydrator->setParam('embedChannel', true);
 
-        return $this->chatHydrator->buildEntity($chat);
+        return $chatHydrator->buildEntity($chat);
     }
 }

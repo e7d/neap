@@ -3,8 +3,8 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Application\Database\Panel;
@@ -13,7 +13,7 @@ use Zend\Stdlib\Hydrator\ObjectProperty;
 
 class Panel extends ObjectProperty
 {
-    public $id;
+    public $panel_id;
     public $channel_id;
     public $title;
     public $position;
@@ -25,14 +25,14 @@ class Panel extends ObjectProperty
 
     public function exchangeArray($data)
     {
-        $this->id = (!empty($data['panel_id'])) ? $data['panel_id'] : null;
-        $this->channel_id = (!empty($data['channel_id'])) ? $data['channel_id'] : null;
-        $this->title = (!empty($data['title'])) ? $data['title'] : null;
-        $this->position = (!empty($data['position'])) ? $data['position'] : null;
-        $this->banner = (!empty($data['banner'])) ? $data['banner'] : null;
-        $this->description = (!empty($data['description'])) ? $data['description'] : null;
-        $this->banner_link = (!empty($data['banner_link'])) ? $data['banner_link'] : null;
-        $this->created_at = (!empty($data['created_at'])) ? $data['created_at'] : null;
-        $this->updated_at = (!empty($data['updated_at'])) ? $data['updated_at'] : null;
+        $this->panel_id = $data['panel_id'];
+        $this->channel_id = $data['channel_id'];
+        $this->title = $data['title'];
+        $this->position = $data['position'];
+        $this->banner = $data['banner'];
+        $this->description = $data['description'];
+        $this->banner_link = $data['banner_link'];
+        $this->created_at = $data['created_at'];
+        $this->updated_at = $data['updated_at'];
     }
 }

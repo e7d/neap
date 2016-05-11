@@ -2,17 +2,14 @@
 namespace Ingest\V1\Rest\Outage;
 
 use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
+use Application\Rest\AbstractResourceListener;
 
 class OutageResource extends AbstractResourceListener
 {
-    private $identityService;
-    private $ingestService;
-
-    function __construct($identityService, $ingestService)
+    public function __construct($identityService, $ingestService)
     {
         $this->identityService = $identityService;
-        $this->ingestService = $ingestService;
+        $this->service = $ingestService;
     }
 
     /**
@@ -21,12 +18,12 @@ class OutageResource extends AbstractResourceListener
      * @param  array $params
      * @return ApiProblem|mixed
      */
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
         $data = array(
             'ingest_id' => $this->getEvent()->getRouteParam('ingest_id')
         );
 
-        return $this->ingestService->fetchOutages(array_merge($data, (array) $params));
+        return $this->service->fetchOutages(array_merge($data, (array) $params));
     }
 }

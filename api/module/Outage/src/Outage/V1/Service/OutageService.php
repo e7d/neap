@@ -3,43 +3,43 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Outage\V1\Service;
+
 use Application\Database\Outage\Outage;
 use Outage\V1\Rest\Outage\OutageCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\Sql\Select;
-use Zend\Db\TableGateway\TableGateway;
 use Zend\Paginator\Adapter\DbSelect;
 
 class OutageService
 {
-    protected $outageModel;
-    protected $outageHydrator;
+    private $serviceManager;
 
-    public function __construct($outageModel, $outageHydrator)
+    public function __construct($serviceManager)
     {
-        $this->outageModel = $outageModel;
-        $this->outageHydrator = $outageHydrator;
+        $this->serviceManager = $serviceManager;
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
-        $select = new Select('outage');
+        $outageModel = $this->serviceManager->get('Application\Database\Outage\OutageModel');
+        $outageHydrator = $this->serviceManager->get('Application\Hydrator\Outage\OutageHydrator');
 
-        $this->outageHydrator->setParam('linkIngest');
+        $select = $outageModel->getSqlSelect();
+
+        $outageHydrator->setParam('linkIngest', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->outageHydrator,
+            $outageHydrator,
             new Outage()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->outageModel->getTableGateway()->getAdapter(),
+            $outageModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -47,13 +47,16 @@ class OutageService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($outageId)
     {
-        $outage = $this->outageModel->fetch($id);
+        $outageModel = $this->serviceManager->get('Application\Database\Outage\OutageModel');
+        $outageHydrator = $this->serviceManager->get('Application\Hydrator\Outage\OutageHydrator');
+
+        $outage = $outageModel->fetch($outageId);
         if (!$outage) {
             return null;
         }
 
-        return $this->outageHydrator->buildEntity($outage);
+        return $outageHydrator->buildEntity($outage);
     }
 }

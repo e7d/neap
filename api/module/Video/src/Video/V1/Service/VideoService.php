@@ -3,8 +3,8 @@
  * Neap (http://neap.io/)
  *
  * @link      http://github.com/e7d/neap for the canonical source repository
- * @copyright Copyright (c) 2015 Michaël "e7d" Ferrand (http://github.com/e7d)
- * @license   https://github.com/e7d/neap/blob/master/LICENSE.md The MIT License
+ * @copyright Copyright (c) 2016 Michaël "e7d" Ferrand (http://github.com/e7d)
+ * @license   https://github.com/e7d/neap/blob/master/LICENSE.txt The MIT License
  */
 
 namespace Video\V1\Service;
@@ -18,33 +18,32 @@ use Zend\Paginator\Paginator;
 
 class VideoService
 {
-    protected $videoModel;
-    protected $videoHydrator;
-    protected $userModel;
+    private $serviceManager;
 
-    public function __construct($videoModel, $videoHydrator, $userModel)
+    public function __construct($serviceManager)
     {
-        $this->videoModel = $videoModel;
-        $this->videoHydrator = $videoHydrator;
-        $this->userModel = $userModel;
+        $this->serviceManager = $serviceManager;
     }
 
-    public function fetchAll($params)
+    public function fetchAll($params = [])
     {
-        $select = new Select('video');
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->serviceManager->get('Application\Hydrator\Video\VideoHydrator');
 
-        $this->videoHydrator->setParam('linkStream');
-        $this->videoHydrator->setParam('linkChannel');
-        $this->videoHydrator->setParam('linkUser');
+        $select = $videoModel->getSqlSelect();
+
+        $videoHydrator->setParam('linkStream', true);
+        $videoHydrator->setParam('linkChannel', true);
+        $videoHydrator->setParam('linkUser', true);
 
         $hydratingResultSet = new HydratingResultSet(
-            $this->videoHydrator,
+            $videoHydrator,
             new Video()
         );
 
         $paginatorAdapter = new DbSelect(
             $select,
-            $this->videoModel->getTableGateway()->getAdapter(),
+            $videoModel->getTableGateway()->getAdapter(),
             $hydratingResultSet
         );
 
@@ -52,27 +51,20 @@ class VideoService
         return $collection;
     }
 
-    public function fetch($id)
+    public function fetch($videoId)
     {
-        $video = $this->videoModel->fetch($id);
+        $videoModel = $this->serviceManager->get('Application\Database\Video\VideoModel');
+        $videoHydrator = $this->serviceManager->get('Application\Hydrator\Video\VideoHydrator');
+
+        $video = $videoModel->fetch($videoId);
         if (!$video) {
             return null;
         }
 
-        $this->videoHydrator->setParam('linkStream');
-        $this->videoHydrator->setParam('linkChannel');
-        $this->videoHydrator->setParam('linkUser');
+        $videoHydrator->setParam('linkStream', true);
+        $videoHydrator->setParam('linkChannel', true);
+        $videoHydrator->setParam('linkUser', true);
 
-        return $this->videoHydrator->buildEntity($video);
-    }
-
-    public function fetchByChannel($channelId)
-    {
-        return $this->videoModel->fetchByChannel($channelId);
-    }
-
-    public function fetchByUser($userId)
-    {
-        return $this->videoModel->fetchByUser($userId);
+        return $videoHydrator->buildEntity($video);
     }
 }

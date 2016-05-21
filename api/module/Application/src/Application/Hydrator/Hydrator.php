@@ -86,7 +86,7 @@ abstract class Hydrator extends AbstractHydrator
         list($embedClassName, $embedPrimaryKey) = $this->extractMeta($embed);
 
         if (is_null($linkRouteName)) {
-            $linkRouteName = $embedClassName . '.rest.' . $embedClassName;
+            $linkRouteName = $embedClassName.'.rest.'.$embedClassName;
         }
         $linkSpec = array(
             'rel' => 'self',
@@ -124,7 +124,7 @@ abstract class Hydrator extends AbstractHydrator
             $linkRel = $embedClassName;
         }
         if (is_null($linkRouteName)) {
-            $linkRouteName = $embedClassName . '.rest.' . $embedClassName;
+            $linkRouteName = $embedClassName.'.rest.'.$embedClassName;
         }
         $this->entity->getLinks()->add($this->link->factory(array(
             'rel' => $linkRel,

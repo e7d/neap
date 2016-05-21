@@ -15,7 +15,6 @@ use Team\V1\Rest\Team\TeamCollection;
 use Team\V1\Rest\User\UserCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
 
 class TeamService
 {

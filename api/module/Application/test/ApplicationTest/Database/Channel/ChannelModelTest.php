@@ -113,7 +113,7 @@ class ChannelModelTest extends AbstractControllerTestCase
         $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
 
         $data = array(
-            'logo' => 'https://gravatar.com/avatar/' . md5('testUpdate') . '?s=128&d=identicon'
+            'logo' => 'https://gravatar.com/avatar/'.md5('testUpdate').'?s=128&d=identicon'
         );
 
         $channelId = '23a057b7-a5b2-48da-ae73-6fd130e8c55e'; // Jax channel id

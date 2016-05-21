@@ -13,7 +13,6 @@ use Application\Database\Stream\Stream;
 use Stream\V1\Rest\Stream\StreamCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
 
 class StreamService
 {

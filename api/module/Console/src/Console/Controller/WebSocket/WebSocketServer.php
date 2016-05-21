@@ -25,8 +25,8 @@ class WebSocketServer extends AbstractConsoleController
     {
         // Write a pid file to mark as running
         file_put_contents(
-            getcwd() . $this->pidFile,
-            getmypid() . PHP_EOL
+            getcwd().$this->pidFile,
+            getmypid().PHP_EOL
         );
 
         // Run the server application through the WebSocket protocol on port 8080

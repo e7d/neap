@@ -12,9 +12,7 @@ namespace Video\V1\Service;
 use Application\Database\Video\Video;
 use Video\V1\Rest\Video\VideoCollection;
 use Zend\Db\ResultSet\HydratingResultSet;
-use Zend\Db\Sql\Select;
 use Zend\Paginator\Adapter\DbSelect;
-use Zend\Paginator\Paginator;
 
 class VideoService
 {

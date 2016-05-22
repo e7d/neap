@@ -28,7 +28,7 @@ class Ingest extends ObjectProperty
         $this->hostname = $data['hostname'];
         $this->port = $data['port'];
         $this->availability = $data['availability'];
-        $this->url_template = 'rtmp://' . $this->hostname . ($this->port != 1935 ? ':' . $this->port : '') . '/live/{stream_key}';
+        $this->url_template = 'rtmp://'.$this->hostname.($this->port != 1935 ? ':'.$this->port : '').'/live/{stream_key}';
         $this->created_at = $data['created_at'];
         $this->updated_at = $data['updated_at'];
     }

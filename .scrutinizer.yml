@@ -1,10 +1,16 @@
 filter:
-  paths: [api/module/*]
+  paths: [api/config/*, api/module/*]
   # excluded_paths: [vendor/*, test/*]
 before_commands:
   - 'composer install --dev --prefer-source'
+checks:
+  php:
+    code_rating: true
+    duplication: true
 tools:
-  external_code_coverage: true
+  external_code_coverage:
+    runs: 2
+    timeout: 600
   php_code_coverage: true
   php_code_sniffer: true
   php_cpd:

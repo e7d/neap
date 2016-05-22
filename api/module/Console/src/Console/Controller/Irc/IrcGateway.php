@@ -32,8 +32,8 @@ class IrcGateway extends AbstractConsoleController
     {
         // Write a pid file to mark as running
         file_put_contents(
-            getcwd() . $this->pidFile,
-            getmypid() . PHP_EOL
+            getcwd().$this->pidFile,
+            getmypid().PHP_EOL
         );
 
         $this->config = $this->getConfig();
@@ -54,7 +54,7 @@ class IrcGateway extends AbstractConsoleController
         });
         $this->gatewayListener->listen($this->config['gateway']['port'], 'localhost');
 
-        $ircSocket = stream_socket_client('tcp://' . $this->config['irc']['hostname'] . ':' . $this->config['irc']['port']);
+        $ircSocket = stream_socket_client('tcp://'.$this->config['irc']['hostname'].':'.$this->config['irc']['port']);
         $this->ircClient = new ReactStream($ircSocket, $loop);
         $this->ircClient->on('data', function($data) {
             $this->receive($data);
@@ -79,13 +79,13 @@ class IrcGateway extends AbstractConsoleController
         $this->ircClient->write($command);
 
         // Print what we sent
-        print ConsoleStyle::build('{green}[' . DateConverter::fromTimestamp() . ']{/} ==> ') . PHP_EOL . $command; //displays it on the screen
+        print ConsoleStyle::build('{green}['.DateConverter::fromTimestamp().']{/} ==> ').PHP_EOL.$command; //displays it on the screen
     }
 
     private function receive($data)
     {
         // Print what we received
-        print ConsoleStyle::build('{yellow}[' . DateConverter::fromTimestamp() . ']{/} <== ') . PHP_EOL . $data;
+        print ConsoleStyle::build('{yellow}['.DateConverter::fromTimestamp().']{/} <== ').PHP_EOL.$data;
 
         // If we receive data with a populated upon stack, we have something to give back
         if (count($this->gatewayConnections) > 0) {
@@ -95,7 +95,7 @@ class IrcGateway extends AbstractConsoleController
 
         // Ping response to keep alive
         if (substr($data, 0, 4) == "PING") {
-            $this->send("PONG " . substr($data, 5));
+            $this->send("PONG ".substr($data, 5));
         }
 
         // Get operator privileges

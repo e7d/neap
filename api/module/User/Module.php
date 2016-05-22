@@ -1,2 +1,2 @@
 <?php
-require __DIR__ . '/src/User/Module.php';
+require __DIR__.'/src/User/Module.php';

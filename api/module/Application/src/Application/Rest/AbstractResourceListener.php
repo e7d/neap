@@ -18,7 +18,6 @@ class AbstractResourceListener extends ZfAbstractResourceListener
 {
     use AuthorizationAwareResourceTrait;
 
-    protected $identityService;
     protected $service;
 
     /**

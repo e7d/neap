@@ -21,11 +21,11 @@ trait AuthorizationAwareResourceTrait
      */
     public function userIsOwner($entityId)
     {
-        if (!$this->getservice()) {
+        if (!$this->getService()) {
             return new ApiProblem(500, 'This resource does not expose a valid service');
         }
 
-        if (!method_exists($this->getservice(), 'isOwner')) {
+        if (!method_exists($this->getService(), 'isOwner')) {
             return new ApiProblem(500, 'This resource service does not expose an owner validation method');
         }
 
@@ -34,7 +34,7 @@ trait AuthorizationAwareResourceTrait
             return new ApiProblem(401, 'This resource service requires a logged in user');
         }
 
-        if (!$this->getservice()->isOwner($entityId, $user->user_id)) {
+        if (!$this->getService()->isOwner($entityId, $user->user_id)) {
             return new ApiProblem(403, 'The entity is not your property');
         }
 

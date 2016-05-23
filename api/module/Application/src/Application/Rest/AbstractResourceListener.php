@@ -16,10 +16,10 @@ use ZF\Rest\ResourceEvent;
 
 class AbstractResourceListener extends ZfAbstractResourceListener
 {
-    use AuthorizationAwareResourceTrait;
-
     protected $identityService;
     protected $service;
+
+    use AuthorizationAwareResourceTrait;
 
     /**
      * Dispatch an incoming event to the appropriate method

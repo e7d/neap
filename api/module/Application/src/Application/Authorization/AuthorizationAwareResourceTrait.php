@@ -13,6 +13,9 @@ use ZF\ApiProblem\ApiProblem;
 
 trait AuthorizationAwareResourceTrait
 {
+    protected $identityService;
+    protected $service;
+
     /**
      * Checks user's rights on requested resource
      *

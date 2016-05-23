@@ -13,9 +13,6 @@ use ZF\ApiProblem\ApiProblem;
 
 trait AuthorizationAwareResourceTrait
 {
-    protected $identityService;
-    protected $service;
-
     /**
      * Checks user's rights on requested resource
      *
@@ -24,20 +21,20 @@ trait AuthorizationAwareResourceTrait
      */
     public function userIsOwner($entityId)
     {
-        if (!$this->service) {
+        if (!$this->getservice()) {
             return new ApiProblem(500, 'This resource does not expose a valid service');
         }
 
-        if (!method_exists($this->service, 'isOwner')) {
+        if (!method_exists($this->getservice(), 'isOwner')) {
             return new ApiProblem(500, 'This resource service does not expose an owner validation method');
         }
 
-        $user = $this->identityService->getIdentity();
+        $user = $this->getIdentityService()->getIdentity();
         if (is_null($user)) {
             return new ApiProblem(401, 'This resource service requires a logged in user');
         }
 
-        if (!$this->service->isOwner($entityId, $user->user_id)) {
+        if (!$this->getservice()->isOwner($entityId, $user->user_id)) {
             return new ApiProblem(403, 'The entity is not your property');
         }
 

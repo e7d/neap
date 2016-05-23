@@ -15,6 +15,7 @@ addons:
   postgresql: "9.4"
 services:
   - postgresql
+  - redis-server
 env:
   - MODULE=api
   # - MODULE=web
@@ -35,6 +36,7 @@ install:
   # Nothing
 
 before_script:
+  - psql -U postgres -c "create extension postgis"
   - psql --quiet "postgres" -U postgres -f resources/database/init.sql
   - psql --quiet "neap" -U postgres -f resources/database/structure.sql
   - psql --quiet "neap" -U postgres -f resources/database/oauth2.sql

@@ -16,20 +16,7 @@ use ZF\Rest\ResourceEvent;
 
 class AbstractResourceListener extends ZfAbstractResourceListener
 {
-    protected $identityService;
-    protected $service;
-
     use AuthorizationAwareResourceTrait;
-
-    protected function getIdentityService()
-    {
-        return $this->identityService;
-    }
-
-    protected function getService()
-    {
-        return $this->service;
-    }
 
     /**
      * Dispatch an incoming event to the appropriate method

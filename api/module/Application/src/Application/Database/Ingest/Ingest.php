@@ -18,6 +18,7 @@ class Ingest extends ObjectProperty
     public $hostname;
     public $port;
     public $availability;
+    public $url_template;
     public $created_at;
     public $updated_at;
 

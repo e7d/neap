@@ -13,9 +13,6 @@ class TopicHydratorFactory
 {
     public function __invoke($serviceManager)
     {
-        return new TopicHydrator(
-            $serviceManager->get('Application\Database\Channel\ChannelModel'),
-            $serviceManager->get('Application\Database\User\UserModel')
-        );
+        return new TopicHydrator();
     }
 }

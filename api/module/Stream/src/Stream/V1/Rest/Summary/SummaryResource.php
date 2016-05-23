@@ -1,8 +1,9 @@
 <?php
 namespace Stream\V1\Rest\Summary;
 
-use Zend\Hydrator\ObjectProperty;
 use ZF\ApiProblem\ApiProblem;
+use ZF\Hal\Entity;
+use ZF\Hal\Link\Link;
 use Application\Rest\AbstractResourceListener;
 
 class SummaryResource extends AbstractResourceListener
@@ -27,9 +28,19 @@ class SummaryResource extends AbstractResourceListener
 
         $stats = $this->service->fetchStats(array_merge($data, (array) $params));
 
-        $entity = new ObjectProperty();
-        $entity->hydrate($stats, $entity);
+        $summary = new Entity($stats);
+        $summaryLink = new Link('summary');
 
-        return $entity;
+        $summary->getLinks()->add($summaryLink->factory(array(
+            'rel' => 'self',
+            'route' => array(
+                'name' => 'stream.rest.summary',
+                'params' => array(
+                    'all' => 'true'
+                )
+            ),
+        )));
+
+        return $summary;
     }
 }

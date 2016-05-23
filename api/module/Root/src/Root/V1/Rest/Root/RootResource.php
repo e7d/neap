@@ -16,13 +16,6 @@ use Application\Rest\AbstractResourceListener;
 
 class RootResource extends AbstractResourceListener
 {
-    private $link;
-
-    public function __construct()
-    {
-        $this->link = new Link('root');
-    }
-
     /**
      * Fetch all or a subset of resources
      *
@@ -32,43 +25,44 @@ class RootResource extends AbstractResourceListener
     public function fetchAll($params = [])
     {
         $root = new Entity(array());
+        $rootLink = new Link('root');
 
-        $root->getLinks()->add($this->link->factory(array(
+        $root->getLinks()->add($rootLink->factory(array(
             'rel' => 'ingests',
             'route' => array(
                 'name' => 'ingest.rest.ingest',
             ),
         )));
 
-        $root->getLinks()->add($this->link->factory(array(
+        $root->getLinks()->add($rootLink->factory(array(
             'rel' => 'users',
             'route' => array(
                 'name' => 'user.rest.user',
             ),
         )));
 
-        $root->getLinks()->add($this->link->factory(array(
+        $root->getLinks()->add($rootLink->factory(array(
             'rel' => 'channels',
             'route' => array(
                 'name' => 'channel.rest.channel',
             ),
         )));
 
-        $root->getLinks()->add($this->link->factory(array(
+        $root->getLinks()->add($rootLink->factory(array(
             'rel' => 'streams',
             'route' => array(
                 'name' => 'stream.rest.stream',
             ),
         )));
 
-        $root->getLinks()->add($this->link->factory(array(
+        $root->getLinks()->add($rootLink->factory(array(
             'rel' => 'videos',
             'route' => array(
                 'name' => 'video.rest.video',
             ),
         )));
 
-        $root->getLinks()->add($this->link->factory(array(
+        $root->getLinks()->add($rootLink->factory(array(
             'rel' => 'search',
             'route' => array(
                 'name' => 'search.rest.search',

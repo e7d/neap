@@ -16,6 +16,9 @@ class Topic extends ObjectProperty
     public $topic_id;
     public $name;
     public $created_at;
+    
+    public $streams;
+    public $viewers;
 
     public function exchangeArray($data)
     {

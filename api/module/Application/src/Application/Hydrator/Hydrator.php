@@ -64,7 +64,7 @@ abstract class Hydrator extends AbstractHydrator
 
     public function setParam($key, $value = null)
     {
-        if (is_array($key)) {
+        if ($key instanceof \Traversable) {
             foreach ($key as $key => $value) {
                 $this->setParam($key, $value);
             }

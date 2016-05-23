@@ -9,7 +9,7 @@
 
 namespace Application\Database\Team;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Team extends ObjectProperty
 {

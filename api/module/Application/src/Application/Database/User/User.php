@@ -9,7 +9,7 @@
 
 namespace Application\Database\User;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class User extends ObjectProperty
 {

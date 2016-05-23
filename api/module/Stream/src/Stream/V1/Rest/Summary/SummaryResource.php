@@ -1,7 +1,7 @@
 <?php
 namespace Stream\V1\Rest\Summary;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 use ZF\ApiProblem\ApiProblem;
 use Application\Rest\AbstractResourceListener;
 

@@ -9,7 +9,7 @@
 
 namespace Application\Database\Mod;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Mod extends ObjectProperty
 {

@@ -9,7 +9,7 @@
 
 namespace Application\Database\Topic;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Topic extends ObjectProperty
 {

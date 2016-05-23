@@ -9,7 +9,7 @@
 
 namespace Application\Database\Ingest;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Ingest extends ObjectProperty
 {

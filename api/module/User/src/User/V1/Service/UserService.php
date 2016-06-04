@@ -20,6 +20,7 @@ use User\V1\Rest\Follow\FollowCollection;
 use User\V1\Rest\Mod\ModCollection;
 use User\V1\Rest\Team\TeamCollection;
 use User\V1\Rest\User\UserCollection;
+use Zend\Crypt\Password\Bcrypt;
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
@@ -86,6 +87,12 @@ class UserService
         // if we have an updated logo
         if (array_key_exists('logo', $data)) {
             // TODO: process update image
+        }
+
+        // if we have an updated password, crypt it
+        if (property_exists($data, 'password')) {
+            $bcryt = new Bcrypt();
+            $data->password = $bcryt->create($data->password);
         }
 
         $userModel->update($userId, (array) $data);

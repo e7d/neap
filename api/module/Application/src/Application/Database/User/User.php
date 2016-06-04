@@ -9,11 +9,12 @@
 
 namespace Application\Database\User;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class User extends ObjectProperty
 {
     public $user_id;
+    public $channel_id;
     public $username;
     public $email;
     public $display_name;

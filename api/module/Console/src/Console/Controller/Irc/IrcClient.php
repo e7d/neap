@@ -54,7 +54,7 @@ class IrcClient extends AbstractConsoleController
             'PRIVMSG NickServ IDENTIFY '.$this->getConfig('irc')['password'],
             'PRIVMSG ChanServ KICK #'.$username.' *',
             'PRIVMSG ChanServ DROP #'.$username.' #'.$username,
-            //'KILL '.$username. ' Registering the username',
+            'KILL '.$username. ' Registering the username',
             'PRIVMSG NickServ DROP '.$username,
 
             'PRIVMSG NickServ LOGOUT',
@@ -73,7 +73,6 @@ class IrcClient extends AbstractConsoleController
             'PRIVMSG ChanServ SET SECUREOPS #'.$username.' ON',
             'PRIVMSG ChanServ SET FOUNDER #'.$username.' '.$username,
             'PRIVMSG ChanServ QOP #'.$username.' ADD '.$username,
-            //'PRIVMSG ChanServ AOP #'.$username.' ADD toto',
             'PRIVMSG BotServ KICK BADWORDS #'.$username.' ON',
             'PRIVMSG BotServ KICK FLOOD #'.$username.' ON',
             'PRIVMSG BotServ KICK REPEAT #'.$username.' ON',

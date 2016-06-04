@@ -9,7 +9,7 @@
 
 namespace Application\Database\Follow;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Follow extends ObjectProperty
 {

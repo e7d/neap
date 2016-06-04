@@ -39,6 +39,6 @@ class IngestResource extends AbstractResourceListener
      */
     public function fetchAll($params = [])
     {
-        return $this->ingestService->fetchAll($params);
+        return $this->service->fetchAll($params);
     }
 }

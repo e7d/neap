@@ -9,7 +9,7 @@
 
 namespace Application\Database\Block;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Block extends ObjectProperty
 {

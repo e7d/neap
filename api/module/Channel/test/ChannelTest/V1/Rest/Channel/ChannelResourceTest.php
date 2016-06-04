@@ -59,10 +59,10 @@ class ChannelResourceTest extends AbstractControllerTestCase
 
     public function testUpdate()
     {
-        $this->identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
+        $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
         $identity = new \stdClass();
         $identity->user_id = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
-        $this->identityService->setIdentity($identity);
+        $identityService->setIdentity($identity);
 
         $channelResource = $this->serviceManager->get('Channel\V1\Rest\Channel\ChannelResource');
 
@@ -79,10 +79,10 @@ class ChannelResourceTest extends AbstractControllerTestCase
 
     public function testUpdateWithInvalidUser()
     {
-        $this->identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
+        $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
         $identity = new \stdClass();
         $identity->user_id = '00000000-0000-0000-0000-000000000000'; // Invalid user id
-        $this->identityService->setIdentity($identity);
+        $identityService->setIdentity($identity);
 
         $channelResource = $this->serviceManager->get('Channel\V1\Rest\Channel\ChannelResource');
 
@@ -98,10 +98,10 @@ class ChannelResourceTest extends AbstractControllerTestCase
 
     public function testPatch()
     {
-        $this->identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
+        $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
         $identity = new \stdClass();
         $identity->user_id = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
-        $this->identityService->setIdentity($identity);
+        $identityService->setIdentity($identity);
 
         $channelResource = $this->serviceManager->get('Channel\V1\Rest\Channel\ChannelResource');
 
@@ -118,10 +118,10 @@ class ChannelResourceTest extends AbstractControllerTestCase
 
     public function testPatchWithInvalidUser()
     {
-        $this->identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
+        $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
         $identity = new \stdClass();
         $identity->user_id = '00000000-0000-0000-0000-000000000000'; // Invalid user id
-        $this->identityService->setIdentity($identity);
+        $identityService->setIdentity($identity);
 
         $channelResource = $this->serviceManager->get('Channel\V1\Rest\Channel\ChannelResource');
 

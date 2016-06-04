@@ -10,6 +10,7 @@
 namespace RTMP\V1\Rpc\Translate;
 
 use Application\Authorization\LocalhostController;
+use Zend\Http\Request;
 use ZF\ContentNegotiation\ViewModel;
 
 class TranslateController extends LocalhostController
@@ -25,9 +26,12 @@ class TranslateController extends LocalhostController
     {
         $this->assertLocalConnection();
 
-        $streamKey = $this->getEvent()->getRequest()->getQuery('stream_key');
-        if (is_null($streamKey)) {
-            return new ViewModel();
+        $request = $this->getEvent()->getRequest();
+        if ($request instanceof Request) {
+            $streamKey = $request->getQuery('stream_key');
+            if (is_null($streamKey)) {
+                return new ViewModel();
+            }
         }
 
         $channel = $this->channelModel->fetchByStreamKey($streamKey);

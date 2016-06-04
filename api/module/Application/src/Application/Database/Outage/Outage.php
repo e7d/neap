@@ -9,7 +9,7 @@
 
 namespace Application\Database\Outage;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Outage extends ObjectProperty
 {

@@ -9,7 +9,7 @@
 
 namespace Application\Database\Stream;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Stream extends ObjectProperty
 {

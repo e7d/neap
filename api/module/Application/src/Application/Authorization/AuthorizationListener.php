@@ -21,9 +21,9 @@ class AuthorizationListener
     }
 
     /**
-     * [__invoke description]
-     * @param  MvcAuthEvent $mvcAuthEvent [description]
-     * @return [type]                     [description]
+     * Listens to the invokation of the Event Authorization event
+     * @param  MvcAuthEvent $mvcAuthEvent
+     * @return void
      * @codeCoverageIgnore
      */
     public function __invoke(MvcAuthEvent $mvcAuthEvent)

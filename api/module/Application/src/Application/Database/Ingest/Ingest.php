@@ -9,7 +9,7 @@
 
 namespace Application\Database\Ingest;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Ingest extends ObjectProperty
 {
@@ -18,6 +18,7 @@ class Ingest extends ObjectProperty
     public $hostname;
     public $port;
     public $availability;
+    public $url_template;
     public $created_at;
     public $updated_at;
 

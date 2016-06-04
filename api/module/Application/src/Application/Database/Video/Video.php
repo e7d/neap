@@ -9,7 +9,7 @@
 
 namespace Application\Database\Video;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Video extends ObjectProperty
 {

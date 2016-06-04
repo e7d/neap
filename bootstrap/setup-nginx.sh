@@ -8,7 +8,7 @@ try
 	throwErrors
 
 	echo "Copy nginx configuration files"
-	cp -R /vagrant/resources/nginx/* /etc/nginx
+	cp -R /vagrant/resources/vendor/nginx/* /etc/nginx
 
 	echo "Enable nginx Neap sites"
 	for f in /etc/nginx/sites-available/*.conf; do

@@ -21,7 +21,6 @@ use React\Stream\Stream as ReactStream;
  */
 class IrcGateway extends AbstractConsoleController
 {
-    private $config;
     private $gatewayConnections = array();
     private $gatewayListener;
     private $ircClient;
@@ -44,8 +43,6 @@ class IrcGateway extends AbstractConsoleController
         $this->gatewayListener->on('connection', function($gatewayConnection) {
             $gatewayConnection->on('data', function($command) use ($gatewayConnection) {
                 if ($this->ready) {
-                    // $this->send($command);
-                    // $gatewayConnection->write('OK'.PHP_EOL);
                     $this->send($command, $gatewayConnection);
                 } else {
                     $gatewayConnection->write('Error: The IRC gateway isn\'t ready yet.');

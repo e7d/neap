@@ -9,7 +9,7 @@
 
 namespace Application\Database\Chat;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Chat extends ObjectProperty
 {

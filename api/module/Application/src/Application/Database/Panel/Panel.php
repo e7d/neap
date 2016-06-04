@@ -9,7 +9,7 @@
 
 namespace Application\Database\Panel;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Panel extends ObjectProperty
 {

@@ -9,13 +9,16 @@
 
 namespace Application\Database\Topic;
 
-use Zend\Stdlib\Hydrator\ObjectProperty;
+use Zend\Hydrator\ObjectProperty;
 
 class Topic extends ObjectProperty
 {
     public $topic_id;
     public $name;
     public $created_at;
+    
+    public $streams;
+    public $viewers;
 
     public function exchangeArray($data)
     {

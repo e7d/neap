@@ -9,6 +9,7 @@
 
 namespace UserTest\V1\Service;
 
+use stdClass;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class UserServiceTest extends AbstractControllerTestCase
@@ -72,14 +73,14 @@ class UserServiceTest extends AbstractControllerTestCase
         $userService = $this->serviceManager->get('User\V1\Service\UserService');
 
         $userId = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
-        $data = array(
-            'bio' => 'Test'
-        );
+        $data = new stdClass();
+        $data->bio = 'Test';
+        $data->password = 'test';
         $userEntity = $userService->update($userId, $data);
 
         $this->assertInstanceOf('ZF\Hal\Entity', $userEntity);
         $this->assertEquals($userId, $userEntity->entity->user_id);
-        $this->assertEquals($data['bio'], $userEntity->entity->bio);
+        $this->assertEquals($data->bio, $userEntity->entity->bio);
     }
 
     public function testUpdateInvalidUser()
@@ -87,9 +88,8 @@ class UserServiceTest extends AbstractControllerTestCase
         $userService = $this->serviceManager->get('User\V1\Service\UserService');
 
         $userId = '00000000-0000-0000-0000-000000000000'; // Invalid user id
-        $data = array(
-            'bio' => 'Test'
-        );
+        $data = new stdClass();
+        $data->bio = 'Test';
         $userEntity = $userService->update($userId, $data);
 
         $this->assertNull($userEntity);

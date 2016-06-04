@@ -38,9 +38,6 @@ try
 		fi
 	done
 	cp /vagrant/resources/ssl/certificates/* /etc/ssl/localcerts
-
-	echo "Try to generate \"Let's Encrypt\" certificate"
-	echox "${text_yellow}Warning:${text_reset} Not available for now"
 )
 catch || {
 	case $ex_code in

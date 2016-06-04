@@ -6,6 +6,8 @@ use Application\Rest\AbstractResourceListener;
 
 class MyChannelResource extends AbstractResourceListener
 {
+    private $channelService;
+
     public function __construct($identityService, $channelService)
     {
         $this->identityService = $identityService;

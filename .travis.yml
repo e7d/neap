@@ -1,0 +1,49 @@
+sudo: false
+
+cache:
+  apt: true
+  directories:
+    - api/vendor
+    - $HOME/.composer/cache
+
+language: php
+
+php:
+  - 5.6
+  - 7.0
+addons:
+  postgresql: "9.4"
+services:
+  - postgresql
+  - redis-server
+env:
+  - MODULE=api
+  # - MODULE=web
+
+branches:
+  except:
+    - legacy
+    - experimental
+
+# matrix:
+#   allow_failures:
+#     - php: 7.0
+
+before_install:
+  # Nothing
+
+install:
+  # Nothing
+
+before_script:
+  - psql -U postgres -c "create extension postgis"
+  - psql --quiet "postgres" -U postgres -f resources/database/init.sql
+  - psql --quiet "neap" -U postgres -f resources/database/structure.sql
+  - psql --quiet "neap" -U postgres -f resources/database/oauth2.sql
+  - psql --quiet "neap" -U postgres -f resources/database/data.sql
+  - psql --quiet "neap" -U postgres -f resources/database/fixtures.sql
+  # - psql --quiet "neap" -U postgres -f resources/database/test-fixtures.sql
+  - chmod +x $MODULE/run-tests.sh
+
+script:
+  - $MODULE/run-tests.sh --travis

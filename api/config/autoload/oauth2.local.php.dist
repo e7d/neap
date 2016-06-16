@@ -1,0 +1,14 @@
+<?php
+return array(
+    'zf-oauth2' => array(
+        'db' => array(
+            'dsn'      => 'pgsql:host=127.0.0.1;dbname=neap',
+            'username' => 'neap',
+            'password' => 'neap',
+        ),
+        'allow_implicit' => true,
+        'access_lifetime' => 3600,
+        'enforce_state'  => true,
+        'storage'        => 'ZF\OAuth2\Adapter\PdoAdapter',
+    ),
+);

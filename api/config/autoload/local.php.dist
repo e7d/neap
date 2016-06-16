@@ -1,0 +1,50 @@
+<?php
+return array(
+    'zf-mvc-auth' => array(
+        'authentication' => array(
+            'adapters' => array(
+                'oauth2' => array(
+                    'adapter' => 'ZF\\MvcAuth\\Authentication\\OAuth2Adapter',
+                    'storage' => array(
+                        'adapter' => 'pdo',
+                        'dsn' => 'pgsql:host=127.0.0.1;dbname=neap',
+                        'route' => '/oauth',
+                        'username' => 'neap',
+                        'password' => 'neap',
+                        'options' => array(
+                            'user_table' => 'neap.user',
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+    'zf-oauth2' => array(
+        'storage_settings' => array(
+            'user_table' => '"neap"."user"',
+        ),
+    ),
+    'db' => array(
+        'adapters' => array(
+            'neap' => array(
+                'database' => 'neap',
+                'driver' => 'PDO_Pgsql',
+                'hostname' => '',
+                'username' => 'neap',
+                'password' => 'neap',
+                'dsn' => 'pgsql:host=127.0.0.1;dbname=neap',
+            ),
+        ),
+    ),
+    'irc' => array(
+        'hostname' => 'localhost',
+        'port' => 6667,
+        'nick' => 'neap',
+        'password' => 'neapneap',
+        'oper_phrase' => '8Vuh8SbXDCT0D5NMDPnYAu3pZ8f2dMO1',
+    ),
+    'gateway' => array(
+        'hostname' => 'localhost',
+        'port' => 1337,
+    )
+);

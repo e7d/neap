@@ -1,1 +1,4 @@
-/.vscode
+/.vagrant
+*.cache.php
+*.log
+*.pid

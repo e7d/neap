@@ -11,13 +11,26 @@ namespace Application\Database\Follow;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Follow
+ */
 class Follow extends ObjectProperty
 {
+    /** @var string */
     public $user_id;
+
+    /** @var string */
     public $channel_id;
+
+    /** @var string */
     public $created_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->user_id = $data['user_id'];
         $this->channel_id = $data['channel_id'];

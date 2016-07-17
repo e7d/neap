@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Block;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * BlockModelFactory
+ */
 class BlockModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return BlockModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new BlockModel(
             $serviceManager->get('Application\Database\Block\BlockTableGateway')

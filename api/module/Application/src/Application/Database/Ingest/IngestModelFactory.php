@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Ingest;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * IngestModelFactory
+ */
 class IngestModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return IngestModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new IngestModel(
             $serviceManager->get('Application\Database\Ingest\IngestTableGateway')

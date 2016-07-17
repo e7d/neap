@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Chat;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * ChatModelFactory
+ */
 class ChatModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return ChatModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new ChatModel(
             $serviceManager->get('Application\Database\Chat\ChatTableGateway')

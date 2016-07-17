@@ -8,9 +8,19 @@
  */
 
 namespace Application\Database\Stream;
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * StreamModelFactory
+ */
 
 class StreamModelFactory
 {
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return StreamModel
+     */
     public function __invoke($serviceManager)
     {
         return new StreamModel(

@@ -14,14 +14,25 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * ChatModel
+ */
 class ChatModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetch($chatId)
+    /**
+     * @param string $chatId
+     *
+     * @return Chat|null
+     */
+    public function fetch(string $chatId)
     {
         $resultSet = $this->tableGateway->select(array('chat_id' => $chatId));
         $chat = $resultSet->current();
@@ -32,7 +43,12 @@ class ChatModel extends AbstractModel
         return $chat;
     }
 
-    public function selectByChannel($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return Select
+     */
+    public function selectByChannel(string $channelId)
     {
         $where = new Where();
         $where->equalTo('chat.channel_id', $channelId);
@@ -43,14 +59,23 @@ class ChatModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByChannel($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return Chat|null
+     */
+    public function fetchByChannel(string $channelId)
     {
         return $this->selectOne(
             $this->selectByChannel($channelId)
         );
     }
-
-    public function selectModsByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Select
+     */
+    public function selectModsByUser(string $userId)
     {
         $where = new Where();
         $where->equalTo('mod.user_id', $userId);

@@ -11,19 +11,44 @@ namespace Application\Database\Panel;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Panel
+ */
 class Panel extends ObjectProperty
 {
+    /** @var string */
     public $panel_id;
+
+    /** @var string */
     public $channel_id;
+
+    /** @var string */
     public $title;
+
+    /** @var string */
     public $position;
+
+    /** @var string */
     public $banner;
+
+    /** @var string */
     public $banner_link;
+
+    /** @var string */
     public $description;
+
+    /** @var string */
     public $created_at;
+
+    /** @var string */
     public $updated_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->panel_id = $data['panel_id'];
         $this->channel_id = $data['channel_id'];

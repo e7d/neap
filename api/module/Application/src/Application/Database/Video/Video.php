@@ -11,24 +11,59 @@ namespace Application\Database\Video;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Video
+ */
 class Video extends ObjectProperty
 {
+    /** @var string */
     public $video_id;
+
+    /** @var string */
     public $stream_id;
+
+    /** @var string */
     public $title;
+
+    /** @var string */
     public $type;
+
+    /** @var string */
     public $description;
+
+    /** @var string */
     public $status;
+
+    /** @var string */
     public $tags;
+
+    /** @var string */
     public $topic_id;
+
+    /** @var string */
     public $topic;
+
+    /** @var string */
     public $media_info;
+
+    /** @var string */
     public $preview;
+
+    /** @var string */
     public $views;
+
+    /** @var string */
     public $created_at;
+
+    /** @var string */
     public $updated_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->video_id = $data['video_id'];
         $this->stream_id = $data['stream_id'];

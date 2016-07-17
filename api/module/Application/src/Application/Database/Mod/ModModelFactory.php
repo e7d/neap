@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Mod;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * ModModelFactory
+ */
 class ModModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return ModModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new ModModel(
             $serviceManager->get('Application\Database\Mod\ModTableGateway')

@@ -12,10 +12,19 @@ namespace Application\Database\Mod;
 use Application\Database\Mod\Mod;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * ModTableGatewayFactory
+ */
 class ModTableGatewayFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return TableGateway
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         $adapter = $serviceManager->get('Application\Database\DatabaseService')->getAdapter();
         $resultSet = new ResultSet();

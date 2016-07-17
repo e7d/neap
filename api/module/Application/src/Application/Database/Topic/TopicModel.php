@@ -10,19 +10,31 @@
 namespace Application\Database\Topic;
 
 use Application\Database\AbstractModel;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * Topic Model
+ */
 class TopicModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function select($topicId)
+    /**
+     * @param string $topicId
+     *
+     * @return Select
+     */
+    public function select(string $topicId)
     {
         $where = new Where();
         $where->equalTo('topic.topic_id', $topicId);
@@ -40,13 +52,21 @@ class TopicModel extends AbstractModel
         return $select;
     }
 
-    public function fetch($topicId)
+    /**
+     * @param string $topicId
+     *
+     * @return Topic|null
+     */
+    public function fetch(string $topicId)
     {
         return $this->selectOne(
             $this->select($topicId)
         );
     }
 
+    /**
+     * @return Select
+     */
     public function selectWithStats()
     {
         $select = $this->tableGateway->getSql()->select();
@@ -61,6 +81,10 @@ class TopicModel extends AbstractModel
         return $select;
     }
 
+
+    /**
+     * @return ResultSet
+     */
     public function fetchWithStats()
     {
         return $this->selectAll(

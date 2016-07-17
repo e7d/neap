@@ -11,15 +11,32 @@ namespace Application\Database\Mod;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Mod
+ */
 class Mod extends ObjectProperty
 {
+    /** @var string */
     public $user_id;
+
+    /** @var string */
     public $chat_id;
+
+    /** @var string */
     public $level;
+
+    /** @var string */
     public $created_at;
+
+    /** @var string */
     public $update_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->user_id = $data['user_id'];
         $this->chat_id = $data['chat_id'];

@@ -11,20 +11,47 @@ namespace Application\Database\Stream;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Stream
+ */
 class Stream extends ObjectProperty
 {
+    /** @var string */
     public $stream_id;
+
+    /** @var string */
     public $channel_id;
+
+    /** @var string */
     public $title;
+
+    /** @var string */
     public $topic_id;
+
+    /** @var string */
     public $topic;
+
+    /** @var string */
     public $media_info;
+
+    /** @var string */
     public $viewers;
+
+    /** @var string */
     public $created_at;
+
+    /** @var string */
     public $updated_at;
+
+    /** @var string */
     public $ended_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->stream_id = $data['stream_id'];
         $this->channel_id = $data['channel_id'];

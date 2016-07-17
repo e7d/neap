@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Channel;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * ChannelModelFactory
+ */
 class ChannelModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return ChannelModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new ChannelModel(
             $serviceManager->get('Application\Database\Channel\ChannelTableGateway')

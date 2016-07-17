@@ -10,18 +10,30 @@
 namespace Application\Database\Follow;
 
 use Application\Database\AbstractModel;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * FollowModel
+ */
 class FollowModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function selectByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Select
+     */
+    public function selectByUser(string $userId)
     {
         $where = new Where();
         $where->equalTo('follow.user_id', $userId);
@@ -32,6 +44,11 @@ class FollowModel extends AbstractModel
         return $select;
     }
 
+    /**
+     * @param string $userId
+     *
+     * @return ResultSet
+     */
     public function fetchByUser($userId)
     {
         return $this->selectAll(

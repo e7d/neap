@@ -11,14 +11,29 @@ namespace Application\Database\Chat;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Chat
+ */
 class Chat extends ObjectProperty
 {
+    /** @var string */
     public $chat_id;
+
+    /** @var string */
     public $channel_id;
+
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $created_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->chat_id = $data['chat_id'];
         $this->channel_id = $data['channel_id'];

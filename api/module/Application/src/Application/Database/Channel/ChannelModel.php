@@ -10,18 +10,30 @@
 namespace Application\Database\Channel;
 
 use Application\Database\AbstractModel;
+use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * ChannelModel
+ */
 class ChannelModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetch($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return Channel|null
+     */
+    public function fetch(string $channelId)
     {
         $resultSet = $this->tableGateway->select(array('channel_id' => $channelId));
         $channel = $resultSet->current();
@@ -32,7 +44,12 @@ class ChannelModel extends AbstractModel
         return $channel;
     }
 
-    public function selectByStreamKey($streamKey)
+    /**
+     * @param string $streamKey
+     *
+     * @return Select
+     */
+    public function selectByStreamKey(string $streamKey)
     {
         $where = new Where();
         $where->equalTo('channel.stream_key', $streamKey);
@@ -43,14 +60,24 @@ class ChannelModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByStreamKey($streamKey)
+    /**
+     * @param string $streamKey
+     *
+     * @return Channel|null
+     */
+    public function fetchByStreamKey(string $streamKey)
     {
         return $this->selectOne(
             $this->selectByStreamKey($streamKey)
         );
     }
 
-    public function selectByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Select
+     */
+    public function selectByUser(string $userId)
     {
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
@@ -62,14 +89,24 @@ class ChannelModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Channel|null
+     */
+    public function fetchByUser(string $userId)
     {
         return $this->selectOne(
             $this->selectByUser($userId)
         );
     }
 
-    public function selectFollowsByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Select
+     */
+    public function selectFollowsByUser(string $userId)
     {
         $where = new Where();
         $where->equalTo('follow.user_id', $userId);
@@ -81,14 +118,25 @@ class ChannelModel extends AbstractModel
         return $select;
     }
 
-    public function fetchFollowsByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return ResultSet
+     */
+    public function fetchFollowsByUser(string $userId)
     {
         return $this->selectAll(
             $this->selectFollowsByUser($userId)
         );
     }
 
-    public function update($channelId, array $data)
+    /**
+     * @param string $channelId
+     * @param array  $data
+     *
+     * @return bool
+     */
+    public function update(string $channelId, array $data)
     {
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);

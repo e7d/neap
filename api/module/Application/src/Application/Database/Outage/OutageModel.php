@@ -14,14 +14,25 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * OutageModel
+ */
 class OutageModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetch($outageId)
+    /**
+     * @param string $outageId
+     *
+     * @return Outage|null
+     */
+    public function fetch(string $outageId)
     {
         $resultSet = $this->tableGateway->select(array('outage_id' => $outageId));
         $outage = $resultSet->current();
@@ -32,7 +43,12 @@ class OutageModel extends AbstractModel
         return $outage;
     }
 
-    public function selectByIngest($ingestId)
+    /**
+     * @param string $ingestId
+     *
+     * @return Select
+     */
+    public function selectByIngest(string $ingestId)
     {
         $where = new Where();
         $where->equalTo('outage.ingest_id', $ingestId);
@@ -43,6 +59,11 @@ class OutageModel extends AbstractModel
         return $select;
     }
 
+    /**
+     * @param string $ingestId
+     *
+     * @return Outage|null
+     */
     public function fetchByIngest($ingestId)
     {
         return $this->selectOne(

@@ -12,9 +12,18 @@ namespace Application\Database\Chat;
 use Application\Database\Chat\Chat;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * ChatTableGatewayFactory
+ */
 class ChatTableGatewayFactory
 {
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return TableGateway
+     */
     public function __invoke($serviceManager)
     {
         $adapter = $serviceManager->get('Application\Database\DatabaseService')->getAdapter();

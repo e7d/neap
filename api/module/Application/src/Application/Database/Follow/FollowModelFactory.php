@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Follow;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * FollowModelFactory
+ */
 class FollowModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return FollowModel
+     */
+    public function __invoke(ServiceManager$serviceManager)
     {
         return new FollowModel(
             $serviceManager->get('Application\Database\Follow\FollowTableGateway')

@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Team;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * TeamModelFactory
+ */
 class TeamModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return TeamModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new TeamModel(
             $serviceManager->get('Application\Database\Team\TeamTableGateway')

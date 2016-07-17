@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Video;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * VideoModelFactory
+ */
 class VideoModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return VideoModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new VideoModel(
             $serviceManager->get('Application\Database\Video\VideoTableGateway')

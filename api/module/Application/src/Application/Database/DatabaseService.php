@@ -9,15 +9,29 @@
 
 namespace Application\Database;
 
+use Zend\Db\Adapter\Adapter;
+
+/**
+ * Handes database connection
+ */
 class DatabaseService
 {
+    /**
+     * @var Adapter
+     */
     private $adapter;
 
-    public function __construct($config)
+    /**
+     * @param array $config
+     */
+    public function __construct(array $config)
     {
-        $this->adapter = new \Zend\Db\Adapter\Adapter($config);
+        $this->adapter = new Adapter($config);
     }
 
+    /**
+     * @return Adapter
+     */
     public function getAdapter()
     {
         return $this->adapter;

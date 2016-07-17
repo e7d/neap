@@ -14,14 +14,25 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * VideoModel
+ */
 class VideoModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetch($videoId)
+    /**
+     * @param string $videoId
+     *
+     * @return Video|null
+     */
+    public function fetch(string $videoId)
     {
         $resultSet = $this->tableGateway->select(array('video_id' => $videoId));
         $video = $resultSet->current();
@@ -32,7 +43,12 @@ class VideoModel extends AbstractModel
         return $video;
     }
 
-    public function selectByChannel($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return Select
+     */
+    public function selectByChannel(string $channelId)
     {
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);
@@ -45,14 +61,24 @@ class VideoModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByChannel($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return Video|null
+     */
+    public function fetchByChannel(string $channelId)
     {
         return $this->selectAll(
             $this->selectByChannel($channelId)
         );
     }
 
-    public function selectByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Select
+     */
+    public function selectByUser(string $userId)
     {
         $where = new Where();
         $where->equalTo('user.user_id', $userId);
@@ -66,14 +92,24 @@ class VideoModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Video|null
+     */
+    public function fetchByUser(string $userId)
     {
         return $this->selectAll(
             $this->selectByUser($userId)
         );
     }
 
-    public function selectFavoritesByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Select
+     */
+    public function selectFavoritesByUser(string $userId)
     {
         $where = new Where();
         $where->equalTo('favorite.user_id', $userId);

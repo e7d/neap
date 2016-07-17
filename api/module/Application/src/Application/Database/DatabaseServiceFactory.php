@@ -9,9 +9,18 @@
 
 namespace Application\Database;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * DatabaseServiceFactory
+ */
 class DatabaseServiceFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     * @return DatabaseService
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new DatabaseService(
             $serviceManager->get('Config')['db']['adapters']['neap']

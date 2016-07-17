@@ -12,10 +12,19 @@ namespace Application\Database\Video;
 use Application\Database\Video\Video;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * VideoTableGatewayFactory
+ */
 class VideoTableGatewayFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return TableGateway
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         $adapter = $serviceManager->get('Application\Database\DatabaseService')->getAdapter();
         $resultSet = new ResultSet();

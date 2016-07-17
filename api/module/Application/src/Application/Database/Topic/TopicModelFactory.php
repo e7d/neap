@@ -8,10 +8,18 @@
  */
 
 namespace Application\Database\Topic;
+use Zend\ServiceManager\ServiceManager;
 
+/*TopicFactory
+ */
 class TopicModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return TopicModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new TopicModel(
             $serviceManager->get('Application\Database\Topic\TopicTableGateway')

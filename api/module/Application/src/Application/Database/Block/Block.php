@@ -11,13 +11,26 @@ namespace Application\Database\Block;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Block
+ */
 class Block extends ObjectProperty
 {
+    /** @var string */
     public $user_id;
+
+    /** @var string */
     public $blocked_user_id;
+
+    /** @var string */
     public $created_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->user_id = $data['user_id'];
         $this->blocked_user_id = $data['blocked_user_id'];

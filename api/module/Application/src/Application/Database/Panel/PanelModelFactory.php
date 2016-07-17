@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Panel;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * PanelModelFactory
+ */
 class PanelModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return PanelModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new PanelModel(
             $serviceManager->get('Application\Database\Panel\PanelTableGateway')

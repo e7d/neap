@@ -11,16 +11,32 @@ namespace Application\Database\Topic;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Topic
+ */
 class Topic extends ObjectProperty
 {
+    /** @var string */
     public $topic_id;
+
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $created_at;
-    
+
+    /** @var int */
     public $streams;
+
+    /** @var int */
     public $viewers;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->topic_id = $data['topic_id'];
         $this->name = $data['name'];

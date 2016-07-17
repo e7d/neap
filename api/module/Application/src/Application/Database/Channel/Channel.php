@@ -11,29 +11,74 @@ namespace Application\Database\Channel;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Channel
+ */
 class Channel extends ObjectProperty
 {
+    /** @var string */
     public $channel_id;
+
+    /** @var string */
     public $user_id;
+
+    /** @var string */
     public $chat_id;
+
+    /** @var string */
     public $name;
+
+    /** @var string */
     public $stream_key;
+
+    /** @var string */
     public $title;
+
+    /** @var string */
     public $topic_id;
+
+    /** @var string */
     public $topic;
+
+    /** @var string */
     public $language;
+
+    /** @var string */
     public $delay;
+
+    /** @var string */
     public $logo;
+
+    /** @var string */
     public $banner;
+
+    /** @var string */
     public $video_banner;
+
+    /** @var string */
     public $background;
+
+    /** @var string */
     public $profile_banner;
+
+    /** @var string */
     public $views;
+
+    /** @var string */
     public $followers;
+
+    /** @var string */
     public $created_at;
+
+    /** @var string */
     public $updated_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->channel_id = $data['channel_id'];
         $this->user_id = $data['user_id'];

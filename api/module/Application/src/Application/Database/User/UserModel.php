@@ -14,14 +14,25 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * UserModel
+ */
 class UserModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetch($userId)
+    /**
+     * @param string $userId
+     *
+     * @return User|null
+     */
+    public function fetch(string $userId)
     {
         $resultSet = $this->tableGateway->select(array('user_id' => $userId));
         $user = $resultSet->current();
@@ -32,7 +43,12 @@ class UserModel extends AbstractModel
         return $user;
     }
 
-    public function selectFollowersByChannel($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return Select
+     */
+    public function selectFollowersByChannel(string $channelId)
     {
         $where = new Where();
         $where->equalTo('follow.channel_id', $channelId);
@@ -44,7 +60,12 @@ class UserModel extends AbstractModel
         return $select;
     }
 
-    public function selectBlocksByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Select
+     */
+    public function selectBlocksByUser(string $userId)
     {
         $where = new Where();
         $where->equalTo('block.user_id', $userId);
@@ -56,7 +77,12 @@ class UserModel extends AbstractModel
         return $select;
     }
 
-    public function selectByChannel($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return Select
+     */
+    public function selectByChannel(string $channelId)
     {
         $where = new Where();
         $where->equalTo('channel.channel_id', $channelId);
@@ -68,14 +94,25 @@ class UserModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByChannel($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return User|null
+     */
+    public function fetchByChannel(string $channelId)
     {
         return $this->selectOne(
             $this->selectByChannel($channelId)
         );
     }
 
-    public function selectByTeam($teamId)
+
+    /**
+     * @param string $teamId
+     *
+     * @return Select
+     */
+    public function selectByTeam(string $teamId)
     {
         $where = new Where();
         $where->equalTo('member.team_id', $teamId);
@@ -87,14 +124,25 @@ class UserModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByTeam($teamId)
+    /**
+     * @param string $teamId
+     *
+     * @return User|null
+     */
+    public function fetchByTeam(string $teamId)
     {
         return $this->selectAll(
             $this->selectByTeam($teamId)
         );
     }
 
-    public function update($userId, array $data)
+    /**
+     * @param string $userId
+     * @param array  $data
+     *
+     * @return bool
+     */
+    public function update(string $userId, array $data)
     {
         $where = new Where();
         $where->equalTo('user.user_id', $userId);

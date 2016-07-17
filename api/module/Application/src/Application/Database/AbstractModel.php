@@ -9,26 +9,54 @@
 
 namespace Application\Database;
 
+use Zend\Db\ResultSet\ResultSetInterface;
+use Zend\Db\Sql\Select;
+use Zend\Db\TableGateway\TableGateway;
+
+/**
+ * Defines base behavior for any Model
+ */
 abstract class AbstractModel
 {
+    /**
+     * @var TableGateway
+     */
     protected $tableGateway;
 
+    /**
+     * @return TableGateway
+     */
     public function getTableGateway()
     {
         return $this->tableGateway;
     }
 
+    /**
+     * @return Select
+     */
     public function getSqlSelect()
     {
         return $this->tableGateway->getSql()->select();
     }
 
-    public function selectAll($select)
+    /**
+     * @param Select $select
+     *
+     * @return null|ResultSetInterface
+     *
+     * @throws \RuntimeException
+     */
+    public function selectAll(Select $select)
     {
         return $this->tableGateway->selectWith($select);
     }
 
-    public function selectOne($select)
+    /**
+     * @param Select $select
+     *
+     * @return array|\ArrayObject|null
+     */
+    public function selectOne(Select $select)
     {
         $resultSet = $this->selectAll($select);
         $firstRow = $resultSet->current();

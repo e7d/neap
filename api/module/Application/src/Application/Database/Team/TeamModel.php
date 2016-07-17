@@ -10,18 +10,29 @@
 namespace Application\Database\Team;
 
 use Application\Database\AbstractModel;
-use Zend\Db\Sql\Expression;
+use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * TeamModel
+ */
 class TeamModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetch($teamId)
+    /**
+     * @param string $teamId
+     *
+     * @return Team|null
+     */
+    public function fetch(string $teamId)
     {
         $resultSet = $this->tableGateway->select(array('team_id' => $teamId));
         $team = $resultSet->current();
@@ -32,7 +43,12 @@ class TeamModel extends AbstractModel
         return $team;
     }
 
-    public function selectByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Select
+     */
+    public function selectByUser(string $userId)
     {
         $where = new Where();
         $where->equalTo('member.user_id', $userId);
@@ -44,7 +60,12 @@ class TeamModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByUser($userId)
+    /**
+     * @param string $userId
+     *
+     * @return Team|null
+     */
+    public function fetchByUser(string $userId)
     {
         return $this->selectAll(
             $this->selectByUser($userId)

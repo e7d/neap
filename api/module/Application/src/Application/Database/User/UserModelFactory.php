@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\User;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * UserModelFactory
+ */
 class UserModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return UserModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new UserModel(
             $serviceManager->get('Application\Database\User\UserTableGateway')

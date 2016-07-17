@@ -14,14 +14,25 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * PanelModel
+ */
 class PanelModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function selectByChannel($channelId)
+    /**
+     * @param string $channelId
+     *
+     * @return Select
+     */
+    public function selectByChannel(string $channelId)
     {
         $where = new Where();
         $where->equalTo('panel.channel_id', $channelId);

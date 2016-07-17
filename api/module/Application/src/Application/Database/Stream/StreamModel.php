@@ -15,20 +15,36 @@ use Zend\Db\Sql\Select;
 use Zend\Db\Sql\Where;
 use Zend\Db\TableGateway\TableGateway;
 
+/**
+ * StreamModel
+ */
 class StreamModel extends AbstractModel
 {
+    /**
+     * @param TableGateway $tableGateway
+     */
     public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function create($data)
+    /**
+     * @param array $data
+     *
+     * @return int
+     */
+    public function create(array $data)
     {
         $insertedRows = $this->tableGateway->insert($data);
         return $insertedRows;
     }
 
-    public function fetch($streamId)
+    /**
+     * @param string $streamId
+     *
+     * @return Stream|null
+     */
+    public function fetch(string $streamId)
     {
         $resultSet = $this->tableGateway->select(array('stream_id' => $streamId));
         $stream = $resultSet->current();
@@ -39,7 +55,12 @@ class StreamModel extends AbstractModel
         return $stream;
     }
 
-    public function select($live = null)
+    /**
+     * @param bool $live
+     *
+     * @return Select
+     */
+    public function select(bool $live = false)
     {
         $select = $this->tableGateway->getSql()->select();
 
@@ -52,7 +73,13 @@ class StreamModel extends AbstractModel
         return $select;
     }
 
-    public function selectByChannel($channelId, $live)
+    /**
+     * @param string $channelId
+     * @param bool   $live
+     *
+     * @return Select
+     */
+    public function selectByChannel(string $channelId, bool $live)
     {
         // ToDo: separate into different functions to get the live stream or the collection of stream
         //
@@ -69,14 +96,26 @@ class StreamModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByChannel($channelId, $live = null)
+    /**
+     * @param string $channelId
+     * @param bool   $live
+     *
+     * @return Stream|null
+     */
+    public function fetchByChannel(string $channelId, bool $live = false)
     {
         return $this->selectOne(
             $this->selectByChannel($channelId, $live)
         );
     }
 
-    public function selectByStreamKey($streamKey, $live)
+    /**
+     * @param string $streamKey
+     * @param bool   $live
+     *
+     * @return Select
+     */
+    public function selectByStreamKey(string $streamKey, bool $live)
     {
         $where = new Where();
         $where->equalTo('channel.stream_key', $streamKey);
@@ -91,14 +130,26 @@ class StreamModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByStreamKey($streamKey, $live = null)
+    /**
+     * @param string $streamKey
+     * @param bool   $live
+     *
+     * @return Stream|null
+     */
+    public function fetchByStreamKey(string $streamKey, bool $live = false)
     {
         return $this->selectOne(
             $this->selectByStreamKey($streamKey, $live)
         );
     }
 
-    public function selectByUser($userId, $live)
+    /**
+     * @param string $userId
+     * @param bool   $live
+     *
+     * @return Select
+     */
+    public function selectByUser(string $userId, bool $live)
     {
         // ToDo: separate into different functions to get the live stream or the collection of stream
 
@@ -116,14 +167,26 @@ class StreamModel extends AbstractModel
         return $select;
     }
 
-    public function fetchByUser($userId, $live = null)
+    /**
+     * @param string $userId
+     * @param bool   $live
+     *
+     * @return Stream|null
+     */
+    public function fetchByUser(string $userId, bool $live = false)
     {
         return $this->selectOne(
             $this->selectByUser($userId, $live)
         );
     }
 
-    public function selectStats($live = null)
+
+    /**
+     * @param bool $live
+     *
+     * @return Select
+     */
+    public function selectStats(bool $live)
     {
         $where = new Where();
         if ($live) {
@@ -140,7 +203,12 @@ class StreamModel extends AbstractModel
         return $select;
     }
 
-    public function fetchStats($live = null)
+    /**
+     * @param bool $live
+     *
+     * @return Stream|null
+     */
+    public function fetchStats(bool $live = false)
     {
         $select = $this->selectStats($live);
 
@@ -151,7 +219,13 @@ class StreamModel extends AbstractModel
         return $stats;
     }
 
-    public function update($streamId, $data)
+    /**
+     * @param string $streamId
+     * @param array  $data
+     *
+     * @return Stream|null
+     */
+    public function update(string $streamId, array $data)
     {
         $where = new Where();
         $where->equalTo('stream.stream_id', $streamId);

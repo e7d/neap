@@ -8,10 +8,19 @@
  */
 
 namespace Application\Database\Outage;
+use Zend\ServiceManager\ServiceManager;
 
+/**
+ * OutageModelFactory
+ */
 class OutageModelFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return ChannelModel
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new OutageModel(
             $serviceManager->get('Application\Database\Outage\OutageTableGateway')

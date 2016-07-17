@@ -11,14 +11,29 @@ namespace Application\Database\Outage;
 
 use Zend\Hydrator\ObjectProperty;
 
+/**
+ * Outage
+ */
 class Outage extends ObjectProperty
 {
+    /** @var string */
     public $outage_id;
+
+    /** @var string */
     public $ingest_id;
+
+    /** @var string */
     public $started_at;
+
+    /** @var string */
     public $ended_at;
 
-    public function exchangeArray($data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    public function exchangeArray(array $data)
     {
         $this->outage_id = $data['outage_id'];
         $this->ingest_id = $data['ingest_id'];

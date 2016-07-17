@@ -9,8 +9,16 @@
 
 namespace Application\Console;
 
+/**
+ * ConsoleStyle adds differents styles to the console
+ *
+ * It enables the user the usage of colors, backgrounds and text modifiers to decorate console output.
+ */
 class ConsoleStyle
 {
+    /**
+     * @var array
+     */
     private static $styles = array(
         '{black}' => '{e}[0;30m',
         '{red}' => '{e}[0;31m',
@@ -39,11 +47,18 @@ class ConsoleStyle
         '{/}' => '{e}[0m'
     );
 
-    public static function build($string)
+    /**
+     * Build a formatted console text using tags from $styles
+     *
+     * @param string $text
+     *
+     * @return string
+     */
+    public static function build(string $text)
     {
-        $string = str_replace(array_keys(self::$styles), array_values(self::$styles), $string);
-        $string = str_replace('{e}', chr(27), $string);
+        $text = str_replace(array_keys(self::$styles), array_values(self::$styles), $text);
+        $text = str_replace('{e}', chr(27), $text);
 
-        return $string;
+        return $text;
     }
 }

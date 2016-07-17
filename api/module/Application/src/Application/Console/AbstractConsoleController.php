@@ -9,19 +9,34 @@
 
 namespace Application\Console;
 
+use Zend\Mvc\Controller\ControllerManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Mvc\Controller\AbstractConsoleController as ZendAbstractConsoleController;
 
-class AbstractConsoleController extends ZendAbstractConsoleController implements ServiceLocatorAwareInterface
+/**
+ * Manages the console execution of the application
+ */
+class AbstractConsoleController
+    extends ZendAbstractConsoleController
+    implements ServiceLocatorAwareInterface
 {
+    /**
+     * @var array
+     */
     private $config;
+
+    /**
+     * @var ServiceLocatorInterface
+     */
     private $serviceManager;
 
     /**
      * @param string $key
+     *
+     * @return string|null
      */
-    public function getConfig($key = null)
+    public function getConfig(string $key = null)
     {
         if (is_null($key)) {
             return $this->config;
@@ -30,14 +45,22 @@ class AbstractConsoleController extends ZendAbstractConsoleController implements
         return $this->config[$key];
     }
 
+    /**
+     * @return ServiceLocatorInterface
+     */
     public function getServiceLocator()
     {
         return $this->serviceManager;
     }
 
+    /**
+     * @param ServiceLocatorInterface $serviceManager
+     *
+     * @return self
+     */
     public function setServiceLocator(ServiceLocatorInterface $serviceManager)
     {
-        if ($serviceManager instanceof \Zend\Mvc\Controller\ControllerManager) {
+        if ($serviceManager instanceof ControllerManager) {
             $this->serviceManager = $serviceManager;
             $this->config = $serviceManager->getServiceLocator()->get('config');
         }

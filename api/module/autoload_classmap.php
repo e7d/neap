@@ -86,6 +86,7 @@ return array(
     'Application\Hydrator\User\UserHydratorFactory'                     => __DIR__ . '/Application/src/Application/Hydrator/User/UserHydratorFactory.php',
     'Application\Hydrator\Video\VideoHydrator'                          => __DIR__ . '/Application/src/Application/Hydrator/Video/VideoHydrator.php',
     'Application\Hydrator\Video\VideoHydratorFactory'                   => __DIR__ . '/Application/src/Application/Hydrator/Video/VideoHydratorFactory.php',
+    'Application\Rest\AbstractResourceListener'                         => __DIR__ . '/Application/src/Application/Rest/AbstractResourceListener.php',
     'Application\Validator\UuidV4Validator'                             => __DIR__ . '/Application/src/Application/Validator/UuidV4Validator.php',
     'ApplicationTest\Authorization\AuthorizationAwareResourceTraitTest' => __DIR__ . '/Application/test/ApplicationTest/Authorization/AuthorizationAwareResourceTraitTest.php',
     'ApplicationTest\Authorization\IdentityServiceTest'                 => __DIR__ . '/Application/test/ApplicationTest/Authorization/IdentityServiceTest.php',

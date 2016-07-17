@@ -9,21 +9,37 @@
 
 namespace Application\Authorization;
 
+use Zend\ServiceManager\ServiceLocatorInterface;
 use ZF\MvcAuth\MvcAuthEvent;
 
+/**
+ * Sets the identity of the connected user, if any
+ */
 class AuthorizationListener
 {
+    /**
+     * @var ServiceLocatorInterface
+     */
     protected $serviceManager;
 
-    public function setServiceManager($serviceManager)
+    /**
+     * @param ServiceLocatorInterface $serviceManager
+     *
+     * @return self
+     */
+    public function setServiceManager(ServiceLocatorInterface $serviceManager)
     {
         $this->serviceManager = $serviceManager;
+        return $this;
     }
 
     /**
-     * Listens to the invokation of the Event Authorization event
-     * @param  MvcAuthEvent $mvcAuthEvent
+     * Listens to the invokation of the Event Authorization event.
+     *
+     * @param MvcAuthEvent $mvcAuthEvent
+     *
      * @return void
+     *
      * @codeCoverageIgnore
      */
     public function __invoke(MvcAuthEvent $mvcAuthEvent)

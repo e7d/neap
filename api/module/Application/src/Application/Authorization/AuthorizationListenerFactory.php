@@ -12,8 +12,16 @@ namespace Application\Authorization;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * AuthorizationListenerFactory
+ */
 class AuthorizationListenerFactory implements FactoryInterface
 {
+    /**
+     * {@inheritDoc}
+     *
+     * @return AuthorizationListener
+     */
     public function createService(ServiceLocatorInterface $serviceManager)
     {
         $authorizationListener = new AuthorizationListener();

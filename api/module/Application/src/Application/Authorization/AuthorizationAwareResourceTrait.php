@@ -11,28 +11,38 @@ namespace Application\Authorization;
 
 use ZF\ApiProblem\ApiProblem;
 
+/**
+ * Handles resource related authorization
+ *
+ * Defines a authorization based service used to check user ownership over resource related entites.
+ */
 trait AuthorizationAwareResourceTrait
 {
+    /**
+     * Internal identity service for user retrieval
+     *
+     * @var IdentityService
+     */
     protected $identityService;
-    protected $service;
 
-    protected function getIdentityService()
+    /**
+     * Returns the identity service
+     *
+     * @return IdentityService
+     */
+    public function getIdentityService()
     {
         return $this->identityService;
     }
 
-    protected function getService()
-    {
-        return $this->service;
-    }
-    
     /**
-     * Checks user's rights on requested resource
+     * Checks user's ownership on the requested resource.
      *
-     * @param  mixed $entityId
+     * @param string $entityId
+     *
      * @return ApiProblem|true
      */
-    public function userIsOwner($entityId)
+    public function userIsOwner(string $entityId)
     {
         if (!$this->getService()) {
             return new ApiProblem(500, 'This resource does not expose a valid service');

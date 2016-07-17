@@ -9,16 +9,34 @@
 
 namespace Application\Authorization;
 
+use Application\Database\User\User;
+
+/**
+ * Holds the identity of the authenticated user
+ */
 class IdentityService
 {
+    /**
+     * The identified user
+     *
+     * @var User
+     */
     protected $identity;
 
-    public function setIdentity($identity)
+    /**
+     * @param User $identity
+     *
+     * @return self
+     */
+    public function setIdentity(User $identity)
     {
         $this->identity = $identity;
         return $this;
     }
 
+    /**
+     * @return User
+     */
     public function getIdentity()
     {
         return $this->identity;

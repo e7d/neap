@@ -9,9 +9,19 @@
 
 namespace Application\Converter;
 
+/**
+ * DateConverter converts a timestamp to a formatted date string
+ */
 class DateConverter
 {
-    public static function fromTimestamp($timestamp = null)
+    /**
+     * Convert a timestamp to a date string
+     *
+     * @param float $timestamp
+     *
+     * @return string
+     */
+    public static function fromTimestamp(float $timestamp = null)
     {
         if ($timestamp === null) {
             $timestamp = microtime(true);

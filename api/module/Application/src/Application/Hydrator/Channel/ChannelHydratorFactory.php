@@ -9,9 +9,19 @@
 
 namespace Application\Hydrator\Channel;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * ChannelHydratorFactory
+ */
 class ChannelHydratorFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return ChannelHydrator
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new ChannelHydrator(
             $serviceManager->get('Application\Database\Chat\ChatModel'),

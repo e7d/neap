@@ -9,16 +9,27 @@
 
 namespace Application\Hydrator\Ingest;
 
+use Application\Database\Ingest\Ingest;
 use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
 
+/**
+ * IngestHydrator
+ */
 class IngestHydrator extends Hydrator
 {
+    /**
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     * @param Ingest $ingest
+     *
+     * @return Entity
+     */
     public function buildEntity($ingest)
     {
         $this->object = $ingest;

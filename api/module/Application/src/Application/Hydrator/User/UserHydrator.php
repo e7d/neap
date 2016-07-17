@@ -9,18 +9,27 @@
 
 namespace Application\Hydrator\User;
 
-use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
+use Application\Database\User\User;
 use Application\Database\User\UserModel;
-use Application\Database\Team\TeamModel;
+use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 
+/**
+ * UserHydrator
+ */
 class UserHydrator extends Hydrator
 {
+    /** @var UserModel */
     protected $userModel;
+
+    /** @var ChannelModel */
     protected $channelModel;
 
+    /**
+     * @param UserModel    $userModel
+     * @param ChannelModel $channelModel
+     */
     public function __construct(UserModel $userModel, ChannelModel $channelModel)
     {
         parent::__construct();
@@ -28,6 +37,11 @@ class UserHydrator extends Hydrator
         $this->channelModel = $channelModel;
     }
 
+    /**
+     * @param User $user
+     *
+     * @return Entity
+     */
     public function buildEntity($user)
     {
         $this->object = $user;

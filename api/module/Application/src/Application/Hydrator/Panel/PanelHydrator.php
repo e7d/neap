@@ -9,20 +9,33 @@
 
 namespace Application\Hydrator\Panel;
 
-use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
+use Application\Database\Panel\Panel;
+use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
 
+/**
+ * PanelHydrator
+ */
 class PanelHydrator extends Hydrator
 {
+    /** @var ChannelModel */
     protected $channelModel;
 
+    /**
+     * @param ChannelModel $channelModel
+     */
     public function __construct(ChannelModel $channelModel)
     {
         parent::__construct();
         $this->channelModel = $channelModel;
     }
 
+    /**
+     * @param Panel $panel
+     *
+     * @return Entity
+     */
     public function buildEntity($panel)
     {
         $this->object = $panel;

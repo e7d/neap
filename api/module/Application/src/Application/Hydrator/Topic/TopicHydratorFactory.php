@@ -9,9 +9,19 @@
 
 namespace Application\Hydrator\Topic;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * TopicHydratorFactory
+ */
 class TopicHydratorFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return TopicHydrator
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new TopicHydrator();
     }

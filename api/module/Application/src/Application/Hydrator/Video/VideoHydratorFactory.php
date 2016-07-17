@@ -9,9 +9,19 @@
 
 namespace Application\Hydrator\Video;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * VideoHydratorFactory
+ */
 class VideoHydratorFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return VideoHydrator
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new VideoHydrator(
             $serviceManager->get('Application\Database\Stream\StreamModel'),

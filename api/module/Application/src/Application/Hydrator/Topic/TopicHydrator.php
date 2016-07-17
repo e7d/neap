@@ -9,16 +9,27 @@
 
 namespace Application\Hydrator\Topic;
 
+use Application\Database\Topic\Topic;
 use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
 
+/**
+ * TopicHydrator
+ */
 class TopicHydrator extends Hydrator
 {
+    /**
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     * @param Topic $topic
+     *
+     * @return Entity
+     */
     public function buildEntity($topic)
     {
         $this->object = $topic;

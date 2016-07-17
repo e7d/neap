@@ -9,9 +9,19 @@
 
 namespace Application\Hydrator\Stream;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * StreamHydratorFactory
+ */
 class StreamHydratorFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return StreamHydrator
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new StreamHydrator(
             $serviceManager->get('Application\Database\Channel\ChannelModel'),

@@ -9,9 +9,19 @@
 
 namespace Application\Hydrator\Panel;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * PanelHydratorFactory
+ */
 class PanelHydratorFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return PanelHydrator
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new PanelHydrator(
             $serviceManager->get('Application\Database\Channel\ChannelModel')

@@ -9,18 +9,32 @@
 
 namespace Application\Hydrator\Chat;
 
-use Application\Hydrator\Hydrator;
-use Application\Database\Chat\ChatModel;
 use Application\Database\Channel\ChannelModel;
+use Application\Database\Chat\Chat;
+use Application\Database\Chat\ChatModel;
 use Application\Database\User\UserModel;
+use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
 
+/**
+ * ChatHydrator
+ */
 class ChatHydrator extends Hydrator
 {
+    /** @var ChatModel */
     protected $chatModel;
+
+    /** @var ChannelModel */
     protected $channelModel;
+
+    /** @var UserModel */
     protected $userModel;
 
+    /**
+     * @param ChatModel    $chatModel
+     * @param ChannelModel $channelModel
+     * @param UserModel    $userModel
+     */
     public function __construct(ChatModel $chatModel, ChannelModel $channelModel, UserModel $userModel)
     {
         parent::__construct();
@@ -29,6 +43,11 @@ class ChatHydrator extends Hydrator
         $this->userModel = $userModel;
     }
 
+    /**
+     * @param Chat $chat
+     *
+     * @return Entity
+     */
     public function buildEntity($chat)
     {
         $this->object = $chat;

@@ -9,9 +9,19 @@
 
 namespace Application\Hydrator\Outage;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * OutageHydratorFactory
+ */
 class OutageHydratorFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return OutageHydrator
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new OutageHydrator(
             $serviceManager->get('Application\Database\Ingest\IngestModel')

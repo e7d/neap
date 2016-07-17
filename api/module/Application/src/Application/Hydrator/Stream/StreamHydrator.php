@@ -9,16 +9,27 @@
 
 namespace Application\Hydrator\Stream;
 
-use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
+use Application\Database\Stream\Stream;
 use Application\Database\User\UserModel;
+use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
 
+/**
+ * StreamHydrator
+ */
 class StreamHydrator extends Hydrator
 {
+    /** @var ChannelModel */
     protected $channelModel;
+
+    /** @var UserModel */
     protected $userModel;
 
+    /**
+     * @param ChannelModel $channelModel
+     * @param UserModel    $userModel
+     */
     public function __construct(ChannelModel $channelModel, UserModel $userModel)
     {
         parent::__construct();
@@ -26,6 +37,11 @@ class StreamHydrator extends Hydrator
         $this->userModel = $userModel;
     }
 
+    /**
+     * @param Stream $stream
+     *
+     * @return Entity
+     */
     public function buildEntity($stream)
     {
         $this->object = $stream;

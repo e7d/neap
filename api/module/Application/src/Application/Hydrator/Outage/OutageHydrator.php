@@ -9,20 +9,30 @@
 
 namespace Application\Hydrator\Outage;
 
-use Application\Hydrator\Hydrator;
 use Application\Database\Ingest\IngestModel;
+use Application\Database\Outage\Outage;
+use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
 
 class OutageHydrator extends Hydrator
 {
+    /** @var IngestModel */
     protected $ingestModel;
 
+    /**
+     * @param IngestModel $ingestModel
+     */
     public function __construct(IngestModel $ingestModel)
     {
         parent::__construct();
         $this->ingestModel = $ingestModel;
     }
 
+    /**
+     * @param Outage $outage
+     *
+     * @return Entity
+     */
     public function buildEntity($outage)
     {
         $this->object = $outage;

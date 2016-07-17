@@ -9,20 +9,33 @@
 
 namespace Application\Hydrator\Team;
 
-use Application\Hydrator\Hydrator;
+use Application\Database\Team\Team;
 use Application\Database\User\UserModel;
+use Application\Hydrator\Hydrator;
 use ZF\Hal\Entity;
 
+/**
+ * TeamHydrator
+ */
 class TeamHydrator extends Hydrator
 {
+    /** @var UserModel */
     protected $userModel;
 
+    /**
+     * @param UserModel $userModel
+     */
     public function __construct(UserModel $userModel)
     {
         parent::__construct();
         $this->userModel = $userModel;
     }
 
+    /**
+     * @param Team $team
+     *
+     * @return Entity
+     */
     public function buildEntity($team)
     {
         $this->object = $team;

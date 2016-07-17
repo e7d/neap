@@ -9,18 +9,32 @@
 
 namespace Application\Hydrator\Video;
 
+use Application\Database\Video\Video;
 use Application\Hydrator\Hydrator;
 use Application\Database\Channel\ChannelModel;
 use Application\Database\Stream\StreamModel;
 use Application\Database\User\UserModel;
 use ZF\Hal\Entity;
 
+/**
+ * VideoHydrator
+ */
 class VideoHydrator extends Hydrator
 {
+    /** @var StreamModel */
     protected $streamModel;
+
+    /** @var ChannelModel */
     protected $channelModel;
+
+    /** @var UserModel */
     protected $userModel;
 
+    /**
+     * @param StreamModel  $streamModel
+     * @param ChannelModel $channelModel
+     * @param UserModel    $userModel
+     */
     public function __construct(StreamModel $streamModel, ChannelModel $channelModel, UserModel $userModel)
     {
         parent::__construct();
@@ -29,6 +43,11 @@ class VideoHydrator extends Hydrator
         $this->userModel = $userModel;
     }
 
+    /**
+     * @param Video $video
+     *
+     * @return Entity
+     */
     public function buildEntity($video)
     {
         $this->object = $video;

@@ -9,9 +9,19 @@
 
 namespace Application\Hydrator\Ingest;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * IngestHydratorFactory
+ */
 class IngestHydratorFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return IngestHydrator
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new IngestHydrator();
     }

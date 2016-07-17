@@ -9,9 +9,19 @@
 
 namespace Application\Hydrator\Team;
 
+use Zend\ServiceManager\ServiceManager;
+
+/**
+ * TeamHydratorFactory
+ */
 class TeamHydratorFactory
 {
-    public function __invoke($serviceManager)
+    /**
+     * @param ServiceManager $serviceManager
+     *
+     * @return TeamHydrator
+     */
+    public function __invoke(ServiceManager $serviceManager)
     {
         return new TeamHydrator(
             $serviceManager->get('Application\Database\User\UserModel')

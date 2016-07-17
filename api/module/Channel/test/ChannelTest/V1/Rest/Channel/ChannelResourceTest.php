@@ -9,6 +9,7 @@
 
 namespace ChannelTest\V1\Rest\Channel;
 
+use Application\Database\User\User;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class ChannelResourceTest extends AbstractControllerTestCase
@@ -60,7 +61,7 @@ class ChannelResourceTest extends AbstractControllerTestCase
     public function testUpdate()
     {
         $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
-        $identity = new \stdClass();
+        $identity = new User();
         $identity->user_id = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
         $identityService->setIdentity($identity);
 
@@ -80,7 +81,7 @@ class ChannelResourceTest extends AbstractControllerTestCase
     public function testUpdateWithInvalidUser()
     {
         $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
-        $identity = new \stdClass();
+        $identity = new User();
         $identity->user_id = '00000000-0000-0000-0000-000000000000'; // Invalid user id
         $identityService->setIdentity($identity);
 
@@ -99,7 +100,7 @@ class ChannelResourceTest extends AbstractControllerTestCase
     public function testPatch()
     {
         $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
-        $identity = new \stdClass();
+        $identity = new User();
         $identity->user_id = 'd9ddc511-fd9b-47a4-a85c-8d5df8fb68b2'; // Jax user id
         $identityService->setIdentity($identity);
 
@@ -119,7 +120,7 @@ class ChannelResourceTest extends AbstractControllerTestCase
     public function testPatchWithInvalidUser()
     {
         $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
-        $identity = new \stdClass();
+        $identity = new User();
         $identity->user_id = '00000000-0000-0000-0000-000000000000'; // Invalid user id
         $identityService->setIdentity($identity);
 

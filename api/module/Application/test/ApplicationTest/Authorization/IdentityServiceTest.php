@@ -9,6 +9,7 @@
 
 namespace ApplicationTest\Authorization;
 
+use Application\Database\User\User;
 use Zend\Test\PHPUnit\Controller\AbstractControllerTestCase;
 
 class IdentityServiceTest extends AbstractControllerTestCase
@@ -36,7 +37,7 @@ class IdentityServiceTest extends AbstractControllerTestCase
     {
         $identityService = $this->serviceManager->get('Application\Authorization\IdentityService');
 
-        $identity = 'test';
+        $identity = new User();
         $identityService->setIdentity($identity);
         $this->assertEquals($identity, $identityService->getIdentity());
     }

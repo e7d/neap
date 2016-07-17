@@ -11,14 +11,32 @@ namespace Application\Validator;
 
 use Zend\Validator\AbstractValidator;
 
+/**
+ * Validates UUID v4 compliance against RFC 4122
+ *
+ * @see https://www.ietf.org/rfc/rfc4122.txt
+ */
 class UuidV4Validator extends AbstractValidator
 {
+    /**
+     * @var string UUIDV4
+     */
     const UUIDV4 = 'uuidv4';
 
+    /**
+     * @var array
+     */
     protected $messageTemplates = array(
         self::UUIDV4 => "'%value%' is not a v4 UUID valid against RFC 4122"
     );
 
+    /**
+     * Checks validity of the UUID
+     *
+     * @param string $value The value to check
+     *
+     * @return bool
+     */
     public function isValid($value)
     {
         $this->setValue($value);

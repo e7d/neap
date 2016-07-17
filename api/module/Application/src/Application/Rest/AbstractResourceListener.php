@@ -14,16 +14,42 @@ use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener as ZfAbstractResourceListener;
 use ZF\Rest\ResourceEvent;
 
+/**
+ * AbstractResourceListener handles resource related service
+ */
+
+ /**
+  * HttpBasicFactory creates services for HTTP basic authentication.
+  *
+  * @author Fabien Potencier <fabien@symfony.com>
+  */
 class AbstractResourceListener extends ZfAbstractResourceListener
 {
     use AuthorizationAwareResourceTrait;
 
     /**
-     * Dispatch an incoming event to the appropriate method
+     * Internal resource related service
+     *
+     * @var object
+     */
+    protected $service;
+
+    /**
+     * Returns the resource related service
+     *
+     * @return object
+     */
+    protected function getService()
+    {
+        return $this->service;
+    }
+
+    /**
+     * Dispatches an incoming event to the appropriate method
      *
      * Marshals arguments from the event parameters.
      *
-     * @param  ResourceEvent $event
+     * @param ResourceEvent $event
      * @return mixed
      */
     public function dispatch(ResourceEvent $event)

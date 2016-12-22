@@ -8,7 +8,7 @@ try
 	throwErrors
 
 	echo "Copy PostgreSQL configuration files"
-	cp -R /vagrant/resources/vendor/postgresql/* /etc/postgresql/9.5/main
+	cp -R /vagrant/resources/vendor/postgresql/* /etc/postgresql/9.6/main
 
 	echo "Restart PostgreSQL"
 	service postgresql restart

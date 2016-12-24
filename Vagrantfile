@@ -6,7 +6,7 @@ Vagrant.configure(2) do |config|
         # General configuration
         node.vm.hostname = "neap.dev"
         node.vm.box = "e7d/neap-box"
-        node.vm.box_version = ">= 1.2.6"
+        node.vm.box_version = "= 1.3.0"
         node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "irc.neap.dev", "mail.neap.dev", "rtmp.neap.dev", "socket.neap.dev", "static.neap.dev", "www.neap.dev"]
 
         # Network configuration
@@ -34,9 +34,9 @@ Vagrant.configure(2) do |config|
             end
         end
 
-        #  VirtualBox Guest update
-        node.vbguest.auto_update = true
-        node.vbguest.no_remote = true
+        # VirtualBox Guest update
+        # node.vbguest.auto_update = true
+        # node.vbguest.no_remote = true
 
         # Provisioning script
         node.vm.provision "shell" do |s|

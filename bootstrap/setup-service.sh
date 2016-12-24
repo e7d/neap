@@ -8,7 +8,8 @@ try
 	throwErrors
 
 	echo "Copy the gateway service binaries"
-	cp /vagrant/resources/service/bin/* /etc/init.d
+	cp /vagrant/resources/service/bin/neap-irc.sh /etc/init.d/neap-irc
+	cp /vagrant/resources/service/bin/neap-websocket.sh /etc/init.d/neap-websocket
 
 	ignoreErrors
 	echo "Register the neap user account"

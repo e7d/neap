@@ -25,7 +25,7 @@ trait AuthorizationAwareResourceTrait
     {
         return $this->service;
     }
-    
+
     /**
      * Checks user's rights on requested resource
      *

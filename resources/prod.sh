@@ -19,7 +19,7 @@ try
 	/vagrant/bootstrap/setup-api.sh
 
 	echo "Disable development mode"
-	php /var/www/neap/api/public/index.php development disable
+	/var/www/neap/api/vendor/bin/zf-development-mode disable
 
 	echo "Copy static folder"
 	rm -fr /var/www/neap/static
@@ -40,8 +40,8 @@ try
 	echo "Restart PHP and nginx"
 	service php7.0-fpm restart
 	service nginx restart
-	service neap-irc restart
-	service neap-websocket restart
+	# service neap-irc restart
+	# service neap-websocket restart
 )
 catch || {
 	case $ex_code in

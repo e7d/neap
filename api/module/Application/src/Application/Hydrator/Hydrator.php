@@ -11,7 +11,7 @@ namespace Application\Hydrator;
 
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
-use Zend\Stdlib\Hydrator\AbstractHydrator;
+use Zend\Hydrator\AbstractHydrator;
 
 abstract class Hydrator extends AbstractHydrator
 {

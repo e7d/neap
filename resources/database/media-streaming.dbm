@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,0" last-zoom="1"
+	 default-schema="&quot;media-streaming&quot;" default-owner="&quot;media-streaming&quot;">
+<role name="media-streaming"
+      login="true"
+      encrypted="true"
+      password="media-streaming">
+</role>
+
+<database name="media-streaming">
+	<role name="&quot;media-streaming&quot;"/>
+</database>
+
+<schema name="public" protected="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="media-streaming" rect-visible="true" fill-color="#e1e1e1">
+	<role name="&quot;media-streaming&quot;"/>
+</schema>
+
+<table name="channel">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="60" y="260"/>
+	<column name="channel_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="user_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="display_name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="topic_id">
+		<type name="uuid"/>
+	</column>
+	<column name="topic" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="language" not-null="true" default-value="'en'">
+		<type name="character varying" length="2"/>
+	</column>
+	<column name="delay" not-null="true" default-value="0">
+		<type name="smallint"/>
+	</column>
+	<column name="logo">
+		<type name="character varying"/>
+	</column>
+	<column name="banner">
+		<type name="character varying"/>
+	</column>
+	<column name="video_banner">
+		<type name="character varying"/>
+	</column>
+	<column name="background">
+		<type name="character varying"/>
+	</column>
+	<column name="profile_banner">
+		<type name="character varying"/>
+	</column>
+	<column name="views">
+		<type name="smallint"/>
+	</column>
+	<column name="followers">
+		<type name="smallint"/>
+	</column>
+	<column name="created_at" not-null="true" default-value="now()">
+		<type name="date"/>
+	</column>
+	<column name="updated_at" not-null="true" default-value="now()">
+		<type name="date"/>
+	</column>
+	<constraint name="channel_channel_id_pk" type="pk-constr" table="&quot;media-streaming&quot;.channel">
+		<columns names="channel_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="user">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="860" y="260"/>
+	<column name="user_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="type" not-null="true" default-value="'user'">
+		<type name="character varying"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="password" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="display_name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="logo">
+		<type name="character varying"/>
+	</column>
+	<column name="bio">
+		<type name="text"/>
+	</column>
+	<column name="created_at" not-null="true" default-value="now()">
+		<type name="date"/>
+	</column>
+	<column name="updated_at" not-null="true" default-value="now()">
+		<type name="date"/>
+	</column>
+	<constraint name="user_user_id_pk" type="pk-constr" table="&quot;media-streaming&quot;.&quot;user&quot;">
+		<columns names="user_id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="user_user_id_uq" type="uq-constr" table="&quot;media-streaming&quot;.&quot;user&quot;">
+		<columns names="user_id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="user_name_uq" type="uq-constr" table="&quot;media-streaming&quot;.&quot;user&quot;">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="user_email_uq" type="uq-constr" table="&quot;media-streaming&quot;.&quot;user&quot;">
+		<columns names="email" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="follow">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="518" y="380"/>
+	<column name="user_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="channel_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<constraint name="follow_user_id_channel_id_pk" type="pk-constr" table="&quot;media-streaming&quot;.follow">
+		<columns names="user_id,channel_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="video">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="861" y="40"/>
+	<column name="video_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="stream_id">
+		<type name="uuid"/>
+	</column>
+	<column name="title" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="description">
+		<type name="text"/>
+	</column>
+	<column name="status" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="tags" not-null="true" default-value="'{}'">
+		<type name="json"/>
+	</column>
+	<column name="topic_id">
+		<type name="uuid"/>
+	</column>
+	<column name="topic" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="media_info" not-null="true" default-value="'{}'">
+		<type name="json"/>
+	</column>
+	<column name="preview" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="views" not-null="true" default-value="0">
+		<type name="smallint"/>
+	</column>
+	<constraint name="video_video_id_pk" type="pk-constr" table="&quot;media-streaming&quot;.video">
+		<columns names="video_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="block">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="60" y="600"/>
+	<column name="block_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="channel_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="title" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="banner">
+		<type name="character varying"/>
+	</column>
+	<column name="banner_link">
+		<type name="character varying"/>
+	</column>
+	<column name="description">
+		<type name="text"/>
+	</column>
+	<constraint name="block_block_id_pk" type="pk-constr" table="&quot;media-streaming&quot;.block">
+		<columns names="block_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="stream">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="60" y="40"/>
+	<column name="stream_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="channel_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="topic_id">
+		<type name="uuid"/>
+	</column>
+	<column name="topic" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<column name="media_info" not-null="true" default-value="'{}'">
+		<type name="json"/>
+	</column>
+	<column name="viewers" not-null="true" default-value="0">
+		<type name="smallint"/>
+	</column>
+	<column name="created_at" not-null="true" default-value="now()">
+		<type name="date"/>
+	</column>
+	<constraint name="stream_stream_id_pk" type="pk-constr" table="&quot;media-streaming&quot;.stream">
+		<columns names="stream_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="topic">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="480" y="140"/>
+	<column name="topic_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<constraint name="topic_topic_id_fk" type="pk-constr" table="&quot;media-streaming&quot;.topic">
+		<columns names="topic_id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="topic_name_uq" type="uq-constr" table="&quot;media-streaming&quot;.topic">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="chat">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="480" y="620"/>
+	<column name="chat_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="channel_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="name" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<constraint name="chat_chat_id" type="pk-constr" table="&quot;media-streaming&quot;.chat">
+		<columns names="chat_id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="chat_name_uq" type="uq-constr" table="&quot;media-streaming&quot;.chat">
+		<columns names="name" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="mod">
+	<schema name="&quot;media-streaming&quot;"/>
+	<role name="&quot;media-streaming&quot;"/>
+	<position x="860" y="620"/>
+	<column name="user_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="chat_id" not-null="true">
+		<type name="uuid"/>
+	</column>
+	<column name="level" not-null="true">
+		<type name="character varying"/>
+	</column>
+	<constraint name="mod_user_id_chat_id_fk" type="pk-constr" table="&quot;media-streaming&quot;.mod">
+		<columns names="user_id,chat_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="channel_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.&quot;user&quot;" table="&quot;media-streaming&quot;.channel">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="user_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="channel_topic_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.topic" table="&quot;media-streaming&quot;.channel">
+	<columns names="topic_id" ref-type="src-columns"/>
+	<columns names="topic_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="follow_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.&quot;user&quot;" table="&quot;media-streaming&quot;.follow">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="user_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="follow_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.channel" table="&quot;media-streaming&quot;.follow">
+	<columns names="channel_id" ref-type="src-columns"/>
+	<columns names="channel_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="video_stream_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.stream" table="&quot;media-streaming&quot;.video">
+	<columns names="stream_id" ref-type="src-columns"/>
+	<columns names="stream_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="video_topic_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.topic" table="&quot;media-streaming&quot;.video">
+	<columns names="topic_id" ref-type="src-columns"/>
+	<columns names="topic_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="block_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.channel" table="&quot;media-streaming&quot;.block">
+	<columns names="channel_id" ref-type="src-columns"/>
+	<columns names="channel_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="stream_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.channel" table="&quot;media-streaming&quot;.stream">
+	<columns names="channel_id" ref-type="src-columns"/>
+	<columns names="channel_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="stream_topic_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.topic" table="&quot;media-streaming&quot;.stream">
+	<columns names="topic_id" ref-type="src-columns"/>
+	<columns names="topic_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="chat_channel_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.channel" table="&quot;media-streaming&quot;.chat">
+	<columns names="channel_id" ref-type="src-columns"/>
+	<columns names="channel_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="mod_user_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.&quot;user&quot;" table="&quot;media-streaming&quot;.mod">
+	<columns names="user_id" ref-type="src-columns"/>
+	<columns names="user_id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="mod_chat_id_fk" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;media-streaming&quot;.chat" table="&quot;media-streaming&quot;.mod">
+	<columns names="chat_id" ref-type="src-columns"/>
+	<columns names="chat_id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_channel_user" type="relfk"
+	 src-table="&quot;media-streaming&quot;.channel"
+	 dst-table="&quot;media-streaming&quot;.&quot;user&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_follow_user" type="relfk"
+	 src-table="&quot;media-streaming&quot;.follow"
+	 dst-table="&quot;media-streaming&quot;.&quot;user&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_follow_channel" type="relfk"
+	 src-table="&quot;media-streaming&quot;.follow"
+	 dst-table="&quot;media-streaming&quot;.channel"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_stream_channel" type="relfk"
+	 src-table="&quot;media-streaming&quot;.stream"
+	 dst-table="&quot;media-streaming&quot;.channel"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_channel_topic" type="relfk"
+	 src-table="&quot;media-streaming&quot;.channel"
+	 dst-table="&quot;media-streaming&quot;.topic"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_stream_topic" type="relfk"
+	 src-table="&quot;media-streaming&quot;.stream"
+	 dst-table="&quot;media-streaming&quot;.topic"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_video_stream" type="relfk"
+	 src-table="&quot;media-streaming&quot;.video"
+	 dst-table="&quot;media-streaming&quot;.stream"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_video_topic" type="relfk"
+	 src-table="&quot;media-streaming&quot;.video"
+	 dst-table="&quot;media-streaming&quot;.topic"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_block_channel" type="relfk"
+	 src-table="&quot;media-streaming&quot;.block"
+	 dst-table="&quot;media-streaming&quot;.channel"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_chat_channel" type="relfk"
+	 src-table="&quot;media-streaming&quot;.chat"
+	 dst-table="&quot;media-streaming&quot;.channel"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_mod_user" type="relfk"
+	 src-table="&quot;media-streaming&quot;.mod"
+	 dst-table="&quot;media-streaming&quot;.&quot;user&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_mod_chat" type="relfk"
+	 src-table="&quot;media-streaming&quot;.mod"
+	 dst-table="&quot;media-streaming&quot;.chat"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>

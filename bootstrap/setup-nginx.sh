@@ -24,7 +24,7 @@ try
 	chown -cR www-data.root /var/log/ffmpeg
 
 	echo "Restart web related services"
-	service php7.0-fpm restart
+	service php7.1-fpm restart
 	service nginx restart
 )
 catch || {

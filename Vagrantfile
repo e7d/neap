@@ -6,12 +6,12 @@ Vagrant.configure(2) do |config|
         # General configuration
         node.vm.hostname = "neap.dev"
         node.vm.box = "e7d/neap-box"
-        node.vm.box_version = "= 1.3.0"
+        node.vm.box_version = "= 1.4.0"
         node.hostsupdater.aliases = ["api.neap.dev", "db.neap.dev", "doc.neap.dev", "irc.neap.dev", "mail.neap.dev", "rtmp.neap.dev", "socket.neap.dev", "static.neap.dev", "www.neap.dev"]
 
         # Network configuration
         node.vm.network "private_network", ip: "192.168.32.10"
-        node.vm.network "public_network"
+        # node.vm.network "public_network"
         node.vm.network "forwarded_port", guest: 80, host: 8080
         node.vm.network "forwarded_port", guest: 443, host: 8443
         node.vm.network "forwarded_port", guest: 5432, host: 5432

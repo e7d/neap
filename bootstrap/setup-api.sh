@@ -23,7 +23,7 @@ try
 
 	echo "Enable development mode"
 	sleep 1s
-	php /var/www/neap/api/public/index.php development enable
+	./vendor/bin/zf-development-mode enable
 )
 catch || {
 	case $ex_code in

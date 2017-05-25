@@ -49,8 +49,8 @@ try
 	echox "${text_cyan}Setup IRC"
 	/vagrant/bootstrap/setup-irc.sh
 
-	echox "${text_cyan}Setup Neap service"
-	/vagrant/bootstrap/setup-service.sh
+	# echox "${text_cyan}Setup Neap service"
+	# /vagrant/bootstrap/setup-service.sh
 
 	echox "${text_cyan}Clean up"
 	/vagrant/bootstrap/cleanup.sh

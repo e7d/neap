@@ -163,8 +163,8 @@ class UserService
 
     public function fetchFollows($params)
     {
-        $channelModel = $this->serviceManager->get('Application\Database\CHannel\CHannelModel');
-        $channelHydrator = $this->serviceManager->get('Application\Hydrator\CHannel\CHannelHydrator');
+        $channelModel = $this->serviceManager->get('Application\Database\Channel\ChannelModel');
+        $channelHydrator = $this->serviceManager->get('Application\Hydrator\Channel\ChannelHydrator');
 
         $select = $channelModel->selectFollowsByUser($params['user_id']);
 

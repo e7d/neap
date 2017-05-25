@@ -1,6 +1,7 @@
 <?php
 namespace User\V1\Rpc\Profile;
 
+use Application\Authorization\IdentityService;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -10,6 +11,13 @@ use ZF\Hal\View\HalJsonModel;
 
 class ProfileController extends AbstractActionController
 {
+    private $identityService;
+
+    public function __construct(IdentityService $identityService)
+    {
+        $this->identityService = $identityService;
+    }
+
     public function profileAction()
     {
         $request = $this->getRequest();
@@ -22,10 +30,7 @@ class ProfileController extends AbstractActionController
 
         switch ($method) {
             case 'GET':
-                $serviceManager = $this->getServiceLocator();
-
-                $identityService = $serviceManager->get('Application\Authorization\IdentityService');
-                $user = $identityService->getIdentity();
+                $user = $this->identityService->getIdentity();
 
                 return new HalJsonModel(get_object_vars($user));
                 break;

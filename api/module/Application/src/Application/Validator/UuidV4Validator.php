@@ -18,7 +18,7 @@ use Zend\Validator\AbstractValidator;
 /**
  * Validates UUID v4 compliance against RFC 4122
  *
- * @see https://www.ietf.org/rfc/rfc4122.txt
+ * @link https://www.ietf.org/rfc/rfc4122.txt
  */
 class UuidV4Validator extends AbstractValidator
 {
